@@ -1,118 +1,121 @@
 ## OOD Homework
 
-To keep the code stable, the main branch is protected. This means:
-- No direct commits are allowed to the main branch.
-- All changes must go through a pull request (PR) and be reviewed before they can be merged into main.
-- Pull requests must pass all required checks (e.g., tests, code formatting) before they can be merged.
+To keep the code stable, the `main` branch is protected. This means:
+- No direct commits are allowed to `main`.
+- All changes must go through a pull request (PR) and be reviewed before merging.
+- PRs must pass all required checks (tests, code formatting) before merging.
 
-[System Design Figjam
-](https://www.figma.com/board/y7X5LMazWNhXcIhupD9NuT/OOD-System-Design?node-id=0-1&t=xOpvfAxoP355Bof8-1)
+[System Design Figjam](https://www.figma.com/board/y7X5LMazWNhXcIhupD9NuT/OOD-System-Design?node-id=0-1&t=xOpvfAxoP355Bof8-1)
 
 ### 1. Fork the Repository
 
-1. **Fork** the repository to your GitHub account by clicking the "Fork" button.
-2. Clone your forked repository locally:
+1. Fork the repository on GitHub.
+2. Clone your fork locally:
    ```bash
    git clone https://github.com/your-username/ood.git
    cd ood
    ```
-3. Create a new branch for your changes:
+3. Create a new branch:
    ```bash
    git checkout -b branch-name
    ```
 
 ### 2. Create a Pull Request (PR)
 
-When your changes are ready:
-
-1. Push your branch to your fork:
+1. Push your branch:
    ```bash
-   git push origin my-contribution
+   git push origin branch-name
    ```
-2. Go to the original repository and open a **pull request** (PR) from your branch to the `main` branch:
-   - Navigate to the **Pull Requests** tab.
-   - Click **New Pull Request**.
-   - Select your branch and submit the pull request.
+2. Open a PR from your branch to `main` in the original repo:
+   - Go to the **Pull Requests** tab.
+   - Click **New Pull Request** and submit.
 
 ### 3. Review Process
 
-- All pull requests require a review before they can be merged.
-- Make sure your pull request contains:
-  - A clear description of your changes.
-  - Links to related issues or discussions (if applicable).
-  - Unit and integration tests, if necessary, to verify your changes.
-- Once the review is complete and changes are approved, code from pull request will be merged.
+- PRs must be reviewed before merging.
+- Include a clear description of changes and any related issues.
+- Add tests for your changes if necessary.
+- Once approved, the PR will be merged.
 
-### 4. Handling Issues or Conflicts
+### 4. Resolving Merge Conflicts
 
-If you encounter any issues with your pull request, such as **Merge conflicts** with the `main` branch:
-
-1. **Resolving Merge Conflicts**:
-   - Pull the latest changes from the `main` branch:
-     ```bash
-     git fetch origin
-     git checkout main
-     git pull origin main
-     git checkout branch-name
-     git merge main
-     ```
-   - Resolve conflicts manually in your code editor.
-   - Commit the changes and push them to your branch:
-     ```bash
-     git add .
-     git commit -m "Resolved merge conflicts"
-     git push origin branch-name
-     ```
+If you encounter merge conflicts with `main`:
+1. Pull the latest changes from `main`:
+   ```bash
+   git checkout main
+   git pull origin main
+   git checkout branch-name
+   git merge main
+   ```
+2. Resolve conflicts, then push your changes:
+   ```bash
+   git add .
+   git commit -m "Resolved merge conflicts"
+   git push origin branch-name
+   ```
 
 ## Opening an Issue
 
-If you have found a bug, open an issue by following these steps:
-
+To report a bug:
 1. Go to the **Issues** tab.
-2. Click **New Issue**.
-3. Provide as much detail as possible:
+2. Click **New Issue** and provide:
    - A descriptive title.
-   - Clear steps to reproduce the problem (if applicable).
-   - The expected behavior and what actually happens.
-   - Any related screenshots, logs, or error messages.
+   - Steps to reproduce (if applicable).
+   - Expected vs actual behavior.
+   - Any relevant screenshots, logs, or errors.
 
 ---
 
-# Commit Message Convention
+# Commit Message Guidelines
 
-To ensure that all commit messages are consistent and easy to understand, please follow these conventions when writing commit messages:
+### 1. Commit Types
 
-#### 1. Commit Types
-
-- **feat**: A new feature or functionality.
-- **fix**: A bug fix or correction.
-- **docs**: Documentation updates or changes.
-- **style**: Code formatting (no functional changes, such as removing whitespace or semicolons).
-- **refactor**: Code restructuring or refactoring without changing any functionality.
+- **feat**: New feature.
+- **fix**: Bug fix.
+- **docs**: Documentation changes.
+- **style**: Code formatting (no functional changes).
+- **refactor**: Code restructuring without changing functionality.
 - **test**: Adding or modifying tests.
 
-#### 2. Short Description
-The description should be concise, ideally less than 72 characters, and describe **what** the commit does.
+### 2. Short Description
+Keep descriptions under 72 characters, explaining **what** the commit does.
 
-#### 3. Issue Reference (Optional)
-If the commit is related to an issue or pull request, reference it at the end of the message:
+### 3. Issue Reference
+If the commit relates to an issue:
 ```
-fix: mutation of data bug
+fix: resolve data mutation bug
 
-Fixes issue where data is mutated when it's not supposed to.
-Closes #1.
+Fixes issue where data was mutated unintentionally. Closes #1.
 ```
-### Additional Commit Guidelines
-- **Small Commits**: Aim for small, focused commits. Each commit should represent a single change or fix.
+
+### Additional Guidelines
+- **Small Commits**: Focus on one change per commit.
 - **Atomic Commits**: Avoid mixing unrelated changes in a single commit.
 
 ---
+
 # Writing Tests
-1. Test for edge cases and boundary conditions (e.g., null, empty inputs, max/min values).
-2. Test all the exceptions of inputs (use IllegalArgumentException instead of NullPointerException)
-3. Write unit tests first, then integration test
-4. Write tests when a bug is found, test exhaustively near bugs
-5. Do not delete the test if it is failing, just add a // FIXME next to it
-6. If test is repetitive or difficult to understand, write helpers for test
-7. Use descriptive test method names
-8. Write test suites so we can run multiple test classes at a time
+
+1. Test edge cases (e.g., null, empty, max/min values).
+2. Test exceptions (use `IllegalArgumentException` over `NullPointerException`).
+3. Write unit tests first, then integration tests.
+4. Write tests for found bugs and test exhaustively around them.
+5. Do not delete failing tests; add `// FIXME` next to them.
+6. Write test helpers for repetitive code.
+7. Use descriptive test method names.
+8. Use test suites to run multiple test classes.
+
+---
+
+# Writing Code
+
+- **Keep methods/classes small**: Follow the Single Responsibility Principle.
+- **Self-explanatory code**: Use meaningful names for variables, methods, and classes.
+- **Consistent naming**: Stick to a unified naming convention.
+- **Refactor regularly**: Eliminate redundancy and improve readability after writing code and tests.
+- **Write tests as you code**: Ensure your code is testable and well-covered.
+- **Handle exceptions properly**: Gracefully handle errors and edge cases.
+- **Avoid redundancy**: Abstract common functionality to avoid repeating code.
+- **Use design patterns**: Apply patterns like Factory, Builder, etc.
+- **Document as needed**: Clarify complex logic with concise comments or documentation.
+- **Avoid deep nesting**: Refactor nested loops or conditionals for clarity.
