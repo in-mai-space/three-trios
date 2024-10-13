@@ -94,10 +94,7 @@ To ensure that all commit messages are consistent and easy to understand, please
 #### 2. Short Description
 The description should be concise, ideally less than 72 characters, and describe **what** the commit does.
 
-#### 3. Detailed Description (Optional)
-If the commit needs more context, add a detailed explanation below the short description. Explain **why** the changes were made and how they affect the project.
-
-#### 4. Issue Reference (Optional)
+#### 3. Issue Reference (Optional)
 If the commit is related to an issue or pull request, reference it at the end of the message:
 ```
 fix: mutation of data bug
