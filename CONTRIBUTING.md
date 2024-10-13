@@ -108,3 +108,15 @@ Closes #1.
 ### Additional Commit Guidelines
 - **Small Commits**: Aim for small, focused commits. Each commit should represent a single change or fix.
 - **Atomic Commits**: Avoid mixing unrelated changes in a single commit.
+- 
+
+---
+# Writing Tests
+1. Test for edge cases and boundary conditions (e.g., null, empty inputs, max/min values).
+2. Test all the exceptions of inputs (use IllegalArgumentException instead of NullPointerException)
+3. Write unit tests first, then integration test
+4. Write tests when a bug is found, test exhaustively near bugs
+5. Do not delete the test if it is failing, just add a // FIXME next to it
+6. If test is repetitive or difficult to understand, write helpers for test
+7. Use descriptive test method names
+8. Write test suites so we can run multiple test classes at a time
