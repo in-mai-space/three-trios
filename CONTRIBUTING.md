@@ -21,14 +21,7 @@ To keep the code stable, the main branch is protected. This means:
    git checkout -b branch-name
    ```
 
-### 2. Make Your Changes
-
-- Make the necessary changes to your branch.
-- Please ensure code follows Google Java style.
-- Update or add documentation if your changes affect usage.
-- If fixing a bug, include details of the issue or steps to reproduce it in the pull request description.
-
-### 3. Create a Pull Request (PR)
+### 2. Create a Pull Request (PR)
 
 When your changes are ready:
 
@@ -41,20 +34,16 @@ When your changes are ready:
    - Click **New Pull Request**.
    - Select your branch and submit the pull request.
 
-### 4. Review Process
+### 3. Review Process
 
 - All pull requests require a review before they can be merged.
 - Make sure your pull request contains:
   - A clear description of your changes.
   - Links to related issues or discussions (if applicable).
   - Unit and integration tests, if necessary, to verify your changes.
-
-### 5. Responding to Feedback & Getting PR Merged
-
-- PR will be reviewed, and you may receive feedback requesting changes.
 - Once the review is complete and changes are approved, code from pull request will be merged.
 
-### 6. Handling Issues or Conflicts
+### 4. Handling Issues or Conflicts
 
 If you encounter any issues with your pull request, such as **Merge conflicts** with the `main` branch:
 
@@ -77,7 +66,7 @@ If you encounter any issues with your pull request, such as **Merge conflicts** 
 
 ## Opening an Issue
 
-If you have found a bug, feel free to open an issue by following these steps:
+If you have found a bug, open an issue by following these steps:
 
 1. Go to the **Issues** tab.
 2. Click **New Issue**.
@@ -86,9 +75,6 @@ If you have found a bug, feel free to open an issue by following these steps:
    - Clear steps to reproduce the problem (if applicable).
    - The expected behavior and what actually happens.
    - Any related screenshots, logs, or error messages.
-4. Tag the issue appropriately (e.g., bug, enhancement, question).
-
-
 
 ---
 
@@ -119,26 +105,6 @@ fix: mutation of data bug
 Fixes issue where data is mutated when it's not supposed to.
 Closes #1.
 ```
-
-#### 6. Examples of Good Commit Messages
-
-- **feat**: 
-   ```bash
-   feat: add game canvas class
-   ```
-- **fix**:
-   ```bash
-   fix: fix bug in game canvas class methods
-   ```
-- **docs**:
-   ```bash
-   docs: update documentation for red game canvas 
-   ```
-- **style**:
-   ```bash
-   style: format code according to Google Java style
-   ```
-
 ### Additional Commit Guidelines
 - **Small Commits**: Aim for small, focused commits. Each commit should represent a single change or fix.
 - **Atomic Commits**: Avoid mixing unrelated changes in a single commit.
