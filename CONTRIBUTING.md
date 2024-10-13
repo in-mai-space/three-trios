@@ -108,7 +108,6 @@ Closes #1.
 ### Additional Commit Guidelines
 - **Small Commits**: Aim for small, focused commits. Each commit should represent a single change or fix.
 - **Atomic Commits**: Avoid mixing unrelated changes in a single commit.
-- 
 
 ---
 # Writing Tests
