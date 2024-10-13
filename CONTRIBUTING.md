@@ -5,6 +5,9 @@ To keep the code stable, the main branch is protected. This means:
 - All changes must go through a pull request (PR) and be reviewed before they can be merged into main.
 - Pull requests must pass all required checks (e.g., tests, code formatting) before they can be merged.
 
+[System Design Figjam
+](https://www.figma.com/board/y7X5LMazWNhXcIhupD9NuT/OOD-System-Design?node-id=0-1&t=xOpvfAxoP355Bof8-1)
+
 ### 1. Fork the Repository
 
 1. **Fork** the repository to your GitHub account by clicking the "Fork" button.
