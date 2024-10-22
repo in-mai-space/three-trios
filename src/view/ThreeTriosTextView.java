@@ -3,7 +3,7 @@ package view;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import model.components.GameModel;
+import model.GameModel;
 import model.components.card.Card;
 import model.components.enums.AttackValue;
 import model.components.enums.CellType;
