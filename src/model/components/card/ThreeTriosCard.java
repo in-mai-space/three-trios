@@ -1,5 +1,8 @@
 package model.components.card;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import model.components.enums.AttackValue;
 import model.components.enums.Direction;
 import model.components.enums.GamePlayer;
@@ -97,6 +100,15 @@ public class ThreeTriosCard implements Card {
   public boolean beats(Card that, Direction direction) {
     return this.getAttackValue(direction) >
             that.getAttackValue(getAdjacentDirection(direction));
+  }
+
+  public List<AttackValue> getAllAttackValues() {
+    List<AttackValue> attackValues = new ArrayList<>();
+    attackValues.add(north);
+    attackValues.add(south);
+    attackValues.add(east);
+    attackValues.add(west);
+    return attackValues;
   }
 
   /**

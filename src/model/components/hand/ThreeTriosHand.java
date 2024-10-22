@@ -47,6 +47,9 @@ public class ThreeTriosHand implements Hand {
    */
   public Card removeCard(int index) {
     validateIndex(index);
+    if (cards.isEmpty()) {
+      throw new IllegalArgumentException("Cannot remove from an empty list");
+    }
     return cards.remove(index);
   }
 

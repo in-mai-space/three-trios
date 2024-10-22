@@ -1,5 +1,8 @@
 package model.components.card;
 
+import java.util.List;
+
+import model.components.enums.AttackValue;
 import model.components.enums.Direction;
 import model.components.enums.GamePlayer;
 
@@ -21,6 +24,13 @@ public interface Card {
    * @return the attack value on the card
    */
   int getAttackValue(Direction direction);
+
+  /**
+   * Get all attack values following order north, south, east, west.
+   *
+   * @return list of attack values
+   */
+  List<AttackValue> getAllAttackValues();
 
   /**
    * Checks if this card beats the other card's attack values given a direction.
