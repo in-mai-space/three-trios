@@ -72,10 +72,25 @@ public class ThreeTriosCardTest {
     new ThreeTriosCard(new AttackValue[]{null, null, null, null}, "Card", GamePlayer.RED);
   }
 
+  @Test(expected = IllegalArgumentException.class)
+  public void testAttackValueNot4() {
+    new ThreeTriosCard(new AttackValue[]{AttackValue.THREE, AttackValue.FIVE,
+            AttackValue.EIGHT, AttackValue.FOUR, AttackValue.THREE},
+            "Card", GamePlayer.RED);
+  }
+
   @Test
   public void testGetOwner() {
     assertEquals(firstCard.getOwner(), GamePlayer.BLUE);
     assertEquals(secondCard.getOwner(), GamePlayer.RED);
+  }
+
+  @Test(expected = IllegalStateException.class)
+  public void testGetNullOwner() {
+    Card card = new ThreeTriosCard(new AttackValue[]{AttackValue.THREE, AttackValue.FIVE,
+            AttackValue.EIGHT, AttackValue.FOUR},
+            "Card");
+    card.getOwner();
   }
 
   @Test

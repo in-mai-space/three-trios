@@ -85,7 +85,7 @@ public class GameConfigParser {
   }
 
   private AttackValue parseAttackValue(String value) {
-    if ("A".equals(value)) {
+    if (value.equals("A")) {
       return AttackValue.A;
     }
 

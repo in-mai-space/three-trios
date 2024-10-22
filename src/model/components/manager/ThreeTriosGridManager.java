@@ -50,11 +50,15 @@ public class ThreeTriosGridManager implements GridManager {
   public void executeBattle(int row, int col) {
     Card placedCard = grid.getCardAt(row, col);
     GamePlayer currentPlayer = placedCard.getOwner();
+    // get adjacent cards of this specific card
     Map<Card, AbstractMap.SimpleEntry<Integer, Integer>> adjacentCards =
             grid.getAdjacentCards(row, col);
 
+    // battle this card with every adjacent cards
     for (Map.Entry<Card, AbstractMap.SimpleEntry<Integer, Integer>> entry : adjacentCards.entrySet()) {
+      // get the adjacent card
       Card adjacentCard = entry.getKey();
+      // get its row and col
       AbstractMap.SimpleEntry<Integer, Integer> position = entry.getValue();
 
       GamePlayer adjacentOwner = adjacentCard.getOwner();

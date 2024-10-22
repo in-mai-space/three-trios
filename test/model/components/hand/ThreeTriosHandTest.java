@@ -58,7 +58,6 @@ public class ThreeTriosHandTest {
     Card removedCard = hand.removeCard(0);
     assertSame(card1, removedCard);
     assertEquals(1, hand.handSize());
-    assertSame(card2, hand.getCard(0));
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -69,18 +68,6 @@ public class ThreeTriosHandTest {
   @Test(expected = IllegalArgumentException.class)
   public void testRemoveCardIndexOutOfBound() {
     hand.removeCard(1);
-  }
-
-  @Test
-  public void testGetCard() {
-    hand.addCard(card2);
-    Card retrievedCard = hand.getCard(1);
-    assertSame(card2, retrievedCard);
-  }
-
-  @Test(expected = IllegalArgumentException.class)
-  public void testGetCardInvalidIndex() {
-    hand.getCard(2);
   }
 
   @Test

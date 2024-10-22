@@ -53,6 +53,7 @@ public class ThreeTriosCard implements Card {
    *               following the order [north, south, east, west]
    * @param name name of each card
    * @throws IllegalArgumentException if values are null or name is null
+   * @throws IllegalArgumentException if the attack values are not length of 4
    */
   private void validateCard(AttackValue[] values, String name) {
     if (values.length != 4) {
@@ -111,6 +112,11 @@ public class ThreeTriosCard implements Card {
             that.getAttackValue(getAdjacentDirection(direction));
   }
 
+  /**
+   * Get all attack values following order north, south, east, west.
+   *
+   * @return list of attack values
+   */
   public List<AttackValue> getAllAttackValues() {
     List<AttackValue> attackValues = new ArrayList<>();
     attackValues.add(north);
@@ -126,6 +132,9 @@ public class ThreeTriosCard implements Card {
    * @return the current owner of the card
    */
   public GamePlayer getOwner() {
+    if (this.owner == null) {
+      throw new IllegalStateException("Card currently does not have an owner");
+    }
     return this.owner;
   }
 
