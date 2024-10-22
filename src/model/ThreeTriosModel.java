@@ -54,7 +54,9 @@ public class ThreeTriosModel implements GameModel {
     int index = 0;
     for (int i = 0; i < cardsPerPlayer; i++) {
       if (playerHands.get(players.get(index)).handSize() < cardsPerPlayer) {
-        playerHands.get(players.get(index)).addCard(allCards.get(i));
+        Card cardToDistribute = allCards.get(i);
+        playerHands.get(players.get(index)).addCard(cardToDistribute);
+        cardToDistribute.setOwner(players.get(index));
         index = (index + 1) % players.size();
       }
     }
@@ -112,8 +114,6 @@ public class ThreeTriosModel implements GameModel {
     validateGameNotStartOrOver();
     return playerHands.get(player).getCards();
   }
-
-
 
   /**
    * Places a card at the specified position on the grid.

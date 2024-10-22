@@ -37,6 +37,15 @@ public class ThreeTriosCard implements Card {
     this.owner = owner;
   }
 
+  public ThreeTriosCard(AttackValue[] values, String name) {
+    validateCard(values, name);
+    this.north = values[0];
+    this.south = values[1];
+    this.east = values[2];
+    this.west = values[3];
+    this.name = name;
+  }
+
   /**
    * Validate the attack values and name arguments.
    *
