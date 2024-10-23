@@ -25,6 +25,5 @@ import model.components.manager.ThreeTriosGridManagerTest;
         GameConfigParserTest.class,
         ThreeTriosGridManagerTest.class
 })
-
 public class ModelTestSuite {
 }

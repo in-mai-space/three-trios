@@ -48,8 +48,10 @@ public class ThreeTriosGridTest {
 
   @Test
   public void testValidConstruction() {
-    assertThrows(IllegalArgumentException.class, () -> new ThreeTriosGrid(invalidTypeList));
-    assertThrows(IllegalArgumentException.class, () -> new ThreeTriosGrid(null));
+    assertThrows("Grid cannot have an even number of cells",
+            IllegalArgumentException.class, () -> new ThreeTriosGrid(invalidTypeList));
+    assertThrows("Cell type list cannot be null",
+            IllegalArgumentException.class, () -> new ThreeTriosGrid(null));
   }
 
   @Test
@@ -63,17 +65,22 @@ public class ThreeTriosGridTest {
     assertTrue(grid1.isCellEmpty(0, 0));
     grid1.placeCard(testCard, 0 ,0);
     assertFalse(grid1.isCellEmpty(0, 0));
+    assertThrows("Indices cannot be out of bounds",
+            IllegalArgumentException.class, () -> grid2.isCellEmpty(3, 3));
+    assertThrows("Indices cannot be out of bounds",
+            IllegalArgumentException.class, () -> grid2.isCellEmpty(0, -1));
   }
 
   @Test
-  public void getCellType() {
+  public void testGetCellType() {
     assertEquals(CellType.CELL, grid1.getCellType(0, 0));
     assertEquals(CellType.HOLE, grid2.getCellType(1, 1));
-    assertThrows(IllegalArgumentException.class, () -> grid1.getCellType(3, 3));
+    assertThrows("Indices cannot be out of bounds",
+            IllegalArgumentException.class, () -> grid1.getCellType(3, 3));
   }
 
   @Test
-  public void getGrid() {
+  public void testGetGrid() {
     Card[][] gridCopy = grid1.getGrid();
     assertNull(gridCopy[0][0]);
     gridCopy[0][0] = testCard; // modify original grid
@@ -82,13 +89,13 @@ public class ThreeTriosGridTest {
   }
 
   @Test
-  public void getCellTypesGrid() {
+  public void testGetCellTypesGrid() {
     assertEquals(cellTypeList1, grid1.getCellTypesGrid());
     assertEquals(cellTypeList2, grid2.getCellTypesGrid());
   }
 
   @Test
-  public void placeCard() {
+  public void testPlaceCard() {
     assertTrue(grid2.isCellEmpty(0, 0));
     grid2.placeCard(testCard, 0 ,0);
     assertFalse(grid2.isCellEmpty(0, 0));
@@ -102,6 +109,27 @@ public class ThreeTriosGridTest {
             IllegalStateException.class, () -> grid2.placeCard(testCard, 0 ,0));
     assertThrows("Cell cannot be a hole",
             IllegalStateException.class, () -> grid2.placeCard(testCard, 1 ,1));
+  }
+
+  @Test
+  public void testCanPlaceCard() {
+    assertTrue(grid1.canPlaceCard(0, 0));
+    assertTrue(grid1.canPlaceCard(1, 1));
+    assertTrue(grid2.canPlaceCard(0, 0));
+    assertFalse(grid2.canPlaceCard(1, 1));
+    assertFalse(grid2.canPlaceCard(1, 2));
+    assertThrows("Indices cannot be out of bounds",
+            IllegalArgumentException.class, () -> grid1.canPlaceCard(-1, 0));
+  }
+
+  @Test
+  public void testGetCardAt() {
+    assertThrows("Indices cannot be out of bounds",
+            IllegalArgumentException.class, () -> grid2.canPlaceCard(2, 4));
+    assertThrows("There must exist a card",
+            IllegalStateException.class, () -> grid1.getCardAt(0, 0));
+    grid1.placeCard(testCard, 0 ,0);
+    assertEquals(testCard, grid1.getCardAt(0, 0));
   }
 
   @Test
@@ -131,7 +159,7 @@ public class ThreeTriosGridTest {
   }
 
   @Test
-  public void testCountPlayerCards() {
+  public void countPlayerCards() {
     assertEquals(0, grid1.countPlayerCards(GamePlayer.RED));
     assertEquals(0, grid1.countPlayerCards(GamePlayer.BLUE));
     assertThrows("Player cannot be null",
@@ -151,5 +179,4 @@ public class ThreeTriosGridTest {
     assertEquals(2, grid1.countPlayerCards(GamePlayer.RED));
     assertEquals(1, grid1.countPlayerCards(GamePlayer.BLUE));
   }
-
 }

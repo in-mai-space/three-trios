@@ -203,6 +203,14 @@ public class ThreeTriosGrid implements Grid {
     return neighborCards;
   }
 
+  /**
+   * Get the map of horizontal neighbors (left and right of a card).
+   *
+   * @param row the row index of the card (0-indexed)
+   * @param col the column index of the card (0-indexed)
+   *
+   * @return map of left and right neighbors of a card
+   */
   private Map<Card, AbstractMap.SimpleEntry<Integer, Integer>> getHorizontalNeighbors(int row, int col) {
     validateIndex(row, col);
     Map<Card, AbstractMap.SimpleEntry<Integer, Integer>> neighborCards = new HashMap<>();
@@ -222,6 +230,14 @@ public class ThreeTriosGrid implements Grid {
     return neighborCards;
   }
 
+  /**
+   * Get the map of vertical neighbors (top and bottom of a card).
+   *
+   * @param row the row index of the card (0-indexed)
+   * @param col the column index of the card (0-indexed)
+   *
+   * @return map of top and left neighbors of a card
+   */
   private Map<Card, AbstractMap.SimpleEntry<Integer, Integer>> getVerticalNeighbors(int row, int col) {
     validateIndex(row, col);
     Map<Card, AbstractMap.SimpleEntry<Integer, Integer>> neighborCards = new HashMap<>();
