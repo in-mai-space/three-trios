@@ -19,14 +19,8 @@ import model.components.enums.CellType;
  * into a list of Card objects.
  */
 public class GameConfigParser {
-  private CellType[][] cellTypes; // 2D array representing the grid layout
-  private final List<Card> cards; // list of cards loaded from the configuration file
-
-  /**
-   * Constructs a new GameConfigParser instance.
-   */
-  public GameConfigParser() {
-    cards = new ArrayList<>();
+  private GameConfigParser() {
+    // Private constructor to prevent instantiation
   }
 
   /**
@@ -37,10 +31,9 @@ public class GameConfigParser {
    * @return a 2D array of CellType representing the game grid
    * @throws IllegalArgumentException if the file path is null
    */
-  public CellType[][] getCellTypes(String filePath) {
+  public static CellType[][] getCellTypes(String filePath) {
     validateFilepath(filePath);
-    loadGridConfig(filePath);
-    return cellTypes;
+    return loadGridConfig(filePath);
   }
 
   /**
@@ -51,10 +44,9 @@ public class GameConfigParser {
    * @return a list of Card objects
    * @throws IllegalArgumentException if the file path is null
    */
-  public List<Card> getCards(String filePath) {
+  public static List<Card> getCards(String filePath) {
     validateFilepath(filePath);
-    loadCardDatabase(filePath);
-    return cards;
+    return loadCardDatabase(filePath);
   }
 
   /**
@@ -63,7 +55,7 @@ public class GameConfigParser {
    * @param filePath the file path to validate
    * @throws IllegalArgumentException if the file path is null
    */
-  private void validateFilepath(String filePath) {
+  private static void validateFilepath(String filePath) {
     if (filePath == null) {
       throw new IllegalArgumentException("Filepath should not be null");
     }
@@ -78,18 +70,19 @@ public class GameConfigParser {
    * @throws IllegalStateException if there is not enough rows or cols
    * @throws IllegalStateException if cellType char is not 'C' or 'X'
    */
-  private void loadGridConfig(String filePath) {
+  private static CellType[][] loadGridConfig(String filePath) {
     File file = new File(filePath);
     try (Scanner scanner = new Scanner(file)) {
       int rows = scanner.nextInt();
       int cols = scanner.nextInt();
       scanner.nextLine();
-      cellTypes = new CellType[rows][cols];
+      CellType[][] cellTypes = new CellType[rows][cols];
 
       for (int i = 0; i < rows; i++) {
         String row = readNextRow(scanner);
-        fillRowWithCellTypes(row, i, cols);
+        fillRowWithCellTypes(row, i, cols, cellTypes);
       }
+      return cellTypes;
     } catch (FileNotFoundException e) {
       throw new IllegalStateException("Cannot find file: " + filePath, e);
     } catch (NoSuchElementException e) {
@@ -105,7 +98,7 @@ public class GameConfigParser {
    *
    * @throws IllegalStateException if there is not enough rows
    */
-  private String readNextRow(Scanner scanner) {
+  private static String readNextRow(Scanner scanner) {
     if (!scanner.hasNextLine()) {
       throw new IllegalStateException("Insufficient rows in config file");
     }
@@ -118,10 +111,11 @@ public class GameConfigParser {
    * @param row the row string from the configuration file
    * @param rowIndex the index of the row in the cellTypes array
    * @param expectedCols the expected number of columns in the row
+   * @param cellTypes the 2D array of CellType to fill
    *
    * @throws IllegalStateException if there is not enough cols
    */
-  private void fillRowWithCellTypes(String row, int rowIndex, int expectedCols) {
+  private static void fillRowWithCellTypes(String row, int rowIndex, int expectedCols, CellType[][] cellTypes) {
     if (row.length() != expectedCols) {
       throw new IllegalStateException("Row " + rowIndex + " does not have "
               + expectedCols + " columns");
@@ -139,7 +133,7 @@ public class GameConfigParser {
    *
    * @throws IllegalStateException if there is invalid character
    */
-  private CellType parseCellType(char cellChar) {
+  private static CellType parseCellType(char cellChar) {
     switch (cellChar) {
       case 'C':
         return CellType.CELL;
@@ -159,8 +153,9 @@ public class GameConfigParser {
    * @throws IllegalStateException if file cannot be found
    * @throws IllegalStateException if card values are not integer
    */
-  private void loadCardDatabase(String filePath) {
+  private static List<Card> loadCardDatabase(String filePath) {
     File file = new File(filePath);
+    List<Card> cards = new ArrayList<>();
     try (Scanner scanner = new Scanner(file)) {
       while (scanner.hasNextLine()) {
         String line = scanner.nextLine();
@@ -182,6 +177,7 @@ public class GameConfigParser {
     } catch (NumberFormatException e) {
       throw new IllegalStateException("Card values must be integers");
     }
+    return cards;
   }
 
   /**
@@ -192,7 +188,7 @@ public class GameConfigParser {
    *
    * @throws IllegalArgumentException if the value is not valid
    */
-  private AttackValue parseAttackValue(String value) {
+  private static AttackValue parseAttackValue(String value) {
     if (value.equals("A")) {
       return AttackValue.A;
     }

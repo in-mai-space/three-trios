@@ -59,6 +59,22 @@ public class ThreeTriosModel implements GameModel {
     this.allCards = allCards;
   }
 
+  public ThreeTriosModel(String cellTypesFilePath, String cardsFilePath) {
+    CellType[][] cellTypes = GameConfigParser.getCellTypes(cellTypesFilePath);
+    List<Card> allCards = GameConfigParser.getCards(cardsFilePath);
+    validateModelArgs(cellTypes, allCards);
+    Grid grid = new ThreeTriosGrid(cellTypes);
+    if (allCards.size() < grid.getNumberOfCells() + 1) {
+      throw new IllegalArgumentException("There must be at least " + (grid.getNumberOfCells()
+              + 1) + " cards available.");
+    }
+    this.numCells = grid.getNumberOfCells();
+    this.ruleKeeper = new ThreeTriosGridManager(grid);
+    this.players = new ArrayList<>(List.of(GamePlayer.RED, GamePlayer.BLUE));
+    this.currentPlayerIndex = 0;
+    this.allCards = allCards;
+  }
+
   /**
    * Distribute (N + 1)/2 cards to each player's hand, where N is number of non-hole cells.
    */

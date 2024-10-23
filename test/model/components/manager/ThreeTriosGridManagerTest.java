@@ -38,13 +38,13 @@ public class ThreeTriosGridManagerTest {
   @Before
   public void setUp() {
     String noHoleFilePath = GameConfigParserTest.getFilePath("no_holes.txt", "grid");
-    noHoleGrid = new ThreeTriosGrid(new GameConfigParser().getCellTypes(noHoleFilePath));
+    noHoleGrid = new ThreeTriosGrid(GameConfigParser.getCellTypes(noHoleFilePath));
 
     String simpleGridFilePath = GameConfigParserTest.getFilePath("simple_grid.txt", "grid");
-    simpleGrid = new ThreeTriosGrid(new GameConfigParser().getCellTypes(simpleGridFilePath));
+    simpleGrid = new ThreeTriosGrid(GameConfigParser.getCellTypes(simpleGridFilePath));
 
     String complexGridFilePath = GameConfigParserTest.getFilePath("complex_grid.txt", "grid");
-    complexGrid = new ThreeTriosGrid(new GameConfigParser().getCellTypes(complexGridFilePath));
+    complexGrid = new ThreeTriosGrid(GameConfigParser.getCellTypes(complexGridFilePath));
 
     noHoleManager = new ThreeTriosGridManager(noHoleGrid);
     simpleGridManager = new ThreeTriosGridManager(simpleGrid);
