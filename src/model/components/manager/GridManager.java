@@ -4,14 +4,21 @@ import model.components.card.Card;
 import model.components.enums.CellType;
 import model.components.enums.GamePlayer;
 
+/**
+ * Represents a manager for the grid in the game.
+ * This interface defines the necessary operations for manipulating
+ * and accessing the grid, including card placement and battle execution.
+ */
 public interface GridManager {
   /**
    * Checks if a card can be placed at the specified row and column
    * based on the current state of the grid and game rules.
    *
-   * @param row the row index of the cell
-   * @param col the column index of the cell
+   * @param row the row index of the cell (0-indexed)
+   * @param col the column index of the cell (0-indexed)
+   *
    * @return true if the card can be placed, false otherwise
+   * @throws IllegalArgumentException if the row or column index is out of bounds
    */
   boolean canPlaceCard(int row, int col);
 
@@ -22,6 +29,9 @@ public interface GridManager {
    * @param card the card to be placed
    * @param row the row index where the card will be placed
    * @param col the column index where the card will be placed
+   *
+   * @throws IllegalArgumentException if the card is null
+   * @throws IllegalArgumentException if the row or column index is out of bounds
    */
   void placeCard(Card card, int row, int col);
 
@@ -31,6 +41,8 @@ public interface GridManager {
    *
    * @param row the row index of the newly placed card
    * @param col the column index of the newly placed card
+   *
+   * @throws IllegalArgumentException if the row or column index is out of bounds
    */
   void executeBattle(int row, int col);
 
@@ -49,7 +61,19 @@ public interface GridManager {
    */
   boolean isGameOver();
 
+  /**
+   * Retrieves the current state of the grid as a 2D array of Cards.
+   * Modifying this array does not change the state of the grid.
+   *
+   * @return a 2D array representing the grid of cards
+   */
   Card[][] getGrid();
 
+  /**
+   * Retrieves the current cell types of the grid as a 2D array.
+   * Modifying this array does not change the state of the grid.
+   *
+   * @return a 2D array representing the types of cells in the grid
+   */
   CellType[][] getCellTypes();
 }

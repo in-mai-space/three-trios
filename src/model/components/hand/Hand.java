@@ -8,6 +8,7 @@ import model.components.card.Card;
  * Represents a hand of cards of a player.
  */
 public interface Hand {
+
   /**
    * Retrieves list of cards in hands. Modifying the list will not change cards in hand.
    *
@@ -28,13 +29,16 @@ public interface Hand {
    *
    * @param index index of cards to be removed
    * @return the removed card
+   *
+   * @throws IllegalArgumentException if the index is out of bounds
+   * @throws IllegalStateException if the hand is empty
    */
   Card removeCard(int index);
 
   /**
-   * Return the max capacity of hand.
+   * Return the current number of cards in hand.
    *
-   * @return the max capacity of the hand of cards
+   * @return the number of cards in hand
    */
   int handSize();
 }

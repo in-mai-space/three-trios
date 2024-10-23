@@ -10,6 +10,12 @@ import model.components.grid.ThreeTriosGridTest;
 import model.components.hand.ThreeTriosHandTest;
 import model.components.manager.ThreeTriosGridManagerTest;
 
+/**
+ * The ModelTestSuite class is a JUnit test suite that aggregates
+ * multiple test classes for the model components of the Three Trios
+ * card game. This suite allows for running all model-related tests
+ * together in a single execution.
+ */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         ThreeTriosCardTest.class,

@@ -11,8 +11,13 @@ import model.components.card.Card;
 import model.components.enums.AttackValue;
 import model.components.enums.CellType;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 
+/**
+ * Test class for GameConfigParser.
+ */
 public class GameConfigParserTest {
   private GameConfigParser parser;
 

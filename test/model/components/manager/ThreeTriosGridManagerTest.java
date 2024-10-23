@@ -18,6 +18,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+/**
+ * Test class for ThreeTriosGridManager.
+ */
 public class ThreeTriosGridManagerTest {
   private Grid noHoleGrid;
   private Grid simpleGrid;
@@ -64,6 +67,41 @@ public class ThreeTriosGridManagerTest {
   @Test(expected = IllegalArgumentException.class)
   public void testNullConstructor() {
     new ThreeTriosGridManager(null);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testOutOfBoundPlaceCard() {
+    noHoleManager.placeCard(card527A, 3, 0);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testNegativeIndexPlaceCard() {
+    noHoleManager.placeCard(card527A, -1, 0);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testNullPlaceCard() {
+    noHoleManager.placeCard(null, 0, 0);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testBattleOutOfBound() {
+    noHoleManager.executeBattle(3, 0);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testBattleNegativeIndex() {
+    noHoleManager.executeBattle(-1, 0);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testCanPlaceCardOutOfBound() {
+    noHoleManager.canPlaceCard(3, 0);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testCanPlaceCardNegativeIndex() {
+    noHoleManager.canPlaceCard(-1, 0);
   }
 
   @Test
@@ -158,7 +196,7 @@ public class ThreeTriosGridManagerTest {
     assertEquals(GamePlayer.BLUE, complexGrid.getCardAt(3, 2).getOwner());
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test(expected = IllegalStateException.class)
   public void testPlaceCardWhenThereIsCard() {
     simpleGridManager.placeCard(card527A, 0, 0);
     assertEquals(card527A, simpleGrid.getCardAt(0, 0));
@@ -167,7 +205,7 @@ public class ThreeTriosGridManagerTest {
     simpleGridManager.placeCard(card7253, 0, 0);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test(expected = IllegalStateException.class)
   public void testPlaceCardInAHole() {
     complexGridManager.placeCard(card4599, 1, 0);
   }
