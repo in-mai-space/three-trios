@@ -52,7 +52,7 @@ public class ThreeTriosModel implements GameModel {
     }
     int cardsPerPlayer = (numCells + 1) / players.size();
     int index = 0;
-    for (int i = 0; i < cardsPerPlayer; i++) {
+    for (int i = 0; i < cardsPerPlayer * 2; i++) {
       if (playerHands.get(players.get(index)).handSize() < cardsPerPlayer) {
         Card cardToDistribute = allCards.get(i);
         playerHands.get(players.get(index)).addCard(cardToDistribute);
@@ -138,7 +138,14 @@ public class ThreeTriosModel implements GameModel {
    * @return True if the game is over, otherwise false.
    */
   public boolean gameOver() {
+    validateGameNotStarted();
     return ruleKeeper.isGameOver();
+  }
+
+  private void validateGameNotStarted() {
+    if (gameState == null) {
+      throw new IllegalStateException("Game has not started");
+    }
   }
 
   /**
@@ -192,14 +199,17 @@ public class ThreeTriosModel implements GameModel {
   }
 
   public Card[][] getGrid() {
+    validateGameNotStarted();
     return ruleKeeper.getGrid();
   }
 
   public CellType[][] getCellTypes() {
+    validateGameNotStarted();
     return ruleKeeper.getCellTypes();
   }
 
   public List<Card> getCurrentPlayerHand() {
+    validateGameNotStarted();
     return getHand(players.get(currentPlayerIndex));
   }
 }

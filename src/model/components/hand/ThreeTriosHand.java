@@ -66,9 +66,9 @@ public class ThreeTriosHand implements Hand {
   }
 
   /**
-   * Return the max capacity of hand.
+   * Return the current number of cards in hand.
    *
-   * @return the max capacity of the hand of cards
+   * @return current number of cards in hand
    */
   public int handSize() {
     return cards.size();

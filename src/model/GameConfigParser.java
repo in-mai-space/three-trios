@@ -1,5 +1,6 @@
 package model;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -20,24 +21,30 @@ public class GameConfigParser {
     cards = new ArrayList<>();
   }
 
+  // "config" + File.separator + XXX;
   public CellType[][] getCellTypes(String filePath) {
     loadGridConfig(filePath);
     return cellTypes;
   }
 
+  // "config" + File.separator + XXX;
   public List<Card> getCards(String filePath) {
     loadCardDatabase(filePath);
     return cards;
   }
 
+  // TODO: refactor this
   private void loadGridConfig(String filePath) {
-    try (Scanner scanner = new Scanner(new FileReader(filePath))) {
+    File file = new File(filePath);
+    try  {
+      Scanner scanner = new Scanner(file);
       int rows = scanner.nextInt();
       int cols = scanner.nextInt();
       cellTypes = new CellType[rows][cols];
+      // TODO: fix the bug here - next returns the whole file
       for (int i = 0; i < rows; i++) {
         if (scanner.hasNextLine()) {
-          String row = scanner.nextLine();
+          String row = scanner.next();
           for (int j = 0; j < cols; j++) {
             char cellChar = row.charAt(j);
             switch (cellChar) {
@@ -61,7 +68,8 @@ public class GameConfigParser {
   }
 
   private void loadCardDatabase(String filePath) {
-    try (Scanner scanner = new Scanner(new FileReader(filePath))) {
+    File file = new File(filePath);
+    try (Scanner scanner = new Scanner(file)) {
       while (scanner.hasNextLine()) {
         String line = scanner.nextLine();
         String[] cardInfo = line.split(" ");
@@ -88,7 +96,6 @@ public class GameConfigParser {
     if (value.equals("A")) {
       return AttackValue.A;
     }
-
     try {
       int intValue = Integer.parseInt(value);
       if (intValue < 1 || intValue > 10) {
