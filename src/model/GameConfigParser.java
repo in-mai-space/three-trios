@@ -73,6 +73,10 @@ public class GameConfigParser {
    * Loads the grid configuration from a specified file.
    *
    * @param filePath the path to the grid configuration file
+   * @throws IllegalStateException if file cannot be found
+   * @throws IllegalStateException if file is wrongly formatted
+   * @throws IllegalStateException if there is not enough rows or cols
+   * @throws IllegalStateException if cellType char is not 'C' or 'X'
    */
   private void loadGridConfig(String filePath) {
     File file = new File(filePath);
@@ -83,7 +87,7 @@ public class GameConfigParser {
       cellTypes = new CellType[rows][cols];
 
       for (int i = 0; i < rows; i++) {
-        String row = readNextRow(scanner, i);
+        String row = readNextRow(scanner);
         fillRowWithCellTypes(row, i, cols);
       }
     } catch (FileNotFoundException e) {
@@ -97,10 +101,11 @@ public class GameConfigParser {
    * Reads the next row from the scanner.
    *
    * @param scanner the scanner to read from
-   * @param rowIndex the index of the current row
    * @return the next row as a String
+   *
+   * @throws IllegalStateException if there is not enough rows
    */
-  private String readNextRow(Scanner scanner, int rowIndex) {
+  private String readNextRow(Scanner scanner) {
     if (!scanner.hasNextLine()) {
       throw new IllegalStateException("Insufficient rows in config file");
     }
@@ -113,6 +118,8 @@ public class GameConfigParser {
    * @param row the row string from the configuration file
    * @param rowIndex the index of the row in the cellTypes array
    * @param expectedCols the expected number of columns in the row
+   *
+   * @throws IllegalStateException if there is not enough cols
    */
   private void fillRowWithCellTypes(String row, int rowIndex, int expectedCols) {
     if (row.length() != expectedCols) {
@@ -129,6 +136,8 @@ public class GameConfigParser {
    *
    * @param cellChar the character representing a cell type
    * @return the corresponding CellType
+   *
+   * @throws IllegalStateException if there is invalid character
    */
   private CellType parseCellType(char cellChar) {
     switch (cellChar) {
@@ -145,6 +154,10 @@ public class GameConfigParser {
    * Loads the card database from a specified file.
    *
    * @param filePath the path to the card database file
+   *
+   * @throws IllegalStateException if the file is wrongly formatted
+   * @throws IllegalStateException if file cannot be found
+   * @throws IllegalStateException if card values are not integer
    */
   private void loadCardDatabase(String filePath) {
     File file = new File(filePath);
@@ -176,6 +189,7 @@ public class GameConfigParser {
    *
    * @param value the string representation of the attack value
    * @return the corresponding AttackValue
+   *
    * @throws IllegalArgumentException if the value is not valid
    */
   private AttackValue parseAttackValue(String value) {

@@ -175,8 +175,8 @@ public class ThreeTriosModel implements GameModel {
   /**
    * Checks if the game is over.
    *
-   * @return True if the game is over, otherwise false
-   * @throws IllegalStateException if game is not started or is over
+   * @return true if the game is over, otherwise false
+   * @throws IllegalStateException if game is not started
    */
   public boolean gameOver() {
     validateGameNotStarted();
@@ -197,7 +197,7 @@ public class ThreeTriosModel implements GameModel {
   }
 
   /**
-   * Gets a copy of current grd of the game. Modifying this 2d array does not modify
+   * Gets a copy of current grid of the game. Modifying this 2d array does not modify
    * the game state.
    *
    * @return the 2d-array representation of cards in the grid
@@ -226,7 +226,7 @@ public class ThreeTriosModel implements GameModel {
    * @throws IllegalStateException if the game is not started or is over
    */
   public List<Card> getCurrentPlayerHand() {
-    validateGameNotStarted();
+    validateGameNotStartOrOver();
     return getHand(players.get(currentPlayerIndex));
   }
 
