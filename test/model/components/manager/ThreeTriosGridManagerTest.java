@@ -265,7 +265,8 @@ public class ThreeTriosGridManagerTest {
     assertGridOwnerState(cardPlacements, expectedGridOwners, complexGrid, complexGridManager);
   }
 
-  private void assertGridOwnerState(Object[][] cardPlacements, GamePlayer[][] expectedOwners, Grid grid, GridManager manager) {
+  private void assertGridOwnerState(Object[][] cardPlacements, GamePlayer[][] expectedOwners,
+                                    Grid grid, GridManager manager) {
     for (Object[] cardPlacement : cardPlacements) {
       Card card = (Card) cardPlacement[0];
       int row = (int) cardPlacement[1];
@@ -462,7 +463,8 @@ public class ThreeTriosGridManagerTest {
   }
 
 
-  private void assertSameCellTypeGridWithModification(CellType[][] expectedCellTypes, GridManager manager) {
+  private void assertSameCellTypeGridWithModification(CellType[][] expectedCellTypes,
+                                                      GridManager manager) {
     assertArrayEquals(expectedCellTypes, manager.getCellTypes());
     // modify cell types return from getCellTypes should not affect the original grid
     manager.getCellTypes()[0][0] = CellType.HOLE;

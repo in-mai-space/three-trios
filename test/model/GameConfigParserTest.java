@@ -40,6 +40,12 @@ public class GameConfigParserTest {
     assertArrayEquals(expectedCellTypes, actualCellTypes);
   }
 
+  /**
+   * Helper method to get file path with package name.
+   * @param fileName file name
+   * @param packageName package name
+   * @return file path
+   */
   public static String getFilePath(String fileName, String packageName) {
     return Paths.get("src", "model", "config", packageName, fileName).toString();
   }

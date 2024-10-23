@@ -73,7 +73,7 @@ public class ThreeTriosModel implements GameModel {
     this.gameStarted = true;
   }
 
-  public Optional<List<GamePlayer>> getWinner() {
+  public Optional<GamePlayer> getWinner() {
     Map<GamePlayer, Integer> scores = new HashMap<>();
     for (GamePlayer player : players) {
       int numCardsOwned = ruleKeeper.countPlayerCards(player);
@@ -86,7 +86,7 @@ public class ThreeTriosModel implements GameModel {
         winners.add(entry.getKey());
       }
     }
-    return winners.size() == 1 ? Optional.of(winners) : Optional.empty();
+    return winners.size() == 1 ? Optional.of(winners.get(0)) : Optional.empty();
   }
 
   private void nextPlayer() {
