@@ -117,7 +117,7 @@ public class ThreeTriosGrid implements Grid {
    *
    * @throws IllegalArgumentException if the card is null
    * @throws IllegalArgumentException if the row or column index is out of bounds
-   * @throws IllegalArgumentException if the cell is not empty or is a hole
+   * @throws IllegalStateException if the cell is not empty or is a hole
    */
   public void placeCard(Card card, int row, int col) {
     if (card == null) {
