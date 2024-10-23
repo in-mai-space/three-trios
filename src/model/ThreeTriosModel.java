@@ -11,7 +11,6 @@ import java.util.Set;
 
 import model.components.card.Card;
 import model.components.enums.GamePlayer;
-import model.components.enums.GameState;
 import model.components.grid.Grid;
 import model.components.grid.ThreeTriosGrid;
 import model.components.hand.Hand;
@@ -26,7 +25,7 @@ public class ThreeTriosModel implements GameModel {
   private final GridManager ruleKeeper;
   private int currentPlayerIndex;
   private final boolean shuffle;
-  private GameState gameState;
+  private boolean gameStarted;
   private final List<Card> allCards;
   private final int numCells;
 
@@ -71,7 +70,7 @@ public class ThreeTriosModel implements GameModel {
       Collections.shuffle(allCards);
     }
     distributeCards();
-    this.gameState = GameState.GAME_STARTED;
+    this.gameStarted = true;
   }
 
   public Optional<List<GamePlayer>> getWinner() {
@@ -143,7 +142,7 @@ public class ThreeTriosModel implements GameModel {
   }
 
   private void validateGameNotStarted() {
-    if (gameState == null) {
+    if (!gameStarted) {
       throw new IllegalStateException("Game has not started");
     }
   }
@@ -187,13 +186,13 @@ public class ThreeTriosModel implements GameModel {
   }
 
   private void validateGameNotStartOrOver() {
-    if (gameState == null || ruleKeeper.isGameOver()) {
+    if (!gameStarted || ruleKeeper.isGameOver()) {
       throw new IllegalStateException("Game has not started or is not over");
     }
   }
 
   private void validateGameInProgress() {
-    if (gameState != null && !ruleKeeper.isGameOver()) {
+    if (gameStarted && !ruleKeeper.isGameOver()) {
       throw new IllegalStateException("Game is already in progress");
     }
   }

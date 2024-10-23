@@ -10,6 +10,13 @@ import model.components.card.Card;
  */
 public class ThreeTriosHand implements Hand {
   private final List<Card> cards;
+
+  /**
+   * Construct a new ThreeTriosHand.
+   *
+   * @param cards list of cards in hand
+   * @throws IllegalArgumentException if cards is null
+   */
   public ThreeTriosHand(List<Card> cards) {
     if (cards == null) {
       throw new IllegalArgumentException("Cards cannot be null");
@@ -44,13 +51,25 @@ public class ThreeTriosHand implements Hand {
    *
    * @param index index of cards to be removed
    * @return the removed card
+   *
+   * @throws IllegalArgumentException if the index is out of bounds
+   * @throws IllegalStateException if the hand is empty
    */
   public Card removeCard(int index) {
-    validateIndex(index);
     if (cards.isEmpty()) {
-      throw new IllegalArgumentException("Cannot remove from an empty list");
+      throw new IllegalStateException("Cannot remove from an empty list");
     }
+    validateIndex(index);
     return cards.remove(index);
+  }
+
+  /**
+   * Return the current number of cards in hand.
+   *
+   * @return the number of cards in hand
+   */
+  public int handSize() {
+    return cards.size();
   }
 
   /**
@@ -63,14 +82,5 @@ public class ThreeTriosHand implements Hand {
     if (index < 0 || index >= cards.size()) {
       throw new IllegalArgumentException("Index out of bound for card");
     }
-  }
-
-  /**
-   * Return the current number of cards in hand.
-   *
-   * @return current number of cards in hand
-   */
-  public int handSize() {
-    return cards.size();
   }
 }

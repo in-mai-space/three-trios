@@ -8,7 +8,7 @@ import model.components.enums.Direction;
 import model.components.enums.GamePlayer;
 
 /**
- * Represents a card in the ThreeTriosGame
+ * Represents a card in the ThreeTriosGame.
  */
 public class ThreeTriosCard implements Card {
   private final String name;
@@ -38,22 +38,11 @@ public class ThreeTriosCard implements Card {
   }
 
   public ThreeTriosCard(AttackValue[] values, GamePlayer owner) {
-    validateCard(values, "card");
-    this.north = values[0];
-    this.south = values[1];
-    this.east = values[2];
-    this.west = values[3];
-    this.name = "card";
-    this.owner = owner;
+    this(values, "Card", owner);
   }
 
   public ThreeTriosCard(AttackValue[] values, String name) {
-    validateCard(values, name);
-    this.north = values[0];
-    this.south = values[1];
-    this.east = values[2];
-    this.west = values[3];
-    this.name = name;
+    this(values, name, null);
   }
 
   /**
@@ -115,15 +104,21 @@ public class ThreeTriosCard implements Card {
    *
    * @param that the other card to battle with
    * @param direction direction to compare the attack value
+   *
    * @return true if this card beats other card's attack values in given direction
+   * @throws IllegalArgumentException if card is null
    */
   public boolean beats(Card that, Direction direction) {
+    if (that == null) {
+      throw new IllegalArgumentException("Card cannot be null");
+    }
     return this.getAttackValue(direction) >
             that.getAttackValue(getAdjacentDirection(direction));
   }
 
   /**
-   * Get all attack values following order north, south, east, west.
+   * Get all attack values following order north, south, east, west. Modifying this list
+   * does not change the values on the card.
    *
    * @return list of attack values
    */
@@ -140,6 +135,7 @@ public class ThreeTriosCard implements Card {
    * Get the current owner of the card.
    *
    * @return the current owner of the card
+   * @throws IllegalStateException if card currently does not have an owner
    */
   public GamePlayer getOwner() {
     if (this.owner == null) {

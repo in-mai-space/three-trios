@@ -1,6 +1,5 @@
 package model.components.card;
 
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,6 +11,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+/**
+ * Test class for ThreeTriosCard.
+ */
 public class ThreeTriosCardTest {
   private Card firstCard;
   private Card secondCard;
@@ -47,6 +49,21 @@ public class ThreeTriosCardTest {
   }
 
   @Test
+  public void getAttackValues() {
+    assertEquals(firstCard.getAllAttackValues().get(0), AttackValue.THREE);
+    assertEquals(firstCard.getAllAttackValues().get(1), AttackValue.FIVE);
+    assertEquals(firstCard.getAllAttackValues().get(2), AttackValue.A);
+    assertEquals(firstCard.getAllAttackValues().get(3), AttackValue.FOUR);
+    assertEquals(secondCard.getAllAttackValues().get(0), AttackValue.FIVE);
+    assertEquals(secondCard.getAllAttackValues().get(1), AttackValue.EIGHT);
+    assertEquals(secondCard.getAllAttackValues().get(2), AttackValue.A);
+    assertEquals(secondCard.getAllAttackValues().get(3), AttackValue.TWO);
+    // modify the list has no effect on the card's attack value
+    firstCard.getAllAttackValues().set(0, AttackValue.TWO);
+    assertEquals(firstCard.getAllAttackValues().get(0), AttackValue.THREE);
+  }
+
+  @Test
   public void beats() {
     // south and north
     assertFalse(firstCard.beats(secondCard, Direction.SOUTH));
@@ -59,6 +76,11 @@ public class ThreeTriosCardTest {
     assertFalse(firstCard.beats(secondCard, Direction.WEST));
     assertTrue(secondCard.beats(firstCard, Direction.EAST));
     assertFalse(secondCard.beats(firstCard, Direction.WEST));
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void beatsWithNullCard() {
+    firstCard.beats(null, Direction.NORTH);
   }
 
   @Test(expected = IllegalArgumentException.class)

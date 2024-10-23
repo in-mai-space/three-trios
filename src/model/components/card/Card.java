@@ -26,7 +26,8 @@ public interface Card {
   int getAttackValue(Direction direction);
 
   /**
-   * Get all attack values following order north, south, east, west.
+   * Get all attack values following order north, south, east, west. Modifying this list
+   * does not change the values on the card.
    *
    * @return list of attack values
    */
@@ -38,6 +39,7 @@ public interface Card {
    * @param that the other card to battle with
    * @param direction direction to compare the attack value
    * @return true if this card beats other card's attack values in given direction
+   * @throws IllegalArgumentException if card is null
    */
   boolean beats(Card that, Direction direction);
 
@@ -45,6 +47,7 @@ public interface Card {
    * Get the current owner of the card.
    *
    * @return the current owner of the card
+   * @throws IllegalStateException if card currently does not have an owner
    */
   GamePlayer getOwner();
 

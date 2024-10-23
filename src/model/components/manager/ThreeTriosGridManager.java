@@ -9,9 +9,18 @@ import model.components.enums.Direction;
 import model.components.enums.GamePlayer;
 import model.components.grid.Grid;
 
+/**
+ * Manages the grid in the ThreeTriosGame.
+ */
 public class ThreeTriosGridManager implements GridManager {
   private final Grid grid;
 
+  /**
+   * Constructs a new ThreeTriosGridManager with the specified grid.
+   *
+   * @param grid the grid to be managed
+   * @throws IllegalArgumentException if the grid is null
+   */
   public ThreeTriosGridManager(Grid grid) {
     if (grid == null) {
       throw new IllegalArgumentException("Grid cannot be null");
@@ -23,9 +32,11 @@ public class ThreeTriosGridManager implements GridManager {
    * Checks if a card can be placed at the specified row and column
    * based on the current state of the grid and game rules.
    *
-   * @param row the row index of the cell
-   * @param col the column index of the cell
+   * @param row the row index of the cell (0-indexed)
+   * @param col the column index of the cell (0-indexed)
+   *
    * @return true if the card can be placed, false otherwise
+   * @throws IllegalArgumentException if the row or column index is out of bounds
    */
   public boolean canPlaceCard(int row, int col) {
     return grid.canPlaceCard(row, col);
@@ -36,8 +47,11 @@ public class ThreeTriosGridManager implements GridManager {
    * The card is removed from the player's hand and placed on the grid.
    *
    * @param card the card to be placed
-   * @param row  the row index where the card will be placed
-   * @param col  the column index where the card will be placed
+   * @param row the row index where the card will be placed
+   * @param col the column index where the card will be placed
+   *
+   * @throws IllegalArgumentException if the card is null
+   * @throws IllegalArgumentException if the row or column index is out of bounds
    */
   public void placeCard(Card card, int row, int col) {
     grid.placeCard(card, row, col);
@@ -49,6 +63,8 @@ public class ThreeTriosGridManager implements GridManager {
    *
    * @param row the row index of the newly placed card
    * @param col the column index of the newly placed card
+   *
+   * @throws IllegalArgumentException if the row or column index is out of bounds
    */
   public void executeBattle(int row, int col) {
     Card placedCard = grid.getCardAt(row, col);
@@ -79,6 +95,16 @@ public class ThreeTriosGridManager implements GridManager {
     }
   }
 
+  /**
+   * Get the direction of the adjacent card relative to the placed card.
+   *
+   * @param placedRow the row index of the placed card
+   * @param placedCol the column index of the placed card
+   * @param adjacentRow the row index of the adjacent card
+   * @param adjacentCol the column index of the adjacent card
+   *
+   * @return the direction of the adjacent card
+   */
   private Direction getDirection(int placedRow, int placedCol, int adjacentRow, int adjacentCol) {
     // Check if the adjacent card is directly above (North)
     if (adjacentRow == placedRow - 1 && adjacentCol == placedCol) {
@@ -118,10 +144,22 @@ public class ThreeTriosGridManager implements GridManager {
     return grid.isFilled();
   }
 
+  /**
+   * Retrieves the current state of the grid as a 2D array of Cards.
+   * Modifying this array does not change the state of the grid.
+   *
+   * @return a 2D array representing the grid of cards
+   */
   public Card[][] getGrid() {
     return grid.getGrid();
   }
 
+  /**
+   * Retrieves the current cell types of the grid as a 2D array.
+   * Modifying this array does not change the state of the grid.
+   *
+   * @return a 2D array representing the types of cells in the grid
+   */
   public CellType[][] getCellTypes() {
     return grid.getCellTypesGrid();
   }

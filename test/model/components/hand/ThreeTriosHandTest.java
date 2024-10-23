@@ -16,6 +16,7 @@ import static org.junit.Assert.*;
 public class ThreeTriosHandTest {
 
   private ThreeTriosHand hand;
+  private ThreeTriosHand emptyHand;
   private Card card1;
   private Card card2;
   private Card card3;
@@ -30,6 +31,7 @@ public class ThreeTriosHandTest {
             "Card 3", GamePlayer.RED);
 
     hand = new ThreeTriosHand(new ArrayList<>(List.of(card1)));
+    emptyHand = new ThreeTriosHand(new ArrayList<>());
   }
 
   @Test
@@ -37,6 +39,9 @@ public class ThreeTriosHandTest {
     List<Card> cards = hand.getCards();
     assertEquals(1, cards.size());
     assertSame(card1, cards.get(0));
+    // modifying the list should not change the cards in hand
+    hand.getCards().clear();
+    assertEquals(1, cards.size());
   }
 
   @Test
@@ -68,6 +73,11 @@ public class ThreeTriosHandTest {
   @Test(expected = IllegalArgumentException.class)
   public void testRemoveCardIndexOutOfBound() {
     hand.removeCard(1);
+  }
+
+  @Test(expected = IllegalStateException.class)
+  public void testRemoveCardEmptyHand() {
+    emptyHand.removeCard(0);
   }
 
   @Test
