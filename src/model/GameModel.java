@@ -15,9 +15,10 @@ public interface GameModel {
   /**
    * Initializes the game by distributing cards and shuffling cards.
    *
+   * @param shuffle true if want to shuffle this list of cards, false otherwise
    * @throws IllegalStateException if game is already in progress
    */
-  void startGame();
+  void startGame(boolean shuffle);
 
   /**
    * Returns the current player.
@@ -100,7 +101,7 @@ public interface GameModel {
    * returning null.
    *
    * @return the winner of the game
-   * @throws IllegalArgumentException if the game is not started or is empty
+   * @throws IllegalStateException if the game is not started or is empty
    */
   Optional<GamePlayer> getWinner();
 }
