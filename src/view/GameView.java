@@ -9,7 +9,6 @@ package view;
  *            e.g., String, GUI component, etc.)
  */
 public interface GameView<T> {
-
   /**
    * Renders the game view and returns the representation of the view.
    *

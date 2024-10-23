@@ -315,7 +315,7 @@ public class ThreeTriosModel implements GameModel {
    */
   private void validateModelArgs(CellType[][] cellTypes, List<Card> allCards) {
     if (cellTypes == null || allCards == null) {
-      throw new IllegalArgumentException("Cell types, cards, cannot be null");
+      throw new IllegalArgumentException("Cell types and cards cannot be null");
     }
     validateCellTypes(cellTypes);
     Set<Card> uniqueCards = new HashSet<>(allCards);
@@ -339,7 +339,8 @@ public class ThreeTriosModel implements GameModel {
       }
       for (int col = 0; col < cellTypes[row].length; col++) {
         if (cellTypes[row][col] == null) {
-          throw new IllegalArgumentException("Cell type at (" + row + ", " + col + ") can't be null");
+          throw new IllegalArgumentException(String.format("Cell type at (%d, %d) can't be null",
+                  row, col));
         }
       }
     }
