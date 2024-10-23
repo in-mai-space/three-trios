@@ -13,6 +13,9 @@ public class ThreeTriosGridManager implements GridManager {
   private final Grid grid;
 
   public ThreeTriosGridManager(Grid grid) {
+    if (grid == null) {
+      throw new IllegalArgumentException("Grid cannot be null");
+    }
     this.grid = grid;
   }
 
