@@ -35,7 +35,7 @@ public class GameConfigParserTest {
     assertArrayEquals(expectedCellTypes, actualCellTypes);
   }
 
-  private String getFilePath(String fileName, String packageName) {
+  public static String getFilePath(String fileName, String packageName) {
     return Paths.get("src", "model", "config", packageName, fileName).toString();
   }
 
