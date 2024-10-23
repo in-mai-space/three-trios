@@ -21,51 +21,66 @@ public class GameConfigParser {
     cards = new ArrayList<>();
   }
 
-  // "config" + File.separator + XXX;
   public CellType[][] getCellTypes(String filePath) {
+    if (filePath == null) {
+      throw new IllegalArgumentException("Filepath should not be null");
+    }
     loadGridConfig(filePath);
     return cellTypes;
   }
 
-  // "config" + File.separator + XXX;
   public List<Card> getCards(String filePath) {
     loadCardDatabase(filePath);
     return cards;
   }
 
-  // TODO: refactor this
   private void loadGridConfig(String filePath) {
     File file = new File(filePath);
-    try  {
-      Scanner scanner = new Scanner(file);
+    try (Scanner scanner = new Scanner(file)) {
       int rows = scanner.nextInt();
       int cols = scanner.nextInt();
+      scanner.nextLine();
       cellTypes = new CellType[rows][cols];
-      // TODO: fix the bug here - next returns the whole file
+
       for (int i = 0; i < rows; i++) {
-        if (scanner.hasNextLine()) {
-          String row = scanner.next();
-          for (int j = 0; j < cols; j++) {
-            char cellChar = row.charAt(j);
-            switch (cellChar) {
-              case 'C':
-                cellTypes[i][j] = CellType.CELL;
-                break;
-              case 'X':
-                cellTypes[i][j] = CellType.HOLE;
-                break;
-              default:
-                throw new IllegalStateException("Invalid character in grid config: " + cellChar);
-            }
-          }
-        }
+        String row = readNextRow(scanner, i);
+        fillRowWithCellTypes(row, i, cols);
       }
     } catch (FileNotFoundException e) {
-      throw new IllegalStateException("Cannot find file");
+      throw new IllegalStateException("Cannot find file: " + filePath, e);
     } catch (NoSuchElementException e) {
-      throw new IllegalStateException("Config file wrong format");
+      throw new IllegalStateException("Config file wrong format", e);
     }
   }
+
+  private String readNextRow(Scanner scanner, int rowIndex) {
+    if (!scanner.hasNextLine()) {
+      throw new IllegalStateException("Insufficient rows in config file");
+    }
+    return scanner.nextLine();
+  }
+
+  private void fillRowWithCellTypes(String row, int rowIndex, int expectedCols) {
+    if (row.length() != expectedCols) {
+      throw new IllegalStateException("Row " + rowIndex + " does not have "
+              + expectedCols + " columns");
+    }
+    for (int j = 0; j < expectedCols; j++) {
+      cellTypes[rowIndex][j] = parseCellType(row.charAt(j));
+    }
+  }
+
+  private CellType parseCellType(char cellChar) {
+    switch (cellChar) {
+      case 'C':
+        return CellType.CELL;
+      case 'X':
+        return CellType.HOLE;
+      default:
+        throw new IllegalStateException("Invalid character in grid config: " + cellChar);
+    }
+  }
+
 
   private void loadCardDatabase(String filePath) {
     File file = new File(filePath);
