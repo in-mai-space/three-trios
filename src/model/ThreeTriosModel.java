@@ -77,7 +77,7 @@ public class ThreeTriosModel implements GameModel {
 
   /**
    * Creates a new instance of {@code ThreeTriosModel} using the provided grid layout
-   * and list of cards.
+   * and list of cards. This constructor is used for testing purposes.
    *
    * @param cellTypes a 2D array representing the grid layout of the game board
    * @param allCards a list of {@code Card} objects representing the card database
@@ -140,6 +140,9 @@ public class ThreeTriosModel implements GameModel {
    */
   public Optional<GamePlayer> getWinner() {
     validateGameNotStarted();
+    if (!gameOver()) {
+      throw new IllegalStateException("Game is not over");
+    }
     Map<GamePlayer, Integer> scores = new HashMap<>();
     for (GamePlayer player : players) {
       int numCardsOwned = ruleKeeper.countPlayerCards(player);

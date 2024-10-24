@@ -4,5 +4,5 @@ WindBird 7 2 5 3
 HeroKnight 4 2 3 1
 WorldDragon 7 2 5 3
 SkyWhale 4 5 9 4
-WaterSeal 3 A 7 B
+WaterSeal 3 A 7 2
 FirePhoenix 2 8 A 3

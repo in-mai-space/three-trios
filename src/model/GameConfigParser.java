@@ -30,6 +30,10 @@ public class GameConfigParser {
    *
    * @return a 2D array of CellType representing the game grid
    * @throws IllegalArgumentException if the file path is null
+   * @throws IllegalStateException if file cannot be found
+   * @throws IllegalStateException if file is wrongly formatted
+   * @throws IllegalStateException if there is not enough rows or cols
+   * @throws IllegalStateException if cellType char is not 'C' or 'X'
    */
   public static CellType[][] getCellTypes(String filePath) {
     validateFilepath(filePath);
@@ -43,6 +47,9 @@ public class GameConfigParser {
    *
    * @return a list of Card objects
    * @throws IllegalArgumentException if the file path is null
+   * @throws IllegalStateException if the file is wrongly formatted or not enough values
+   * @throws IllegalStateException if file cannot be found
+   * @throws IllegalArgumentException if the value is not valid
    */
   public static List<Card> getCards(String filePath) {
     validateFilepath(filePath);
@@ -65,10 +72,6 @@ public class GameConfigParser {
    * Loads the grid configuration from a specified file.
    *
    * @param filePath the path to the grid configuration file
-   * @throws IllegalStateException if file cannot be found
-   * @throws IllegalStateException if file is wrongly formatted
-   * @throws IllegalStateException if there is not enough rows or cols
-   * @throws IllegalStateException if cellType char is not 'C' or 'X'
    */
   private static CellType[][] loadGridConfig(String filePath) {
     File file = new File(filePath);
@@ -148,10 +151,6 @@ public class GameConfigParser {
    * Loads the card database from a specified file.
    *
    * @param filePath the path to the card database file
-   *
-   * @throws IllegalStateException if the file is wrongly formatted
-   * @throws IllegalStateException if file cannot be found
-   * @throws IllegalStateException if card values are not integer
    */
   private static List<Card> loadCardDatabase(String filePath) {
     File file = new File(filePath);
@@ -194,7 +193,7 @@ public class GameConfigParser {
     }
     try {
       int intValue = Integer.parseInt(value);
-      if (intValue < 1 || intValue > 10) {
+      if (intValue < 1 || intValue >= 10) {
         throw new IllegalArgumentException("Invalid attack value: " + intValue);
       }
       return AttackValue.values()[intValue - 1];
