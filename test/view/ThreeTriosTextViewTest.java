@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import model.GameConfigParserTest;
 import model.GameModel;
+import model.ReadOnlyGameModel;
 import model.ThreeTriosModel;
 
 import static org.junit.Assert.*;

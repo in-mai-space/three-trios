@@ -3,7 +3,7 @@ package view;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import model.GameModel;
+import model.ReadOnlyGameModel;
 import model.components.card.Card;
 import model.components.enums.AttackValue;
 import model.components.enums.CellType;
@@ -16,7 +16,7 @@ import model.components.enums.CellType;
  * and the game grid.
  */
 public class ThreeTriosTextView implements GameView<String> {
-  private final GameModel model;
+  private final ReadOnlyGameModel model;
 
   /**
    * Constructs a ThreeTriosTextView instance with the specified GameModel.
@@ -24,7 +24,7 @@ public class ThreeTriosTextView implements GameView<String> {
    * @param model the GameModel instance representing the current state of the game
    * @throws IllegalArgumentException if the model is null
    */
-  public ThreeTriosTextView(GameModel model) {
+  public ThreeTriosTextView(ReadOnlyGameModel model) {
     if (model == null) {
       throw new IllegalArgumentException("Model cannot be null");
     }
