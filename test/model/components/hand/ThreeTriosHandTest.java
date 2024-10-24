@@ -44,6 +44,11 @@ public class ThreeTriosHandTest {
     assertEquals(1, cards.size());
   }
 
+  @Test(expected = IllegalArgumentException.class)
+  public void testNullConstructor() {
+    new ThreeTriosHand(null);
+  }
+
   @Test
   public void testAddCard() {
     hand.addCard(card2);
@@ -85,5 +90,6 @@ public class ThreeTriosHandTest {
     assertEquals(1, hand.handSize());
     hand.addCard(card2);
     assertEquals(2, hand.handSize());
+    assertEquals(0, new ThreeTriosHand(new ArrayList<>()).handSize());
   }
 }

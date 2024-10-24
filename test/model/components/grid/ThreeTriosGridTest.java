@@ -15,7 +15,6 @@ import model.components.enums.GamePlayer;
 import static org.junit.Assert.*;
 
 public class ThreeTriosGridTest {
-
   CellType[][] cellTypeList1;
   CellType[][] cellTypeList2;
   CellType[][] invalidTypeList;

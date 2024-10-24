@@ -374,7 +374,7 @@ public class ThreeTriosGridManagerTest {
             {card4599, 0, 0}
     };
     Card[][] expectedCardsLayout = {
-            { card4599, null, null, null},
+            {card4599, null, null, null},
             {card4623, null, null, null},
             {card7253, card527A, card2899, card27A9}
     };
@@ -462,6 +462,139 @@ public class ThreeTriosGridManagerTest {
     }, complexGridManager);
   }
 
+  @Test
+  public void testUnitBattleOneCard() {
+    noHoleManager.placeCard(card527A, 1, 1);
+    noHoleManager.executeBattle(1, 1);
+    Card[][] expectedCardsLayout = {
+            {null, null, null},
+            {null, card527A, null},
+            {null, null, null}
+    };
+    assertArrayEquals(expectedCardsLayout, noHoleManager.getGrid());
+  }
+
+  @Test
+  public void battleTwoCardsOwnerDoesNotSwitchToBlue() {
+    noHoleManager.placeCard(card527A, 1, 1); // red card
+    noHoleManager.placeCard(card7253, 1, 0); // blue card (smaller than red)
+    noHoleManager.executeBattle(1, 0);
+    Card[][] expectedCardsLayout = {
+            {null, null, null},
+            {card7253, card527A, null},
+            {null, null, null}
+    };
+    assertArrayEquals(expectedCardsLayout, noHoleManager.getGrid());
+    assertEquals(GamePlayer.BLUE, noHoleGrid.getCardAt(1, 0).getOwner());
+    assertEquals(GamePlayer.RED, noHoleGrid.getCardAt(1, 1).getOwner());
+  }
+
+  @Test
+  public void battleTwoCardsOwnerSwitchToRed() {
+    noHoleManager.placeCard(card7253, 1, 0); // blue card
+    noHoleManager.placeCard(card527A, 1, 1); // red card
+    noHoleManager.executeBattle(1, 1);
+    Card[][] expectedCardsLayout = {
+            {null, null, null},
+            {card7253, card527A, null},
+            {null, null, null}
+    };
+    assertArrayEquals(expectedCardsLayout, noHoleManager.getGrid());
+    assertEquals(GamePlayer.RED, noHoleGrid.getCardAt(1, 0).getOwner());
+    assertEquals(GamePlayer.RED, noHoleGrid.getCardAt(1, 1).getOwner());
+  }
+
+  @Test
+  public void battleTwoCardsOwnerSwitchToBlue() {
+    noHoleManager.placeCard(card527A, 0, 2);
+    noHoleManager.placeCard(card7253, 1, 2);
+    noHoleManager.executeBattle(1, 2);
+    Card[][] expectedCardsLayout = {
+            {null, null, card527A},
+            {null, null, card7253},
+            {null, null, null}
+    };
+    assertArrayEquals(expectedCardsLayout, noHoleManager.getGrid());
+    assertEquals(GamePlayer.BLUE, noHoleGrid.getCardAt(0, 2).getOwner());
+    assertEquals(GamePlayer.BLUE, noHoleGrid.getCardAt(1, 2).getOwner());
+  }
+
+  @Test
+  public void battleTwoCardsTieAttackValue() {
+    noHoleManager.placeCard(card2899, 0, 1);
+    noHoleManager.placeCard(card27A9, 0, 2);
+    noHoleManager.executeBattle(0, 2);
+    Card[][] expectedCardsLayout = {
+            {null, card2899, card27A9},
+            {null, null, null},
+            {null, null, null}
+    };
+    assertArrayEquals(expectedCardsLayout, noHoleManager.getGrid());
+    assertEquals(GamePlayer.RED, noHoleGrid.getCardAt(0, 1).getOwner());
+    assertEquals(GamePlayer.BLUE, noHoleGrid.getCardAt(0, 2).getOwner());
+  }
+
+  @Test
+  public void battleTwoCardsApartFromEachOther() {
+    noHoleManager.placeCard(card2899, 0, 0);
+    noHoleManager.placeCard(card27A9, 0, 2);
+    noHoleManager.executeBattle(0, 2);
+    Card[][] expectedCardsLayout = {
+            {card2899, null, card27A9},
+            {null, null, null},
+            {null, null, null}
+    };
+    assertArrayEquals(expectedCardsLayout, noHoleManager.getGrid());
+    assertEquals(GamePlayer.RED, noHoleGrid.getCardAt(0, 0).getOwner());
+    assertEquals(GamePlayer.BLUE, noHoleGrid.getCardAt(0, 2).getOwner());
+  }
+
+  @Test
+  public void battleTwoCardsDiagonal() {
+    noHoleManager.placeCard(card2899, 0, 0);
+    noHoleManager.placeCard(card27A9, 1, 1);
+    noHoleManager.executeBattle(1, 1);
+    Card[][] expectedCardsLayout = {
+            {card2899, null, null},
+            {null, card27A9, null},
+            {null, null, null}
+    };
+    assertArrayEquals(expectedCardsLayout, noHoleManager.getGrid());
+    assertEquals(GamePlayer.RED, noHoleGrid.getCardAt(0, 0).getOwner());
+    assertEquals(GamePlayer.BLUE, noHoleGrid.getCardAt(1, 1).getOwner());
+  }
+
+  @Test
+  public void battleTwoCardsSameColor() {
+    noHoleManager.placeCard(card4623, 1, 1);
+    noHoleManager.placeCard(card7253, 0, 0);
+    noHoleManager.placeCard(card2899, 1, 0);
+    noHoleManager.executeBattle(1, 1);
+    Card[][] expectedCardsLayout = {
+            {card7253, null, null},
+            {card2899, card4623, null},
+            {null, null, null}
+    };
+    assertArrayEquals(expectedCardsLayout, noHoleManager.getGrid());
+    assertEquals(GamePlayer.BLUE, noHoleGrid.getCardAt(0, 0).getOwner());
+    assertEquals(GamePlayer.RED, noHoleGrid.getCardAt(1, 0).getOwner());
+    assertEquals(GamePlayer.RED, noHoleGrid.getCardAt(1, 1).getOwner());
+  }
+
+  /**
+   *     card527A = new ThreeTriosCard(new AttackValue[]{AttackValue.FIVE, AttackValue.TWO,
+   *             AttackValue.SEVEN, AttackValue.A}, GamePlayer.RED);
+   *     card7253 = new ThreeTriosCard(new AttackValue[]{AttackValue.SEVEN, AttackValue.TWO,
+   *             AttackValue.FIVE, AttackValue.THREE}, GamePlayer.BLUE);
+   *     card4599 = new ThreeTriosCard(new AttackValue[]{AttackValue.FOUR, AttackValue.FIVE,
+   *             AttackValue.NINE, AttackValue.NINE}, GamePlayer.BLUE);
+   *     card4623 = new ThreeTriosCard(new AttackValue[]{AttackValue.FOUR, AttackValue.SIX,
+   *             AttackValue.TWO, AttackValue.THREE}, GamePlayer.RED);
+   *     card2899 = new ThreeTriosCard(new AttackValue[]{AttackValue.TWO, AttackValue.EIGHT,
+   *             AttackValue.NINE, AttackValue.NINE}, GamePlayer.RED);
+   *     card27A9 = new ThreeTriosCard(new AttackValue[]{AttackValue.TWO, AttackValue.SEVEN,
+   *             AttackValue.A, AttackValue.NINE}, GamePlayer.BLUE);
+   */
 
   private void assertSameCellTypeGridWithModification(CellType[][] expectedCellTypes,
                                                       GridManager manager) {

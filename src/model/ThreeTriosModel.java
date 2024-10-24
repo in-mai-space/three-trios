@@ -136,10 +136,10 @@ public class ThreeTriosModel implements GameModel {
    * returning null.
    *
    * @return the winner of the game
-   * @throws IllegalStateException if the game is not started or is empty
+   * @throws IllegalStateException if the game is not started
    */
   public Optional<GamePlayer> getWinner() {
-    validateGameNotStartOrOver();
+    validateGameNotStarted();
     Map<GamePlayer, Integer> scores = new HashMap<>();
     for (GamePlayer player : players) {
       int numCardsOwned = ruleKeeper.countPlayerCards(player);
@@ -237,9 +237,10 @@ public class ThreeTriosModel implements GameModel {
    * the game state.
    *
    * @return the 2d-array representation of cards in the grid
+   * @throws IllegalStateException if game is not started or over
    */
   public Card[][] getGrid() {
-    validateGameNotStarted();
+    validateGameNotStartOrOver();
     return ruleKeeper.getGrid();
   }
 
@@ -248,9 +249,10 @@ public class ThreeTriosModel implements GameModel {
    * the game state.
    *
    * @return the 2d-array cell type representation of the grid
+   * @throws IllegalStateException if game is not started or over
    */
   public CellType[][] getCellTypes() {
-    validateGameNotStarted();
+    validateGameNotStartOrOver();
     return ruleKeeper.getCellTypes();
   }
 

@@ -101,7 +101,7 @@ public interface GameModel {
    * returning null.
    *
    * @return the winner of the game
-   * @throws IllegalStateException if the game is not started or is empty
+   * @throws IllegalStateException if the game is not started or is over
    */
   Optional<GamePlayer> getWinner();
 }
