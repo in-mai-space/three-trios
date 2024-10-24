@@ -581,21 +581,6 @@ public class ThreeTriosGridManagerTest {
     assertEquals(GamePlayer.RED, noHoleGrid.getCardAt(1, 1).getOwner());
   }
 
-  /**
-   *     card527A = new ThreeTriosCard(new AttackValue[]{AttackValue.FIVE, AttackValue.TWO,
-   *             AttackValue.SEVEN, AttackValue.A}, GamePlayer.RED);
-   *     card7253 = new ThreeTriosCard(new AttackValue[]{AttackValue.SEVEN, AttackValue.TWO,
-   *             AttackValue.FIVE, AttackValue.THREE}, GamePlayer.BLUE);
-   *     card4599 = new ThreeTriosCard(new AttackValue[]{AttackValue.FOUR, AttackValue.FIVE,
-   *             AttackValue.NINE, AttackValue.NINE}, GamePlayer.BLUE);
-   *     card4623 = new ThreeTriosCard(new AttackValue[]{AttackValue.FOUR, AttackValue.SIX,
-   *             AttackValue.TWO, AttackValue.THREE}, GamePlayer.RED);
-   *     card2899 = new ThreeTriosCard(new AttackValue[]{AttackValue.TWO, AttackValue.EIGHT,
-   *             AttackValue.NINE, AttackValue.NINE}, GamePlayer.RED);
-   *     card27A9 = new ThreeTriosCard(new AttackValue[]{AttackValue.TWO, AttackValue.SEVEN,
-   *             AttackValue.A, AttackValue.NINE}, GamePlayer.BLUE);
-   */
-
   private void assertSameCellTypeGridWithModification(CellType[][] expectedCellTypes,
                                                       GridManager manager) {
     assertArrayEquals(expectedCellTypes, manager.getCellTypes());

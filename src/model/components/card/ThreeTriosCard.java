@@ -51,20 +51,20 @@ public class ThreeTriosCard implements Card {
    * @param values arrays of attack values of the card,
    *               following the order [north, south, east, west]
    * @param name name of each card
-   * @throws IllegalArgumentException if values are null or name is null
+   * @throws IllegalArgumentException if values, attack values in array or name is null
    * @throws IllegalArgumentException if the attack values are not length of 4
    */
   private void validateCard(AttackValue[] values, String name) {
+    if (name == null || values == null) {
+      throw new IllegalArgumentException("Name or owner cannot be null");
+    }
     if (values.length != 4) {
       throw new IllegalArgumentException("Must provide exactly 4 attack values for the card.");
     }
     for (AttackValue value : values) {
       if (value == null) {
-        throw new IllegalArgumentException("Value cannot be null");
+        throw new IllegalArgumentException("Attack value cannot be null");
       }
-    }
-    if (name == null) {
-      throw new IllegalArgumentException("Name or owner cannot be null");
     }
   }
 

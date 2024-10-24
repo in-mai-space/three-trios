@@ -30,6 +30,29 @@ public class ThreeTriosCardTest {
     );
   }
 
+  @Test(expected = IllegalArgumentException.class)
+  public void nullAttackValueInArray() {
+    new ThreeTriosCard(new AttackValue[]{null, AttackValue.EIGHT,
+            AttackValue.A, AttackValue.TWO}, "Card");
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void nullAttackValueArray() {
+    new ThreeTriosCard(null, "Card", GamePlayer.RED);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void nullName() {
+    new ThreeTriosCard(new AttackValue[]{AttackValue.THREE, AttackValue.FIVE,
+            AttackValue.EIGHT, AttackValue.TWO}, null, GamePlayer.RED);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void invalidAttackValueListSize() {
+    new ThreeTriosCard(new AttackValue[]{AttackValue.THREE, AttackValue.FIVE,
+            AttackValue.EIGHT}, "Card");
+  }
+
   @Test
   public void getName() {
     assertEquals(firstCard.getName(), "Card 1");
