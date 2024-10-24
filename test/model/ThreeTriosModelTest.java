@@ -15,7 +15,6 @@ import model.components.enums.AttackValue;
 import model.components.enums.CellType;
 import model.components.enums.Direction;
 import model.components.enums.GamePlayer;
-import view.ThreeTriosTextView;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertFalse;
@@ -25,6 +24,9 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+/**
+ * Represent the test for the model.
+ */
 public class ThreeTriosModelTest {
   private List<Card> redHands;
   private List<Card> blueHands;
@@ -65,7 +67,8 @@ public class ThreeTriosModelTest {
             AttackValue.SIX}, "EarthLizard", GamePlayer.RED);
     redHands = new ArrayList<>(List.of(corruptKing6293, windBird7253, worldDragon7253, waterSeal3A74, earthLizard9166));
   }
-  private ThreeTriosModel loadModel(String gridFile, String cardsFile) {
+
+  public static ThreeTriosModel loadModel(String gridFile, String cardsFile) {
     String gridFilePath = GameConfigParserTest.getFilePath(gridFile, "grid");
     String cardsFilePath = GameConfigParserTest.getFilePath(cardsFile, "cards");
     return ThreeTriosModel.fromFiles(gridFilePath, cardsFilePath);
@@ -481,7 +484,7 @@ public class ThreeTriosModelTest {
         {"SkyWhale", 1, 0}, {"WorldDragon", 2, 0}, {"HeroKnight", 2, 1},
         {"EarthLizard", 0, 2}, {"FirePhoenix", 1, 2}, {"WaterSeal", 2, 2}
     };
-    placeCardsIntoGrid(cardPlacement, model);
+    placeCardsIntoGrid(cardPlacement, model, () -> {});
     assertEquals(GamePlayer.RED, model.getWinner().get());
 
     Card[][] finalCardLayout = new Card[][]{
@@ -510,7 +513,7 @@ public class ThreeTriosModelTest {
             {"SkyWhale", 2, 1}, {"CorruptKing", 1, 3}, {"HeroKnight", 2, 3},
             {"WaterSeal", 2, 2}
     };
-    placeCardsIntoGrid(cardPlacement, model);
+    placeCardsIntoGrid(cardPlacement, model, () -> {});
     assertEquals(Optional.empty(), model.getWinner());
 
     Card[][] finalCardLayout = new Card[][]{
@@ -540,7 +543,7 @@ public class ThreeTriosModelTest {
             {"AngryDragon", 3, 2}, {"EarthLizard", 0, 3}, {"EvilQueen", 1, 3},
             {"WaterSeal", 0, 4}, {"SkyWhale", 0, 2}, {"WorldDragon", 0, 0}
     };
-    placeCardsIntoGrid(cardPlacement, model);
+    placeCardsIntoGrid(cardPlacement, model, () -> {});
     assertEquals(GamePlayer.BLUE, model.getWinner().get());
 
     Card[][] finalCardLayout = new Card[][]{
@@ -585,14 +588,14 @@ public class ThreeTriosModelTest {
    * @param cardPlacement 2d arrays that contains card name, its row and col position on grid
    * @param model model of the game
    */
-  private void placeCardsIntoGrid(Object[][] cardPlacement, GameModel model) {
+  public static void placeCardsIntoGrid(Object[][] cardPlacement, GameModel model, Runnable runnable) {
     for (Object[] cardNameAndPosition : cardPlacement) {
       String cardName = (String) cardNameAndPosition[0];
-      String hands = model.getCurrentPlayerHand().stream().map(Card::getName).collect(Collectors.joining(" "));
       Card searchedCard = model.getCurrentPlayerHand().stream()
               .filter(card -> card.getName().equals(cardName)).collect(Collectors.toList()).get(0);
       int cardIndex = model.getCurrentPlayerHand().indexOf(searchedCard);
       model.placeCard(cardIndex, (int) cardNameAndPosition[1], (int) cardNameAndPosition[2]);
+      runnable.run();
     }
   }
 }

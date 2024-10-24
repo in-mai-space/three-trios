@@ -19,7 +19,7 @@ public class ThreeTriosTextView implements GameView<String> {
   private final ReadOnlyGameModel model;
 
   /**
-   * Constructs a ThreeTriosTextView instance with the specified GameModel.
+   * Constructs a ThreeTriosTextView instance with the ReadOnlyGameModel.
    *
    * @param model the GameModel instance representing the current state of the game
    * @throws IllegalArgumentException if the model is null
