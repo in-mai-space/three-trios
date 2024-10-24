@@ -4,6 +4,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 import model.GameConfigParserTest;
+import model.ThreeTriosModelTest;
 import model.components.card.ThreeTriosCardTest;
 import model.components.enums.AttackValueTest;
 import model.components.grid.ThreeTriosGridTest;
@@ -23,7 +24,8 @@ import model.components.manager.ThreeTriosGridManagerTest;
         ThreeTriosHandTest.class,
         ThreeTriosGridTest.class,
         GameConfigParserTest.class,
-        ThreeTriosGridManagerTest.class
+        ThreeTriosGridManagerTest.class,
+        ThreeTriosModelTest.class
 })
 public class ModelTestSuite {
 }
