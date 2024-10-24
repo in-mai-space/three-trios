@@ -88,7 +88,7 @@ public class ThreeTriosTextView implements GameView<String> {
         } else if (grid[row][col] == null) {
           gridBuilder.append("_");
         } else {
-          String cardString = grid[row][col].toString();
+          String cardString = grid[row][col].getOwner().toString();
           gridBuilder.append(cardString.charAt(0));
         }
       }

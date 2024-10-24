@@ -40,10 +40,11 @@ public interface GameModel {
   List<Card> getHand(GamePlayer player);
 
   /**
-   * Gets a copy of current grd of the game. Modifying this 2d array does not modify
+   * Gets a copy of current grid of the game. Modifying this 2d array does not modify
    * the game state.
    *
    * @return the 2d-array representation of cards in the grid
+   * @throws IllegalStateException if game is not started
    */
   Card[][] getGrid();
 

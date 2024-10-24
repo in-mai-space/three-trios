@@ -140,9 +140,6 @@ public class ThreeTriosModel implements GameModel {
    */
   public Optional<GamePlayer> getWinner() {
     validateGameNotStarted();
-    if (!gameOver()) {
-      throw new IllegalStateException("Game is not over");
-    }
     Map<GamePlayer, Integer> scores = new HashMap<>();
     for (GamePlayer player : players) {
       int numCardsOwned = ruleKeeper.countPlayerCards(player);
@@ -173,7 +170,7 @@ public class ThreeTriosModel implements GameModel {
    * @throws IllegalStateException if the game is not started or is over
    */
   public GamePlayer getCurrentPlayer() {
-    validateGameNotStartOrOver();
+    validateGameNotStarted();
     return players.get(currentPlayerIndex);
   }
 
@@ -187,7 +184,7 @@ public class ThreeTriosModel implements GameModel {
    * @throws IllegalStateException if the game has not started or is over
    */
   public List<Card> getHand(GamePlayer player) {
-    validateGameNotStartOrOver();
+    validateGameNotStarted();
     return playerHands.get(player).getCards();
   }
 
@@ -231,7 +228,7 @@ public class ThreeTriosModel implements GameModel {
    * @throws IllegalStateException if game is not started or is over
    */
   public int getHandSize(GamePlayer player) {
-    validateGameNotStartOrOver();
+    validateGameNotStarted();
     return playerHands.get(player).handSize();
   }
 
@@ -240,10 +237,10 @@ public class ThreeTriosModel implements GameModel {
    * the game state.
    *
    * @return the 2d-array representation of cards in the grid
-   * @throws IllegalStateException if game is not started or over
+   * @throws IllegalStateException if game is not started
    */
   public Card[][] getGrid() {
-    validateGameNotStartOrOver();
+    validateGameNotStarted();
     return ruleKeeper.getGrid();
   }
 
@@ -252,10 +249,10 @@ public class ThreeTriosModel implements GameModel {
    * the game state.
    *
    * @return the 2d-array cell type representation of the grid
-   * @throws IllegalStateException if game is not started or over
+   * @throws IllegalStateException if game is not started
    */
   public CellType[][] getCellTypes() {
-    validateGameNotStartOrOver();
+    validateGameNotStarted();
     return ruleKeeper.getCellTypes();
   }
 
@@ -264,10 +261,10 @@ public class ThreeTriosModel implements GameModel {
    * list does not change the cards in player's hand.
    *
    * @return list of cards in current player's hand
-   * @throws IllegalStateException if the game is not started or is over
+   * @throws IllegalStateException if the game is not started
    */
   public List<Card> getCurrentPlayerHand() {
-    validateGameNotStartOrOver();
+    validateGameNotStarted();
     return getHand(players.get(currentPlayerIndex));
   }
 

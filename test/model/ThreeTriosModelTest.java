@@ -1,10 +1,13 @@
 package model;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import model.components.card.Card;
 import model.components.card.ThreeTriosCard;
@@ -12,16 +15,56 @@ import model.components.enums.AttackValue;
 import model.components.enums.CellType;
 import model.components.enums.Direction;
 import model.components.enums.GamePlayer;
-import model.components.manager.GridManager;
+import view.ThreeTriosTextView;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class ThreeTriosModelTest {
+  private List<Card> redHands;
+  private List<Card> blueHands;
+  private Card angryDragon97A2;
+  private Card heroKnight4231;
+  private Card skyWhale4594;
+  private Card firePhoenix28A3;
+  private Card evilQueen1A45;
+  private Card corruptKing6293;
+  private Card windBird7253;
+  private Card worldDragon7253;
+  private Card waterSeal3A74;
+  private Card earthLizard9166;
+
+  @Before
+  public void setUp() {
+    angryDragon97A2 = new ThreeTriosCard(new AttackValue[]{ AttackValue.NINE, AttackValue.SEVEN, AttackValue.A,
+            AttackValue.TWO}, "AngryDragon", GamePlayer.BLUE);
+    heroKnight4231 = new ThreeTriosCard(new AttackValue[]{ AttackValue.FOUR, AttackValue.TWO, AttackValue.THREE,
+            AttackValue.ONE}, "HeroKnight", GamePlayer.BLUE);
+    skyWhale4594 = new ThreeTriosCard(new AttackValue[]{ AttackValue.FOUR, AttackValue.FIVE, AttackValue.NINE,
+            AttackValue.FOUR}, "SkyWhale", GamePlayer.BLUE);
+    firePhoenix28A3 = new ThreeTriosCard(new AttackValue[]{ AttackValue.TWO, AttackValue.EIGHT, AttackValue.A,
+            AttackValue.THREE}, "FirePhoenix", GamePlayer.BLUE);
+    evilQueen1A45 = new ThreeTriosCard(new AttackValue[]{ AttackValue.ONE, AttackValue.A, AttackValue.FOUR,
+            AttackValue.FIVE}, "EvilQueen", GamePlayer.BLUE);
+    blueHands = new ArrayList<>(List.of(angryDragon97A2, heroKnight4231, skyWhale4594, firePhoenix28A3, evilQueen1A45));
+
+    corruptKing6293 = new ThreeTriosCard(new AttackValue[]{ AttackValue.SIX, AttackValue.TWO, AttackValue.NINE,
+            AttackValue.THREE}, "CorruptKing", GamePlayer.RED);
+    windBird7253 = new ThreeTriosCard(new AttackValue[]{ AttackValue.SEVEN, AttackValue.TWO, AttackValue.FIVE,
+            AttackValue.THREE}, "WindBird", GamePlayer.RED);
+    worldDragon7253 = new ThreeTriosCard(new AttackValue[]{ AttackValue.SEVEN, AttackValue.TWO, AttackValue.FIVE,
+            AttackValue.THREE}, "WorldDragon", GamePlayer.RED);
+    waterSeal3A74 = new ThreeTriosCard(new AttackValue[]{ AttackValue.THREE, AttackValue.A, AttackValue.SEVEN,
+            AttackValue.FOUR}, "WaterSeal", GamePlayer.RED);
+    earthLizard9166 = new ThreeTriosCard(new AttackValue[]{ AttackValue.NINE, AttackValue.ONE, AttackValue.SIX,
+            AttackValue.SIX}, "EarthLizard", GamePlayer.RED);
+    redHands = new ArrayList<>(List.of(corruptKing6293, windBird7253, worldDragon7253, waterSeal3A74, earthLizard9166));
+  }
   private ThreeTriosModel loadModel(String gridFile, String cardsFile) {
     String gridFilePath = GameConfigParserTest.getFilePath(gridFile, "grid");
     String cardsFilePath = GameConfigParserTest.getFilePath(cardsFile, "cards");
@@ -164,19 +207,6 @@ public class ThreeTriosModelTest {
     model.getCurrentPlayer();
   }
 
-  @Test
-  public void getCurrentPlayerGameOver() {
-    ThreeTriosModel model = loadModel("no_holes.txt", "big_cards.txt");
-    model.startGame(false);
-    placeCardsInGrid(model, new int[][]{
-            {0, 0}, {0, 1}, {0, 2},
-            {1, 0}, {1, 1}, {1, 2},
-            {2, 0}, {2, 1}, {2, 2}
-    });
-    IllegalStateException thrown = assertThrows(IllegalStateException.class, model::getCurrentPlayer);
-    assertEquals("Game is over", thrown.getMessage());
-  }
-
   private void placeCardsInGrid(ThreeTriosModel model, int[][] positions) {
     for (int[] pos : positions) {
       model.placeCard(0, pos[0], pos[1]);
@@ -301,9 +331,6 @@ public class ThreeTriosModelTest {
             {1, 0}, {1, 1}, {1, 2},
             {2, 0}, {2, 1}, {2, 2}
     });
-    assertThrowsWithMessage(IllegalStateException.class, "Game is over",
-            () -> model.getHandSize(GamePlayer.RED)
-    );
   }
 
   @Test
@@ -351,24 +378,12 @@ public class ThreeTriosModelTest {
             {1, 0}, {1, 1}, {1, 2},
             {2, 0}, {2, 1}, {2, 2}
     });
-    assertThrowsWithMessage(IllegalStateException.class, "Game is over",
-            model::getCellTypes
-    );
   }
 
   @Test
   public void getWinnerGameNotStarted() {
     ThreeTriosModel model = loadModel("no_holes.txt", "big_cards.txt");
     assertThrowsWithMessage(IllegalStateException.class, "Game has not started",
-            model::getWinner
-    );
-  }
-
-  @Test
-  public void getWinnerGameNotOver() {
-    ThreeTriosModel model = loadModel("no_holes.txt", "big_cards.txt");
-    model.startGame(false);
-    assertThrowsWithMessage(IllegalStateException.class, "Game is not over",
             model::getWinner
     );
   }
@@ -390,29 +405,12 @@ public class ThreeTriosModelTest {
             {1, 0}, {1, 1}, {1, 2},
             {2, 0}, {2, 1}, {2, 2}
     });
-    assertThrowsWithMessage(IllegalStateException.class, "Game is over",
-            model::getGrid
-    );
   }
 
   @Test
   public void getCurrentPlayerHandGameNotStarted() {
     ThreeTriosModel model = loadModel("no_holes.txt", "big_cards.txt");
     assertThrowsWithMessage(IllegalStateException.class, "Game has not started",
-            model::getCurrentPlayerHand
-    );
-  }
-
-  @Test
-  public void getCurrentPlayerHandGameOver() {
-    ThreeTriosModel model = loadModel("no_holes.txt", "big_cards.txt");
-    model.startGame(false);
-    placeCardsInGrid(model, new int[][]{
-            {0, 0}, {0, 1}, {0, 2},
-            {1, 0}, {1, 1}, {1, 2},
-            {2, 0}, {2, 1}, {2, 2}
-    });
-    assertThrowsWithMessage(IllegalStateException.class, "Game is over",
             model::getCurrentPlayerHand
     );
   }
@@ -434,44 +432,18 @@ public class ThreeTriosModelTest {
             {1, 0}, {1, 1}, {1, 2},
             {2, 0}, {2, 1}, {2, 2}
     });
-    assertThrowsWithMessage(IllegalStateException.class, "Game is over",
-            () -> model.getHand(GamePlayer.RED)
-    );
   }
 
   @Test
   public void getHand() {
     ThreeTriosModel model = loadModel("no_holes.txt", "big_cards.txt");
     model.startGame(false);
-    List<Card> redHands = new ArrayList<>(List.of(
-            new ThreeTriosCard(new AttackValue[]{ AttackValue.SIX, AttackValue.TWO, AttackValue.NINE,
-                    AttackValue.THREE}, "CorruptKing", GamePlayer.RED),
-            new ThreeTriosCard(new AttackValue[]{ AttackValue.SEVEN, AttackValue.TWO, AttackValue.FIVE,
-                    AttackValue.THREE}, "WindBird", GamePlayer.RED),
-            new ThreeTriosCard(new AttackValue[]{ AttackValue.SEVEN, AttackValue.TWO, AttackValue.FIVE,
-                    AttackValue.THREE}, "WorldDragon", GamePlayer.RED),
-            new ThreeTriosCard(new AttackValue[]{ AttackValue.THREE, AttackValue.A, AttackValue.SEVEN,
-                    AttackValue.FOUR}, "WaterSeal", GamePlayer.RED),
-            new ThreeTriosCard(new AttackValue[]{ AttackValue.NINE, AttackValue.ONE, AttackValue.SIX,
-                    AttackValue.SIX}, "EarthLizard", GamePlayer.RED)
-    ));
+
     assertEquals(model.getHand(GamePlayer.RED), redHands);
     // modifying this list does not affect the actual cards in hand
     model.getHand(GamePlayer.RED).remove(0);
     assertEquals(model.getHand(GamePlayer.RED), redHands);
 
-    List<Card> blueHands = new ArrayList<>(List.of(
-            new ThreeTriosCard(new AttackValue[]{ AttackValue.NINE, AttackValue.SEVEN, AttackValue.A,
-                    AttackValue.TWO}, "AngryDragon", GamePlayer.BLUE),
-            new ThreeTriosCard(new AttackValue[]{ AttackValue.FOUR, AttackValue.TWO, AttackValue.THREE,
-                    AttackValue.ONE}, "HeroKnight", GamePlayer.BLUE),
-            new ThreeTriosCard(new AttackValue[]{ AttackValue.FOUR, AttackValue.FIVE, AttackValue.NINE,
-                    AttackValue.FOUR}, "SkyWhale", GamePlayer.BLUE),
-            new ThreeTriosCard(new AttackValue[]{ AttackValue.TWO, AttackValue.EIGHT, AttackValue.A,
-                    AttackValue.THREE}, "FirePhoenix", GamePlayer.BLUE),
-            new ThreeTriosCard(new AttackValue[]{ AttackValue.ONE, AttackValue.A, AttackValue.FOUR,
-                    AttackValue.FIVE}, "EvilQueen", GamePlayer.BLUE)
-    ));
     assertEquals(model.getHand(GamePlayer.BLUE), blueHands);
     // modifying this list does not affect the actual cards in hand
     model.getHand(GamePlayer.BLUE).remove(0);
@@ -482,39 +454,167 @@ public class ThreeTriosModelTest {
   public void testGetCurrentPlayerHand() {
     ThreeTriosModel model = loadModel("no_holes.txt", "big_cards.txt");
     model.startGame(false);
-    List<Card> redHands = new ArrayList<>(List.of(
-            new ThreeTriosCard(new AttackValue[]{ AttackValue.SIX, AttackValue.TWO, AttackValue.NINE,
-                    AttackValue.THREE}, "CorruptKing", GamePlayer.RED),
-            new ThreeTriosCard(new AttackValue[]{ AttackValue.SEVEN, AttackValue.TWO, AttackValue.FIVE,
-                    AttackValue.THREE}, "WindBird", GamePlayer.RED),
-            new ThreeTriosCard(new AttackValue[]{ AttackValue.SEVEN, AttackValue.TWO, AttackValue.FIVE,
-                    AttackValue.THREE}, "WorldDragon", GamePlayer.RED),
-            new ThreeTriosCard(new AttackValue[]{ AttackValue.THREE, AttackValue.A, AttackValue.SEVEN,
-                    AttackValue.FOUR}, "WaterSeal", GamePlayer.RED),
-            new ThreeTriosCard(new AttackValue[]{ AttackValue.NINE, AttackValue.ONE, AttackValue.SIX,
-                    AttackValue.SIX}, "EarthLizard", GamePlayer.RED)
-    ));
+
     assertEquals(model.getCurrentPlayerHand(), redHands);
     // modifying this list does not affect the actual cards in hand
     model.getHand(GamePlayer.RED).remove(0);
     assertEquals(model.getCurrentPlayerHand(), redHands);
+    // place the first card on (0, 0) cell
     model.placeCard(0, 0, 0);
 
-    List<Card> blueHands = new ArrayList<>(List.of(
-            new ThreeTriosCard(new AttackValue[]{ AttackValue.NINE, AttackValue.SEVEN, AttackValue.A,
-                    AttackValue.TWO}, "AngryDragon", GamePlayer.BLUE),
-            new ThreeTriosCard(new AttackValue[]{ AttackValue.FOUR, AttackValue.TWO, AttackValue.THREE,
-                    AttackValue.ONE}, "HeroKnight", GamePlayer.BLUE),
-            new ThreeTriosCard(new AttackValue[]{ AttackValue.FOUR, AttackValue.FIVE, AttackValue.NINE,
-                    AttackValue.FOUR}, "SkyWhale", GamePlayer.BLUE),
-            new ThreeTriosCard(new AttackValue[]{ AttackValue.TWO, AttackValue.EIGHT, AttackValue.A,
-                    AttackValue.THREE}, "FirePhoenix", GamePlayer.BLUE),
-            new ThreeTriosCard(new AttackValue[]{ AttackValue.ONE, AttackValue.A, AttackValue.FOUR,
-                    AttackValue.FIVE}, "EvilQueen", GamePlayer.BLUE)
-    ));
     assertEquals(model.getCurrentPlayerHand(), blueHands);
     // modifying this list does not affect the actual cards in hand
     model.getHand(GamePlayer.BLUE).remove(0);
     assertEquals(model.getCurrentPlayerHand(), blueHands);
+    model.placeCard(0, 1, 0);
+
+    // cards of player Red should no longer have the first card
+    redHands.remove(0);
+    assertEquals(model.getCurrentPlayerHand(), redHands);
+  }
+
+  @Test
+  public void getGrid() {
+    ThreeTriosModel model = loadModel("no_holes.txt", "big_cards.txt");
+    model.startGame(false);
+    assertNull(model.getGrid()[0][0]);
+    model.placeCard(0, 0, 0);
+    Card[][] gridState = new Card[][]{
+            {corruptKing6293, null, null},
+            {null, null, null},
+            {null, null, null}
+    };
+    assertArrayEquals(gridState, model.getGrid());
+    assertEquals(model.getGrid()[0][0], corruptKing6293);
+    // attempt to set the card to null again
+    model.getGrid()[0][0] = null;
+    model.getGrid()[1] = null;
+    // modification did not affect the state of the game
+    assertArrayEquals(gridState, model.getGrid());
+    assertEquals(model.getGrid()[0][0], corruptKing6293);
+  }
+
+  @Test
+  public void getWinnerWithGamePlayNoHolesRedWins() {
+    ThreeTriosModel model = loadModel("no_holes.txt", "big_cards.txt");
+    model.startGame(false);
+    Object[][] cardPlacement = new Object[][]{
+        {"WindBird", 1, 1}, {"EvilQueen", 0, 1}, {"CorruptKing", 0, 0},
+        {"SkyWhale", 1, 0}, {"WorldDragon", 2, 0}, {"HeroKnight", 2, 1},
+        {"EarthLizard", 0, 2}, {"FirePhoenix", 1, 2}, {"WaterSeal", 2, 2}
+    };
+    placeCardsIntoGrid(cardPlacement, model);
+    assertEquals(GamePlayer.RED, model.getWinner().get());
+
+    Card[][] finalCardLayout = new Card[][]{
+            {corruptKing6293, evilQueen1A45, earthLizard9166},
+            {skyWhale4594, windBird7253, firePhoenix28A3},
+            {worldDragon7253, heroKnight4231, waterSeal3A74}
+    };
+    Card[][] actualGridLayout = model.getGrid();
+    // check the grid layout are equal
+    assertArrayEquals(finalCardLayout, actualGridLayout);
+    GamePlayer[][] finalCardOwnerLayout = new GamePlayer[][]{
+            {GamePlayer.RED, GamePlayer.RED, GamePlayer.RED},
+            {GamePlayer.RED, GamePlayer.RED, GamePlayer.RED},
+            {GamePlayer.RED, GamePlayer.RED, GamePlayer.RED}
+    };
+    // check that the final owners of cards when game end is correct
+    assertCardsOwnershipOnGrid(actualGridLayout, finalCardOwnerLayout);
+  }
+
+  @Test
+  public void getWinnerWithGamePlaySimpleGridBTie() {
+    ThreeTriosModel model = loadModel("simple_grid.txt", "big_cards.txt");
+    model.startGame(false);
+    Object[][] cardPlacement = new Object[][]{
+            {"WindBird", 0, 0}, {"AngryDragon", 1, 0}, {"WorldDragon", 2, 0},
+            {"SkyWhale", 2, 1}, {"CorruptKing", 1, 3}, {"HeroKnight", 2, 3},
+            {"WaterSeal", 2, 2}
+    };
+    placeCardsIntoGrid(cardPlacement, model);
+    assertEquals(Optional.empty(), model.getWinner());
+
+    Card[][] finalCardLayout = new Card[][]{
+            {windBird7253, null, null, null},
+            {angryDragon97A2, null, null, corruptKing6293},
+            {worldDragon7253, skyWhale4594, waterSeal3A74, heroKnight4231}
+    };
+    Card[][] actualGridLayout = model.getGrid();
+    // check the grid layout are equal
+    assertArrayEquals(finalCardLayout, actualGridLayout);
+    GamePlayer[][] finalCardOwnerLayout = new GamePlayer[][]{
+            {GamePlayer.BLUE, null, null, null},
+            {GamePlayer.BLUE, null, null, GamePlayer.RED},
+            {GamePlayer.RED, GamePlayer.BLUE, GamePlayer.RED, GamePlayer.RED}
+    };
+
+    // check that the final owners of cards when game end is correct
+    assertCardsOwnershipOnGrid(actualGridLayout, finalCardOwnerLayout);
+  }
+
+  @Test
+  public void getWinnerWithGamePlayComplexGridBlueWins() {
+    ThreeTriosModel model = loadModel("complex_grid.txt", "big_cards.txt");
+    model.startGame(false);
+    Object[][] cardPlacement = new Object[][]{
+            {"CorruptKing", 3, 1}, {"FirePhoenix", 3, 0}, {"WindBird", 2, 1},
+            {"AngryDragon", 3, 2}, {"EarthLizard", 0, 3}, {"EvilQueen", 1, 3},
+            {"WaterSeal", 0, 4}, {"SkyWhale", 0, 2}, {"WorldDragon", 0, 0}
+    };
+    placeCardsIntoGrid(cardPlacement, model);
+    assertEquals(GamePlayer.BLUE, model.getWinner().get());
+
+    Card[][] finalCardLayout = new Card[][]{
+            {worldDragon7253, null, skyWhale4594, earthLizard9166, waterSeal3A74},
+            {null, null, null, evilQueen1A45, null},
+            {null, windBird7253, null, null, null},
+            {firePhoenix28A3, corruptKing6293, angryDragon97A2, null, null}
+    };
+    Card[][] actualGridLayout = model.getGrid();
+    // check the grid layout are equal
+    assertArrayEquals(finalCardLayout, actualGridLayout);
+    GamePlayer[][] finalCardOwnerLayout = new GamePlayer[][]{
+            {GamePlayer.RED, null, GamePlayer.BLUE, GamePlayer.BLUE, GamePlayer.BLUE},
+            {null, null, null, GamePlayer.BLUE, null},
+            {null, GamePlayer.RED, null, null, null},
+            {GamePlayer.BLUE, GamePlayer.BLUE, GamePlayer.BLUE, null, null}
+    };
+
+    // check that the final owners of cards when game end is correct
+    assertCardsOwnershipOnGrid(actualGridLayout, finalCardOwnerLayout);
+  }
+
+  /**
+   * Asserts that each card on the grid has the same owner as the expected owner.
+   *
+   * @param grid the card grid layout of the game
+   * @param expectedOwner the layout of expected owners of cards on grid
+   */
+  private void assertCardsOwnershipOnGrid(Card[][] grid, GamePlayer[][] expectedOwner) {
+    for (int row = 0; row < grid.length; row++) {
+      for (int col = 0; col < grid[0].length; col++) {
+        if (grid[row][col] != null) {
+          assertEquals(expectedOwner[row][col], grid[row][col].getOwner());
+        }
+      }
+    }
+  }
+
+  /**
+   * Place cards into the grid's row and col using its name.
+   *
+   * @param cardPlacement 2d arrays that contains card name, its row and col position on grid
+   * @param model model of the game
+   */
+  private void placeCardsIntoGrid(Object[][] cardPlacement, GameModel model) {
+    for (Object[] cardNameAndPosition : cardPlacement) {
+      String cardName = (String) cardNameAndPosition[0];
+      String hands = model.getCurrentPlayerHand().stream().map(Card::getName).collect(Collectors.joining(" "));
+      Card searchedCard = model.getCurrentPlayerHand().stream()
+              .filter(card -> card.getName().equals(cardName)).collect(Collectors.toList()).get(0);
+      int cardIndex = model.getCurrentPlayerHand().indexOf(searchedCard);
+      model.placeCard(cardIndex, (int) cardNameAndPosition[1], (int) cardNameAndPosition[2]);
+    }
   }
 }

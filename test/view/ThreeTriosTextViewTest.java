@@ -87,19 +87,4 @@ public class ThreeTriosTextViewTest {
     ThreeTriosTextView view = new ThreeTriosTextView(noHolesModel);
     view.render();
   }
-
-  @Test(expected = IllegalStateException.class)
-  public void testModelGameOver() {
-    ThreeTriosTextView view = new ThreeTriosTextView(noHolesModel);
-    noHolesModel.startGame(false);
-    int[][] cardPlacement = new int[][]{
-            {0, 0}, {0, 1}, {0, 2},
-            {1, 0}, {1, 1}, {1, 2},
-            {2, 0}, {2, 1}, {2, 2}
-    };
-    for (int[] pos : cardPlacement) {
-      noHolesModel.placeCard(0, pos[0], pos[1]);
-    }
-    view.render();
-  }
 }
