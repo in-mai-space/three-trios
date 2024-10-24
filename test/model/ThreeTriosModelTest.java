@@ -12,6 +12,7 @@ import model.components.enums.AttackValue;
 import model.components.enums.CellType;
 import model.components.enums.Direction;
 import model.components.enums.GamePlayer;
+import model.components.manager.GridManager;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertFalse;
@@ -436,5 +437,84 @@ public class ThreeTriosModelTest {
     assertThrowsWithMessage(IllegalStateException.class, "Game is over",
             () -> model.getHand(GamePlayer.RED)
     );
+  }
+
+  @Test
+  public void getHand() {
+    ThreeTriosModel model = loadModel("no_holes.txt", "big_cards.txt");
+    model.startGame(false);
+    List<Card> redHands = new ArrayList<>(List.of(
+            new ThreeTriosCard(new AttackValue[]{ AttackValue.SIX, AttackValue.TWO, AttackValue.NINE,
+                    AttackValue.THREE}, "CorruptKing", GamePlayer.RED),
+            new ThreeTriosCard(new AttackValue[]{ AttackValue.SEVEN, AttackValue.TWO, AttackValue.FIVE,
+                    AttackValue.THREE}, "WindBird", GamePlayer.RED),
+            new ThreeTriosCard(new AttackValue[]{ AttackValue.SEVEN, AttackValue.TWO, AttackValue.FIVE,
+                    AttackValue.THREE}, "WorldDragon", GamePlayer.RED),
+            new ThreeTriosCard(new AttackValue[]{ AttackValue.THREE, AttackValue.A, AttackValue.SEVEN,
+                    AttackValue.FOUR}, "WaterSeal", GamePlayer.RED),
+            new ThreeTriosCard(new AttackValue[]{ AttackValue.NINE, AttackValue.ONE, AttackValue.SIX,
+                    AttackValue.SIX}, "EarthLizard", GamePlayer.RED)
+    ));
+    assertEquals(model.getHand(GamePlayer.RED), redHands);
+    // modifying this list does not affect the actual cards in hand
+    model.getHand(GamePlayer.RED).remove(0);
+    assertEquals(model.getHand(GamePlayer.RED), redHands);
+
+    List<Card> blueHands = new ArrayList<>(List.of(
+            new ThreeTriosCard(new AttackValue[]{ AttackValue.NINE, AttackValue.SEVEN, AttackValue.A,
+                    AttackValue.TWO}, "AngryDragon", GamePlayer.BLUE),
+            new ThreeTriosCard(new AttackValue[]{ AttackValue.FOUR, AttackValue.TWO, AttackValue.THREE,
+                    AttackValue.ONE}, "HeroKnight", GamePlayer.BLUE),
+            new ThreeTriosCard(new AttackValue[]{ AttackValue.FOUR, AttackValue.FIVE, AttackValue.NINE,
+                    AttackValue.FOUR}, "SkyWhale", GamePlayer.BLUE),
+            new ThreeTriosCard(new AttackValue[]{ AttackValue.TWO, AttackValue.EIGHT, AttackValue.A,
+                    AttackValue.THREE}, "FirePhoenix", GamePlayer.BLUE),
+            new ThreeTriosCard(new AttackValue[]{ AttackValue.ONE, AttackValue.A, AttackValue.FOUR,
+                    AttackValue.FIVE}, "EvilQueen", GamePlayer.BLUE)
+    ));
+    assertEquals(model.getHand(GamePlayer.BLUE), blueHands);
+    // modifying this list does not affect the actual cards in hand
+    model.getHand(GamePlayer.BLUE).remove(0);
+    assertEquals(model.getHand(GamePlayer.BLUE), blueHands);
+  }
+
+  @Test
+  public void testGetCurrentPlayerHand() {
+    ThreeTriosModel model = loadModel("no_holes.txt", "big_cards.txt");
+    model.startGame(false);
+    List<Card> redHands = new ArrayList<>(List.of(
+            new ThreeTriosCard(new AttackValue[]{ AttackValue.SIX, AttackValue.TWO, AttackValue.NINE,
+                    AttackValue.THREE}, "CorruptKing", GamePlayer.RED),
+            new ThreeTriosCard(new AttackValue[]{ AttackValue.SEVEN, AttackValue.TWO, AttackValue.FIVE,
+                    AttackValue.THREE}, "WindBird", GamePlayer.RED),
+            new ThreeTriosCard(new AttackValue[]{ AttackValue.SEVEN, AttackValue.TWO, AttackValue.FIVE,
+                    AttackValue.THREE}, "WorldDragon", GamePlayer.RED),
+            new ThreeTriosCard(new AttackValue[]{ AttackValue.THREE, AttackValue.A, AttackValue.SEVEN,
+                    AttackValue.FOUR}, "WaterSeal", GamePlayer.RED),
+            new ThreeTriosCard(new AttackValue[]{ AttackValue.NINE, AttackValue.ONE, AttackValue.SIX,
+                    AttackValue.SIX}, "EarthLizard", GamePlayer.RED)
+    ));
+    assertEquals(model.getCurrentPlayerHand(), redHands);
+    // modifying this list does not affect the actual cards in hand
+    model.getHand(GamePlayer.RED).remove(0);
+    assertEquals(model.getCurrentPlayerHand(), redHands);
+    model.placeCard(0, 0, 0);
+
+    List<Card> blueHands = new ArrayList<>(List.of(
+            new ThreeTriosCard(new AttackValue[]{ AttackValue.NINE, AttackValue.SEVEN, AttackValue.A,
+                    AttackValue.TWO}, "AngryDragon", GamePlayer.BLUE),
+            new ThreeTriosCard(new AttackValue[]{ AttackValue.FOUR, AttackValue.TWO, AttackValue.THREE,
+                    AttackValue.ONE}, "HeroKnight", GamePlayer.BLUE),
+            new ThreeTriosCard(new AttackValue[]{ AttackValue.FOUR, AttackValue.FIVE, AttackValue.NINE,
+                    AttackValue.FOUR}, "SkyWhale", GamePlayer.BLUE),
+            new ThreeTriosCard(new AttackValue[]{ AttackValue.TWO, AttackValue.EIGHT, AttackValue.A,
+                    AttackValue.THREE}, "FirePhoenix", GamePlayer.BLUE),
+            new ThreeTriosCard(new AttackValue[]{ AttackValue.ONE, AttackValue.A, AttackValue.FOUR,
+                    AttackValue.FIVE}, "EvilQueen", GamePlayer.BLUE)
+    ));
+    assertEquals(model.getCurrentPlayerHand(), blueHands);
+    // modifying this list does not affect the actual cards in hand
+    model.getHand(GamePlayer.BLUE).remove(0);
+    assertEquals(model.getCurrentPlayerHand(), blueHands);
   }
 }
