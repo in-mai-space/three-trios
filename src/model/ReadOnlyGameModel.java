@@ -7,12 +7,16 @@ import model.components.card.Card;
 import model.components.enums.CellType;
 import model.components.enums.GamePlayer;
 
+/**
+ * Represents the ReadOnlyGameModel, which only exposes observational methods to prevent
+ * unwanted mutation.
+ */
 public interface ReadOnlyGameModel {
   /**
    * Returns the current player.
    *
    * @return The current player's identifier
-   * @throws IllegalStateException if the game has not started or is over
+   * @throws IllegalStateException if the game has not started
    */
   GamePlayer getCurrentPlayer();
 
@@ -30,6 +34,7 @@ public interface ReadOnlyGameModel {
    * the game state.
    *
    * @return the 2d-array cell type representation of the grid
+   * @throws IllegalStateException if game is not started
    */
   CellType[][] getCellTypes();
 
@@ -38,7 +43,7 @@ public interface ReadOnlyGameModel {
    * list does not change the cards in player's hand.
    *
    * @return list of cards in current player's hand
-   * @throws IllegalStateException if the game is not started or is over
+   * @throws IllegalStateException if the game is not started
    */
   List<Card> getCurrentPlayerHand();
 
@@ -48,7 +53,7 @@ public interface ReadOnlyGameModel {
    * returning null.
    *
    * @return the winner of the game
-   * @throws IllegalStateException if the game is not started or is over
+   * @throws IllegalStateException if the game is not started
    */
   Optional<GamePlayer> getWinner();
 }

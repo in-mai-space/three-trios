@@ -183,7 +183,7 @@ public class ThreeTriosModel implements GameModel {
    * @return list of cards in the player's hand
    * @throws IllegalStateException if the game has not started or is over
    */
-  public List<Card> getHand(GamePlayer player) {
+  private List<Card> getHand(GamePlayer player) {
     validateGameNotStarted();
     return playerHands.get(player).getCards();
   }

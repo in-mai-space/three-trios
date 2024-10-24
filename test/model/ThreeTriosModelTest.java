@@ -169,9 +169,11 @@ public class ThreeTriosModelTest {
     ThreeTriosModel model = loadModel("no_holes.txt", "big_cards.txt");
     model.startGame(false);
 
-    // cards are distributed to hand equally
-    assertEquals(5, model.getHand(GamePlayer.RED).size());
-    assertEquals(5, model.getHand(GamePlayer.BLUE).size());
+    // player Red's hand
+    assertEquals(5, model.getCurrentPlayerHand().size());
+    model.placeCard(0, 0, 0);
+    // player Blue's hand
+    assertEquals(5, model.getCurrentPlayerHand().size());
   }
 
   @Test(expected = IllegalStateException.class)
@@ -187,7 +189,7 @@ public class ThreeTriosModelTest {
     ThreeTriosModel modelTwo = loadModel("no_holes.txt", "big_cards.txt");
     modelOne.startGame(false);
     modelTwo.startGame(true);
-    assertNotEquals(modelOne.getHand(GamePlayer.RED), modelTwo.getHand(GamePlayer.RED));
+    assertNotEquals(modelOne.getCurrentPlayerHand(), modelTwo.getCurrentPlayerHand());
   }
 
   @Test
@@ -416,14 +418,6 @@ public class ThreeTriosModelTest {
   }
 
   @Test
-  public void getHandGameNotStarted() {
-    ThreeTriosModel model = loadModel("no_holes.txt", "big_cards.txt");
-    assertThrowsWithMessage(IllegalStateException.class, "Game has not started",
-            () -> model.getHand(GamePlayer.RED)
-    );
-  }
-
-  @Test
   public void getHandGameOver() {
     ThreeTriosModel model = loadModel("no_holes.txt", "big_cards.txt");
     model.startGame(false);
@@ -435,36 +429,20 @@ public class ThreeTriosModelTest {
   }
 
   @Test
-  public void getHand() {
-    ThreeTriosModel model = loadModel("no_holes.txt", "big_cards.txt");
-    model.startGame(false);
-
-    assertEquals(model.getHand(GamePlayer.RED), redHands);
-    // modifying this list does not affect the actual cards in hand
-    model.getHand(GamePlayer.RED).remove(0);
-    assertEquals(model.getHand(GamePlayer.RED), redHands);
-
-    assertEquals(model.getHand(GamePlayer.BLUE), blueHands);
-    // modifying this list does not affect the actual cards in hand
-    model.getHand(GamePlayer.BLUE).remove(0);
-    assertEquals(model.getHand(GamePlayer.BLUE), blueHands);
-  }
-
-  @Test
   public void testGetCurrentPlayerHand() {
     ThreeTriosModel model = loadModel("no_holes.txt", "big_cards.txt");
     model.startGame(false);
 
     assertEquals(model.getCurrentPlayerHand(), redHands);
     // modifying this list does not affect the actual cards in hand
-    model.getHand(GamePlayer.RED).remove(0);
+    model.getCurrentPlayerHand().remove(0);
     assertEquals(model.getCurrentPlayerHand(), redHands);
     // place the first card on (0, 0) cell
     model.placeCard(0, 0, 0);
 
     assertEquals(model.getCurrentPlayerHand(), blueHands);
     // modifying this list does not affect the actual cards in hand
-    model.getHand(GamePlayer.BLUE).remove(0);
+    model.getCurrentPlayerHand().remove(0);
     assertEquals(model.getCurrentPlayerHand(), blueHands);
     model.placeCard(0, 1, 0);
 

@@ -19,17 +19,6 @@ public interface GameModel extends ReadOnlyGameModel {
   void startGame(boolean shuffle);
 
   /**
-   * Gets the hand of the specified player. Modifying this list does not modify actual
-   * cards in a player's hand.
-   *
-   * @param player player whose hand is to be retrieved
-   *
-   * @return list of cards in the player's hand
-   * @throws IllegalStateException if the game has not started or is over
-   */
-  List<Card> getHand(GamePlayer player);
-
-  /**
    * Places a card at the specified position on the grid.
    *
    * @param index The index of the card in the player's hand (0-indexed)
