@@ -9,6 +9,7 @@ import model.components.enums.GamePlayer;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -16,6 +17,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class ThreeTriosCardTest {
   private Card firstCard;
+  private Card firstCardRed;
   private Card secondCard;
 
   @Before
@@ -23,6 +25,10 @@ public class ThreeTriosCardTest {
     firstCard = new ThreeTriosCard(new AttackValue[]{
             AttackValue.THREE, AttackValue.FIVE, AttackValue.A, AttackValue.FOUR }, "Card 1",
             GamePlayer.BLUE
+    );
+    firstCardRed = new ThreeTriosCard(new AttackValue[]{
+            AttackValue.THREE, AttackValue.FIVE, AttackValue.A, AttackValue.FOUR }, "Card 1",
+            GamePlayer.RED
     );
     secondCard = new ThreeTriosCard(new AttackValue[]{
             AttackValue.FIVE, AttackValue.EIGHT, AttackValue.A, AttackValue.TWO }, "Card 2",
@@ -145,5 +151,20 @@ public class ThreeTriosCardTest {
     assertEquals(firstCard.getOwner(), GamePlayer.RED);
     firstCard.setOwner(GamePlayer.BLUE);
     assertEquals(firstCard.getOwner(), GamePlayer.BLUE);
+  }
+
+  @Test
+  public void testEquals() {
+    assertTrue(firstCard.equals(firstCard));
+    assertFalse(firstCard.equals(secondCard));
+    assertFalse(secondCard.equals(firstCard));
+    assertTrue(firstCard.equals(firstCardRed));
+    assertTrue(firstCardRed.equals(firstCard));
+  }
+
+  @Test
+  public void testHashCode() {
+    assertEquals(firstCard.hashCode(), firstCardRed.hashCode());
+    assertNotEquals(firstCard.hashCode(), secondCard.hashCode());
   }
 }

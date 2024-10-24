@@ -2,6 +2,7 @@ package model.components.card;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import model.components.enums.AttackValue;
 import model.components.enums.Direction;
@@ -178,5 +179,28 @@ public class ThreeTriosCard implements Card {
       default:
         throw new IllegalArgumentException("Invalid direction");
     }
+  }
+
+  @Override
+  public boolean equals(Object that) {
+    if (this == that) {
+      return true;
+    }
+    else if (that instanceof ThreeTriosCard) {
+      ThreeTriosCard thatCard = (ThreeTriosCard) that;
+      return this.name.equals(thatCard.name) &&
+              this.north.equals(thatCard.north) &&
+              this.south.equals(thatCard.south) &&
+              this.east.equals(thatCard.east) &&
+              this.west.equals(thatCard.west);
+    }
+    else {
+      return false;
+    }
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(name, north, south, east, west);
   }
 }
