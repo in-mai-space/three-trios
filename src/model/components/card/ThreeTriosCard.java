@@ -11,7 +11,7 @@ import model.components.enums.GamePlayer;
 /**
  * Represents a card in the ThreeTriosGame.
  */
-public class ThreeTriosCard implements Card {
+class ThreeTriosCard implements Card {
   private final String name;
   private final AttackValue north;
   private final AttackValue south;
@@ -181,12 +181,19 @@ public class ThreeTriosCard implements Card {
     }
   }
 
+  /**
+   * Compares this ThreeTriosCard object with another object for equality.
+   *
+   * @param that the object to be compared for equality with this ThreeTriosCard
+   * @return true if the specified object is equal to this ThreeTriosCard;
+   *         false otherwise
+   */
   @Override
   public boolean equals(Object that) {
     if (this == that) {
       return true;
     }
-    else if (that instanceof ThreeTriosCard) {
+    if (that instanceof ThreeTriosCard) {
       ThreeTriosCard thatCard = (ThreeTriosCard) that;
       return this.name.equals(thatCard.name) &&
               this.north.equals(thatCard.north) &&
@@ -194,11 +201,14 @@ public class ThreeTriosCard implements Card {
               this.east.equals(thatCard.east) &&
               this.west.equals(thatCard.west);
     }
-    else {
-      return false;
-    }
+    return false;
   }
 
+  /**
+   * Returns the hash code for this ThreeTriosCard, based on its fields.
+   *
+   * @return the hash code value for this ThreeTriosCard
+   */
   @Override
   public int hashCode() {
     return Objects.hash(name, north, south, east, west);

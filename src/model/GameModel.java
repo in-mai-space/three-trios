@@ -1,8 +1,5 @@
 package model;
 
-import java.util.List;
-
-import model.components.card.Card;
 import model.components.enums.GamePlayer;
 
 /**

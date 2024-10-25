@@ -20,8 +20,7 @@ import static org.junit.Assert.assertThrows;
 public class GameConfigParserTest {
   @Test
   public void testGetCellTypesFromComplexGrid() {
-    String filePath = Paths.get("src", "model", "config", "grid",
-            "complex_grid.txt").toString();
+    String filePath = getFilePath("complex_grid.txt", "grid");
     CellType[][] expectedCellTypes = {
             {CellType.CELL, CellType.HOLE, CellType.CELL, CellType.CELL, CellType.CELL},
             {CellType.HOLE, CellType.HOLE, CellType.HOLE, CellType.CELL, CellType.HOLE},
@@ -39,7 +38,7 @@ public class GameConfigParserTest {
    * @return file path
    */
   public static String getFilePath(String fileName, String packageName) {
-    return Paths.get("src", "model", "config", packageName, fileName).toString();
+    return Paths.get("config", packageName, fileName).toString();
   }
 
   @Test
