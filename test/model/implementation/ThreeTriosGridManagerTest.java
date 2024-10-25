@@ -3,6 +3,7 @@ package model.implementation;
 import org.junit.Before;
 import org.junit.Test;
 
+import model.Utils;
 import model.enums.AttackValue;
 import model.interfaces.Card;
 import model.enums.CellType;
@@ -33,13 +34,13 @@ public class ThreeTriosGridManagerTest {
 
   @Before
   public void setUp() {
-    String noHoleFilePath = GameConfigParserTest.getFilePath("no_holes.txt", "grid");
+    String noHoleFilePath = Utils.getFilePath("no_holes.txt", "grid");
     noHoleGrid = GameConfigParser.getCellTypes(noHoleFilePath);
 
-    String simpleGridFilePath = GameConfigParserTest.getFilePath("simple_grid.txt", "grid");
+    String simpleGridFilePath = Utils.getFilePath("simple_grid.txt", "grid");
     simpleGrid = GameConfigParser.getCellTypes(simpleGridFilePath);
 
-    String complexGridFilePath = GameConfigParserTest.getFilePath("complex_grid.txt", "grid");
+    String complexGridFilePath = Utils.getFilePath("complex_grid.txt", "grid");
     complexGrid = GameConfigParser.getCellTypes(complexGridFilePath);
 
     noHoleManager = new ThreeTriosGridManager(noHoleGrid);

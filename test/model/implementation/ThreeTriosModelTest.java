@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import model.Utils;
 import model.enums.AttackValue;
 import model.interfaces.Card;
 import model.enums.CellType;
@@ -69,8 +70,8 @@ public class ThreeTriosModelTest {
   }
 
   public static ThreeTriosModel loadModel(String gridFile, String cardsFile) {
-    String gridFilePath = GameConfigParserTest.getFilePath(gridFile, "grid");
-    String cardsFilePath = GameConfigParserTest.getFilePath(cardsFile, "cards");
+    String gridFilePath = Utils.getFilePath(gridFile, "grid");
+    String cardsFilePath = Utils.getFilePath(cardsFile, "cards");
     return ThreeTriosModel.fromFiles(gridFilePath, cardsFilePath);
   }
 
@@ -82,8 +83,8 @@ public class ThreeTriosModelTest {
 
   @Test
   public void nullFilePathTests() {
-    String validCardsFilePath = GameConfigParserTest.getFilePath("big_cards.txt", "cards");
-    String validGridFilePath = GameConfigParserTest.getFilePath("big_no_hole.txt", "grid");
+    String validCardsFilePath = Utils.getFilePath("big_cards.txt", "cards");
+    String validGridFilePath = Utils.getFilePath("big_no_hole.txt", "grid");
 
     assertThrowsWithMessage(IllegalArgumentException.class, "Filepath should not be null", () ->
             ThreeTriosModel.fromFiles(null, validCardsFilePath)
@@ -139,7 +140,7 @@ public class ThreeTriosModelTest {
 
   @Test
   public void invalidGameConfigurationTests() {
-    List<Card> cards = GameConfigParser.getCards(GameConfigParserTest.getFilePath("big_cards.txt", "cards"));
+    List<Card> cards = GameConfigParser.getCards(Utils.getFilePath("big_cards.txt", "cards"));
 
     assertThrowsWithMessage(IllegalArgumentException.class, "Cell types must be at least 1x1", () ->
             ThreeTriosModel.fromData(new CellType[][]{}, cards)

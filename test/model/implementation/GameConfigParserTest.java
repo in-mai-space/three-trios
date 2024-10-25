@@ -9,6 +9,7 @@ import java.util.List;
 import model.enums.AttackValue;
 import model.interfaces.Card;
 import model.enums.CellType;
+import model.Utils;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -20,7 +21,7 @@ import static org.junit.Assert.assertThrows;
 public class GameConfigParserTest {
   @Test
   public void testGetCellTypesFromComplexGrid() {
-    String filePath = getFilePath("complex_grid.txt", "grid");
+    String filePath = Utils.getFilePath("complex_grid.txt", "grid");
     CellType[][] expectedCellTypes = {
             {CellType.CELL, CellType.HOLE, CellType.CELL, CellType.CELL, CellType.CELL},
             {CellType.HOLE, CellType.HOLE, CellType.HOLE, CellType.CELL, CellType.HOLE},
@@ -31,19 +32,9 @@ public class GameConfigParserTest {
     assertArrayEquals(expectedCellTypes, actualCellTypes);
   }
 
-  /**
-   * Helper method to get file path with package name.
-   * @param fileName file name
-   * @param packageName package name
-   * @return file path
-   */
-  public static String getFilePath(String fileName, String packageName) {
-    return Paths.get("config", packageName, fileName).toString();
-  }
-
   @Test
   public void testGetCellTypesSimpleGrid() {
-    String filePath = getFilePath("simple_grid.txt", "grid");
+    String filePath = Utils.getFilePath("simple_grid.txt", "grid");
     CellType[][] expectedCellTypes = {
             {CellType.CELL, CellType.HOLE, CellType.HOLE, CellType.HOLE},
             {CellType.CELL, CellType.HOLE, CellType.HOLE, CellType.CELL},
@@ -55,7 +46,7 @@ public class GameConfigParserTest {
 
   @Test
   public void testGetCellTypesNoHolesGrid() {
-    String filePath = getFilePath("no_holes.txt", "grid");
+    String filePath = Utils.getFilePath("no_holes.txt", "grid");
     CellType[][] expectedCellTypes = {
             {CellType.CELL, CellType.CELL, CellType.CELL},
             {CellType.CELL, CellType.CELL, CellType.CELL},
@@ -81,7 +72,7 @@ public class GameConfigParserTest {
 
   @Test
   public void testWrongFormatFile() {
-    String filePath = getFilePath("wrong_format.txt", "grid");
+    String filePath = Utils.getFilePath("wrong_format.txt", "grid");
     IllegalStateException thrown = assertThrows(IllegalStateException.class, () -> {
       GameConfigParser.getCellTypes(filePath);
     });
@@ -90,7 +81,7 @@ public class GameConfigParserTest {
 
   @Test
   public void testInvalidCharFile() {
-    String filePath = getFilePath("invalid_char.txt", "grid");
+    String filePath = Utils.getFilePath("invalid_char.txt", "grid");
     IllegalStateException thrown = assertThrows(IllegalStateException.class, () -> {
       GameConfigParser.getCellTypes(filePath);
     });
@@ -99,7 +90,7 @@ public class GameConfigParserTest {
 
   @Test
   public void testNotEnoughCols() {
-    String filePath = getFilePath("not_enough_cols.txt", "grid");
+    String filePath = Utils.getFilePath("not_enough_cols.txt", "grid");
     IllegalStateException thrown = assertThrows(IllegalStateException.class, () -> {
       GameConfigParser.getCellTypes(filePath);
     });
@@ -108,7 +99,7 @@ public class GameConfigParserTest {
 
   @Test
   public void testNotEnoughRows() {
-    String filePath = getFilePath("not_enough_rows.txt", "grid");
+    String filePath = Utils.getFilePath("not_enough_rows.txt", "grid");
     IllegalStateException thrown = assertThrows(IllegalStateException.class, () -> {
       GameConfigParser.getCellTypes(filePath);
     });
@@ -117,7 +108,7 @@ public class GameConfigParserTest {
 
   @Test
   public void getCards() {
-    String filePath = getFilePath("small_cards.txt", "cards");
+    String filePath = Utils.getFilePath("small_cards.txt", "cards");
     List<Card> cards = GameConfigParser.getCards(filePath);
     assertEquals(8, cards.size());
     assertEquals("CorruptKing", cards.get(0).getName());

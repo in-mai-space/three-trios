@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import model.Utils;
 import model.implementation.GameConfigParserTest;
 import model.interfaces.GameModel;
 import model.implementation.ThreeTriosModel;
@@ -26,10 +27,10 @@ public class ThreeTriosTextViewTest {
 
   @Before
   public void setUp() {
-    String noHolesGrid = GameConfigParserTest.getFilePath("no_holes.txt", "grid");
-    String simpleGrid = GameConfigParserTest.getFilePath("simple_grid.txt", "grid");
-    String complexGrid = GameConfigParserTest.getFilePath("complex_grid.txt", "grid");
-    String cardsFilePath = GameConfigParserTest.getFilePath("big_cards.txt", "cards");
+    String noHolesGrid = Utils.getFilePath("no_holes.txt", "grid");
+    String simpleGrid = Utils.getFilePath("simple_grid.txt", "grid");
+    String complexGrid = Utils.getFilePath("complex_grid.txt", "grid");
+    String cardsFilePath = Utils.getFilePath("big_cards.txt", "cards");
 
     noHolesModel = ThreeTriosModel.fromFiles(noHolesGrid, cardsFilePath);
     simpleModel = ThreeTriosModel.fromFiles(simpleGrid, cardsFilePath);

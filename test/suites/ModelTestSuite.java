@@ -3,6 +3,7 @@ package suites;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
+import model.UtilsTest;
 import model.implementation.GameConfigParserTest;
 import model.implementation.ThreeTriosModelTest;
 import model.implementation.ThreeTriosCardTest;
@@ -25,7 +26,8 @@ import model.implementation.ThreeTriosGridManagerTest;
         ThreeTriosGridTest.class,
         GameConfigParserTest.class,
         ThreeTriosGridManagerTest.class,
-        ThreeTriosModelTest.class
+        ThreeTriosModelTest.class,
+        UtilsTest.class
 })
 public class ModelTestSuite {
 }
