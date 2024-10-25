@@ -6,7 +6,7 @@ import org.junit.runners.Suite;
 import model.implementation.GameConfigParserTest;
 import model.implementation.ThreeTriosModelTest;
 import model.implementation.ThreeTriosCardTest;
-import model.AttackValueTest;
+import model.enums.AttackValueTest;
 import model.implementation.ThreeTriosGridTest;
 import model.implementation.ThreeTriosHandTest;
 import model.implementation.ThreeTriosGridManagerTest;
