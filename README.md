@@ -48,6 +48,7 @@ The model manages the game's state and flow:
 ### View (Driven by the Model)
 The view presents the game's state to the players:
 - **Responsibilities**: The view renders the current player's information and cards, as well as the grid layout. It formats data into a displayable string, bridging the game state and user interface.
+> To test the view manually with model operations, go to ConsoleViewTest in src directory.
 
 ## Key Subcomponents of Model
 The model's core classes include:
@@ -70,7 +71,9 @@ src
 │   ├── enums: AttackValue, CellType, Direction, GamePlayer
 │   ├── implementation: GameConfigParser, ThreeTriosCard, ThreeTriosGrid, ThreeTriosGridManager, ThreeTriosHand, ThreeTriosMode
 │   ├── interfaces: Card, GameModel, Grid, GridManager, Hand, ReadOnlyGameModel
+│   ├── Utils: retrieve file path
 ├── view: interface GameView and class ThreeTriosTextView
+├── ConsoleViewTest: class for testing view manually
 test
 ├── model
 │   ├── enums: tests for enums

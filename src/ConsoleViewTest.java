@@ -7,7 +7,7 @@ import view.ThreeTriosTextView;
 /**
  * Main class to help with testing view manually.
  */
-public class ViewTesting {
+public class ConsoleViewTest {
   private static GameModel model;
   private static GameView<String> view;
 
