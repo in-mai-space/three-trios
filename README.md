@@ -11,6 +11,7 @@ structures and Java SDK and libraries.
 
 **Codebase game assumptions**
 * two players: Red and Blue
+* amount of players is fixed throughout the game
 * card uniqueness (name and 4 numerical values)
 * players strictly alternate turns with Red starting first
 * game state can be started, in progress and over

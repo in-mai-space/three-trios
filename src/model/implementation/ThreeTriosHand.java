@@ -11,7 +11,7 @@ import model.interfaces.Hand;
  */
 class ThreeTriosHand implements Hand {
   private final List<Card> cards;
-  // use List because the cards can be easily removed without shifting the index as in that of 2d-array
+  // hand size changes as player places in grid, does not require shifting array index
 
   /**
    * Construct a new ThreeTriosHand.

@@ -20,7 +20,7 @@ import model.interfaces.Hand;
  * Represents ThreeTriosModel for the ThreeTriosGame.
  */
 public class ThreeTriosModel implements GameModel {
-  private final GamePlayer[] players;
+  private final GamePlayer[] players; // array because list of players is fixed throughout game
   private Map<GamePlayer, Hand> playerHands;
   private final GridManager ruleKeeper;
   private int currentPlayerIndex;
