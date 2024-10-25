@@ -19,10 +19,6 @@ import model.components.enums.CellType;
  * into a list of Card objects.
  */
 public class GameConfigParser {
-  private GameConfigParser() {
-    // Private constructor to prevent instantiation
-  }
-
   /**
    * Retrieves the cell types for the game grid from a specified file.
    *

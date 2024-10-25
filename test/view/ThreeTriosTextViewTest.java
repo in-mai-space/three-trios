@@ -12,8 +12,12 @@ import model.GameModel;
 import model.ThreeTriosModel;
 import model.ThreeTriosModelTest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
+
+/**
+ * Represent tests for ThreeTriosTextView.
+ */
 public class ThreeTriosTextViewTest {
   private GameModel noHolesModel;
   private GameModel simpleModel;
@@ -262,7 +266,7 @@ public class ThreeTriosTextViewTest {
   }
 
   /**
-   *
+   * Assert that for each card placement in the model, the view will render a specific String.
    *
    * @param cardPlacement cards to be placed in the grid
    * @param model model to be rendered
