@@ -21,6 +21,7 @@ import model.interfaces.Hand;
  */
 public class ThreeTriosModel implements GameModel {
   private final GamePlayer[] players; // array because list of players is fixed throughout game
+  // INVARIANT: there are always 2 players
   private Map<GamePlayer, Hand> playerHands;
   private final GridManager ruleKeeper;
   private int currentPlayerIndex;

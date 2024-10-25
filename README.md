@@ -1,4 +1,3 @@
----
 ## Overview
 ### Gameplay
 The ThreeTrios game is a competitive card game for two players, Red and Blue. Each player has a hand
@@ -17,10 +16,13 @@ of cards, where each card is assigned 4 numerical values. The game proceeds as f
 - **game states**: game state can be started, in progress and over
 
 ## Player Interface
-- select a card
-- place a card
-- pause the game
-- quit the game
+- startGame
+- selectCard
+- getCurrentPlayer
+- getPlayerHand
+- viewGameBoard
+- checkGameIsOver
+- getWinner
 
 ## Extensibility of codebase
 The design allows for potential expansion, including:
