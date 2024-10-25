@@ -11,7 +11,7 @@ import model.components.enums.GamePlayer;
 /**
  * Represents a card in the ThreeTriosGame.
  */
-class ThreeTriosCard implements Card {
+public class ThreeTriosCard implements Card {
   private final String name;
   private final AttackValue north;
   private final AttackValue south;
