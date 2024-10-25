@@ -3,13 +3,13 @@ package suites;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
-import model.GameConfigParserTest;
-import model.ThreeTriosModelTest;
-import model.components.card.ThreeTriosCardTest;
-import model.components.enums.AttackValueTest;
-import model.components.grid.ThreeTriosGridTest;
-import model.components.hand.ThreeTriosHandTest;
-import model.components.manager.ThreeTriosGridManagerTest;
+import model.implementation.GameConfigParserTest;
+import model.implementation.ThreeTriosModelTest;
+import model.implementation.ThreeTriosCardTest;
+import model.AttackValueTest;
+import model.implementation.ThreeTriosGridTest;
+import model.implementation.ThreeTriosHandTest;
+import model.implementation.ThreeTriosGridManagerTest;
 
 /**
  * The ModelTestSuite class is a JUnit test suite that aggregates

@@ -7,13 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import model.GameConfigParserTest;
-import model.GameModel;
-import model.ThreeTriosModel;
-import model.ThreeTriosModelTest;
+import model.implementation.GameConfigParserTest;
+import model.interfaces.GameModel;
+import model.implementation.ThreeTriosModel;
+import model.implementation.ThreeTriosModelTest;
 
 import static org.junit.Assert.assertEquals;
-
 
 /**
  * Represent tests for ThreeTriosTextView.

@@ -3,10 +3,10 @@ package view;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import model.ReadOnlyGameModel;
-import model.components.card.Card;
-import model.components.enums.AttackValue;
-import model.components.enums.CellType;
+import model.interfaces.ReadOnlyGameModel;
+import model.interfaces.Card;
+import model.enums.AttackValue;
+import model.enums.CellType;
 
 /**
  * The ThreeTriosTextView class implements the GameView interface,
