@@ -19,6 +19,7 @@ structures and Java SDK and libraries.
 **Player Interface**
 * select a card
 * place a card
+* quit the game
 
 **Extensibility of codebase**
 1. Support for additional players
@@ -32,7 +33,7 @@ structures and Java SDK and libraries.
 
 **Key components**
 The components of the system follow the Model-View-Controller.
-Model: core of the game logic 
+Model (driver of game logic):
 * responsibilities
   * Game Initialization: The model initializes the game by validating inputs and setting up the grid and players. It ensures that there are enough cards to play the game, and it handles shuffling if required.
   * Game State Management: The model tracks the current player, checks if the game is ongoing, and identifies when the game is over.
