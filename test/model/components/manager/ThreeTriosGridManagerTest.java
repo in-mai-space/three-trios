@@ -11,7 +11,6 @@ import model.components.enums.AttackValue;
 import model.components.enums.CellType;
 import model.components.enums.GamePlayer;
 import model.components.grid.Grid;
-import model.components.grid.ThreeTriosGrid;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -22,9 +21,9 @@ import static org.junit.Assert.assertTrue;
  * Test class for ThreeTriosGridManager.
  */
 public class ThreeTriosGridManagerTest {
-  private Grid noHoleGrid;
-  private Grid simpleGrid;
-  private Grid complexGrid;
+  private CellType[][] noHoleGrid;
+  private CellType[][] simpleGrid;
+  private CellType[][] complexGrid;
   private GridManager noHoleManager;
   private GridManager simpleGridManager;
   private GridManager complexGridManager;
@@ -38,13 +37,13 @@ public class ThreeTriosGridManagerTest {
   @Before
   public void setUp() {
     String noHoleFilePath = GameConfigParserTest.getFilePath("no_holes.txt", "grid");
-    noHoleGrid = new ThreeTriosGrid(GameConfigParser.getCellTypes(noHoleFilePath));
+    noHoleGrid = GameConfigParser.getCellTypes(noHoleFilePath);
 
     String simpleGridFilePath = GameConfigParserTest.getFilePath("simple_grid.txt", "grid");
-    simpleGrid = new ThreeTriosGrid(GameConfigParser.getCellTypes(simpleGridFilePath));
+    simpleGrid = GameConfigParser.getCellTypes(simpleGridFilePath);
 
     String complexGridFilePath = GameConfigParserTest.getFilePath("complex_grid.txt", "grid");
-    complexGrid = new ThreeTriosGrid(GameConfigParser.getCellTypes(complexGridFilePath));
+    complexGrid = GameConfigParser.getCellTypes(complexGridFilePath);
 
     noHoleManager = new ThreeTriosGridManager(noHoleGrid);
     simpleGridManager = new ThreeTriosGridManager(simpleGrid);
@@ -154,53 +153,53 @@ public class ThreeTriosGridManagerTest {
   @Test
   public void testPlaceCardNoHoles() {
     noHoleManager.placeCard(card527A, 0, 0);
-    assertEquals(card527A, noHoleGrid.getCardAt(0, 0));
-    assertEquals(GamePlayer.RED, noHoleGrid.getCardAt(0, 0).getOwner());
+    assertEquals(card527A, noHoleManager.getCardAt(0, 0));
+    assertEquals(GamePlayer.RED, noHoleManager.getCardAt(0, 0).getOwner());
 
     noHoleManager.placeCard(card7253, 1, 0);
-    assertEquals(card7253, noHoleGrid.getCardAt(1, 0));
-    assertEquals(GamePlayer.BLUE, noHoleGrid.getCardAt(1, 0).getOwner());
+    assertEquals(card7253, noHoleManager.getCardAt(1, 0));
+    assertEquals(GamePlayer.BLUE, noHoleManager.getCardAt(1, 0).getOwner());
 
     noHoleManager.placeCard(card4599, 1, 2);
-    assertEquals(card4599, noHoleGrid.getCardAt(1, 2));
-    assertEquals(GamePlayer.BLUE, noHoleGrid.getCardAt(1, 2).getOwner());
+    assertEquals(card4599, noHoleManager.getCardAt(1, 2));
+    assertEquals(GamePlayer.BLUE, noHoleManager.getCardAt(1, 2).getOwner());
   }
 
   @Test
   public void testPlaceCardSimpleGrid() {
     simpleGridManager.placeCard(card527A, 0, 0);
-    assertEquals(card527A, simpleGrid.getCardAt(0, 0));
-    assertEquals(GamePlayer.RED, simpleGrid.getCardAt(0, 0).getOwner());
+    assertEquals(card527A, simpleGridManager.getCardAt(0, 0));
+    assertEquals(GamePlayer.RED, simpleGridManager.getCardAt(0, 0).getOwner());
 
     simpleGridManager.placeCard(card7253, 1, 0);
-    assertEquals(card7253, simpleGrid.getCardAt(1, 0));
-    assertEquals(GamePlayer.BLUE, simpleGrid.getCardAt(1, 0).getOwner());
+    assertEquals(card7253, simpleGridManager.getCardAt(1, 0));
+    assertEquals(GamePlayer.BLUE, simpleGridManager.getCardAt(1, 0).getOwner());
 
     simpleGridManager.placeCard(card4599, 1, 3);
-    assertEquals(card4599, simpleGrid.getCardAt(1, 3));
-    assertEquals(GamePlayer.BLUE, simpleGrid.getCardAt(1, 3).getOwner());
+    assertEquals(card4599, simpleGridManager.getCardAt(1, 3));
+    assertEquals(GamePlayer.BLUE, simpleGridManager.getCardAt(1, 3).getOwner());
   }
 
   @Test
   public void testPlaceCardComplexGrid() {
     complexGridManager.placeCard(card527A, 0, 0);
-    assertEquals(card527A, complexGrid.getCardAt(0, 0));
-    assertEquals(GamePlayer.RED, complexGrid.getCardAt(0, 0).getOwner());
+    assertEquals(card527A, complexGridManager.getCardAt(0, 0));
+    assertEquals(GamePlayer.RED, complexGridManager.getCardAt(0, 0).getOwner());
 
     complexGridManager.placeCard(card7253, 0, 4);
-    assertEquals(card7253, complexGrid.getCardAt(0, 4));
-    assertEquals(GamePlayer.BLUE, complexGrid.getCardAt(0, 4).getOwner());
+    assertEquals(card7253, complexGridManager.getCardAt(0, 4));
+    assertEquals(GamePlayer.BLUE, complexGridManager.getCardAt(0, 4).getOwner());
 
     complexGridManager.placeCard(card4599, 3, 2);
-    assertEquals(card4599, complexGrid.getCardAt(3, 2));
-    assertEquals(GamePlayer.BLUE, complexGrid.getCardAt(3, 2).getOwner());
+    assertEquals(card4599, complexGridManager.getCardAt(3, 2));
+    assertEquals(GamePlayer.BLUE, complexGridManager.getCardAt(3, 2).getOwner());
   }
 
   @Test(expected = IllegalStateException.class)
   public void testPlaceCardWhenThereIsCard() {
     simpleGridManager.placeCard(card527A, 0, 0);
-    assertEquals(card527A, simpleGrid.getCardAt(0, 0));
-    assertEquals(GamePlayer.RED, simpleGrid.getCardAt(0, 0).getOwner());
+    assertEquals(card527A, simpleGridManager.getCardAt(0, 0));
+    assertEquals(GamePlayer.RED, simpleGridManager.getCardAt(0, 0).getOwner());
 
     simpleGridManager.placeCard(card7253, 0, 0);
   }
@@ -225,7 +224,7 @@ public class ThreeTriosGridManagerTest {
             {GamePlayer.RED, GamePlayer.RED, GamePlayer.BLUE, null},
             {null, GamePlayer.RED, null, null}
     };
-    assertGridOwnerState(cardPlacements, expectedGridOwners, noHoleGrid, noHoleManager);
+    assertGridOwnerState(cardPlacements, expectedGridOwners, noHoleManager);
   }
 
   @Test
@@ -243,7 +242,7 @@ public class ThreeTriosGridManagerTest {
             {GamePlayer.BLUE, null, null, null},
             {GamePlayer.RED, GamePlayer.RED, GamePlayer.RED, GamePlayer.BLUE}
     };
-    assertGridOwnerState(cardPlacements, expectedGridOwners, simpleGrid, simpleGridManager);
+    assertGridOwnerState(cardPlacements, expectedGridOwners, simpleGridManager);
   }
 
   @Test
@@ -262,25 +261,25 @@ public class ThreeTriosGridManagerTest {
             {null, GamePlayer.RED, null, null, null},
             {GamePlayer.RED, GamePlayer.RED, GamePlayer.BLUE, null, null}
     };
-    assertGridOwnerState(cardPlacements, expectedGridOwners, complexGrid, complexGridManager);
+    assertGridOwnerState(cardPlacements, expectedGridOwners, complexGridManager);
   }
 
   private void assertGridOwnerState(Object[][] cardPlacements, GamePlayer[][] expectedOwners,
-                                    Grid grid, GridManager manager) {
+                                    GridManager manager) {
     for (Object[] cardPlacement : cardPlacements) {
       Card card = (Card) cardPlacement[0];
       int row = (int) cardPlacement[1];
       int col = (int) cardPlacement[2];
       GamePlayer expectedOwner = (GamePlayer) cardPlacement[3];
       manager.placeCard(card, row, col);
-      assertEquals(expectedOwner, grid.getCardAt(row, col).getOwner());
+      assertEquals(expectedOwner, manager.getCardAt(row, col).getOwner());
       manager.executeBattle(row, col);
     }
     for (int row = 0; row < expectedOwners.length; row++) {
       for (int col = 0; col < expectedOwners[row].length; col++) {
         GamePlayer expectedOwner = expectedOwners[row][col];
         if (expectedOwner != null) {
-          assertEquals(expectedOwner, grid.getCardAt(row, col).getOwner());
+          assertEquals(expectedOwner, manager.getCardAt(row, col).getOwner());
         }
       }
     }
@@ -485,8 +484,8 @@ public class ThreeTriosGridManagerTest {
             {null, null, null}
     };
     assertArrayEquals(expectedCardsLayout, noHoleManager.getGrid());
-    assertEquals(GamePlayer.BLUE, noHoleGrid.getCardAt(1, 0).getOwner());
-    assertEquals(GamePlayer.RED, noHoleGrid.getCardAt(1, 1).getOwner());
+    assertEquals(GamePlayer.BLUE, noHoleManager.getCardAt(1, 0).getOwner());
+    assertEquals(GamePlayer.RED, noHoleManager.getCardAt(1, 1).getOwner());
   }
 
   @Test
@@ -500,8 +499,8 @@ public class ThreeTriosGridManagerTest {
             {null, null, null}
     };
     assertArrayEquals(expectedCardsLayout, noHoleManager.getGrid());
-    assertEquals(GamePlayer.RED, noHoleGrid.getCardAt(1, 0).getOwner());
-    assertEquals(GamePlayer.RED, noHoleGrid.getCardAt(1, 1).getOwner());
+    assertEquals(GamePlayer.RED, noHoleManager.getCardAt(1, 0).getOwner());
+    assertEquals(GamePlayer.RED, noHoleManager.getCardAt(1, 1).getOwner());
   }
 
   @Test
@@ -515,8 +514,8 @@ public class ThreeTriosGridManagerTest {
             {null, null, null}
     };
     assertArrayEquals(expectedCardsLayout, noHoleManager.getGrid());
-    assertEquals(GamePlayer.BLUE, noHoleGrid.getCardAt(0, 2).getOwner());
-    assertEquals(GamePlayer.BLUE, noHoleGrid.getCardAt(1, 2).getOwner());
+    assertEquals(GamePlayer.BLUE, noHoleManager.getCardAt(0, 2).getOwner());
+    assertEquals(GamePlayer.BLUE, noHoleManager.getCardAt(1, 2).getOwner());
   }
 
   @Test
@@ -530,8 +529,8 @@ public class ThreeTriosGridManagerTest {
             {null, null, null}
     };
     assertArrayEquals(expectedCardsLayout, noHoleManager.getGrid());
-    assertEquals(GamePlayer.RED, noHoleGrid.getCardAt(0, 1).getOwner());
-    assertEquals(GamePlayer.BLUE, noHoleGrid.getCardAt(0, 2).getOwner());
+    assertEquals(GamePlayer.RED, noHoleManager.getCardAt(0, 1).getOwner());
+    assertEquals(GamePlayer.BLUE, noHoleManager.getCardAt(0, 2).getOwner());
   }
 
   @Test
@@ -545,8 +544,8 @@ public class ThreeTriosGridManagerTest {
             {null, null, null}
     };
     assertArrayEquals(expectedCardsLayout, noHoleManager.getGrid());
-    assertEquals(GamePlayer.RED, noHoleGrid.getCardAt(0, 0).getOwner());
-    assertEquals(GamePlayer.BLUE, noHoleGrid.getCardAt(0, 2).getOwner());
+    assertEquals(GamePlayer.RED, noHoleManager.getCardAt(0, 0).getOwner());
+    assertEquals(GamePlayer.BLUE, noHoleManager.getCardAt(0, 2).getOwner());
   }
 
   @Test
@@ -560,8 +559,8 @@ public class ThreeTriosGridManagerTest {
             {null, null, null}
     };
     assertArrayEquals(expectedCardsLayout, noHoleManager.getGrid());
-    assertEquals(GamePlayer.RED, noHoleGrid.getCardAt(0, 0).getOwner());
-    assertEquals(GamePlayer.BLUE, noHoleGrid.getCardAt(1, 1).getOwner());
+    assertEquals(GamePlayer.RED, noHoleManager.getCardAt(0, 0).getOwner());
+    assertEquals(GamePlayer.BLUE, noHoleManager.getCardAt(1, 1).getOwner());
   }
 
   @Test
@@ -576,9 +575,9 @@ public class ThreeTriosGridManagerTest {
             {null, null, null}
     };
     assertArrayEquals(expectedCardsLayout, noHoleManager.getGrid());
-    assertEquals(GamePlayer.BLUE, noHoleGrid.getCardAt(0, 0).getOwner());
-    assertEquals(GamePlayer.RED, noHoleGrid.getCardAt(1, 0).getOwner());
-    assertEquals(GamePlayer.RED, noHoleGrid.getCardAt(1, 1).getOwner());
+    assertEquals(GamePlayer.BLUE, noHoleManager.getCardAt(0, 0).getOwner());
+    assertEquals(GamePlayer.RED, noHoleManager.getCardAt(1, 0).getOwner());
+    assertEquals(GamePlayer.RED, noHoleManager.getCardAt(1, 1).getOwner());
   }
 
   private void assertSameCellTypeGridWithModification(CellType[][] expectedCellTypes,

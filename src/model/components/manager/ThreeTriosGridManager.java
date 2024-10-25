@@ -8,6 +8,7 @@ import model.components.enums.CellType;
 import model.components.enums.Direction;
 import model.components.enums.GamePlayer;
 import model.components.grid.Grid;
+import model.components.grid.ThreeTriosGrid;
 
 /**
  * Manages the grid in the ThreeTriosGame.
@@ -18,14 +19,14 @@ public class ThreeTriosGridManager implements GridManager {
   /**
    * Constructs a new ThreeTriosGridManager with the specified grid.
    *
-   * @param grid the grid to be managed
+   * @param cellTypes the grid to be managed
    * @throws IllegalArgumentException if the grid is null
    */
-  public ThreeTriosGridManager(Grid grid) {
-    if (grid == null) {
+  public ThreeTriosGridManager(CellType[][] cellTypes) {
+    if (cellTypes == null) {
       throw new IllegalArgumentException("Grid cannot be null");
     }
-    this.grid = grid;
+    this.grid = new ThreeTriosGrid(cellTypes);
   }
 
   /**
@@ -162,5 +163,27 @@ public class ThreeTriosGridManager implements GridManager {
    */
   public CellType[][] getCellTypes() {
     return grid.getCellTypesGrid();
+  }
+
+  /**
+   * Gets the total number of cells in the grid.
+   *
+   * @return the number of cells in the grid.
+   */
+  public int numberOfCells() {
+    return grid.getNumberOfCells();
+  }
+
+  /**
+   * Retrieves the card located at the specified cell.
+   *
+   * @param row the row index of the cell (0-indexed)
+   * @param col the column index of the cell (0-indexed)
+   * @return the card located at the specified cell, or null if the cell is empty
+   * @throws IllegalArgumentException if the row or column index is out of bounds
+   * @throws IllegalStateException    if there is no card at cell
+   */
+  public Card getCardAt(int row, int col) {
+    return grid.getCardAt(row, col);
   }
 }

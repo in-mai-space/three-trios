@@ -76,4 +76,23 @@ public interface GridManager {
    * @return a 2D array representing the types of cells in the grid
    */
   CellType[][] getCellTypes();
+
+  /**
+   * Gets the total number of cells in the grid.
+   *
+   * @return the number of cells in the grid.
+   */
+  int numberOfCells();
+
+  /**
+   * Retrieves the card located at the specified cell.
+   *
+   * @param row the row index of the cell (0-indexed)
+   * @param col the column index of the cell (0-indexed)
+   * @return the card located at the specified cell, or null if the cell is empty
+   *
+   * @throws IllegalArgumentException if the row or column index is out of bounds
+   * @throws IllegalStateException if there is no card at cell
+   */
+  Card getCardAt(int row, int col);
 }

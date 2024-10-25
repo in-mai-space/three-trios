@@ -40,13 +40,13 @@ public class ThreeTriosModel implements GameModel {
    */
   private ThreeTriosModel(CellType[][] cellTypes, List<Card> allCards) {
     validateModelArgs(cellTypes, allCards);
-    Grid grid = new ThreeTriosGrid(cellTypes);
-    if (allCards.size() < grid.getNumberOfCells() + 1) {
-      throw new IllegalArgumentException("There must be at least " + (grid.getNumberOfCells() + 1)
+    GridManager manager = new ThreeTriosGridManager(cellTypes);
+    if (allCards.size() < manager.numberOfCells() + 1) {
+      throw new IllegalArgumentException("There must be at least " + (manager.numberOfCells() + 1)
               + " cards available.");
     }
-    this.numCells = grid.getNumberOfCells();
-    this.ruleKeeper = new ThreeTriosGridManager(grid);
+    this.numCells = manager.numberOfCells();
+    this.ruleKeeper = manager;
     this.players = new ArrayList<>(List.of(GamePlayer.RED, GamePlayer.BLUE));
     this.currentPlayerIndex = 0;
     this.allCards = allCards;
