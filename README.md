@@ -1,84 +1,81 @@
-**Overview**
-The ThreeTrios game is a competitive card game for two players, Red and Blue. Each player has a hand 
+---
+## Overview
+### Gameplay
+The ThreeTrios game is a competitive card game for two players, Red and Blue. Each player has a hand
 of cards, where each card is assigned 4 numerical values. The game proceeds as follows:
 1. Gameplay: Players take turns playing their cards in a grid format. Each card's value determines its strength in battle against the opponent's card.
 2. Objective: The goal is to fill the grid with cards while trying to outscore the opponent. The game continues until all cells in the grid are filled.
 3. Outcome: At the end of the game, the results are evaluated to determine if there is a winner or if the game ends in a tie.
 
-The codebase assumes that readers are familiar with the game logic, such as how the card battles each other, 
-when the game is over, operations that a player can do. Readers are familiar with MVC model, basic data
-structures and Java SDK and libraries.
+> This codebase assumes familiarity with core game mechanics (card battling, game completion, and player operations) and a working understanding of MVC architecture, basic data structures, and the Java SDK and libraries.
 
-**Codebase game assumptions**
-* two players: Red and Blue
-* amount of players is fixed throughout the game
-* card uniqueness (name and 4 numerical values)
-* players strictly alternate turns with Red starting first
-* game state can be started, in progress and over
+## Codebase game assumptions
+- **two players**: Red and Blue
+- **fixed amount of players**: amount of players is fixed throughout the game
+- **card uniqueness**: name and 4 numerical values
+- **alternate turns**: players strictly alternate turns with Red starting first
+- **game states**: game state can be started, in progress and over
 
-**Player Interface**
-* select a card
-* place a card
-* quit the game
+## Player Interface
+- select a card
+- place a card
+- pause the game
+- quit the game
 
-**Extensibility of codebase**
-1. Support for additional players
-   * the architecture can support more than two players by representing players as a list, and get next player index can still be applied when there is more than two players
-2. Customizable game rules
-   * can create different game modes with varying rules (e.g., point scoring, additional card types) by extending or composing with the ThreeTriosGridManager
-3. Special cards with unique abilities
-   *  include special cards with unique abilities, which could be implemented by creating subclasses of Card that override specific methods
-4. Different implementations of the view with generics
-   * GameView interface can have multiple implementations for various platforms, such as console-based views and GUI.
+## Extensibility of codebase
+The design allows for potential expansion, including:
+1. **Support for Additional Players**: The architecture supports more than two players by managing players in a list and using an index-based method to determine the next player.
+2. **Customizable Game Rules**: Different game modes can be introduced by extending the `ThreeTriosGridManager` class, allowing for new scoring methods or additional card types.
+3. **Special Cards with Unique Abilities**: Specialized cards with unique abilities can be added by subclassing `Card` and overriding specific methods.
+4. **Different View Implementations**: The `GameView` interface can support multiple implementations for various platforms, such as console and GUI.
 
-**Key components**
-The components of the system follow the Model-View-Controller.
-Model (driver of game logic):
-* responsibilities
-  * Game Initialization: The model initializes the game by validating inputs and setting up the grid and players. It ensures that there are enough cards to play the game, and it handles shuffling if required.
-  * Game State Management: The model tracks the current player, checks if the game is ongoing, and identifies when the game is over.
-  * Card Placement: It handles logic for placing cards on the grid, enforcing rules regarding cell types (like holes), and managing the game's turn flow.
-  * Winner Calculation: The model computes the scores and determines the winner, accounting for ties.
-* details:
-  * ReadOnlyGameModel interface: the view can only accept the ReadOnlyGameModel which allows it to retrieve observations on the game state. It does not expose mutating data to the view to ensure information security.
-  * GameModel interface: this model will be used my controller, which allows the controller to access all methods available of the model
-View (driven by the model): textual representation of the game's state for the players
-* responsibilities:
-  * view renders the current player's information and their cards, as well as the layout of the grid. It formats this data into a string that can be displayed to the user, thus acting as a bridge between the game state and the user interface.
+## Key components
+The code follows the Model-View-Controller (MVC) pattern:
 
-**Key subcomponents of Model**
-The implementation of Card, Grid, Hand, GridManager, GameConfigParser is package private, which only allows the model to access and use them, while the client (such as View) would not be exposed to the implementation details of these classes
-*Card*
-* purpose: players use cards to perform actions in the game
-* AttackValue: represent the attack value on the card (1-9, A stands for 10)
-* GamePlayer: owner of the card
-* Direction: enumerates the possible directions for attacks (north, south, east, west)
-*Grid*
-* purpose: defines the layout and structure of the game grid, facilitating card placement and observation of cards in grid
-* CellType: specifies the type of cell within the grid (cell or hole), which determines a card can be placed
-* Card[][]: represent state of grid, which cards are placed in which cells to manage player's card placement
-*Hand*
-* purpose: represents a player's collection of cards they can use to play in the grid
-* List<Card>: allow to add from cards, remove from cards (this is used instead of arrays to avoid shifting card indexes)
-*GridManager*
-* oversees interactions with the grid, contains game logic for validating moves, executing battles, and updating the game state
+### Model (Core Game Logic)
+The model manages the game's state and flow:
+- **Game Initialization**: Validates inputs, sets up the grid and players, and shuffles cards if necessary.
+- **Game State Management**: Tracks the current player and identifies when the game is over.
+- **Card Placement**: Enforces rules for card placement, including cell-type restrictions.
+- **Winner Calculation**: Computes scores and determines the winner, accounting for ties.
 
-*GameConfigParser*
-* reading and parsing of game configuration files to set up the game's grid layout and loading card data in the model
+#### Model Details
+- **ReadOnlyGameModel Interface**: Provides the view with access to game state information without exposing mutative methods.
+- **GameModel Interface**: This model is accessed by the controller, allowing full access to the model's methods.
 
-**Source organization**
-* src
-  * model
-    * enums: AttackValue, CellType, Direction, GamePlayer
-    * implementation: GameConfigParser, ThreeTriosCard, ThreeTriosGrid, ThreeTriosGridManager, ThreeTriosHand, ThreeTriosMode
-    * interfaces: Card, GameModel, Grid, GridManager, Hand, ReadOnlyGameModel
-  * view: interface GameView and class ThreeTriosTextView
-* test
-  * model
-    * enums: tests for enums
-    * implementation: tests for implementation classes
-  * view: test for text view
-  * suites: suites to run all model tests, all view tests, run all tests
-* config
-  * cards: config files for card database
-  * grid: config files for grid structure
+### View (Driven by the Model)
+The view presents the game's state to the players:
+- **Responsibilities**: The view renders the current player's information and cards, as well as the grid layout. It formats data into a displayable string, bridging the game state and user interface.
+
+## Key Subcomponents of Model
+The model's core classes include:
+
+- **Card**: Represents the playable card in the game.
+- **Attributes**: AttackValue (1-9, with 'A' for 10), GamePlayer (owner), Direction (attack directions).
+- **Grid**: Defines the grid layout and manages card placement.
+- **Attributes**: CellType (cell or hole) and Card[][] (grid state).
+- **Hand**: Represents a player's collection of usable cards.
+- **Attributes**: List of cards (managed via a list rather than an array).
+- **GridManager**: Manages interactions with the grid, including move validation, battles, and game state updates.
+- **GameConfigParser**: Reads and parses configuration files to set up the game’s grid layout and load card data.
+
+
+## Source Organization
+
+```plaintext
+src
+├── model
+│   ├── enums: AttackValue, CellType, Direction, GamePlayer
+│   ├── implementation: GameConfigParser, ThreeTriosCard, ThreeTriosGrid, ThreeTriosGridManager, ThreeTriosHand, ThreeTriosMode
+│   ├── interfaces: Card, GameModel, Grid, GridManager, Hand, ReadOnlyGameModel
+├── view: interface GameView and class ThreeTriosTextView
+test
+├── model
+│   ├── enums: tests for enums
+│   ├── implementation: tests for implementation classes
+├── view: test for text view
+├── suites: run all model tests, all view tests, run all tests
+config
+├── cards: config files for card database
+├── grid: config files for grid structure
+```
