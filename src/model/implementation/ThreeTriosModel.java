@@ -20,7 +20,7 @@ import model.interfaces.Hand;
  * Represents ThreeTriosModel for the ThreeTriosGame.
  */
 public class ThreeTriosModel implements GameModel {
-  private final List<GamePlayer> players;
+  private final GamePlayer[] players;
   private Map<GamePlayer, Hand> playerHands;
   private final GridManager ruleKeeper;
   private int currentPlayerIndex;
@@ -44,7 +44,7 @@ public class ThreeTriosModel implements GameModel {
     }
     this.numCells = manager.numberOfCells();
     this.ruleKeeper = manager;
-    this.players = new ArrayList<>(List.of(GamePlayer.RED, GamePlayer.BLUE));
+    this.players = new GamePlayer[]{GamePlayer.RED, GamePlayer.BLUE};
     this.currentPlayerIndex = 0;
     this.allCards = allCards;
   }
@@ -100,14 +100,14 @@ public class ThreeTriosModel implements GameModel {
     for (GamePlayer player : players) {
       playerHands.put(player, new ThreeTriosHand(new ArrayList<>()));
     }
-    int cardsPerPlayer = (numCells + 1) / players.size();
+    int cardsPerPlayer = (numCells + 1) / players.length;
     int playerIndex = 0;
     for (int i = 0; i < cardsPerPlayer * 2; i++) {
-      if (playerHands.get(players.get(playerIndex)).handSize() < cardsPerPlayer) {
+      if (playerHands.get(players[playerIndex]).handSize() < cardsPerPlayer) {
         Card cardToDistribute = allCards.get(i);
-        playerHands.get(players.get(playerIndex)).addCard(cardToDistribute);
-        cardToDistribute.setOwner(players.get(playerIndex));
-        playerIndex = (playerIndex + 1) % players.size();
+        playerHands.get(players[playerIndex]).addCard(cardToDistribute);
+        cardToDistribute.setOwner(players[playerIndex]);
+        playerIndex = (playerIndex + 1) % players.length;
       }
     }
   }
@@ -156,7 +156,7 @@ public class ThreeTriosModel implements GameModel {
    * Switch the currentPlayerIndex to the next one.
    */
   private void nextPlayer() {
-    currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+    currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
   }
 
   /**
@@ -168,7 +168,7 @@ public class ThreeTriosModel implements GameModel {
    */
   public GamePlayer getCurrentPlayer() {
     validateGameNotStarted();
-    return players.get(currentPlayerIndex);
+    return players[currentPlayerIndex];
   }
 
   /**
@@ -198,7 +198,7 @@ public class ThreeTriosModel implements GameModel {
    */
   public void placeCard(int index, int row, int col) {
     validateGameNotStartOrOver();
-    Hand currentPlayerHand = playerHands.get(players.get(currentPlayerIndex));
+    Hand currentPlayerHand = playerHands.get(players[currentPlayerIndex]);
     Card card = currentPlayerHand.removeCard(index);
     ruleKeeper.placeCard(card, row, col);
     ruleKeeper.executeBattle(row, col);
@@ -262,7 +262,7 @@ public class ThreeTriosModel implements GameModel {
    */
   public List<Card> getCurrentPlayerHand() {
     validateGameNotStarted();
-    return getHand(players.get(currentPlayerIndex));
+    return getHand(players[currentPlayerIndex]);
   }
 
   /**

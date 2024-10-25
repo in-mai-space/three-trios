@@ -1,4 +1,4 @@
-~~**Overview**
+**Overview**
 The ThreeTrios game is a competitive card game for two players, Red and Blue. Each player has a hand 
 of cards, where each card is assigned 4 numerical values. The game proceeds as follows:
 1. Gameplay: Players take turns playing their cards in a grid format. Each card's value determines its strength in battle against the opponent's card.
@@ -14,6 +14,10 @@ structures and Java SDK and libraries.
 * card uniqueness (name and 4 numerical values)
 * players strictly alternate turns with Red starting first
 * game state can be started, in progress and over
+
+**Player Interface**
+* select a card
+* place a card
 
 **Extensibility of codebase**
 1. Support for additional players
@@ -33,6 +37,7 @@ Model: core of the game logic
   * Game State Management: The model tracks the current player, checks if the game is ongoing, and identifies when the game is over.
   * Card Placement: It handles logic for placing cards on the grid, enforcing rules regarding cell types (like holes), and managing the game's turn flow.
   * Winner Calculation: The model computes the scores and determines the winner, accounting for ties.
+* details:
   * ReadOnlyGameModel interface: the view can only accept the ReadOnlyGameModel which allows it to retrieve observations on the game state. It does not expose mutating data to the view to ensure information security.
   * GameModel interface: this model will be used my controller, which allows the controller to access all methods available of the model
 View (driven by the model): textual representation of the game's state for the players
@@ -59,7 +64,7 @@ The implementation of Card, Grid, Hand, GridManager, GameConfigParser is package
 *GameConfigParser*
 * reading and parsing of game configuration files to set up the game's grid layout and loading card data in the model
 
-Source organization
+**Source organization**
 * src
   * model
     * enums: AttackValue, CellType, Direction, GamePlayer

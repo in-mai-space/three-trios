@@ -15,6 +15,8 @@ import model.interfaces.Grid;
 class ThreeTriosGrid implements Grid {
   private final Card[][] cells;
   private final CellType[][] cellTypes;
+  // both of cells and cellTypes use 2d-array because dimension of grid is fixed, and index of cell
+  // types or index of cards do not shift around or get changed after it is placed in the grid
   private final int rows;
   private final int cols;
 
