@@ -11,8 +11,6 @@ import java.util.Set;
 
 import model.components.card.Card;
 import model.components.enums.GamePlayer;
-import model.components.grid.Grid;
-import model.components.grid.ThreeTriosGrid;
 import model.components.hand.Hand;
 import model.components.hand.ThreeTriosHand;
 import model.components.manager.GridManager;

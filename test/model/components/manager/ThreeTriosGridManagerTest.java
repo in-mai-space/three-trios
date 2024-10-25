@@ -10,7 +10,6 @@ import model.components.card.ThreeTriosCard;
 import model.components.enums.AttackValue;
 import model.components.enums.CellType;
 import model.components.enums.GamePlayer;
-import model.components.grid.Grid;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
