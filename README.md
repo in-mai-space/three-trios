@@ -26,7 +26,7 @@ of cards, where each card is assigned 4 numerical values. The game proceeds as f
 
 ## Extensibility of codebase
 The design allows for potential expansion, including:
-1. **Support for Additional Players**: The architecture supports more than two players by managing players in a list and using an index-based method to determine the next player.
+1. **Support for Additional Players**: The architecture supports more than two players by managing players in an array and using an index-based approach to determine the next player.
 2. **Customizable Game Rules**: Different game modes can be introduced by extending the `ThreeTriosGridManager` class, allowing for new scoring methods or additional card types.
 3. **Special Cards with Unique Abilities**: Specialized cards with unique abilities can be added by subclassing `Card` and overriding specific methods.
 4. **Different View Implementations**: The `GameView` interface can support multiple implementations for various platforms, such as console and GUI.
@@ -54,11 +54,11 @@ The view presents the game's state to the players:
 The model's core classes include:
 
 - **Card**: Represents the playable card in the game.
-- **Attributes**: AttackValue (1-9, with 'A' for 10), GamePlayer (owner), Direction (attack directions).
+  - **Attributes**: AttackValue (1-9, with 'A' for 10), GamePlayer (owner), Direction (attack directions).
 - **Grid**: Defines the grid layout and manages card placement.
-- **Attributes**: CellType (cell or hole) and Card[][] (grid state).
+  - **Attributes**: CellType (cell or hole) and Card[][] (grid state).
 - **Hand**: Represents a player's collection of usable cards.
-- **Attributes**: List of cards (managed via a list rather than an array).
+  - **Attributes**: List of cards (managed via a list rather than an array).
 - **GridManager**: Manages interactions with the grid, including move validation, battles, and game state updates.
 - **GameConfigParser**: Reads and parses configuration files to set up the game’s grid layout and load card data.
 
