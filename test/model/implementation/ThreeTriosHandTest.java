@@ -18,16 +18,12 @@ public class ThreeTriosHandTest {
   private ThreeTriosHand emptyHand;
   private Card card1;
   private Card card2;
-  private Card card3;
-
   @Before
   public void setUp() {
     card1 = new ThreeTriosCard(new AttackValue[] {AttackValue.ONE, AttackValue.TWO, AttackValue.THREE, AttackValue.FOUR},
             "Card 1", GamePlayer.RED);
     card2 = new ThreeTriosCard(new AttackValue[] {AttackValue.FIVE, AttackValue.SIX, AttackValue.SEVEN, AttackValue.EIGHT},
             "Card 2", GamePlayer.RED);
-    card3 = new ThreeTriosCard(new AttackValue[] {AttackValue.NINE, AttackValue.A, AttackValue.TWO, AttackValue.THREE},
-            "Card 3", GamePlayer.RED);
 
     hand = new ThreeTriosHand(new ArrayList<>(List.of(card1)));
     emptyHand = new ThreeTriosHand(new ArrayList<>());

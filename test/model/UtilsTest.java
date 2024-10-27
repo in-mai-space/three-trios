@@ -17,6 +17,18 @@ public class UtilsTest {
     assertEquals(expectedPath, actualPath);
   }
 
+  @Test(expected = IllegalArgumentException.class)
+  public void testNullFilePath() {
+    String fileName = "complex_grid.txt";
+    Utils.getFilePath(fileName, null);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testNullPackageName() {
+    String packageName = "grid";
+    Utils.getFilePath(null, packageName);
+  }
+
   @Test
   public void testGetFilePathWithDifferentPackage() {
     String fileName = "big_cards.txt";

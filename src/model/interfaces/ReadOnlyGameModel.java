@@ -11,6 +11,7 @@ import model.enums.GamePlayer;
  * unwanted mutation.
  */
 public interface ReadOnlyGameModel {
+
   /**
    * Returns the current player.
    *

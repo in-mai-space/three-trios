@@ -1,8 +1,8 @@
-CorruptKing 7 3 9 A
-AngryDragon 2 8 9 9
+CorruptKing 6 2 9 3
+AngryDragon 9 7 A 2
 WindBird 7 2 5 3
-HeroKnight A 2 4 4
-WorldDragon 8 3 5 7
-SkyWhale 4 5 9 9
-WaterSeal 2 A 8 5
-FirePhoenix A 6 3 9
+HeroKnight 4 2 3 1
+WorldDragon 7 2 5 3
+SkyWhale 4 5 9 4
+WaterSeal 3 A 7 4
+FirePhoenix 2 8 A 3
