@@ -24,15 +24,15 @@ public class ThreeTriosCardTest {
   @Before
   public void setUp() {
     firstCard = new ThreeTriosCard(new AttackValue[]{
-            AttackValue.THREE, AttackValue.FIVE, AttackValue.A, AttackValue.FOUR }, "Card 1",
-            GamePlayer.BLUE);
+        AttackValue.THREE, AttackValue.FIVE, AttackValue.A, AttackValue.FOUR }, "Card 1",
+        GamePlayer.BLUE);
     firstCardRed = new ThreeTriosCard(new AttackValue[]{
-            AttackValue.THREE, AttackValue.FIVE, AttackValue.A, AttackValue.FOUR}, "Card 1",
-            GamePlayer.RED
+        AttackValue.THREE, AttackValue.FIVE, AttackValue.A, AttackValue.FOUR}, "Card 1",
+        GamePlayer.RED
     );
     secondCard = new ThreeTriosCard(new AttackValue[]{
-            AttackValue.FIVE, AttackValue.EIGHT, AttackValue.A, AttackValue.TWO}, "Card 2",
-            GamePlayer.RED
+        AttackValue.FIVE, AttackValue.EIGHT, AttackValue.A, AttackValue.TWO}, "Card 2",
+        GamePlayer.RED
     );
 
   }
