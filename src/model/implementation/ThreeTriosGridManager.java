@@ -75,7 +75,8 @@ class ThreeTriosGridManager implements GridManager {
             grid.getAdjacentCards(row, col);
 
     // battle this card with every adjacent cards
-    for (Map.Entry<Card, AbstractMap.SimpleEntry<Integer, Integer>> entry : adjacentCards.entrySet()) {
+    for (Map.Entry<Card, AbstractMap.SimpleEntry<Integer, Integer>> entry :
+            adjacentCards.entrySet()) {
       // get the adjacent card
       Card adjacentCard = entry.getKey();
       // get its row and col

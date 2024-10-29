@@ -2,6 +2,9 @@ package model;
 
 import java.nio.file.Paths;
 
+/**
+ * Represent class Utils.
+ */
 public class Utils {
 
   /**

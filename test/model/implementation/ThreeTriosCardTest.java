@@ -27,13 +27,14 @@ public class ThreeTriosCardTest {
             AttackValue.THREE, AttackValue.FIVE, AttackValue.A, AttackValue.FOUR }, "Card 1",
             GamePlayer.BLUE);
     firstCardRed = new ThreeTriosCard(new AttackValue[]{
-            AttackValue.THREE, AttackValue.FIVE, AttackValue.A, AttackValue.FOUR }, "Card 1",
+            AttackValue.THREE, AttackValue.FIVE, AttackValue.A, AttackValue.FOUR}, "Card 1",
             GamePlayer.RED
     );
     secondCard = new ThreeTriosCard(new AttackValue[]{
-            AttackValue.FIVE, AttackValue.EIGHT, AttackValue.A, AttackValue.TWO }, "Card 2",
+            AttackValue.FIVE, AttackValue.EIGHT, AttackValue.A, AttackValue.TWO}, "Card 2",
             GamePlayer.RED
     );
+
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -115,7 +116,7 @@ public class ThreeTriosCardTest {
   @Test(expected = IllegalArgumentException.class)
   public void testNullName() {
     new ThreeTriosCard(new AttackValue[]{AttackValue.THREE, AttackValue.FIVE,
-    AttackValue.EIGHT, AttackValue.FOUR}, null, GamePlayer.BLUE);
+            AttackValue.EIGHT, AttackValue.FOUR}, null, GamePlayer.BLUE);
   }
 
   @Test(expected = IllegalArgumentException.class)
