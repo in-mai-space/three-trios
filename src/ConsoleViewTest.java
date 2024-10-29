@@ -46,10 +46,9 @@ public class ConsoleViewTest {
     - "simple_grid.txt" (3 x 4 with holes & all card cells can reach each other)
     - "complex_grid.txt" (4 x 5 with holes, two groups of card cells can't reach each other)
     - "big_no_hole.txt" (5 x 5 cells with no holes)
-
-    Note: big_grid_cards.txt can work on any grid, but big_cards can only work with no_holes,
-    simple_grid and complex_grid. It will throw exception if you choose incorrectly.
-    */
+     * Note: big_grid_cards.txt can work on any grid, but big_cards can only work with no_holes,
+     * simple_grid and complex_grid. It will throw exception if you choose incorrectly.
+     */
     String gridPath = Utils.getFilePath("", "grid");
     model = ThreeTriosModel.fromFiles(gridPath, cardsPath);
     model.startGame(true);
