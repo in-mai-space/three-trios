@@ -3,9 +3,12 @@ package model.implementation;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 import model.enums.AttackValue;
 import model.interfaces.Card;
@@ -166,12 +169,28 @@ class GameConfigParser {
         Card card = new ThreeTriosCard(new AttackValue[]{north, south, east, west}, cardName);
         cards.add(card);
       }
+      validateRepeatedNames(cards);
     } catch (FileNotFoundException e) {
       throw new IllegalStateException("Cannot find file");
     } catch (NumberFormatException e) {
       throw new IllegalStateException("Card values must be integers");
     }
     return cards;
+  }
+
+  /**
+   * Validate whether the cards have repeated names.
+   *
+   * @param cards list of cards
+   * @throws IllegalStateException if the card names are not unique
+   */
+  private static void validateRepeatedNames(List<Card> cards) {
+    Objects.requireNonNull(cards);
+    List<String> nameAsString = cards.stream().map(Card::getName).collect(Collectors.toList());
+    HashSet<String> names = new HashSet<>(nameAsString);
+    if (names.size() != nameAsString.size()) {
+      throw new IllegalStateException("Cards cannot have the same name");
+    }
   }
 
   /**

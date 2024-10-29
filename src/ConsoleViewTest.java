@@ -12,7 +12,7 @@ public class ConsoleViewTest {
   private static GameView<String> view;
 
   /**
-   * The main method serves as the entry point for the ViewTesting application.
+   * The main method serves as the entry point for the ConsoleViewTest application.
    * It executes testing scenarios to validate the game model's behavior and
    * interactions with the view components.
    *
@@ -20,7 +20,7 @@ public class ConsoleViewTest {
    */
   public static void main(String[] args) {
     // please read the setup method below with setup guide
-    setup();
+    setUp();
     System.out.println(view.render()); // initial grid state
 
     /**
@@ -28,13 +28,12 @@ public class ConsoleViewTest {
      * Error message will appear in console if card cannot be placed in a grid position.
      */
     placeCardAndRender(0, 0, 0);
-    placeCardAndRender(0, 0, 0);
   }
 
   /**
    * Set up the game model and view using specified card and grid files.
    */
-  private static void setup() {
+  private static void setUp() {
     /**
      * Choose one card database file out of two, and put it in the empty string below:
      * - "big_cards.txt" (10 cards)

@@ -136,6 +136,10 @@ public class ThreeTriosModelTest {
     assertThrowsWithMessage(IllegalArgumentException.class, "There must be at least 26 cards available.", () ->
             loadModel("big_no_hole.txt", "small_cards.txt")
     );
+
+    assertThrowsWithMessage(IllegalStateException.class, "Cards cannot have the same name", () ->
+            loadModel("complex_grid.txt", "repeated_names.txt")
+    );
   }
 
   @Test

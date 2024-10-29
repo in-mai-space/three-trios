@@ -15,15 +15,6 @@ of cards, where each card is assigned 4 numerical values. The game proceeds as f
 - **alternate turns**: players strictly alternate turns with Red starting first
 - **game states**: game state can be started, in progress and over
 
-## Player Interface
-- startGame
-- selectCard
-- getCurrentPlayer
-- getPlayerHand
-- viewGameBoard
-- checkGameIsOver
-- getWinner
-
 ## Extensibility of codebase
 The design allows for potential expansion, including:
 1. **Support for Additional Players**: The architecture supports more than two players by managing players in an array and using an index-based approach to determine the next player.

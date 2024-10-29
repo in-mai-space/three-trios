@@ -219,4 +219,13 @@ public class GameConfigParserTest {
   public void getCardsNullFilePath() {
     GameConfigParser.getCards(null);
   }
+
+  @Test
+  public void getCardsSameName() {
+    IllegalStateException thrown = assertThrows(IllegalStateException.class, () -> {
+      String filePath = Utils.getFilePath("repeated_names.txt", "cards");
+      GameConfigParser.getCards(filePath);
+    });
+    assertEquals("Cards cannot have the same name", thrown.getMessage());
+  }
 }
