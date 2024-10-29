@@ -114,28 +114,28 @@ public class ThreeTriosModelTest {
             loadModel("wrong_format.txt", "big_cards.txt")
     );
 
-    assertThrowsWithMessage(IllegalStateException.class, "Insufficient rows in config file", () ->
-            loadModel("not_enough_rows.txt", "big_cards.txt")
+    assertThrowsWithMessage(IllegalStateException.class, "Insufficient rows in config file",
+      () -> loadModel("not_enough_rows.txt", "big_cards.txt")
     );
 
-    assertThrowsWithMessage(IllegalStateException.class, "Row 0 does not have 4 columns", () ->
-            loadModel("not_enough_cols.txt", "big_cards.txt")
+    assertThrowsWithMessage(IllegalStateException.class, "Row 0 does not have 4 columns",
+      () -> loadModel("not_enough_cols.txt", "big_cards.txt")
     );
 
-    assertThrowsWithMessage(IllegalStateException.class, "Invalid character in grid config: M", () ->
-            loadModel("invalid_char.txt", "big_cards.txt")
+    assertThrowsWithMessage(IllegalStateException.class, "Invalid character in grid " +
+      "config: M", () -> loadModel("invalid_char.txt", "big_cards.txt")
     );
 
-    assertThrowsWithMessage(IllegalStateException.class, "Card entry must have 5 elements: 7 3 9 A", () ->
-            loadModel("big_no_hole.txt", "no_name.txt")
+    assertThrowsWithMessage(IllegalStateException.class, "Card entry must have 5 elements: " +
+      "7 3 9 A", () -> loadModel("big_no_hole.txt", "no_name.txt")
     );
 
-    assertThrowsWithMessage(IllegalArgumentException.class, "Invalid attack value: B", () ->
-            loadModel("big_no_hole.txt", "invalid_letter.txt")
+    assertThrowsWithMessage(IllegalArgumentException.class, "Invalid attack value: B",
+      () -> loadModel("big_no_hole.txt", "invalid_letter.txt")
     );
 
-    assertThrowsWithMessage(IllegalArgumentException.class, "Invalid attack value: 10", () ->
-            loadModel("big_no_hole.txt", "invalid_number.txt")
+    assertThrowsWithMessage(IllegalArgumentException.class, "Invalid attack value: 10",
+      () -> loadModel("big_no_hole.txt", "invalid_number.txt")
     );
 
     assertThrowsWithMessage(IllegalStateException.class, "Card entry must have 5 " +
@@ -143,12 +143,12 @@ public class ThreeTriosModelTest {
             loadModel("big_no_hole.txt", "not_enough_values.txt")
     );
 
-    assertThrowsWithMessage(IllegalArgumentException.class, "There must be at least 26 cards available.", () ->
-            loadModel("big_no_hole.txt", "small_cards.txt")
+    assertThrowsWithMessage(IllegalArgumentException.class, "There must be at least 26 " +
+      "cards available.", () -> loadModel("big_no_hole.txt", "small_cards.txt")
     );
 
-    assertThrowsWithMessage(IllegalStateException.class, "Cards cannot have the same name", () ->
-            loadModel("complex_grid.txt", "repeated_names.txt")
+    assertThrowsWithMessage(IllegalStateException.class, "Cards cannot have the same name",
+      () -> loadModel("complex_grid.txt", "repeated_names.txt")
     );
   }
 
