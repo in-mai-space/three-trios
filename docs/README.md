@@ -8,6 +8,27 @@ of cards, where each card is assigned 4 numerical values. The game proceeds as f
 
 > This codebase assumes familiarity with core game mechanics (card battling, game completion, and player operations) and a working understanding of MVC architecture, basic data structures, and the Java SDK and libraries.
 
+## How to start using the codebase
+- to try out the program: go to src/ConsoleViewTest and read how to setup the game view
+```plaintext
+public static void main(String[] args) {
+    // please read the setup method below with setup guide
+    setUp();
+    System.out.println(view.render()); // initial grid state
+    placeCardAndRender(0, 0, 0);
+}
+```
+- to run the test: go to test/suites/AllTestsSuite
+```plaintext
+@RunWith(Suite.class)
+@Suite.SuiteClasses({
+        ViewTestSuite.class,
+        ModelTestSuite.class
+})
+public class AllTestsSuite {
+}
+```
+
 ## Codebase game assumptions
 - **two players**: Red and Blue
 - **fixed amount of players**: amount of players is fixed throughout the game
@@ -74,4 +95,7 @@ test
 config
 ├── cards: config files for card database
 ├── grid: config files for grid structure
+docs
+├── PLAYER.md
+├── README.md: player interface design
 ```

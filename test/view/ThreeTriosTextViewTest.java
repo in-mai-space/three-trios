@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import model.Utils;
-import model.implementation.GameConfigParserTest;
 import model.interfaces.GameModel;
 import model.implementation.ThreeTriosModel;
 import model.implementation.ThreeTriosModelTest;
