@@ -19,9 +19,6 @@ import static org.junit.Assert.assertTrue;
  * Test class for ThreeTriosGridManager.
  */
 public class ThreeTriosGridManagerTest {
-  private CellType[][] noHoleGrid;
-  private CellType[][] simpleGrid;
-  private CellType[][] complexGrid;
   private GridManager noHoleManager;
   private GridManager simpleGridManager;
   private GridManager complexGridManager;
@@ -35,30 +32,30 @@ public class ThreeTriosGridManagerTest {
   @Before
   public void setUp() {
     String noHoleFilePath = Utils.getFilePath("no_holes.txt", "grid");
-    noHoleGrid = GameConfigParser.getCellTypes(noHoleFilePath);
+    CellType[][] noHoleGrid = GameConfigParser.getCellTypes(noHoleFilePath);
 
     String simpleGridFilePath = Utils.getFilePath("simple_grid.txt", "grid");
-    simpleGrid = GameConfigParser.getCellTypes(simpleGridFilePath);
+    CellType[][] simpleGrid = GameConfigParser.getCellTypes(simpleGridFilePath);
 
     String complexGridFilePath = Utils.getFilePath("complex_grid.txt", "grid");
-    complexGrid = GameConfigParser.getCellTypes(complexGridFilePath);
+    CellType[][] complexGrid = GameConfigParser.getCellTypes(complexGridFilePath);
 
     noHoleManager = new ThreeTriosGridManager(noHoleGrid);
     simpleGridManager = new ThreeTriosGridManager(simpleGrid);
     complexGridManager = new ThreeTriosGridManager(complexGrid);
 
     card527A = new ThreeTriosCard(new AttackValue[]{AttackValue.FIVE, AttackValue.TWO,
-            AttackValue.SEVEN, AttackValue.A}, GamePlayer.RED);
+        AttackValue.SEVEN, AttackValue.A}, GamePlayer.RED);
     card7253 = new ThreeTriosCard(new AttackValue[]{AttackValue.SEVEN, AttackValue.TWO,
-            AttackValue.FIVE, AttackValue.THREE}, GamePlayer.BLUE);
+        AttackValue.FIVE, AttackValue.THREE}, GamePlayer.BLUE);
     card4599 = new ThreeTriosCard(new AttackValue[]{AttackValue.FOUR, AttackValue.FIVE,
-            AttackValue.NINE, AttackValue.NINE}, GamePlayer.BLUE);
+        AttackValue.NINE, AttackValue.NINE}, GamePlayer.BLUE);
     card4623 = new ThreeTriosCard(new AttackValue[]{AttackValue.FOUR, AttackValue.SIX,
-            AttackValue.TWO, AttackValue.THREE}, GamePlayer.RED);
+        AttackValue.TWO, AttackValue.THREE}, GamePlayer.RED);
     card2899 = new ThreeTriosCard(new AttackValue[]{AttackValue.TWO, AttackValue.EIGHT,
-            AttackValue.NINE, AttackValue.NINE}, GamePlayer.RED);
+        AttackValue.NINE, AttackValue.NINE}, GamePlayer.RED);
     card27A9 = new ThreeTriosCard(new AttackValue[]{AttackValue.TWO, AttackValue.SEVEN,
-            AttackValue.A, AttackValue.NINE}, GamePlayer.BLUE);
+        AttackValue.A, AttackValue.NINE}, GamePlayer.BLUE);
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -227,19 +224,17 @@ public class ThreeTriosGridManagerTest {
 
   @Test
   public void testExecuteBattleSimpleGrid() {
-      Object[][] cardPlacements = {
-              {card4623, 1, 0, GamePlayer.RED},
-              {card7253, 2, 0, GamePlayer.BLUE},
-              {card2899, 2, 2, GamePlayer.RED},
-              {card27A9, 2, 3, GamePlayer.BLUE},
-              {card527A, 2, 1, GamePlayer.RED},
-              {card4599, 0, 0, GamePlayer.BLUE}
-    };
+    Object[][] cardPlacements = {
+            {card4623, 1, 0, GamePlayer.RED},
+            {card7253, 2, 0, GamePlayer.BLUE},
+            {card2899, 2, 2, GamePlayer.RED},
+            {card27A9, 2, 3, GamePlayer.BLUE},
+            {card527A, 2, 1, GamePlayer.RED},
+            {card4599, 0, 0, GamePlayer.BLUE}};
     GamePlayer[][] expectedGridOwners = {
             {GamePlayer.BLUE, null, null, null},
             {GamePlayer.BLUE, null, null, null},
-            {GamePlayer.RED, GamePlayer.RED, GamePlayer.RED, GamePlayer.BLUE}
-    };
+            {GamePlayer.RED, GamePlayer.RED, GamePlayer.RED, GamePlayer.BLUE}};
     assertGridOwnerState(cardPlacements, expectedGridOwners, simpleGridManager);
   }
 

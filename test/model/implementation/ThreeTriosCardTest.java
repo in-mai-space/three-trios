@@ -25,8 +25,7 @@ public class ThreeTriosCardTest {
   public void setUp() {
     firstCard = new ThreeTriosCard(new AttackValue[]{
             AttackValue.THREE, AttackValue.FIVE, AttackValue.A, AttackValue.FOUR }, "Card 1",
-            GamePlayer.BLUE
-    );
+            GamePlayer.BLUE);
     firstCardRed = new ThreeTriosCard(new AttackValue[]{
             AttackValue.THREE, AttackValue.FIVE, AttackValue.A, AttackValue.FOUR }, "Card 1",
             GamePlayer.RED
