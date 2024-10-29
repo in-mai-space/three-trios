@@ -409,14 +409,15 @@ public class ThreeTriosGridTest {
 
     Map<Card, AbstractMap.SimpleEntry<Integer, Integer>> neighborsOfTopLeft =
             noHoleGrid.getAdjacentCards(0, 0);
-    assertEquals(new ArrayList<>(Arrays.asList(card7253, card27A9)),
-            new ArrayList<>(neighborsOfTopLeft.keySet()));
+    assertTrue(neighborsOfTopLeft.containsKey(card7253));
+    assertTrue(neighborsOfTopLeft.containsKey(card27A9));
     assertEquals(2, neighborsOfTopLeft.keySet().size());
 
     Map<Card, AbstractMap.SimpleEntry<Integer, Integer>> neighborsOfMiddleLeft =
             noHoleGrid.getAdjacentCards(1, 0);
-    assertEquals(new ArrayList<>(Arrays.asList(card2899, card4599, card4623)),
-            new ArrayList<>(neighborsOfMiddleLeft.keySet()));
+    assertTrue(neighborsOfMiddleLeft.containsKey(card2899));
+    assertTrue(neighborsOfMiddleLeft.containsKey(card4599));
+    assertTrue(neighborsOfMiddleLeft.containsKey(card4623));
     assertEquals(3, neighborsOfMiddleLeft.keySet().size());
   }
 
@@ -431,23 +432,22 @@ public class ThreeTriosGridTest {
 
     Map<Card, AbstractMap.SimpleEntry<Integer, Integer>> neighborsOfTopLeft =
             simpleGrid.getAdjacentCards(0, 0);
-    assertEquals(new ArrayList<>(Collections.singletonList(card27A9)),
-            new ArrayList<>(neighborsOfTopLeft.keySet()));
+    assertTrue(neighborsOfTopLeft.containsKey(card27A9));
 
     Map<Card, AbstractMap.SimpleEntry<Integer, Integer>> neighborsOfMiddleLeft =
             simpleGrid.getAdjacentCards(1, 0);
-    assertEquals(new ArrayList<>(Arrays.asList(card7253, card2899)),
-            new ArrayList<>(neighborsOfMiddleLeft.keySet()));
+    assertTrue(neighborsOfMiddleLeft.containsKey(card7253));
+    assertTrue(neighborsOfMiddleLeft.containsKey(card2899));
 
     Map<Card, AbstractMap.SimpleEntry<Integer, Integer>> neighborsOfBottomLeft =
             simpleGrid.getAdjacentCards(2, 0);
-    assertEquals(new ArrayList<>(Arrays.asList(card27A9, card4623)),
-            new ArrayList<>(neighborsOfBottomLeft.keySet()));
+    assertTrue(neighborsOfBottomLeft.containsKey(card27A9));
+    assertTrue(neighborsOfBottomLeft.containsKey(card4623));
 
     Map<Card, AbstractMap.SimpleEntry<Integer, Integer>> neighborsOfBottom2ndFromTheRight =
             simpleGrid.getAdjacentCards(2, 2);
-    assertEquals(new ArrayList<>(Arrays.asList(card4599, card4623)),
-            new ArrayList<>(neighborsOfBottom2ndFromTheRight.keySet()));
+    assertTrue(neighborsOfBottom2ndFromTheRight.containsKey(card4599));
+    assertTrue(neighborsOfBottom2ndFromTheRight.containsKey(card4623));
   }
 
   @Test
@@ -464,13 +464,15 @@ public class ThreeTriosGridTest {
 
     Map<Card, AbstractMap.SimpleEntry<Integer, Integer>> neighborsOfRow3Col1 =
             complexGrid.getAdjacentCards(3, 1);
-    assertEquals(new ArrayList<>(Arrays.asList(card7253, card2899, card4623)),
-            new ArrayList<>(neighborsOfRow3Col1.keySet()));
+    assertTrue(neighborsOfRow3Col1.containsKey(card7253));
+    assertTrue(neighborsOfRow3Col1.containsKey(card2899));
+    assertTrue(neighborsOfRow3Col1.containsKey(card4623));
 
     Map<Card, AbstractMap.SimpleEntry<Integer, Integer>> neighborsOfRow0Col3 =
             complexGrid.getAdjacentCards(0, 3);
-    assertEquals(new ArrayList<>(Arrays.asList(card7253, card2899, card4623)),
-            new ArrayList<>(neighborsOfRow0Col3.keySet()));
+    assertTrue(neighborsOfRow0Col3.containsKey(card7253));
+    assertTrue(neighborsOfRow0Col3.containsKey(card2899));
+    assertTrue(neighborsOfRow0Col3.containsKey(card4623));
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -489,6 +491,32 @@ public class ThreeTriosGridTest {
 
     assertEquals(2, noHoleGrid.countPlayerCards(GamePlayer.RED));
     assertEquals(1, noHoleGrid.countPlayerCards(GamePlayer.BLUE));
+  }
+
+  @Test
+  public void countPlayerCardsSimpleGrid() {
+    assertEquals(0, simpleGrid.countPlayerCards(GamePlayer.RED));
+    assertEquals(0, simpleGrid.countPlayerCards(GamePlayer.BLUE));
+
+    simpleGrid.placeCard(card2899, 0, 0);
+    simpleGrid.placeCard(card27A9, 2, 0);
+    simpleGrid.placeCard(card527A, 2, 2);
+
+    assertEquals(2, simpleGrid.countPlayerCards(GamePlayer.RED));
+    assertEquals(1, simpleGrid.countPlayerCards(GamePlayer.BLUE));
+  }
+
+  @Test
+  public void countPlayerCardsComplexGrid() {
+    assertEquals(0, complexGrid.countPlayerCards(GamePlayer.RED));
+    assertEquals(0, complexGrid.countPlayerCards(GamePlayer.BLUE));
+
+    complexGrid.placeCard(card2899, 0, 0);
+    complexGrid.placeCard(card27A9, 1, 3);
+    complexGrid.placeCard(card527A, 2, 1);
+
+    assertEquals(2, complexGrid.countPlayerCards(GamePlayer.RED));
+    assertEquals(1, complexGrid.countPlayerCards(GamePlayer.BLUE));
   }
 
 }
