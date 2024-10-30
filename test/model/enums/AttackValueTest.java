@@ -4,8 +4,11 @@ import org.junit.Test;
 
 import model.enums.AttackValue;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
+/**
+ * Represents tests for AttackValues.
+ */
 public class AttackValueTest {
   @Test
   public void getValue() {

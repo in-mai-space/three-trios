@@ -29,7 +29,7 @@ class ThreeTriosCard implements Card {
    *
    * @throws IllegalArgumentException if values are null or name is null
    */
-   ThreeTriosCard(AttackValue[] values, String name, GamePlayer owner) {
+  ThreeTriosCard(AttackValue[] values, String name, GamePlayer owner) {
     validateCard(values, name);
     this.north = values[0];
     this.south = values[1];
@@ -114,8 +114,7 @@ class ThreeTriosCard implements Card {
     if (that == null) {
       throw new IllegalArgumentException("Card cannot be null");
     }
-    return this.getAttackValue(direction) >
-            that.getAttackValue(getAdjacentDirection(direction));
+    return this.getAttackValue(direction) > that.getAttackValue(getAdjacentDirection(direction));
   }
 
   /**
@@ -196,11 +195,11 @@ class ThreeTriosCard implements Card {
     }
     if (that instanceof ThreeTriosCard) {
       ThreeTriosCard thatCard = (ThreeTriosCard) that;
-      return this.name.equals(thatCard.name) &&
-              this.north.equals(thatCard.north) &&
-              this.south.equals(thatCard.south) &&
-              this.east.equals(thatCard.east) &&
-              this.west.equals(thatCard.west);
+      return this.name.equals(thatCard.name)
+              && this.north.equals(thatCard.north)
+              && this.south.equals(thatCard.south)
+              && this.east.equals(thatCard.east)
+              && this.west.equals(thatCard.west);
     }
     return false;
   }

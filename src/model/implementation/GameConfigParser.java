@@ -116,7 +116,8 @@ class GameConfigParser {
    *
    * @throws IllegalStateException if there is not enough cols
    */
-  private static void fillRowWithCellTypes(String row, int rowIndex, int expectedCols, CellType[][] cellTypes) {
+  private static void fillRowWithCellTypes(String row, int rowIndex, int expectedCols,
+                                           CellType[][] cellTypes) {
     if (row.length() != expectedCols) {
       throw new IllegalStateException("Row " + rowIndex + " does not have "
               + expectedCols + " columns");

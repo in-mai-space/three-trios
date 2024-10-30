@@ -3,12 +3,7 @@ package model.implementation;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.awt.*;
 import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.Map;
 
 import model.Utils;
@@ -16,15 +11,16 @@ import model.enums.AttackValue;
 import model.interfaces.Card;
 import model.enums.CellType;
 import model.enums.GamePlayer;
-import model.interfaces.GridManager;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Test class for ThreeTriosGrid.
  */
 public class ThreeTriosGridTest {
-  private CellType[][] noHoleGridCellTypes;
   private CellType[][] simpleGridCellTypes;
   private CellType[][] complexGridCellTypes;
   private ThreeTriosGrid noHoleGrid;
@@ -40,7 +36,7 @@ public class ThreeTriosGridTest {
   @Before
   public void setUp() {
     String noHoleFilePath = Utils.getFilePath("no_holes.txt", "grid");
-    noHoleGridCellTypes = GameConfigParser.getCellTypes(noHoleFilePath);
+    CellType[][] noHoleGridCellTypes = GameConfigParser.getCellTypes(noHoleFilePath);
 
     String simpleGridFilePath = Utils.getFilePath("simple_grid.txt", "grid");
     simpleGridCellTypes = GameConfigParser.getCellTypes(simpleGridFilePath);
@@ -53,17 +49,17 @@ public class ThreeTriosGridTest {
     complexGrid = new ThreeTriosGrid(complexGridCellTypes);
 
     card527A = new ThreeTriosCard(new AttackValue[]{AttackValue.FIVE, AttackValue.TWO,
-            AttackValue.SEVEN, AttackValue.A}, GamePlayer.RED);
+        AttackValue.SEVEN, AttackValue.A}, GamePlayer.RED);
     card7253 = new ThreeTriosCard(new AttackValue[]{AttackValue.SEVEN, AttackValue.TWO,
-            AttackValue.FIVE, AttackValue.THREE}, GamePlayer.BLUE);
+        AttackValue.FIVE, AttackValue.THREE}, GamePlayer.BLUE);
     card4599 = new ThreeTriosCard(new AttackValue[]{AttackValue.FOUR, AttackValue.FIVE,
-            AttackValue.NINE, AttackValue.NINE}, GamePlayer.BLUE);
+        AttackValue.NINE, AttackValue.NINE}, GamePlayer.BLUE);
     card4623 = new ThreeTriosCard(new AttackValue[]{AttackValue.FOUR, AttackValue.SIX,
-            AttackValue.TWO, AttackValue.THREE}, GamePlayer.RED);
+        AttackValue.TWO, AttackValue.THREE}, GamePlayer.RED);
     card2899 = new ThreeTriosCard(new AttackValue[]{AttackValue.TWO, AttackValue.EIGHT,
-            AttackValue.NINE, AttackValue.NINE}, GamePlayer.RED);
+        AttackValue.NINE, AttackValue.NINE}, GamePlayer.RED);
     card27A9 = new ThreeTriosCard(new AttackValue[]{AttackValue.TWO, AttackValue.SEVEN,
-            AttackValue.A, AttackValue.NINE}, GamePlayer.BLUE);
+        AttackValue.A, AttackValue.NINE}, GamePlayer.BLUE);
   }
 
   @Test(expected = IllegalArgumentException.class)

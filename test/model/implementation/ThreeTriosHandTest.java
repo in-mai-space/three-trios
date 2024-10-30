@@ -10,20 +10,25 @@ import model.enums.AttackValue;
 import model.interfaces.Card;
 import model.enums.GamePlayer;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
+/**
+ * Test class for ThreeTriosHand.
+ */
 public class ThreeTriosHandTest {
 
   private ThreeTriosHand hand;
   private ThreeTriosHand emptyHand;
   private Card card1;
   private Card card2;
+
   @Before
   public void setUp() {
-    card1 = new ThreeTriosCard(new AttackValue[] {AttackValue.ONE, AttackValue.TWO, AttackValue.THREE, AttackValue.FOUR},
-            "Card 1", GamePlayer.RED);
-    card2 = new ThreeTriosCard(new AttackValue[] {AttackValue.FIVE, AttackValue.SIX, AttackValue.SEVEN, AttackValue.EIGHT},
-            "Card 2", GamePlayer.RED);
+    card1 = new ThreeTriosCard(new AttackValue[] {AttackValue.ONE, AttackValue.TWO,
+      AttackValue.THREE, AttackValue.FOUR}, "Card 1", GamePlayer.RED);
+    card2 = new ThreeTriosCard(new AttackValue[] {AttackValue.FIVE, AttackValue.SIX,
+      AttackValue.SEVEN, AttackValue.EIGHT}, "Card 2", GamePlayer.RED);
 
     hand = new ThreeTriosHand(new ArrayList<>(List.of(card1)));
     emptyHand = new ThreeTriosHand(new ArrayList<>());
