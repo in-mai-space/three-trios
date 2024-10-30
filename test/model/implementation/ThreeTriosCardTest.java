@@ -139,7 +139,7 @@ public class ThreeTriosCardTest {
   @Test(expected = IllegalStateException.class)
   public void testGetNullOwner() {
     Card card = new ThreeTriosCard(new AttackValue[]{AttackValue.THREE, AttackValue.FIVE,
-      AttackValue.EIGHT, AttackValue.FOUR}, "Card");
+        AttackValue.EIGHT, AttackValue.FOUR}, "Card");
     card.getOwner();
   }
 
