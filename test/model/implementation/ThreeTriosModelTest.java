@@ -115,40 +115,40 @@ public class ThreeTriosModelTest {
     );
 
     assertThrowsWithMessage(IllegalStateException.class, "Insufficient rows in config file",
-      () -> loadModel("not_enough_rows.txt", "big_cards.txt")
+        () -> loadModel("not_enough_rows.txt", "big_cards.txt")
     );
 
     assertThrowsWithMessage(IllegalStateException.class, "Row 0 does not have 4 columns",
-      () -> loadModel("not_enough_cols.txt", "big_cards.txt")
+        () -> loadModel("not_enough_cols.txt", "big_cards.txt")
     );
 
-    assertThrowsWithMessage(IllegalStateException.class, "Invalid character in grid " +
-      "config: M", () -> loadModel("invalid_char.txt", "big_cards.txt")
+    assertThrowsWithMessage(IllegalStateException.class, "Invalid character in grid "
+        + "config: M", () -> loadModel("invalid_char.txt", "big_cards.txt")
     );
 
-    assertThrowsWithMessage(IllegalStateException.class, "Card entry must have 5 elements: " +
-      "7 3 9 A", () -> loadModel("big_no_hole.txt", "no_name.txt")
+    assertThrowsWithMessage(IllegalStateException.class, "Card entry must have 5 elements: "
+        + "7 3 9 A", () -> loadModel("big_no_hole.txt", "no_name.txt")
     );
 
     assertThrowsWithMessage(IllegalArgumentException.class, "Invalid attack value: B",
-      () -> loadModel("big_no_hole.txt", "invalid_letter.txt")
+        () -> loadModel("big_no_hole.txt", "invalid_letter.txt")
     );
 
     assertThrowsWithMessage(IllegalArgumentException.class, "Invalid attack value: 10",
-      () -> loadModel("big_no_hole.txt", "invalid_number.txt")
+        () -> loadModel("big_no_hole.txt", "invalid_number.txt")
     );
 
-    assertThrowsWithMessage(IllegalStateException.class, "Card entry must have 5 " +
-      "elements: HeroKnight 4 2 3", () ->
+    assertThrowsWithMessage(IllegalStateException.class, "Card entry must have 5 "
+        + "elements: HeroKnight 4 2 3", () ->
             loadModel("big_no_hole.txt", "not_enough_values.txt")
     );
 
-    assertThrowsWithMessage(IllegalArgumentException.class, "There must be at least 26 " +
-      "cards available.", () -> loadModel("big_no_hole.txt", "small_cards.txt")
+    assertThrowsWithMessage(IllegalArgumentException.class, "There must be at least 26 "
+        + "cards available.", () -> loadModel("big_no_hole.txt", "small_cards.txt")
     );
 
     assertThrowsWithMessage(IllegalStateException.class, "Cards cannot have the same name",
-      () -> loadModel("complex_grid.txt", "repeated_names.txt")
+        () -> loadModel("complex_grid.txt", "repeated_names.txt")
     );
   }
 
@@ -157,12 +157,11 @@ public class ThreeTriosModelTest {
     List<Card> cards = GameConfigParser.getCards(Utils.getFilePath("big_cards.txt", "cards"));
 
     assertThrowsWithMessage(IllegalArgumentException.class,
-      "Cell types must be at least 1x1", () ->
-            ThreeTriosModel.fromData(new CellType[][]{}, cards)
+        "Cell types must be at least 1x1", () -> ThreeTriosModel.fromData(new CellType[][]{}, cards)
     );
 
     assertThrowsWithMessage(IllegalArgumentException.class,
-      "The number of non-hole cells must be odd.", () ->
+        "The number of non-hole cells must be odd.", () ->
             ThreeTriosModel.fromData(new CellType[][]{
                     {CellType.CELL, CellType.CELL},
                     {CellType.CELL, CellType.CELL}
@@ -173,7 +172,7 @@ public class ThreeTriosModelTest {
   @Test
   public void nonUniqueCards() {
     Card card = new ThreeTriosCard(new AttackValue[]{AttackValue.A, AttackValue.FIVE,
-      AttackValue.NINE, AttackValue.SEVEN}, "card");
+        AttackValue.NINE, AttackValue.SEVEN}, "card");
     List<Card> cards = new ArrayList<>(Collections.nCopies(10, card));
 
     assertThrowsWithMessage(IllegalArgumentException.class, "Cards must be unique", () ->
@@ -253,7 +252,7 @@ public class ThreeTriosModelTest {
     ThreeTriosModel model = loadModel("no_holes.txt", "big_cards.txt");
     model.startGame(false);
     assertThrowsWithMessage(IllegalArgumentException.class, "Index out of bound for card",
-      () -> model.placeCard(5, 5, 0)
+        () -> model.placeCard(5, 5, 0)
     );
   }
 
@@ -262,7 +261,7 @@ public class ThreeTriosModelTest {
     ThreeTriosModel model = loadModel("no_holes.txt", "big_cards.txt");
     model.startGame(false);
     assertThrowsWithMessage(IllegalArgumentException.class, "Row index is out of bounds.",
-      () -> model.placeCard(0, 3, 0)
+        () -> model.placeCard(0, 3, 0)
     );
   }
 
@@ -271,7 +270,7 @@ public class ThreeTriosModelTest {
     ThreeTriosModel model = loadModel("no_holes.txt", "big_cards.txt");
     model.startGame(false);
     assertThrowsWithMessage(IllegalArgumentException.class, "Column index is out of bounds.",
-      () -> model.placeCard(0, 0, 3)
+        () -> model.placeCard(0, 0, 3)
     );
   }
 
@@ -306,7 +305,7 @@ public class ThreeTriosModelTest {
             {2, 0}, {2, 1}, {2, 2}
     });
     assertThrowsWithMessage(IllegalStateException.class, "Game is over",
-      () -> model.placeCard(0, 0, 0)
+        () -> model.placeCard(0, 0, 0)
     );
   }
 
@@ -341,7 +340,7 @@ public class ThreeTriosModelTest {
   public void getHandSizeGameNotStarted() {
     ThreeTriosModel model = loadModel("no_holes.txt", "big_cards.txt");
     assertThrowsWithMessage(IllegalStateException.class, "Game has not started",
-      () -> model.getHandSize(GamePlayer.RED)
+        () -> model.getHandSize(GamePlayer.RED)
     );
   }
 
@@ -403,17 +402,6 @@ public class ThreeTriosModelTest {
     assertThrowsWithMessage(IllegalStateException.class, "Game has not started",
             model::getCurrentPlayerHand
     );
-  }
-
-  @Test
-  public void getHandGameOver() {
-    ThreeTriosModel model = loadModel("no_holes.txt", "big_cards.txt");
-    model.startGame(false);
-    placeCardsInGrid(model, new int[][]{
-            {0, 0}, {0, 1}, {0, 2},
-            {1, 0}, {1, 1}, {1, 2},
-            {2, 0}, {2, 1}, {2, 2}
-    });
   }
 
   @Test
