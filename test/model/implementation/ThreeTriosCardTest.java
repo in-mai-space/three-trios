@@ -40,7 +40,7 @@ public class ThreeTriosCardTest {
   @Test(expected = IllegalArgumentException.class)
   public void nullAttackValueInArray() {
     new ThreeTriosCard(new AttackValue[]{null, AttackValue.EIGHT,
-            AttackValue.A, AttackValue.TWO}, "Card");
+      AttackValue.A, AttackValue.TWO}, "Card");
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -51,13 +51,13 @@ public class ThreeTriosCardTest {
   @Test(expected = IllegalArgumentException.class)
   public void nullName() {
     new ThreeTriosCard(new AttackValue[]{AttackValue.THREE, AttackValue.FIVE,
-            AttackValue.EIGHT, AttackValue.TWO}, null, GamePlayer.RED);
+      AttackValue.EIGHT, AttackValue.TWO}, null, GamePlayer.RED);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void invalidAttackValueListSize() {
     new ThreeTriosCard(new AttackValue[]{AttackValue.THREE, AttackValue.FIVE,
-            AttackValue.EIGHT}, "Card");
+      AttackValue.EIGHT}, "Card");
   }
 
   @Test
@@ -116,7 +116,7 @@ public class ThreeTriosCardTest {
   @Test(expected = IllegalArgumentException.class)
   public void testNullName() {
     new ThreeTriosCard(new AttackValue[]{AttackValue.THREE, AttackValue.FIVE,
-            AttackValue.EIGHT, AttackValue.FOUR}, null, GamePlayer.BLUE);
+      AttackValue.EIGHT, AttackValue.FOUR}, null, GamePlayer.BLUE);
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -127,8 +127,7 @@ public class ThreeTriosCardTest {
   @Test(expected = IllegalArgumentException.class)
   public void testAttackValueNot4() {
     new ThreeTriosCard(new AttackValue[]{AttackValue.THREE, AttackValue.FIVE,
-            AttackValue.EIGHT, AttackValue.FOUR, AttackValue.THREE},
-            "Card", GamePlayer.RED);
+      AttackValue.EIGHT, AttackValue.FOUR, AttackValue.THREE}, "Card", GamePlayer.RED);
   }
 
   @Test
@@ -140,8 +139,7 @@ public class ThreeTriosCardTest {
   @Test(expected = IllegalStateException.class)
   public void testGetNullOwner() {
     Card card = new ThreeTriosCard(new AttackValue[]{AttackValue.THREE, AttackValue.FIVE,
-            AttackValue.EIGHT, AttackValue.FOUR},
-            "Card");
+      AttackValue.EIGHT, AttackValue.FOUR}, "Card");
     card.getOwner();
   }
 

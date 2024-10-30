@@ -26,39 +26,31 @@ public class GameConfigParserTest {
   @Before
   public void setUp() {
     Card angryDragon97A2 = new ThreeTriosCard(new AttackValue[]{
-            AttackValue.NINE, AttackValue.SEVEN, AttackValue.A, AttackValue.TWO},
-            "AngryDragon");
+      AttackValue.NINE, AttackValue.SEVEN, AttackValue.A, AttackValue.TWO}, "AngryDragon");
     Card heroKnight4231 = new ThreeTriosCard(new AttackValue[]{
-            AttackValue.FOUR, AttackValue.TWO, AttackValue.THREE, AttackValue.ONE},
-            "HeroKnight");
+      AttackValue.FOUR, AttackValue.TWO, AttackValue.THREE, AttackValue.ONE}, "HeroKnight");
     Card skyWhale4594 = new ThreeTriosCard(new AttackValue[]{
-            AttackValue.FOUR, AttackValue.FIVE, AttackValue.NINE, AttackValue.FOUR},
-            "SkyWhale");
+      AttackValue.FOUR, AttackValue.FIVE, AttackValue.NINE, AttackValue.FOUR}, "SkyWhale");
     Card firePhoenix28A3 = new ThreeTriosCard(new AttackValue[]{
-            AttackValue.TWO, AttackValue.EIGHT, AttackValue.A, AttackValue.THREE},
-            "FirePhoenix");
+      AttackValue.TWO, AttackValue.EIGHT, AttackValue.A, AttackValue.THREE}, "FirePhoenix");
     Card evilQueen1A45 = new ThreeTriosCard(new AttackValue[]{
-            AttackValue.ONE, AttackValue.A, AttackValue.FOUR, AttackValue.FIVE},
-            "EvilQueen");
+      AttackValue.ONE, AttackValue.A, AttackValue.FOUR, AttackValue.FIVE}, "EvilQueen");
     Card corruptKing6293 = new ThreeTriosCard(new AttackValue[]{
-            AttackValue.SIX, AttackValue.TWO, AttackValue.NINE, AttackValue.THREE},
-            "CorruptKing");
-    Card windBird7253 = new ThreeTriosCard(
-            new AttackValue[]{AttackValue.SEVEN, AttackValue.TWO, AttackValue.FIVE, AttackValue.THREE},
-            "WindBird");
+      AttackValue.SIX, AttackValue.TWO, AttackValue.NINE, AttackValue.THREE}, "CorruptKing");
+    Card windBird7253 = new ThreeTriosCard(new AttackValue[]{AttackValue.SEVEN, AttackValue.TWO,
+      AttackValue.FIVE, AttackValue.THREE}, "WindBird");
     Card worldDragon7253 = new ThreeTriosCard(
-            new AttackValue[]{AttackValue.SEVEN, AttackValue.TWO, AttackValue.FIVE, AttackValue.THREE},
-            "WorldDragon");
-    Card waterSeal3A74 = new ThreeTriosCard(
-            new AttackValue[]{AttackValue.THREE, AttackValue.A, AttackValue.SEVEN, AttackValue.FOUR},
-            "WaterSeal");
-    Card earthLizard9166 = new ThreeTriosCard(
-            new AttackValue[]{AttackValue.NINE, AttackValue.ONE, AttackValue.SIX, AttackValue.SIX},
-            "EarthLizard");
-    smallCards = new ArrayList<>(List.of(corruptKing6293, angryDragon97A2, windBird7253, heroKnight4231,
-            worldDragon7253, skyWhale4594, waterSeal3A74, firePhoenix28A3));
-    bigCards = new ArrayList<>(List.of(corruptKing6293, angryDragon97A2, windBird7253, heroKnight4231,
-            worldDragon7253, skyWhale4594, waterSeal3A74, firePhoenix28A3, earthLizard9166, evilQueen1A45));
+      new AttackValue[]{AttackValue.SEVEN, AttackValue.TWO, AttackValue.FIVE, AttackValue.THREE},
+      "WorldDragon");
+    Card waterSeal3A74 = new ThreeTriosCard(new AttackValue[]{AttackValue.THREE, AttackValue.A,
+      AttackValue.SEVEN, AttackValue.FOUR}, "WaterSeal");
+    Card earthLizard9166 = new ThreeTriosCard(new AttackValue[]{AttackValue.NINE, AttackValue.ONE,
+      AttackValue.SIX, AttackValue.SIX}, "EarthLizard");
+    smallCards = new ArrayList<>(List.of(corruptKing6293, angryDragon97A2, windBird7253,
+      heroKnight4231, worldDragon7253, skyWhale4594, waterSeal3A74, firePhoenix28A3));
+    bigCards = new ArrayList<>(List.of(corruptKing6293, angryDragon97A2, windBird7253,
+      heroKnight4231, worldDragon7253, skyWhale4594, waterSeal3A74, firePhoenix28A3,
+      earthLizard9166, evilQueen1A45));
   }
 
   @Test
