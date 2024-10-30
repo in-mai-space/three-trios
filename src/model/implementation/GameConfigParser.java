@@ -48,6 +48,7 @@ class GameConfigParser {
    * @throws IllegalStateException if the file is wrongly formatted or not enough values
    * @throws IllegalStateException if file cannot be found
    * @throws IllegalArgumentException if the value is not valid
+   * @throws IllegalStateException if the card names are not unique
    */
   static List<Card> getCards(String filePath) {
     validateFilepath(filePath);

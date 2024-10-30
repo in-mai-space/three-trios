@@ -23,10 +23,10 @@ public class ThreeTriosModel implements GameModel {
   private final GamePlayer[] players; // array because list of players is fixed throughout game
   // INVARIANT: there are always 2 players
   // - logical statement
-  // - it is final field, which means you can reinitialize
+  // - it is final field, which means you cannot reinitialize
   // - it is instantaneous at any state
   // - it is enforced by the constructor
-  // - none of the methods are modifying thi
+  // - none of the methods are modifying this
 
   private Map<GamePlayer, Hand> playerHands;
   private final GridManager ruleKeeper;
