@@ -45,30 +45,30 @@ public class ThreeTriosModelTest {
   @Before
   public void setUp() {
     angryDragon97A2 = new ThreeTriosCard(new AttackValue[]{ AttackValue.NINE, AttackValue.SEVEN,
-      AttackValue.A, AttackValue.TWO}, "AngryDragon", GamePlayer.BLUE);
+        AttackValue.A, AttackValue.TWO}, "AngryDragon", GamePlayer.BLUE);
     heroKnight4231 = new ThreeTriosCard(new AttackValue[]{ AttackValue.FOUR, AttackValue.TWO,
-      AttackValue.THREE, AttackValue.ONE}, "HeroKnight", GamePlayer.BLUE);
+        AttackValue.THREE, AttackValue.ONE}, "HeroKnight", GamePlayer.BLUE);
     skyWhale4594 = new ThreeTriosCard(new AttackValue[]{ AttackValue.FOUR, AttackValue.FIVE,
-      AttackValue.NINE, AttackValue.FOUR}, "SkyWhale", GamePlayer.BLUE);
+        AttackValue.NINE, AttackValue.FOUR}, "SkyWhale", GamePlayer.BLUE);
     firePhoenix28A3 = new ThreeTriosCard(new AttackValue[]{ AttackValue.TWO, AttackValue.EIGHT,
-      AttackValue.A, AttackValue.THREE}, "FirePhoenix", GamePlayer.BLUE);
+        AttackValue.A, AttackValue.THREE}, "FirePhoenix", GamePlayer.BLUE);
     evilQueen1A45 = new ThreeTriosCard(new AttackValue[]{ AttackValue.ONE, AttackValue.A,
-      AttackValue.FOUR, AttackValue.FIVE}, "EvilQueen", GamePlayer.BLUE);
+        AttackValue.FOUR, AttackValue.FIVE}, "EvilQueen", GamePlayer.BLUE);
     blueHands = new ArrayList<>(List.of(angryDragon97A2, heroKnight4231, skyWhale4594,
             firePhoenix28A3, evilQueen1A45));
 
     corruptKing6293 = new ThreeTriosCard(new AttackValue[]{ AttackValue.SIX, AttackValue.TWO,
-      AttackValue.NINE, AttackValue.THREE}, "CorruptKing", GamePlayer.RED);
+        AttackValue.NINE, AttackValue.THREE}, "CorruptKing", GamePlayer.RED);
     windBird7253 = new ThreeTriosCard(new AttackValue[]{ AttackValue.SEVEN, AttackValue.TWO,
-      AttackValue.FIVE, AttackValue.THREE}, "WindBird", GamePlayer.RED);
+        AttackValue.FIVE, AttackValue.THREE}, "WindBird", GamePlayer.RED);
     worldDragon7253 = new ThreeTriosCard(new AttackValue[]{ AttackValue.SEVEN, AttackValue.TWO,
-      AttackValue.FIVE, AttackValue.THREE}, "WorldDragon", GamePlayer.RED);
+        AttackValue.FIVE, AttackValue.THREE}, "WorldDragon", GamePlayer.RED);
     waterSeal3A74 = new ThreeTriosCard(new AttackValue[]{ AttackValue.THREE, AttackValue.A,
-      AttackValue.SEVEN, AttackValue.FOUR}, "WaterSeal", GamePlayer.RED);
+        AttackValue.SEVEN, AttackValue.FOUR}, "WaterSeal", GamePlayer.RED);
     earthLizard9166 = new ThreeTriosCard(new AttackValue[]{ AttackValue.NINE, AttackValue.ONE,
-      AttackValue.SIX, AttackValue.SIX}, "EarthLizard", GamePlayer.RED);
+        AttackValue.SIX, AttackValue.SIX}, "EarthLizard", GamePlayer.RED);
     redHands = new ArrayList<>(List.of(corruptKing6293, windBird7253, worldDragon7253,
-      waterSeal3A74, earthLizard9166));
+        waterSeal3A74, earthLizard9166));
   }
 
   /**
