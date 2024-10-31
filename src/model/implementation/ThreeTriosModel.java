@@ -187,7 +187,7 @@ public class ThreeTriosModel implements GameModel {
    * @return list of cards in the player's hand
    * @throws IllegalStateException if the game has not started or is over
    */
-  private List<Card> getHand(GamePlayer player) {
+  public List<Card> getHand(GamePlayer player) {
     validateGameNotStarted();
     return playerHands.get(player).getCards();
   }
@@ -372,5 +372,31 @@ public class ThreeTriosModel implements GameModel {
   public int getGridHeight() {
     validateGameNotStarted();
     return ruleKeeper.getHeight();
+  }
+
+  /**
+   * Get the score of a player.
+   *
+   * @param player a player in the game
+   * @return the number of cards owned in grid and hand of a player
+   * @throws IllegalStateException if the game is not started
+   */
+  public int getScore(GamePlayer player) {
+    validateGameNotStarted();
+    return ruleKeeper.countPlayerCards(player) + getHandSize(player);
+  }
+  /**
+   * Get card at a position in grid.
+   *
+   * @param row row index
+   * @param col col index
+   * @return the card at a row and position in grid
+   * @throws IllegalArgumentException if index is out of bound
+   * @throws IllegalStateException    if there is no card at that position
+   * @throws IllegalStateException    if game is not started
+   */
+  public Card getCardAt(int row, int col) {
+    validateGameNotStarted();
+    return ruleKeeper.getCardAt(row, col);
   }
 }

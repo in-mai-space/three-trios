@@ -72,4 +72,34 @@ public interface ReadOnlyGameModel {
    * @throws IllegalStateException if the game is not started
    */
   int getGridHeight();
+
+  /**
+   * Get the score of a player.
+   *
+   * @return the number of cards owned in grid and hand of a player
+   * @throws IllegalStateException if the game is not started
+   */
+  int getScore(GamePlayer player);
+  /**
+   * Get card at a position in grid.
+   *
+   * @param row row index
+   * @param col col index
+   *
+   * @return the card at a row and position in grid
+   * @throws IllegalArgumentException if index is out of bound
+   * @throws IllegalStateException if there is no card at that position
+   * @throws IllegalStateException if game is not started
+   */
+  Card getCardAt(int row, int col);
+  /**
+   * Gets the hand of the specified player. Modifying this list does not modify actual
+   * cards in a player's hand.
+   *
+   * @param player player whose hand is to be retrieved
+   *
+   * @return list of cards in the player's hand
+   * @throws IllegalStateException if the game has not started or is over
+   */
+  List<Card> getHand(GamePlayer player);
 }

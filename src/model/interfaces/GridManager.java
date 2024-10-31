@@ -117,4 +117,17 @@ public interface GridManager {
    * @throws IllegalStateException if there is no card at the location
    */
   GamePlayer getOwnerAt(int row, int col);
+
+  /**
+   * Count how many opponents' card would be flipped if a card is played in the grid
+   * at a certain position.
+   *
+   * @param card card to be placed in grid
+   * @param row row index position on grid (0-indexed)
+   * @param col col index position on grid (0-indexed)
+   * @return number of opponents' card flipped if a card is placed in a position
+   * @throws IllegalArgumentException if row or column index out of bounds
+   * @throws IllegalStateException if a card cannot be placed that location
+   */
+  int countCardFlip(Card card, int row, int col);
 }
