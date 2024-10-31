@@ -34,6 +34,13 @@ class ThreeTriosGrid implements Grid {
     this.cells = new Card[rows][cols];
   }
 
+  private ThreeTriosGrid(Card[][] cells, CellType[][] cellTypes) {
+    this.cells = cells;
+    this.cellTypes = cellTypes;
+    this.rows = cellTypes.length;
+    this.cols = cellTypes[0].length;
+  }
+
   /**
    * Gets the total number of cells in the grid.
    *
@@ -89,7 +96,7 @@ class ThreeTriosGrid implements Grid {
     Card[][] gridCopy = new Card[this.rows][this.cols];
     for (int row = 0; row < this.rows; row++) {
       for (int col = 0; col < this.cols; col++) {
-        gridCopy[row][col] = this.cells[row][col];
+        gridCopy[row][col] = cells[row][col].getCopy();
       }
     }
     return gridCopy;
@@ -359,5 +366,14 @@ class ThreeTriosGrid implements Grid {
    */
   public int getHeight() {
     return cellTypes.length;
+  }
+
+  /**
+   * Get the copy of the grid.
+   *
+   * @return the copy of the grid
+   */
+  public Grid getCopy() {
+    return new ThreeTriosGrid(this.getGrid(), this.getCellTypesGrid());
   }
 }

@@ -58,4 +58,9 @@ public interface Card {
    * @throws IllegalArgumentException if owner is null
    */
   void setOwner(GamePlayer owner);
+
+  /**
+   * Get a copy of the card.
+   */
+  Card getCopy();
 }

@@ -231,6 +231,37 @@ class ThreeTriosGridManager implements GridManager {
    * @throws IllegalStateException    if a card cannot be placed that location
    */
   public int countCardFlip(Card card, int row, int col) {
-    return 0;
+    Grid copyGrid = grid.getCopy();
+    int count = 0;
+
+    Card placedCard = copyGrid.getCardAt(row, col);
+    GamePlayer currentPlayer = placedCard.getOwner();
+    // get adjacent cards of this specific card
+    Map<Card, AbstractMap.SimpleEntry<Integer, Integer>> adjacentCards =
+            copyGrid.getAdjacentCards(row, col);
+
+    // battle this card with every adjacent cards
+    for (Map.Entry<Card, AbstractMap.SimpleEntry<Integer, Integer>> entry :
+            adjacentCards.entrySet()) {
+      // get the adjacent card
+      Card adjacentCard = entry.getKey();
+      // get its row and col
+      AbstractMap.SimpleEntry<Integer, Integer> position = entry.getValue();
+
+      GamePlayer adjacentOwner = adjacentCard.getOwner();
+
+      if (!adjacentOwner.equals(currentPlayer)) {
+        int adjacentRow = position.getKey();
+        int adjacentCol = position.getValue();
+
+        Direction direction = getDirection(row, col, adjacentRow, adjacentCol);
+        if (placedCard.beats(adjacentCard, direction)) {
+          count += 1;
+          adjacentCard.setOwner(currentPlayer);
+          executeBattle(adjacentRow, adjacentCol);
+        }
+      }
+    }
+    return count;
   }
 }

@@ -159,6 +159,14 @@ class ThreeTriosCard implements Card {
   }
 
   /**
+   * Get a copy of the card.
+   */
+  public Card getCopy() {
+    return new ThreeTriosCard(new AttackValue[]{north, south, east, west},
+            this.getName(), this.getOwner());
+  }
+
+  /**
    * Get the adjacent direction given a direction. For example, if the given direction
    * is North, then adjacent direction should be South.
    *

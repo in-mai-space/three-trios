@@ -134,4 +134,11 @@ public interface Grid {
    * @return the height of the grid.
    */
   int getHeight();
+
+  /**
+   * Get the copy of the grid.
+   *
+   * @return the copy of the grid
+   */
+  Grid getCopy();
 }
