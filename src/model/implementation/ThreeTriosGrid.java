@@ -343,4 +343,21 @@ class ThreeTriosGrid implements Grid {
       throw new IllegalArgumentException("The number of non-hole cells must be odd.");
     }
   }
+
+  /**
+   * Get the width of grid.
+   *
+   * @return the width of the grid.
+   */
+  public int getWidth() {
+    return cellTypes[0].length;
+  }
+  /**
+   * Get the height of grid.
+   *
+   * @return the height of the grid.
+   */
+  public int getHeight() {
+    return cellTypes.length;
+  }
 }

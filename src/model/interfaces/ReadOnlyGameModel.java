@@ -56,4 +56,20 @@ public interface ReadOnlyGameModel {
    * @throws IllegalStateException if the game is not started
    */
   Optional<GamePlayer> getWinner();
+
+  /**
+   * Get the width of grid.
+   *
+   * @return the width of the grid
+   * @throws IllegalStateException if the game is not started
+   */
+  int getGridWidth();
+
+  /**
+   * Get the height of grid.
+   *
+   * @return the height of the grid
+   * @throws IllegalStateException if the game is not started
+   */
+  int getGridHeight();
 }

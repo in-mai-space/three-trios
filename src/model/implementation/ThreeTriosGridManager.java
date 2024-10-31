@@ -187,4 +187,35 @@ class ThreeTriosGridManager implements GridManager {
   public Card getCardAt(int row, int col) {
     return grid.getCardAt(row, col);
   }
+
+  /**
+   * Get the width of grid.
+   *
+   * @return the width of the grid.
+   */
+  public int getWidth() {
+    return grid.getWidth();
+  }
+  /**
+   * Get the height of grid.
+   *
+   * @return the height of the grid.
+   */
+  public int getHeight() {
+    return grid.getHeight();
+  }
+  /**
+   * Get the owner of a card given row index and column index (0-based).
+   *
+   * @param row row index
+   * @param col column index
+   *
+   * @return the player that owns the card at specific location on grid
+   * @throws IllegalArgumentException if the row or column index is out of bounds
+   * @throws IllegalStateException if there is no card at the location
+   */
+  @Override
+  public GamePlayer getOwnerAt(int row, int col) {
+    return getCardAt(row, col).getOwner();
+  }
 }

@@ -94,4 +94,27 @@ public interface GridManager {
    * @throws IllegalStateException if there is no card at cell
    */
   Card getCardAt(int row, int col);
+
+  /**
+   * Get the width of grid.
+   *
+   * @return the width of the grid.
+   */
+  int getWidth();
+  /**
+   * Get the height of grid.
+   *
+   * @return the height of the grid.
+   */
+  int getHeight();
+  /**
+   * Get the owner of a card given row index and column index (0-based).
+   *
+   * @param row row index
+   * @param col column index
+   *
+   * @return the player that owns the card at specific location on grid
+   * @throws IllegalStateException if there is no card at the location
+   */
+  GamePlayer getOwnerAt(int row, int col);
 }

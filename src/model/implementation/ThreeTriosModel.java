@@ -354,4 +354,23 @@ public class ThreeTriosModel implements GameModel {
       throw new IllegalArgumentException("Cell types must be at least 1x1");
     }
   }
+
+  /**
+   * Get the width of grid.
+   *
+   * @return the width of the grid.
+   */
+  public int getGridWidth() {
+    validateGameNotStarted();
+    return ruleKeeper.getWidth();
+  }
+  /**
+   * Get the height of grid.
+   *
+   * @return the height of the grid.
+   */
+  public int getGridHeight() {
+    validateGameNotStarted();
+    return ruleKeeper.getHeight();
+  }
 }

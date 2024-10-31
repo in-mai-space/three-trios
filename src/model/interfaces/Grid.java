@@ -121,4 +121,17 @@ public interface Grid {
    * @return the number of cells in the grid.
    */
   int getNumberOfCells();
+
+  /**
+   * Get the width of grid.
+   *
+   * @return the width of the grid.
+   */
+  int getWidth();
+  /**
+   * Get the height of grid.
+   *
+   * @return the height of the grid.
+   */
+  int getHeight();
 }
