@@ -1,4 +1,4 @@
-package view.interfaces;
+package view;
 
 /**
  * The GameView interface defines a generic contract for rendering

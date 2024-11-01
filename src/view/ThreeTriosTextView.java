@@ -7,7 +7,6 @@ import model.interfaces.ReadOnlyGameModel;
 import model.interfaces.Card;
 import model.enums.AttackValue;
 import model.enums.CellType;
-import view.interfaces.GameView;
 
 /**
  * The ThreeTriosTextView class implements the GameView interface,

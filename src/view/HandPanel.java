@@ -27,8 +27,8 @@ class HandPanel extends JPanel {
     int panelWidth = getWidth();
     int panelHeight = getHeight();
 
-    int cardWidth = panelWidth - 10;
-    int cardHeight = panelHeight / hand.size();
+    int cardWidth = Math.min(panelWidth - 10, 200);
+    int cardHeight = Math.min(panelHeight / hand.size(), 300);
 
     int startX = (panelWidth - cardWidth) / 2;
 
@@ -37,15 +37,21 @@ class HandPanel extends JPanel {
       Graphics2D cardG2d = (Graphics2D) g2d.create();
 
       int yPos = i * cardHeight;
-
       cardG2d.translate(startX, yPos);
 
-      CardPath cardPath = new CardPath(cardWidth, cardHeight);
-      new ColorDecorator(cardPath, Utils.getCardColor(card.getOwner())).draw(cardG2d);
-      new AttackValuesDecorator(cardPath, card.getAllAttackValues()).draw(cardG2d);
+      CellCardFrame cardFrame = new CellCardFrame.CardBuilder()
+              .setColor(Utils.getCardColor(card.getOwner()))
+              .setAttackValues(card.getAllAttackValues())
+              .build();
 
+      double scaleX = (double) cardWidth / 200;
+      double scaleY = (double) cardHeight / 300;
+      cardG2d.scale(scaleX, scaleY);
+
+      cardFrame.draw(cardG2d);
       cardG2d.dispose();
     }
+
     g2d.dispose();
   }
 }

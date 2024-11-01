@@ -26,26 +26,49 @@ class GridPanel extends JPanel {
     int rows = cellTypes.length;
     int cols = cellTypes[0].length;
 
-    double cellWidth = getWidth() / (double) cols;
-    double cellHeight = getHeight() / (double) rows;
+    // Calculate integer cell width and height to avoid gaps
+    int cellWidth = getWidth() / cols;
+    int cellHeight = getHeight() / rows;
+
+    // Offset for potential remaining space if the division is not perfect
+    int extraWidth = getWidth() % cols;
+    int extraHeight = getHeight() % rows;
 
     for (int row = 0; row < rows; row++) {
       for (int col = 0; col < cols; col++) {
         Graphics2D cellG2d = (Graphics2D) g2d.create();
-        cellG2d.translate(col * cellWidth, row * cellHeight);
 
-        CardPath cellPath = new CardPath(cellWidth, cellHeight);
+        // Calculate x and y positions, adding any extra space offset for last row/column
+        int x = col * cellWidth + Math.min(col, extraWidth);
+        int y = row * cellHeight + Math.min(row, extraHeight);
+        cellG2d.translate(x, y);
 
+        // Adjust cell dimensions for last row/column if there's extra space
+        int currentCellWidth = cellWidth + (col < extraWidth ? 1 : 0);
+        int currentCellHeight = cellHeight + (row < extraHeight ? 1 : 0);
+
+        // Build the cell frame based on the cell type or card
+        CellCardFrame cellFrame;
         if (cellTypes[row][col] == CellType.HOLE) {
-          new ColorDecorator(cellPath, new Color(189,165,93)).draw(cellG2d);
+          cellFrame = new CellCardFrame.CardBuilder()
+                  .setColor(new Color(189, 165, 93))
+                  .build();
         } else if (cards[row][col] == null) {
-          new ColorDecorator(cellPath, new Color(249,224,118)).draw(cellG2d);
+          cellFrame = new CellCardFrame.CardBuilder()
+                  .setColor(new Color(249, 224, 118))
+                  .build();
         } else {
           Card card = cards[row][col];
-          new ColorDecorator(cellPath, Utils.getCardColor(card.getOwner())).draw(cellG2d);
-          new AttackValuesDecorator(cellPath, card.getAllAttackValues()).draw(cellG2d);
+          cellFrame = new CellCardFrame.CardBuilder()
+                  .setColor(Utils.getCardColor(card.getOwner()))
+                  .setAttackValues(card.getAllAttackValues())
+                  .build();
         }
 
+        // Scale and draw the cell frame in the specified space
+        cellG2d.scale((double) currentCellWidth / 200,
+                (double) currentCellHeight / 300);
+        cellFrame.draw(cellG2d);
         cellG2d.dispose();
       }
     }

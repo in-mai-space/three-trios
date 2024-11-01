@@ -1,9 +1,7 @@
 package view;
 
-import java.util.List;
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import model.enums.GamePlayer;
 import model.interfaces.Card;
 import model.interfaces.ReadOnlyGameModel;
