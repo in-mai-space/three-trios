@@ -14,12 +14,9 @@ public class GameFrame extends JFrame {
     JPanel contentPane = new JPanel(new BorderLayout(10, 0));
     setContentPane(contentPane);
 
-    Card[][] grid = model.getGrid();
-    grid[0][0] = model.getCurrentPlayerHand().get(0);
-
-    GridPanel gridPanel = new GridPanel(model.getCellTypes(), grid);
-    HandPanel blueHand = new HandPanel(model.getHand(GamePlayer.BLUE));
-    HandPanel redHand = new HandPanel(model.getHand(GamePlayer.RED));
+    GridPanel gridPanel = new GridPanel(model.getCellTypes(), model.getGrid());
+    HandPanel blueHand = new HandPanel(model.getHand(GamePlayer.BLUE), model.getCurrentPlayer());
+    HandPanel redHand = new HandPanel(model.getHand(GamePlayer.RED), model.getCurrentPlayer());
 
     Dimension handSize = new Dimension(120, 0);
     blueHand.setMinimumSize(handSize);
@@ -29,8 +26,8 @@ public class GameFrame extends JFrame {
     contentPane.add(gridPanel, BorderLayout.CENTER);
     contentPane.add(blueHand, BorderLayout.EAST);
 
+    setPreferredSize(new Dimension(1400, 1200));
     pack();
-    setSize(1400, 1200);
     setLocationRelativeTo(null);
     setVisible(true);
     revalidate();

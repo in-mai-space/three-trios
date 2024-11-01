@@ -44,14 +44,14 @@ public class CellCardFrame extends Path2D.Double {
     g2d.drawString(topValue,
             (float)(ViewData.CELL_WIDTH / 2 - metrics.stringWidth(topValue) / 2),
             (float)(ViewData.CELL_HEIGHT * 0.2));
-    String rightValue = String.valueOf(attackValues[1]);
-    g2d.drawString(rightValue,
-            (float)(ViewData.CELL_WIDTH * 0.8 - metrics.stringWidth(rightValue) / 2),
-            (float)(ViewData.CELL_HEIGHT * 0.5));
-    String bottomValue = String.valueOf(attackValues[2]);
+    String bottomValue = String.valueOf(attackValues[1]);
     g2d.drawString(bottomValue,
             (float)(ViewData.CELL_WIDTH / 2 - metrics.stringWidth(bottomValue) / 2),
             (float)(ViewData.CELL_HEIGHT * 0.8));
+    String rightValue = String.valueOf(attackValues[2]);
+    g2d.drawString(rightValue,
+            (float)(ViewData.CELL_WIDTH * 0.8 - metrics.stringWidth(rightValue) / 2),
+            (float)(ViewData.CELL_HEIGHT * 0.5));
     String leftValue = String.valueOf(attackValues[3]);
     g2d.drawString(leftValue,
             (float)(ViewData.CELL_WIDTH * 0.2 - metrics.stringWidth(leftValue) / 2),
