@@ -37,9 +37,9 @@ class GridPanel extends JPanel {
         CardPath cellPath = new CardPath(cellWidth, cellHeight);
 
         if (cellTypes[row][col] == CellType.HOLE) {
-          new ColorDecorator(cellPath, Color.GRAY).draw(cellG2d);
+          new ColorDecorator(cellPath, new Color(189,165,93)).draw(cellG2d);
         } else if (cards[row][col] == null) {
-          new ColorDecorator(cellPath, Color.YELLOW).draw(cellG2d);
+          new ColorDecorator(cellPath, new Color(249,224,118)).draw(cellG2d);
         } else {
           Card card = cards[row][col];
           new ColorDecorator(cellPath, Utils.getCardColor(card.getOwner())).draw(cellG2d);

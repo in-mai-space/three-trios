@@ -1,9 +1,11 @@
 package view;
 
+import java.util.List;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import model.enums.GamePlayer;
+import model.interfaces.Card;
 import model.interfaces.ReadOnlyGameModel;
 
 public class GameGUIView extends JFrame {
@@ -12,10 +14,12 @@ public class GameGUIView extends JFrame {
     setTitle("Current player: " + model.getCurrentPlayer().toString());
 
     JPanel contentPane = new JPanel(new BorderLayout(10, 0));
-    contentPane.setBorder(new EmptyBorder(10, 10, 10, 10));
     setContentPane(contentPane);
 
-    GridPanel gridPanel = new GridPanel(model.getCellTypes(), model.getGrid());
+    Card[][] grid = model.getGrid();
+    grid[0][0] = model.getCurrentPlayerHand().get(0);
+
+    GridPanel gridPanel = new GridPanel(model.getCellTypes(), grid);
     HandPanel blueHand = new HandPanel(model.getHand(GamePlayer.BLUE));
     HandPanel redHand = new HandPanel(model.getHand(GamePlayer.RED));
 
