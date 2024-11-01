@@ -22,7 +22,7 @@ public class ViewData {
   public static Color getSelectedCardColor(GamePlayer player) {
     switch (player) {
       case RED:
-        return new Color(214, 123, 118);
+        return new Color(235, 108, 101);
       case BLUE:
         return new Color(91, 183, 217);
       default:
