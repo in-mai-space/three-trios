@@ -22,13 +22,16 @@ class HandPanel extends JPanel {
     setOpaque(false);
     setPreferredSize(new Dimension(PREFERRED_WIDTH, 0));
 
-    // Add mouse listener to handle card clicks
     addMouseListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent e) {
         handleCardClick(e);
       }
     });
+  }
+
+  private int getCardHeight() {
+    return getHeight() / Math.max(1, hand.size());
   }
 
   @Override
@@ -42,8 +45,8 @@ class HandPanel extends JPanel {
     int panelWidth = getWidth();
     int panelHeight = getHeight();
 
-    // Calculate card height based on the number of cards
-    int cardHeight = panelHeight / hand.size(); // Each card fills available space equally
+    // Calculate card dimensions
+    int cardHeight = getCardHeight(); // Use the shared method
     int cardWidth = Math.min(panelWidth - 10, 200);
     int startX = (panelWidth - cardWidth) / 2;
 
@@ -54,18 +57,15 @@ class HandPanel extends JPanel {
       Card card = hand.get(i);
       Graphics2D cardG2d = (Graphics2D) g2d.create();
 
-      // Calculate position and apply transformations
-      int yPos = i * cardHeight; // Position based on the index
-      affineTransform.setToIdentity(); // Reset the transform
-      affineTransform.translate(startX, yPos); // Translate to the correct position
+      int yPos = i * cardHeight;
+      affineTransform.setToIdentity();
+      affineTransform.translate(startX, yPos);
       double scaleX = (double) cardWidth / ViewData.CELL_WIDTH;
       double scaleY = (double) cardHeight / ViewData.CELL_HEIGHT;
-      affineTransform.scale(scaleX, scaleY); // Scale the card
+      affineTransform.scale(scaleX, scaleY);
 
-      // Apply the affine transform to the graphics context
       cardG2d.transform(affineTransform);
 
-      // Check if the card owner matches the current player
       if (card.getOwner() == currentPlayer) {
         CellCardFrame cardFrame = new CellCardFrame.CardBuilder()
                 .setColor(ViewData.getCardColor(card.getOwner()))
@@ -73,7 +73,6 @@ class HandPanel extends JPanel {
                 .build();
         cardFrame.draw(cardG2d);
 
-        // Highlight selected card
         if (i == selectedCardIndex) {
           CellCardFrame selectedCard = new CellCardFrame.CardBuilder()
                   .setColor(ViewData.getSelectedCardColor(card.getOwner()))
@@ -82,14 +81,13 @@ class HandPanel extends JPanel {
           selectedCard.draw(cardG2d);
         }
       } else {
-        // Dim the card if the owner does not match the player
-        cardG2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f)); // Dim the card
+        cardG2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
         CellCardFrame cardFrame = new CellCardFrame.CardBuilder()
                 .setColor(ViewData.getCardColor(card.getOwner()))
                 .setAttackValues(card.getAllAttackValues())
                 .build();
         cardFrame.draw(cardG2d);
-        cardG2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f)); // Reset to opaque
+        cardG2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
       }
 
       cardG2d.dispose();
@@ -99,7 +97,9 @@ class HandPanel extends JPanel {
   }
 
   private void handleCardClick(MouseEvent e) {
-    int cardHeight = Math.min(getHeight() / hand.size(), 300); // Adjust height to current hand size
+    if (hand.isEmpty()) return;
+
+    int cardHeight = getCardHeight();
     int cardIndex = e.getY() / cardHeight;
 
     if (cardIndex >= 0 && cardIndex < hand.size()) {
@@ -115,12 +115,10 @@ class HandPanel extends JPanel {
     }
   }
 
-  // Call this method when a card is removed to update the panel
   public void updateHand(List<Card> newHand) {
-    // Replace current hand with the new hand
     this.hand.clear();
     this.hand.addAll(newHand);
-    selectedCardIndex = -1; // Reset selection
-    repaint(); // Repaint to show changes
+    selectedCardIndex = -1;
+    repaint();
   }
 }
