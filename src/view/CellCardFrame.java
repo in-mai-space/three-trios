@@ -6,7 +6,6 @@ import java.awt.geom.Path2D;
 import model.enums.AttackValue;
 
 public class CellCardFrame extends Path2D.Double {
-
   private final Color color;
   private final AttackValue[] attackValues;
 

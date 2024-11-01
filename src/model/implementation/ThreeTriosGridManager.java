@@ -68,33 +68,7 @@ class ThreeTriosGridManager implements GridManager {
    * @throws IllegalArgumentException if the row or column index is out of bounds
    */
   public void executeBattle(int row, int col) {
-    Card placedCard = grid.getCardAt(row, col);
-    GamePlayer currentPlayer = placedCard.getOwner();
-    // get adjacent cards of this specific card
-    Map<Card, AbstractMap.SimpleEntry<Integer, Integer>> adjacentCards =
-            grid.getAdjacentCards(row, col);
-
-    // battle this card with every adjacent cards
-    for (Map.Entry<Card, AbstractMap.SimpleEntry<Integer, Integer>> entry :
-            adjacentCards.entrySet()) {
-      // get the adjacent card
-      Card adjacentCard = entry.getKey();
-      // get its row and col
-      AbstractMap.SimpleEntry<Integer, Integer> position = entry.getValue();
-
-      GamePlayer adjacentOwner = adjacentCard.getOwner();
-
-      if (!adjacentOwner.equals(currentPlayer)) {
-        int adjacentRow = position.getKey();
-        int adjacentCol = position.getValue();
-
-        Direction direction = getDirection(row, col, adjacentRow, adjacentCol);
-        if (placedCard.beats(adjacentCard, direction)) {
-          adjacentCard.setOwner(currentPlayer);
-          executeBattle(adjacentRow, adjacentCol);
-        }
-      }
-    }
+    battleCards(row, col, grid);
   }
 
   /**
@@ -232,13 +206,17 @@ class ThreeTriosGridManager implements GridManager {
    */
   public int countCardFlip(Card card, int row, int col) {
     Grid copyGrid = grid.getCopy();
+    return battleCards(row, col, copyGrid);
+  }
+
+  private int battleCards(int row, int col, Grid grid) {
     int count = 0;
 
-    Card placedCard = copyGrid.getCardAt(row, col);
+    Card placedCard = grid.getCardAt(row, col);
     GamePlayer currentPlayer = placedCard.getOwner();
     // get adjacent cards of this specific card
     Map<Card, AbstractMap.SimpleEntry<Integer, Integer>> adjacentCards =
-            copyGrid.getAdjacentCards(row, col);
+            grid.getAdjacentCards(row, col);
 
     // battle this card with every adjacent cards
     for (Map.Entry<Card, AbstractMap.SimpleEntry<Integer, Integer>> entry :
