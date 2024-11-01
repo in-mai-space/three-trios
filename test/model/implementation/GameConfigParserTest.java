@@ -7,10 +7,10 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.Utils;
 import model.enums.AttackValue;
 import model.interfaces.Card;
 import model.enums.CellType;
-import model.Utils;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;

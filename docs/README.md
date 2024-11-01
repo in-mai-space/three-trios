@@ -83,7 +83,7 @@ src
 │   ├── enums: AttackValue, CellType, Direction, GamePlayer
 │   ├── implementation: GameConfigParser, ThreeTriosCard, ThreeTriosGrid, ThreeTriosGridManager, ThreeTriosHand, ThreeTriosMode
 │   ├── interfaces: Card, GameModel, Grid, GridManager, Hand, ReadOnlyGameModel
-│   ├── Utils: retrieve file path
+│   ├── model.Utils: retrieve file path
 ├── view: interface GameView and class ThreeTriosTextView
 ├── ConsoleViewTest: class for testing view manually
 test

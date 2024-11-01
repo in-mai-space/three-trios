@@ -3,12 +3,12 @@ package view;
 import java.awt.*;
 import java.util.List;
 import javax.swing.*;
-import model.Utils;
+
 import model.interfaces.Card;
 
 class HandPanel extends JPanel {
   private final List<Card> hand;
-  private static final int PREFERRED_WIDTH = 150;
+  private static final int PREFERRED_WIDTH = 180;
 
   public HandPanel(List<Card> hand) {
     this.hand = hand;
@@ -40,12 +40,12 @@ class HandPanel extends JPanel {
       cardG2d.translate(startX, yPos);
 
       CellCardFrame cardFrame = new CellCardFrame.CardBuilder()
-              .setColor(Utils.getCardColor(card.getOwner()))
+              .setColor(ViewData.getCardColor(card.getOwner()))
               .setAttackValues(card.getAllAttackValues())
               .build();
 
-      double scaleX = (double) cardWidth / 200;
-      double scaleY = (double) cardHeight / 300;
+      double scaleX = (double) cardWidth / ViewData.CELL_WIDTH;
+      double scaleY = (double) cardHeight / ViewData.CELL_HEIGHT;
       cardG2d.scale(scaleX, scaleY);
 
       cardFrame.draw(cardG2d);
