@@ -6,8 +6,8 @@ import model.enums.GamePlayer;
 import model.interfaces.Card;
 import model.interfaces.ReadOnlyGameModel;
 
-public class GameGUIView extends JFrame {
-  public GameGUIView(ReadOnlyGameModel model) {
+public class GameFrame extends JFrame {
+  public GameFrame(ReadOnlyGameModel model) {
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setTitle("Current player: " + model.getCurrentPlayer().toString());
 

@@ -1,6 +1,6 @@
 import model.Utils;
 import model.implementation.ThreeTriosModel;
-import view.GameGUIView;
+import view.GameFrame;
 
 public class Main {
     public static void main(String[] args) {
@@ -9,6 +9,6 @@ public class Main {
                 Utils.getFilePath("big_cards.txt", "cards")
         );
         model.startGame(false);
-        new GameGUIView(model);
+        new GameFrame(model);
     }
 }

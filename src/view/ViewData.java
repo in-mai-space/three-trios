@@ -18,4 +18,15 @@ public class ViewData {
         throw new IllegalArgumentException("Invalid color");
     }
   }
+
+  public static Color getSelectedCardColor(GamePlayer player) {
+    switch (player) {
+      case RED:
+        return new Color(214, 123, 118);
+      case BLUE:
+        return new Color(91, 183, 217);
+      default:
+        throw new IllegalArgumentException("Invalid color");
+    }
+  }
 }
