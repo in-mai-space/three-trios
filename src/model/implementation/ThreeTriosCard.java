@@ -118,18 +118,13 @@ class ThreeTriosCard implements Card {
   }
 
   /**
-   * Get all attack values following order north, south, east, west. Modifying this list
+   * Get all attack values following order north, south, east, west. Modifying this array
    * does not change the values on the card.
    *
-   * @return list of attack values
+   * @return array of attack values
    */
-  public List<AttackValue> getAllAttackValues() {
-    List<AttackValue> attackValues = new ArrayList<>();
-    attackValues.add(north);
-    attackValues.add(south);
-    attackValues.add(east);
-    attackValues.add(west);
-    return attackValues;
+  public AttackValue[] getAllAttackValues() {
+    return new AttackValue[]{north, south, east, west};
   }
 
   /**
@@ -162,7 +157,7 @@ class ThreeTriosCard implements Card {
    * Get a copy of the card.
    */
   public Card getCopy() {
-    return new ThreeTriosCard(new AttackValue[]{north, south, east, west},
+    return new ThreeTriosCard(this.getAllAttackValues(),
             this.getName(), this.getOwner());
   }
 

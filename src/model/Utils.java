@@ -1,6 +1,9 @@
 package model;
 
+import java.awt.*;
 import java.nio.file.Paths;
+
+import model.enums.GamePlayer;
 
 /**
  * Represent class Utils.
@@ -19,5 +22,16 @@ public class Utils {
       throw new IllegalArgumentException("File name and package name can't be null");
     }
     return Paths.get("config", packageName, fileName).toString();
+  }
+
+  public static Color getCardColor(GamePlayer player) {
+    switch (player) {
+      case RED:
+        return new Color(248, 131, 121);
+      case BLUE:
+        return new Color(137, 207, 240);
+      default:
+        throw new IllegalArgumentException("Invalid color");
+    }
   }
 }

@@ -96,7 +96,12 @@ class ThreeTriosGrid implements Grid {
     Card[][] gridCopy = new Card[this.rows][this.cols];
     for (int row = 0; row < this.rows; row++) {
       for (int col = 0; col < this.cols; col++) {
-        gridCopy[row][col] = cells[row][col].getCopy();
+        if (cells[row][col] == null) {
+          gridCopy[row][col] = null;
+        }
+        else {
+          gridCopy[row][col] = cells[row][col].getCopy();
+        }
       }
     }
     return gridCopy;

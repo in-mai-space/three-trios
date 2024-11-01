@@ -80,17 +80,17 @@ public class ThreeTriosCardTest {
 
   @Test
   public void getAttackValues() {
-    assertEquals(firstCard.getAllAttackValues().get(0), AttackValue.THREE);
-    assertEquals(firstCard.getAllAttackValues().get(1), AttackValue.FIVE);
-    assertEquals(firstCard.getAllAttackValues().get(2), AttackValue.A);
-    assertEquals(firstCard.getAllAttackValues().get(3), AttackValue.FOUR);
-    assertEquals(secondCard.getAllAttackValues().get(0), AttackValue.FIVE);
-    assertEquals(secondCard.getAllAttackValues().get(1), AttackValue.EIGHT);
-    assertEquals(secondCard.getAllAttackValues().get(2), AttackValue.A);
-    assertEquals(secondCard.getAllAttackValues().get(3), AttackValue.TWO);
+    assertEquals(firstCard.getAllAttackValues()[0], AttackValue.THREE);
+    assertEquals(firstCard.getAllAttackValues()[1], AttackValue.FIVE);
+    assertEquals(firstCard.getAllAttackValues()[2], AttackValue.A);
+    assertEquals(firstCard.getAllAttackValues()[3], AttackValue.FOUR);
+    assertEquals(secondCard.getAllAttackValues()[0], AttackValue.FIVE);
+    assertEquals(secondCard.getAllAttackValues()[1], AttackValue.EIGHT);
+    assertEquals(secondCard.getAllAttackValues()[2], AttackValue.A);
+    assertEquals(secondCard.getAllAttackValues()[3], AttackValue.TWO);
     // modify the list has no effect on the card's attack value
-    firstCard.getAllAttackValues().set(0, AttackValue.TWO);
-    assertEquals(firstCard.getAllAttackValues().get(0), AttackValue.THREE);
+    firstCard.getAllAttackValues()[0] = AttackValue.TWO;
+    assertEquals(firstCard.getAllAttackValues()[0], AttackValue.THREE);
   }
 
   @Test

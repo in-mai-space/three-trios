@@ -31,7 +31,7 @@ public interface Card {
    *
    * @return list of attack values
    */
-  List<AttackValue> getAllAttackValues();
+  AttackValue[] getAllAttackValues();
 
   /**
    * Checks if this card beats the other card's attack values given a direction.
