@@ -580,4 +580,80 @@ public class ThreeTriosGridManagerTest {
     manager.getCellTypes()[0][0] = CellType.HOLE;
     assertArrayEquals(expectedCellTypes, manager.getCellTypes());
   }
+
+  @Test
+  public void getWidthAndHeight() {
+    assertEquals(noHoleManager.getWidth(), 3);
+    assertEquals(noHoleManager.getHeight(), 3);
+
+    assertEquals(simpleGridManager.getWidth(), 4);
+    assertEquals(simpleGridManager.getHeight(), 3);
+
+    assertEquals(complexGridManager.getWidth(), 5);
+    assertEquals(complexGridManager.getHeight(), 4);
+  }
+
+  @Test(expected = IllegalStateException.class)
+  public void testGetCardAtNoCard() {
+    noHoleManager.getCardAt(0, 0);
+  }
+
+  @Test(expected = IllegalStateException.class)
+  public void testGetOwnerAtNoCard() {
+    noHoleManager.getOwnerAt(0, 0);
+  }
+
+  @Test
+  public void testGetCardAt() {
+    noHoleManager.placeCard(card527A, 0, 0);
+    assertEquals(noHoleManager.getCardAt(0, 0), card527A);
+  }
+
+  @Test
+  public void testGetOwnerAt() {
+    noHoleManager.placeCard(card527A, 0, 0);
+    assertEquals(noHoleManager.getOwnerAt(0, 0), card527A.getOwner());
+  }
+
+  @Test(expected = IllegalStateException.class)
+  public void countCardFlipCellOccupied() {
+    assertEquals(noHoleManager.countCardFlip(card4623, 0, 0), 0);
+    noHoleManager.placeCard(card4623, 0, 0);
+    noHoleManager.countCardFlip(card2899, 0, 0);
+  }
+
+  @Test
+  public void countCardFlipTwoCards() {
+    assertEquals(noHoleManager.countCardFlip(card4623, 0, 0), 0);
+    noHoleManager.placeCard(card4623, 0, 0);
+    // cannot flip color since two cards are the same color
+    assertEquals(noHoleManager.countCardFlip(card2899, 0, 1), 0);
+
+    // can flip since this card is not same color and attack value is larger
+    assertEquals(noHoleManager.countCardFlip(card27A9, 0, 1), 1);
+  }
+
+  @Test
+  public void countCardFlipDiagonalDifferentColors() {
+    assertEquals(noHoleManager.countCardFlip(card4623, 0, 0), 0);
+    noHoleManager.placeCard(card4623, 0, 0);
+    assertEquals(noHoleManager.countCardFlip(card27A9, 1, 1), 0);
+  }
+
+  @Test
+  public void countCardFlipNoFlipSmallerOrEqual() {
+    noHoleManager.placeCard(card2899, 0, 0);
+    // two cards are tied in attack values
+    assertEquals(noHoleManager.countCardFlip(card27A9, 0, 1), 0);
+    // the to-be-placed card's attack value is less than that of card in grid
+    assertEquals(noHoleManager.countCardFlip(card7253, 0, 1), 0);
+  }
+
+  @Test
+  public void flipMoreThanOneCard() {
+    noHoleManager.placeCard(card4623, 0, 0);
+    noHoleManager.placeCard(card2899, 0, 1);
+    noHoleManager.placeCard(card527A, 0, 2);
+    assertEquals(noHoleManager.countCardFlip(card7253, 1, 2), 3);
+  }
 }

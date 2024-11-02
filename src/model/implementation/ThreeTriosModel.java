@@ -237,6 +237,24 @@ public class ThreeTriosModel implements GameModel {
   }
 
   /**
+   * Count how many opponents' card would be flipped if a card is played in the grid
+   * at a certain position.
+   *
+   * @param card card to be placed in grid
+   * @param row  row index position on grid (0-indexed)
+   * @param col  col index position on grid (0-indexed)
+   *
+   * @return number of opponents' card flipped if a card is placed in a position
+   * @throws IllegalArgumentException if row or column index out of bounds
+   * @throws IllegalStateException    if a card cannot be placed that location
+   * @throws IllegalStateException if game is not started or over
+   */
+  public int countCardFlip(Card card, int row, int col) {
+    validateGameNotStartOrOver();
+    return ruleKeeper.countCardFlip(card, row, col);
+  }
+
+  /**
    * Gets a copy of current grid of the game. Modifying this 2d array does not modify
    * the game state.
    *
@@ -385,6 +403,7 @@ public class ThreeTriosModel implements GameModel {
     validateGameNotStarted();
     return ruleKeeper.countPlayerCards(player) + getHandSize(player);
   }
+
   /**
    * Get card at a position in grid.
    *
@@ -398,5 +417,20 @@ public class ThreeTriosModel implements GameModel {
   public Card getCardAt(int row, int col) {
     validateGameNotStarted();
     return ruleKeeper.getCardAt(row, col);
+  }
+
+  /**
+   * Get the owner of a card given row index and column index (0-based).
+   *
+   * @param row row index
+   * @param col column index
+   * @return the player that owns the card at specific location on grid
+   * @throws IllegalStateException if there is no card at the location
+   * @throws IllegalStateException if game is not started
+   */
+  @Override
+  public GamePlayer getOwnerAt(int row, int col) {
+    validateGameNotStarted();
+    return ruleKeeper.getOwnerAt(row, col);
   }
 }

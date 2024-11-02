@@ -166,4 +166,14 @@ public class ThreeTriosCardTest {
     assertEquals(firstCard.hashCode(), firstCardRed.hashCode());
     assertNotEquals(firstCard.hashCode(), secondCard.hashCode());
   }
+
+  @Test
+  public void testGetCardCopy() {
+    assertEquals(firstCard.getCopy(), firstCard);
+    assertEquals(firstCard.getCopy().getOwner(), GamePlayer.BLUE);
+    assertEquals(firstCard.getOwner(), GamePlayer.BLUE);
+    // modify the copy of the card does not affect the original
+    firstCard.getCopy().setOwner(GamePlayer.RED);
+    assertEquals(firstCard.getOwner(), GamePlayer.BLUE);
+  }
 }

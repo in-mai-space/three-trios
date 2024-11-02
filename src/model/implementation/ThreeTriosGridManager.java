@@ -59,19 +59,6 @@ class ThreeTriosGridManager implements GridManager {
   }
 
   /**
-   * Executes the battle phase after a card is placed.
-   * The placed card battles all adjacent cards belonging to the opposing player.
-   *
-   * @param row the row index of the newly placed card
-   * @param col the column index of the newly placed card
-   *
-   * @throws IllegalArgumentException if the row or column index is out of bounds
-   */
-  public void executeBattle(int row, int col) {
-    battleCards(row, col, grid);
-  }
-
-  /**
    * Get the direction of the adjacent card relative to the placed card.
    *
    * @param placedRow the row index of the placed card
@@ -195,7 +182,8 @@ class ThreeTriosGridManager implements GridManager {
 
   /**
    * Count how many opponents' card would be flipped if a card is played in the grid
-   * at a certain position.
+   * at a certain position. This will use a copy of the grid to simulate the propagation
+   * rather than actually mutating the grid.
    *
    * @param card card to be placed in grid
    * @param row  row index position on grid (0-indexed)
@@ -205,18 +193,40 @@ class ThreeTriosGridManager implements GridManager {
    * @throws IllegalStateException    if a card cannot be placed that location
    */
   public int countCardFlip(Card card, int row, int col) {
+    // use copy to avoid mutation of actual card in the original grid
     Grid copyGrid = grid.getCopy();
-    return battleCards(row, col, copyGrid);
+    copyGrid.placeCard(card.getCopy(), row, col);
+    return countAndExecuteBattle(row, col, copyGrid);
   }
 
-  private int battleCards(int row, int col, Grid grid) {
-    int count = 0;
+  /**
+   * Executes the battle phase after a card is placed.
+   * The placed card battles all adjacent cards belonging to the opposing player.
+   *
+   * @param row the row index of the newly placed card
+   * @param col the column index of the newly placed card
+   *
+   * @throws IllegalArgumentException if the row or column index is out of bounds
+   */
+  public void executeBattle(int row, int col) {
+    countAndExecuteBattle(row, col, grid);
+  }
 
-    Card placedCard = grid.getCardAt(row, col);
+  /**
+   * Execute battle and count how many cards have been flipped.
+   *
+   * @param row row index (0-indexed)
+   * @param col col index (0-indexed)
+   * @param targetGrid grid to be mutated
+   * @return number of cards that is flipped during the battle
+   */
+  private int countAndExecuteBattle(int row, int col, Grid targetGrid) {
+    int flippedCount = 0;
+    Card placedCard = targetGrid.getCardAt(row, col);
     GamePlayer currentPlayer = placedCard.getOwner();
     // get adjacent cards of this specific card
     Map<Card, AbstractMap.SimpleEntry<Integer, Integer>> adjacentCards =
-            grid.getAdjacentCards(row, col);
+            targetGrid.getAdjacentCards(row, col);
 
     // battle this card with every adjacent cards
     for (Map.Entry<Card, AbstractMap.SimpleEntry<Integer, Integer>> entry :
@@ -234,12 +244,12 @@ class ThreeTriosGridManager implements GridManager {
 
         Direction direction = getDirection(row, col, adjacentRow, adjacentCol);
         if (placedCard.beats(adjacentCard, direction)) {
-          count += 1;
           adjacentCard.setOwner(currentPlayer);
-          battleCards(adjacentRow, adjacentCol, grid);
+          flippedCount += 1;
+          flippedCount += countAndExecuteBattle(adjacentRow, adjacentCol, targetGrid);
         }
       }
     }
-    return count;
+    return flippedCount;
   }
 }

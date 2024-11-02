@@ -98,15 +98,19 @@ public interface GridManager {
   /**
    * Get the width of grid.
    *
-   * @return the width of the grid.
+   * @return the width of the grid
+   * @throws IllegalArgumentException if game is not started
    */
   int getWidth();
+
   /**
    * Get the height of grid.
    *
-   * @return the height of the grid.
+   * @return the height of the grid
+   * @throws IllegalArgumentException if game is not started
    */
   int getHeight();
+
   /**
    * Get the owner of a card given row index and column index (0-based).
    *

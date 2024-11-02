@@ -11,6 +11,7 @@ import model.enums.AttackValue;
 import model.interfaces.Card;
 import model.enums.CellType;
 import model.enums.GamePlayer;
+import model.interfaces.Grid;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -133,6 +134,25 @@ public class ThreeTriosGridTest {
     gridCopy[0][0] = card527A; // modify this array
     // check that adding card to copy didn't change original
     assertTrue(noHoleGrid.canPlaceCard(0, 0));
+    noHoleGrid.placeCard(card2899, 0,0);
+    assertEquals(card2899.getOwner(), GamePlayer.RED);
+    noHoleGrid.getGrid()[0][0].setOwner(GamePlayer.BLUE);
+    // check that modifying owner of a copy of grid does not change actual data
+    assertEquals(card2899.getOwner(), GamePlayer.RED);
+  }
+
+  @Test
+  public void testGetGridCopy() {
+    Grid copy = noHoleGrid.getCopy();
+    assertEquals(copy.getGrid(), noHoleGrid.getGrid());
+    copy.placeCard(card2899, 0, 0);
+    // changing the copy does not affect the original grid
+    assertEquals(copy.getCardAt(0, 0), card2899);
+    assertNull(noHoleGrid.getGrid()[0][0]);
+
+    noHoleGrid.placeCard(card2899.getCopy(), 0, 0);
+    copy.getCardAt(0, 0).setOwner(GamePlayer.BLUE);
+    assertEquals(noHoleGrid.getCardAt(0, 0).getOwner(), GamePlayer.RED);
   }
 
   @Test
@@ -515,4 +535,15 @@ public class ThreeTriosGridTest {
     assertEquals(1, complexGrid.countPlayerCards(GamePlayer.BLUE));
   }
 
+  @Test
+  public void getWidthAndHeight() {
+    assertEquals(noHoleGrid.getWidth(), 3);
+    assertEquals(noHoleGrid.getHeight(), 3);
+
+    assertEquals(simpleGrid.getWidth(), 4);
+    assertEquals(simpleGrid.getHeight(), 3);
+
+    assertEquals(complexGrid.getWidth(), 5);
+    assertEquals(complexGrid.getHeight(), 4);
+  }
 }

@@ -572,4 +572,163 @@ public class ThreeTriosModelTest {
       runnable.run();
     }
   }
+
+  @Test
+  public void getWidthAndHeight() {
+    ThreeTriosModel model = loadModel("simple_grid.txt", "big_cards.txt");
+    model.startGame(true);
+    assertEquals(model.getGridWidth(), 4);
+    assertEquals(model.getGridHeight(), 3);
+  }
+
+  @Test
+  public void getWidthGameNotStarted() {
+    ThreeTriosModel model = loadModel("no_holes.txt", "big_cards.txt");
+    IllegalStateException exception = assertThrows(IllegalStateException.class, model::getGridWidth);
+    assertEquals("Game has not started", exception.getMessage());
+  }
+
+  @Test
+  public void geHeightGameNotStarted() {
+    ThreeTriosModel model = loadModel("no_holes.txt", "big_cards.txt");
+    IllegalStateException exception = assertThrows(IllegalStateException.class, model::getGridHeight);
+    assertEquals("Game has not started", exception.getMessage());
+  }
+
+  @Test
+  public void getCardAtGameNotStarted() {
+    ThreeTriosModel model = loadModel("simple_grid.txt", "big_cards.txt");
+    IllegalStateException exception = assertThrows(IllegalStateException.class, () -> model.getCardAt(0, 0));
+    assertEquals("Game has not started", exception.getMessage());
+  }
+
+  @Test
+  public void getOwnerAtGameNotStarted() {
+    ThreeTriosModel model = loadModel("simple_grid.txt", "big_cards.txt");
+    IllegalStateException exception = assertThrows(IllegalStateException.class, () -> model.getOwnerAt(0, 0));
+    assertEquals("Game has not started", exception.getMessage());
+  }
+
+  @Test
+  public void getCardAtOutOfBound() {
+    ThreeTriosModel model = loadModel("simple_grid.txt", "big_cards.txt");
+    model.startGame(true);
+    IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> model.getCardAt(0, 4));
+    assertEquals("Column index is out of bounds.", exception.getMessage());
+  }
+
+  @Test
+  public void getOwnerAtOutOfBound() {
+    ThreeTriosModel model = loadModel("simple_grid.txt", "big_cards.txt");
+    model.startGame(true);
+    IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> model.getOwnerAt(3, 0));
+    assertEquals("Row index is out of bounds.", exception.getMessage()); // Replace with actual expected message
+  }
+
+  @Test
+  public void getCardAtInvalidPosition() {
+    ThreeTriosModel model = loadModel("simple_grid.txt", "big_cards.txt");
+    model.startGame(true);
+    IllegalStateException exception = assertThrows(IllegalStateException.class, () -> model.getCardAt(0, 0));
+    assertEquals("Cannot get card at this position", exception.getMessage());
+  }
+
+  @Test
+  public void getOwnerAtInvalidPosition() {
+    ThreeTriosModel model = loadModel("simple_grid.txt", "big_cards.txt");
+    model.startGame(true);
+    IllegalStateException exception = assertThrows(IllegalStateException.class, () -> model.getOwnerAt(0, 0));
+    assertEquals("Cannot get card at this position", exception.getMessage());
+  }
+
+  @Test
+  public void getScoreGameNotStarted() {
+    ThreeTriosModel model = loadModel("simple_grid.txt", "big_cards.txt");
+    IllegalStateException exception = assertThrows(IllegalStateException.class, () -> model.getScore(GamePlayer.BLUE));
+    assertEquals("Game has not started", exception.getMessage());
+  }
+
+  @Test
+  public void countCardFlipGameNotStarted() {
+    ThreeTriosModel model = loadModel("simple_grid.txt", "big_cards.txt");
+    IllegalStateException exception = assertThrows(IllegalStateException.class, () -> model.countCardFlip(windBird7253, 0, 0));
+    assertEquals("Game has not started", exception.getMessage());
+  }
+
+  @Test
+  public void countCardFlipGameOver() {
+    ThreeTriosModel model = loadModel("no_holes.txt", "big_cards.txt");
+    model.startGame(false);
+    placeCardsInGrid(model, new int[][]{
+            {0, 0}, {0, 1}, {0, 2},
+            {1, 0}, {1, 1}, {1, 2},
+            {2, 0}, {2, 1}, {2, 2}
+    });
+    IllegalStateException exception = assertThrows(IllegalStateException.class, () -> model.countCardFlip(windBird7253, 0, 0));
+    assertEquals("Game is over", exception.getMessage());
+  }
+
+
+  @Test
+  public void getCardAndOwnerSuccess() {
+    ThreeTriosModel model = loadModel("simple_grid.txt", "big_cards.txt");
+    model.startGame(false);
+    model.placeCard(0, 0, 0);
+    assertEquals(model.getCardAt(0, 0), corruptKing6293);
+    assertEquals(model.getOwnerAt(0, 0), GamePlayer.RED);
+  }
+
+  @Test
+  public void countCardFlipOccupiedCell() {
+    ThreeTriosModel model = loadModel("no_holes.txt", "big_cards.txt");
+    model.startGame(false);
+    model.placeCard(0, 0, 0);
+    IllegalStateException exception = assertThrows(IllegalStateException.class, () -> model.countCardFlip(windBird7253, 0, 0));
+    assertEquals("Cannot place card into row 0 and column 0", exception.getMessage());
+  }
+
+  @Test
+  public void countCardFlip() {
+    ThreeTriosModel model = loadModel("no_holes.txt", "big_cards.txt");
+    model.startGame(false);
+    assertEquals(model.countCardFlip(windBird7253, 1, 1), 0);
+    model.placeCard(1, 1, 1);
+    assertEquals(model.countCardFlip(evilQueen1A45, 0, 1), 1);
+    model.placeCard(4, 0, 1);
+    assertEquals(model.countCardFlip(corruptKing6293, 0, 0), 2);
+    model.placeCard(0, 0, 0);
+    assertEquals(model.countCardFlip(skyWhale4594, 1, 0), 3);
+    model.placeCard(2, 1, 0);
+    assertEquals(model.countCardFlip(worldDragon7253, 2, 0), 4);
+    model.placeCard(0, 2, 0);
+    assertEquals(model.countCardFlip(heroKnight4231, 2, 1), 1);
+  }
+
+  @Test
+  public void getScore() {
+    ThreeTriosModel model = loadModel("no_holes.txt", "big_cards.txt");
+    model.startGame(false);
+    assertEquals(model.getScore(GamePlayer.BLUE), 5);
+    assertEquals(model.getScore(GamePlayer.RED), 5);
+
+    model.placeCard(1, 1, 1);
+    assertEquals(model.getScore(GamePlayer.BLUE), 5);
+    assertEquals(model.getScore(GamePlayer.RED), 5);
+
+    model.placeCard(4, 0, 1);
+    assertEquals(model.getScore(GamePlayer.BLUE), 6);
+    assertEquals(model.getScore(GamePlayer.RED), 4);
+
+    model.placeCard(0, 0, 0);
+    assertEquals(model.getScore(GamePlayer.BLUE), 4);
+    assertEquals(model.getScore(GamePlayer.RED), 6);
+
+    model.placeCard(2, 1, 0);
+    assertEquals(model.getScore(GamePlayer.BLUE), 7);
+    assertEquals(model.getScore(GamePlayer.RED), 3);
+
+    model.placeCard(0, 2, 0);
+    assertEquals(model.getScore(GamePlayer.BLUE), 3);
+    assertEquals(model.getScore(GamePlayer.RED), 7);
+  }
 }
