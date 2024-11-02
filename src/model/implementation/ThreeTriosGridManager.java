@@ -1,12 +1,8 @@
 package model.implementation;
 
 import java.util.AbstractMap;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
-import model.enums.AttackValue;
 import model.interfaces.Card;
 import model.enums.CellType;
 import model.enums.Direction;

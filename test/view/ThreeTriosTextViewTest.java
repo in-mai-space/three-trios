@@ -11,6 +11,8 @@ import model.Utils;
 import model.interfaces.GameModel;
 import model.implementation.ThreeTriosModel;
 import model.implementation.ThreeTriosModelTest;
+import view.console.GameView;
+import view.console.ThreeTriosTextView;
 
 import static org.junit.Assert.assertEquals;
 
