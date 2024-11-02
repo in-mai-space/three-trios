@@ -1,6 +1,7 @@
 package view.gui;
 
-import java.awt.*;
+
+import java.awt.Color;
 
 import model.enums.GamePlayer;
 

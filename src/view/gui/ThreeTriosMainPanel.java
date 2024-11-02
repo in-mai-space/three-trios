@@ -1,8 +1,7 @@
 package view.gui;
 
-import java.awt.*;
-
-import javax.swing.*;
+import java.awt.BorderLayout;
+import javax.swing.JPanel;
 
 import controller.Feature;
 import model.enums.GamePlayer;
