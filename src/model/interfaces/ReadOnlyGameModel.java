@@ -114,8 +114,22 @@ public interface ReadOnlyGameModel {
    * @param player player whose hand is to be retrieved
    *
    * @return list of cards in the player's hand
-   * @throws IllegalStateException if the game has not started or is over
+   * @throws IllegalStateException if the game has not started
    * @throws IllegalArgumentException if player is null
    */
   List<Card> getHand(GamePlayer player);
+
+  /**
+   * Count how many opponents' card would be flipped if a card is played in the grid
+   * at a certain position.
+   *
+   * @param card card to be placed in grid
+   * @param row row index position on grid (0-indexed)
+   * @param col col index position on grid (0-indexed)
+   * @return number of opponents' card flipped if a card is placed in a position
+   * @throws IllegalArgumentException if row or column index out of bounds
+   * @throws IllegalStateException if a card cannot be placed that location
+   * @throws IllegalStateException if game is not started or game is over
+   */
+  int countCardFlip(Card card, int row, int col);
 }
