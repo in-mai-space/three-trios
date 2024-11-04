@@ -36,50 +36,6 @@ public class ThreeTriosModel implements GameModel {
   private final int numCells;
 
   /**
-   * Construct a new ThreeTriosModel.
-   * This constructor is private and is called by the static factory methods.
-   *
-   * @param cellTypes configuration grid of cellTypes
-   * @param allCards list of cards to be played in the game
-   */
-  private ThreeTriosModel(CellType[][] cellTypes, List<Card> allCards) {
-    validateModelArgs(cellTypes, allCards);
-    GridManager manager = new ThreeTriosGridManager(cellTypes);
-    if (allCards.size() < manager.numberOfCells() + 1) {
-      throw new IllegalArgumentException("There must be at least " + (manager.numberOfCells() + 1)
-              + " cards available.");
-    }
-    this.numCells = manager.numberOfCells();
-    this.ruleKeeper = manager;
-    this.players = new GamePlayer[]{GamePlayer.RED, GamePlayer.BLUE};
-    this.currentPlayerIndex = 0;
-    this.allCards = allCards;
-  }
-
-  /**
-   * Creates a new instance of {@code ThreeTriosModel} using the specified file paths
-   * to load the grid layout and card data.
-   *
-   * @param cellTypesFilePath the path to the configuration file that defines the grid layout
-   * @param cardsFilePath the path to the card database file
-   * @return a new instance of {@code ThreeTriosModel} initialized with data from the files
-   *
-   * @throws IllegalArgumentException if the file paths cannot be found or config data is invalid
-   * @throws IllegalArgumentException if cellTypes or allCards is null
-   * @throws IllegalArgumentException if cellTypes is empty or has a length of 0
-   * @throws IllegalArgumentException if the number of non-hole cells is even
-   * @throws IllegalArgumentException if cards in the allCards list are not unique
-   * @throws IllegalArgumentException if a row in the grid is null or contains a null cell type
-   * @throws IllegalArgumentException if the number of cards is not at least the number of non-hole
-   *                                  cells + 1
-   */
-  public static ThreeTriosModel fromFiles(String cellTypesFilePath, String cardsFilePath) {
-    CellType[][] cellTypes = GameConfigParser.getCellTypes(cellTypesFilePath);
-    List<Card> allCards = GameConfigParser.getCards(cardsFilePath);
-    return new ThreeTriosModel(cellTypes, allCards);
-  }
-
-  /**
    * Creates a new instance of {@code ThreeTriosModel} using the provided grid layout
    * and list of cards. This constructor is used for testing purposes.
    *
@@ -95,8 +51,18 @@ public class ThreeTriosModel implements GameModel {
    * @throws IllegalArgumentException if the number of cards is not at least the number of non-hole
    *                                  cells + 1
    */
-  public static ThreeTriosModel fromData(CellType[][] cellTypes, List<Card> allCards) {
-    return new ThreeTriosModel(cellTypes, allCards);
+  public ThreeTriosModel(CellType[][] cellTypes, List<Card> allCards) {
+    validateModelArgs(cellTypes, allCards);
+    GridManager manager = new ThreeTriosGridManager(cellTypes);
+    if (allCards.size() < manager.numberOfCells() + 1) {
+      throw new IllegalArgumentException("There must be at least " + (manager.numberOfCells() + 1)
+              + " cards available.");
+    }
+    this.numCells = manager.numberOfCells();
+    this.ruleKeeper = manager;
+    this.players = new GamePlayer[]{ GamePlayer.RED, GamePlayer.BLUE };
+    this.currentPlayerIndex = 0;
+    this.allCards = allCards;
   }
 
   /**

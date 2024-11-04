@@ -3,6 +3,7 @@ package model.implementation;
 import org.junit.Before;
 import org.junit.Test;
 
+import controller.GameConfigParser;
 import model.Utils;
 import model.enums.AttackValue;
 import model.interfaces.Card;

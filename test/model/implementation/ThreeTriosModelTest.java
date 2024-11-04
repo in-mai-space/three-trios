@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import controller.GameConfigParser;
 import model.Utils;
 import model.enums.AttackValue;
 import model.interfaces.Card;
@@ -81,7 +82,9 @@ public class ThreeTriosModelTest {
   public static ThreeTriosModel loadModel(String gridFile, String cardsFile) {
     String gridFilePath = Utils.getFilePath(gridFile, "grid");
     String cardsFilePath = Utils.getFilePath(cardsFile, "cards");
-    return ThreeTriosModel.fromFiles(gridFilePath, cardsFilePath);
+    CellType[][] cellTypes = GameConfigParser.getCellTypes(gridFilePath);
+    List<Card> cards = GameConfigParser.getCards(cardsFilePath);
+    return new ThreeTriosModel(cellTypes, cards);
   }
 
   private void assertThrowsWithMessage(Class<? extends Throwable> expectedException,
@@ -91,78 +94,16 @@ public class ThreeTriosModelTest {
   }
 
   @Test
-  public void nullFilePathTests() {
-    String validCardsFilePath = Utils.getFilePath("big_cards.txt", "cards");
-    String validGridFilePath = Utils.getFilePath("big_no_hole.txt", "grid");
-
-    assertThrowsWithMessage(IllegalArgumentException.class, "Filepath should not be null", () ->
-            ThreeTriosModel.fromFiles(null, validCardsFilePath)
-    );
-
-    assertThrowsWithMessage(IllegalArgumentException.class, "Filepath should not be null", () ->
-            ThreeTriosModel.fromFiles(validGridFilePath, null)
-    );
-  }
-
-  @Test
-  public void invalidGridOrCardFileTests() {
-    assertThrowsWithMessage(IllegalStateException.class, "Cannot find file: nonexistent.txt", () ->
-            ThreeTriosModel.fromFiles("nonexistent.txt", "nonexistent.txt")
-    );
-
-    assertThrowsWithMessage(IllegalStateException.class, "Config file wrong format", () ->
-            loadModel("wrong_format.txt", "big_cards.txt")
-    );
-
-    assertThrowsWithMessage(IllegalStateException.class, "Insufficient rows in config file",
-        () -> loadModel("not_enough_rows.txt", "big_cards.txt")
-    );
-
-    assertThrowsWithMessage(IllegalStateException.class, "Row 0 does not have 4 columns",
-        () -> loadModel("not_enough_cols.txt", "big_cards.txt")
-    );
-
-    assertThrowsWithMessage(IllegalStateException.class, "Invalid character in grid "
-        + "config: M", () -> loadModel("invalid_char.txt", "big_cards.txt")
-    );
-
-    assertThrowsWithMessage(IllegalStateException.class, "Card entry must have 5 elements: "
-        + "7 3 9 A", () -> loadModel("big_no_hole.txt", "no_name.txt")
-    );
-
-    assertThrowsWithMessage(IllegalArgumentException.class, "Invalid attack value: B",
-        () -> loadModel("big_no_hole.txt", "invalid_letter.txt")
-    );
-
-    assertThrowsWithMessage(IllegalArgumentException.class, "Invalid attack value: 10",
-        () -> loadModel("big_no_hole.txt", "invalid_number.txt")
-    );
-
-    assertThrowsWithMessage(IllegalStateException.class, "Card entry must have 5 "
-        + "elements: HeroKnight 4 2 3", () ->
-            loadModel("big_no_hole.txt", "not_enough_values.txt")
-    );
-
-    assertThrowsWithMessage(IllegalArgumentException.class, "There must be at least 26 "
-        + "cards available.", () -> loadModel("big_no_hole.txt", "small_cards.txt")
-    );
-
-    assertThrowsWithMessage(IllegalStateException.class, "Cards cannot have the same name",
-        () -> loadModel("complex_grid.txt", "repeated_names.txt")
-    );
-  }
-
-  @Test
   public void invalidGameConfigurationTests() {
     List<Card> cards = GameConfigParser.getCards(Utils.getFilePath("big_cards.txt", "cards"));
 
     assertThrowsWithMessage(IllegalArgumentException.class,
-        "Cell types must be at least 1x1", () -> ThreeTriosModel.fromData(new CellType[][]{}, cards)
+        "Cell types must be at least 1x1", () -> new ThreeTriosModel(new CellType[][]{}, cards)
     );
 
     assertThrowsWithMessage(IllegalArgumentException.class,
         "The number of non-hole cells must be odd.", () ->
-            ThreeTriosModel.fromData(new CellType[][]{
+            new ThreeTriosModel(new CellType[][]{
                     {CellType.CELL, CellType.CELL},
                     {CellType.CELL, CellType.CELL}
             }, cards)
@@ -176,7 +117,7 @@ public class ThreeTriosModelTest {
     List<Card> cards = new ArrayList<>(Collections.nCopies(10, card));
 
     assertThrowsWithMessage(IllegalArgumentException.class, "Cards must be unique", () ->
-            ThreeTriosModel.fromData(new CellType[][]{
+            new ThreeTriosModel(new CellType[][]{
                     {CellType.CELL, CellType.CELL, CellType.CELL},
                     {CellType.CELL, CellType.CELL, CellType.CELL},
                     {CellType.CELL, CellType.CELL, CellType.CELL}

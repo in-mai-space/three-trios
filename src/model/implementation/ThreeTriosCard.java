@@ -1,7 +1,5 @@
 package model.implementation;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import model.enums.AttackValue;
@@ -12,7 +10,7 @@ import model.enums.GamePlayer;
 /**
  * Represents a card in the ThreeTriosGame.
  */
-class ThreeTriosCard implements Card {
+public class ThreeTriosCard implements Card {
   private final String name;
   private final AttackValue north;
   private final AttackValue south;
@@ -29,7 +27,7 @@ class ThreeTriosCard implements Card {
    *
    * @throws IllegalArgumentException if values are null or name is null
    */
-  ThreeTriosCard(AttackValue[] values, String name, GamePlayer owner) {
+  public ThreeTriosCard(AttackValue[] values, String name, GamePlayer owner) {
     validateCard(values, name);
     this.north = values[0];
     this.south = values[1];
@@ -43,7 +41,7 @@ class ThreeTriosCard implements Card {
     this(values, "Card", owner);
   }
 
-  ThreeTriosCard(AttackValue[] values, String name) {
+  public ThreeTriosCard(AttackValue[] values, String name) {
     this(values, name, null);
   }
 

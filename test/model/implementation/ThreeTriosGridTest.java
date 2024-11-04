@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.util.AbstractMap;
 import java.util.Map;
 
+import controller.GameConfigParser;
 import model.Utils;
 import model.enums.AttackValue;
 import model.interfaces.Card;

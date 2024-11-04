@@ -1,4 +1,4 @@
-package model.implementation;
+package controller;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -7,8 +7,10 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import controller.GameConfigParser;
 import model.Utils;
 import model.enums.AttackValue;
+import model.implementation.ThreeTriosCard;
 import model.interfaces.Card;
 import model.enums.CellType;
 

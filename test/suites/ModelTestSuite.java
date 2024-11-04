@@ -4,7 +4,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 import model.UtilsTest;
-import model.implementation.GameConfigParserTest;
+import controller.GameConfigParserTest;
 import model.implementation.ThreeTriosModelTest;
 import model.implementation.ThreeTriosCardTest;
 import model.enums.AttackValueTest;

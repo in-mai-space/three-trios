@@ -1,13 +1,20 @@
+import java.util.List;
+
+import controller.GameConfigParser;
 import model.Utils;
+import model.enums.CellType;
 import model.implementation.ThreeTriosModel;
+import model.interfaces.Card;
+import model.interfaces.GameModel;
+import model.interfaces.Grid;
 import view.gui.ThreeTriosView;
 
 public class Main {
     public static void main(String[] args) {
-        ThreeTriosModel model = ThreeTriosModel.fromFiles(
-                Utils.getFilePath("complex_grid.txt", "grid"),
-                Utils.getFilePath("big_cards.txt", "cards")
-        );
+        CellType[][] cellTypes = GameConfigParser.getCellTypes(
+                Utils.getFilePath("complex_grid.txt", "grid"));
+        List<Card> cards = GameConfigParser.getCards(Utils.getFilePath("big_cards.txt", "cards"));
+        GameModel model = new ThreeTriosModel(cellTypes, cards);
         model.startGame(false);
         model.placeCard(0, 0, 0);
         model.placeCard(0, 0, 4);

@@ -1,4 +1,4 @@
-package model.implementation;
+package controller;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,6 +11,7 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 import model.enums.AttackValue;
+import model.implementation.ThreeTriosCard;
 import model.interfaces.Card;
 import model.enums.CellType;
 
@@ -20,7 +21,7 @@ import model.enums.CellType;
  * It reads a grid configuration from a specified file and loads the card data
  * into a list of Card objects.
  */
-class GameConfigParser {
+public class GameConfigParser {
   /**
    * Retrieves the cell types for the game grid from a specified file.
    *
@@ -33,7 +34,7 @@ class GameConfigParser {
    * @throws IllegalStateException if there is not enough rows or cols
    * @throws IllegalStateException if cellType char is not 'C' or 'X'
    */
-  static CellType[][] getCellTypes(String filePath) {
+  public static CellType[][] getCellTypes(String filePath) {
     validateFilepath(filePath);
     return loadGridConfig(filePath);
   }
@@ -50,7 +51,7 @@ class GameConfigParser {
    * @throws IllegalArgumentException if the value is not valid
    * @throws IllegalStateException if the card names are not unique
    */
-  static List<Card> getCards(String filePath) {
+  public static List<Card> getCards(String filePath) {
     validateFilepath(filePath);
     return loadCardDatabase(filePath);
   }
