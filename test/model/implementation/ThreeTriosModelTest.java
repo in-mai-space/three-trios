@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 import controller.GameConfigParser;
 import model.Utils;
 import model.enums.AttackValue;
-import model.interfaces.Card;
+import model.interfaces.Cell;
 import model.enums.CellType;
 import model.enums.Direction;
 import model.interfaces.GameModel;
@@ -30,43 +30,43 @@ import static org.junit.Assert.assertTrue;
  * Represent the test for the model.
  */
 public class ThreeTriosModelTest {
-  private List<Card> redHands;
-  private List<Card> blueHands;
-  private Card angryDragon97A2;
-  private Card heroKnight4231;
-  private Card skyWhale4594;
-  private Card firePhoenix28A3;
-  private Card evilQueen1A45;
-  private Card corruptKing6293;
-  private Card windBird7253;
-  private Card worldDragon7253;
-  private Card waterSeal3A74;
-  private Card earthLizard9166;
+  private List<Cell> redHands;
+  private List<Cell> blueHands;
+  private Cell angryDragon97A2;
+  private Cell heroKnight4231;
+  private Cell skyWhale4594;
+  private Cell firePhoenix28A3;
+  private Cell evilQueen1A45;
+  private Cell corruptKing6293;
+  private Cell windBird7253;
+  private Cell worldDragon7253;
+  private Cell waterSeal3A74;
+  private Cell earthLizard9166;
 
   @Before
   public void setUp() {
-    angryDragon97A2 = new ThreeTriosCard(new AttackValue[]{ AttackValue.NINE, AttackValue.SEVEN,
+    angryDragon97A2 = new ThreeTriosCell(new AttackValue[]{ AttackValue.NINE, AttackValue.SEVEN,
         AttackValue.A, AttackValue.TWO}, "AngryDragon", GamePlayer.BLUE);
-    heroKnight4231 = new ThreeTriosCard(new AttackValue[]{ AttackValue.FOUR, AttackValue.TWO,
+    heroKnight4231 = new ThreeTriosCell(new AttackValue[]{ AttackValue.FOUR, AttackValue.TWO,
         AttackValue.THREE, AttackValue.ONE}, "HeroKnight", GamePlayer.BLUE);
-    skyWhale4594 = new ThreeTriosCard(new AttackValue[]{ AttackValue.FOUR, AttackValue.FIVE,
+    skyWhale4594 = new ThreeTriosCell(new AttackValue[]{ AttackValue.FOUR, AttackValue.FIVE,
         AttackValue.NINE, AttackValue.FOUR}, "SkyWhale", GamePlayer.BLUE);
-    firePhoenix28A3 = new ThreeTriosCard(new AttackValue[]{ AttackValue.TWO, AttackValue.EIGHT,
+    firePhoenix28A3 = new ThreeTriosCell(new AttackValue[]{ AttackValue.TWO, AttackValue.EIGHT,
         AttackValue.A, AttackValue.THREE}, "FirePhoenix", GamePlayer.BLUE);
-    evilQueen1A45 = new ThreeTriosCard(new AttackValue[]{ AttackValue.ONE, AttackValue.A,
+    evilQueen1A45 = new ThreeTriosCell(new AttackValue[]{ AttackValue.ONE, AttackValue.A,
         AttackValue.FOUR, AttackValue.FIVE}, "EvilQueen", GamePlayer.BLUE);
     blueHands = new ArrayList<>(List.of(angryDragon97A2, heroKnight4231, skyWhale4594,
             firePhoenix28A3, evilQueen1A45));
 
-    corruptKing6293 = new ThreeTriosCard(new AttackValue[]{ AttackValue.SIX, AttackValue.TWO,
+    corruptKing6293 = new ThreeTriosCell(new AttackValue[]{ AttackValue.SIX, AttackValue.TWO,
         AttackValue.NINE, AttackValue.THREE}, "CorruptKing", GamePlayer.RED);
-    windBird7253 = new ThreeTriosCard(new AttackValue[]{ AttackValue.SEVEN, AttackValue.TWO,
+    windBird7253 = new ThreeTriosCell(new AttackValue[]{ AttackValue.SEVEN, AttackValue.TWO,
         AttackValue.FIVE, AttackValue.THREE}, "WindBird", GamePlayer.RED);
-    worldDragon7253 = new ThreeTriosCard(new AttackValue[]{ AttackValue.SEVEN, AttackValue.TWO,
+    worldDragon7253 = new ThreeTriosCell(new AttackValue[]{ AttackValue.SEVEN, AttackValue.TWO,
         AttackValue.FIVE, AttackValue.THREE}, "WorldDragon", GamePlayer.RED);
-    waterSeal3A74 = new ThreeTriosCard(new AttackValue[]{ AttackValue.THREE, AttackValue.A,
+    waterSeal3A74 = new ThreeTriosCell(new AttackValue[]{ AttackValue.THREE, AttackValue.A,
         AttackValue.SEVEN, AttackValue.FOUR}, "WaterSeal", GamePlayer.RED);
-    earthLizard9166 = new ThreeTriosCard(new AttackValue[]{ AttackValue.NINE, AttackValue.ONE,
+    earthLizard9166 = new ThreeTriosCell(new AttackValue[]{ AttackValue.NINE, AttackValue.ONE,
         AttackValue.SIX, AttackValue.SIX}, "EarthLizard", GamePlayer.RED);
     redHands = new ArrayList<>(List.of(corruptKing6293, windBird7253, worldDragon7253,
         waterSeal3A74, earthLizard9166));
@@ -83,8 +83,8 @@ public class ThreeTriosModelTest {
     String gridFilePath = Utils.getFilePath(gridFile, "grid");
     String cardsFilePath = Utils.getFilePath(cardsFile, "cards");
     CellType[][] cellTypes = GameConfigParser.getCellTypes(gridFilePath);
-    List<Card> cards = GameConfigParser.getCards(cardsFilePath);
-    return new ThreeTriosModel(cellTypes, cards);
+    List<Cell> cells = GameConfigParser.getCells(cardsFilePath);
+    return new ThreeTriosModel(cellTypes, cells);
   }
 
   private void assertThrowsWithMessage(Class<? extends Throwable> expectedException,
@@ -95,10 +95,10 @@ public class ThreeTriosModelTest {
 
   @Test
   public void invalidGameConfigurationTests() {
-    List<Card> cards = GameConfigParser.getCards(Utils.getFilePath("big_cards.txt", "cards"));
+    List<Cell> cells = GameConfigParser.getCells(Utils.getFilePath("big_cards.txt", "cards"));
 
     assertThrowsWithMessage(IllegalArgumentException.class,
-        "Cell types must be at least 1x1", () -> new ThreeTriosModel(new CellType[][]{}, cards)
+        "Cell types must be at least 1x1", () -> new ThreeTriosModel(new CellType[][]{}, cells)
     );
 
     assertThrowsWithMessage(IllegalArgumentException.class,
@@ -106,22 +106,22 @@ public class ThreeTriosModelTest {
             new ThreeTriosModel(new CellType[][]{
                     {CellType.CELL, CellType.CELL},
                     {CellType.CELL, CellType.CELL}
-            }, cards)
+            }, cells)
     );
   }
 
   @Test
   public void nonUniqueCards() {
-    Card card = new ThreeTriosCard(new AttackValue[]{AttackValue.A, AttackValue.FIVE,
+    Cell cell = new ThreeTriosCell(new AttackValue[]{AttackValue.A, AttackValue.FIVE,
         AttackValue.NINE, AttackValue.SEVEN}, "card");
-    List<Card> cards = new ArrayList<>(Collections.nCopies(10, card));
+    List<Cell> cells = new ArrayList<>(Collections.nCopies(10, cell));
 
     assertThrowsWithMessage(IllegalArgumentException.class, "Cards must be unique", () ->
             new ThreeTriosModel(new CellType[][]{
                     {CellType.CELL, CellType.CELL, CellType.CELL},
                     {CellType.CELL, CellType.CELL, CellType.CELL},
                     {CellType.CELL, CellType.CELL, CellType.CELL}
-            }, cards)
+            }, cells)
     );
   }
 
@@ -374,7 +374,7 @@ public class ThreeTriosModelTest {
     model.startGame(false);
     assertNull(model.getGrid()[0][0]);
     model.placeCard(0, 0, 0);
-    Card[][] gridState = new Card[][]{
+    Cell[][] gridState = new Cell[][]{
             {corruptKing6293, null, null},
             {null, null, null},
             {null, null, null}
@@ -401,14 +401,14 @@ public class ThreeTriosModelTest {
     placeCardsIntoGrid(cardPlacement, model, () -> { } );
     assertEquals(GamePlayer.RED, model.getWinner().get());
 
-    Card[][] finalCardLayout = new Card[][]{
+    Cell[][] finalCellLayout = new Cell[][]{
             {corruptKing6293, evilQueen1A45, earthLizard9166},
             {skyWhale4594, windBird7253, firePhoenix28A3},
             {worldDragon7253, heroKnight4231, waterSeal3A74}
     };
-    Card[][] actualGridLayout = model.getGrid();
+    Cell[][] actualGridLayout = model.getGrid();
     // check the grid layout are equal
-    assertArrayEquals(finalCardLayout, actualGridLayout);
+    assertArrayEquals(finalCellLayout, actualGridLayout);
     GamePlayer[][] finalCardOwnerLayout = new GamePlayer[][]{
             {GamePlayer.RED, GamePlayer.RED, GamePlayer.RED},
             {GamePlayer.RED, GamePlayer.RED, GamePlayer.RED},
@@ -430,14 +430,14 @@ public class ThreeTriosModelTest {
     placeCardsIntoGrid(cardPlacement, model, () -> { } );
     assertEquals(Optional.empty(), model.getWinner());
 
-    Card[][] finalCardLayout = new Card[][]{
+    Cell[][] finalCellLayout = new Cell[][]{
             {windBird7253, null, null, null},
             {angryDragon97A2, null, null, corruptKing6293},
             {worldDragon7253, skyWhale4594, waterSeal3A74, heroKnight4231}
     };
-    Card[][] actualGridLayout = model.getGrid();
+    Cell[][] actualGridLayout = model.getGrid();
     // check the grid layout are equal
-    assertArrayEquals(finalCardLayout, actualGridLayout);
+    assertArrayEquals(finalCellLayout, actualGridLayout);
     GamePlayer[][] finalCardOwnerLayout = new GamePlayer[][]{
             {GamePlayer.BLUE, null, null, null},
             {GamePlayer.BLUE, null, null, GamePlayer.RED},
@@ -460,15 +460,15 @@ public class ThreeTriosModelTest {
     placeCardsIntoGrid(cardPlacement, model, () -> { } );
     assertEquals(GamePlayer.BLUE, model.getWinner().get());
 
-    Card[][] finalCardLayout = new Card[][]{
+    Cell[][] finalCellLayout = new Cell[][]{
             {worldDragon7253, null, skyWhale4594, earthLizard9166, waterSeal3A74},
             {null, null, null, evilQueen1A45, null},
             {null, windBird7253, null, null, null},
             {firePhoenix28A3, corruptKing6293, angryDragon97A2, null, null}
     };
-    Card[][] actualGridLayout = model.getGrid();
+    Cell[][] actualGridLayout = model.getGrid();
     // check the grid layout are equal
-    assertArrayEquals(finalCardLayout, actualGridLayout);
+    assertArrayEquals(finalCellLayout, actualGridLayout);
     GamePlayer[][] finalCardOwnerLayout = new GamePlayer[][]{
             {GamePlayer.RED, null, GamePlayer.BLUE, GamePlayer.BLUE, GamePlayer.BLUE},
             {null, null, null, GamePlayer.BLUE, null},
@@ -486,7 +486,7 @@ public class ThreeTriosModelTest {
    * @param grid the card grid layout of the game
    * @param expectedOwner the layout of expected owners of cards on grid
    */
-  private void assertCardsOwnershipOnGrid(Card[][] grid, GamePlayer[][] expectedOwner) {
+  private void assertCardsOwnershipOnGrid(Cell[][] grid, GamePlayer[][] expectedOwner) {
     for (int row = 0; row < grid.length; row++) {
       for (int col = 0; col < grid[0].length; col++) {
         if (grid[row][col] != null) {
@@ -506,9 +506,9 @@ public class ThreeTriosModelTest {
           runnable) {
     for (Object[] cardNameAndPosition : cardPlacement) {
       String cardName = (String) cardNameAndPosition[0];
-      Card searchedCard = model.getCurrentPlayerHand().stream()
+      Cell searchedCell = model.getCurrentPlayerHand().stream()
               .filter(card -> card.getName().equals(cardName)).collect(Collectors.toList()).get(0);
-      int cardIndex = model.getCurrentPlayerHand().indexOf(searchedCard);
+      int cardIndex = model.getCurrentPlayerHand().indexOf(searchedCell);
       model.placeCard(cardIndex, (int) cardNameAndPosition[1], (int) cardNameAndPosition[2]);
       runnable.run();
     }

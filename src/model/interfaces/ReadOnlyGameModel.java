@@ -27,7 +27,7 @@ public interface ReadOnlyGameModel {
    * @return the 2d-array representation of cards in the grid
    * @throws IllegalStateException if game is not started
    */
-  Card[][] getGrid();
+  Cell[][] getGrid();
 
   /**
    * Get a copy of the layout of cell types. Modifying this 2d array does not modify
@@ -45,7 +45,7 @@ public interface ReadOnlyGameModel {
    * @return list of cards in current player's hand
    * @throws IllegalStateException if the game is not started
    */
-  List<Card> getCurrentPlayerHand();
+  List<Cell> getCurrentPlayerHand();
 
   /**
    * Get the winner of the game. When there is only one winner, it will return the
@@ -92,7 +92,7 @@ public interface ReadOnlyGameModel {
    * @throws IllegalStateException if there is no card at that position
    * @throws IllegalStateException if game is not started
    */
-  Card getCardAt(int row, int col);
+  Cell getCardAt(int row, int col);
 
   /**
    * Get the owner of a card given row index and column index (0-based).
@@ -117,13 +117,13 @@ public interface ReadOnlyGameModel {
    * @throws IllegalStateException if the game has not started
    * @throws IllegalArgumentException if player is null
    */
-  List<Card> getHand(GamePlayer player);
+  List<Cell> getHand(GamePlayer player);
 
   /**
    * Count how many opponents' card would be flipped if a card is played in the grid
    * at a certain position.
    *
-   * @param card card to be placed in grid
+   * @param cell card to be placed in grid
    * @param row row index position on grid (0-indexed)
    * @param col col index position on grid (0-indexed)
    * @return number of opponents' card flipped if a card is placed in a position
@@ -131,5 +131,5 @@ public interface ReadOnlyGameModel {
    * @throws IllegalStateException if a card cannot be placed that location
    * @throws IllegalStateException if game is not started or game is over
    */
-  int countCardFlip(Card card, int row, int col);
+  int countCardFlip(Cell cell, int row, int col);
 }

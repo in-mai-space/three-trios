@@ -25,14 +25,14 @@ public interface GridManager {
    * Places a card in the specified cell and initiates the battle phase.
    * The card is removed from the player's hand and placed on the grid.
    *
-   * @param card the card to be placed
+   * @param cell the card to be placed
    * @param row the row index where the card will be placed
    * @param col the column index where the card will be placed
    *
    * @throws IllegalArgumentException if the card is null
    * @throws IllegalArgumentException if the row or column index is out of bounds
    */
-  void placeCard(Card card, int row, int col);
+  void placeCard(Cell cell, int row, int col);
 
   /**
    * Executes the battle phase after a card is placed.
@@ -66,7 +66,7 @@ public interface GridManager {
    *
    * @return a 2D array representing the grid of cards
    */
-  Card[][] getGrid();
+  Cell[][] getGrid();
 
   /**
    * Retrieves the current cell types of the grid as a 2D array.
@@ -93,7 +93,7 @@ public interface GridManager {
    * @throws IllegalArgumentException if the row or column index is out of bounds
    * @throws IllegalStateException if there is no card at cell
    */
-  Card getCardAt(int row, int col);
+  Cell getCardAt(int row, int col);
 
   /**
    * Get the width of grid.
@@ -126,12 +126,12 @@ public interface GridManager {
    * Count how many opponents' card would be flipped if a card is played in the grid
    * at a certain position.
    *
-   * @param card card to be placed in grid
+   * @param cell card to be placed in grid
    * @param row row index position on grid (0-indexed)
    * @param col col index position on grid (0-indexed)
    * @return number of opponents' card flipped if a card is placed in a position
    * @throws IllegalArgumentException if row or column index out of bounds
    * @throws IllegalStateException if a card cannot be placed that location
    */
-  int countCardFlip(Card card, int row, int col);
+  int countCardFlip(Cell cell, int row, int col);
 }

@@ -6,7 +6,7 @@ import org.junit.Test;
 import controller.GameConfigParser;
 import model.Utils;
 import model.enums.AttackValue;
-import model.interfaces.Card;
+import model.interfaces.Cell;
 import model.enums.CellType;
 import model.enums.GamePlayer;
 import model.interfaces.GridManager;
@@ -23,12 +23,12 @@ public class ThreeTriosGridManagerTest {
   private GridManager noHoleManager;
   private GridManager simpleGridManager;
   private GridManager complexGridManager;
-  private Card card527A;
-  private Card card7253;
-  private Card card4599;
-  private Card card4623;
-  private Card card2899;
-  private Card card27A9;
+  private Cell cell527A;
+  private Cell cell7253;
+  private Cell cell4599;
+  private Cell cell4623;
+  private Cell cell2899;
+  private Cell cell27A9;
 
   @Before
   public void setUp() {
@@ -45,17 +45,17 @@ public class ThreeTriosGridManagerTest {
     simpleGridManager = new ThreeTriosGridManager(simpleGrid);
     complexGridManager = new ThreeTriosGridManager(complexGrid);
 
-    card527A = new ThreeTriosCard(new AttackValue[]{AttackValue.FIVE, AttackValue.TWO,
+    cell527A = new ThreeTriosCell(new AttackValue[]{AttackValue.FIVE, AttackValue.TWO,
         AttackValue.SEVEN, AttackValue.A}, GamePlayer.RED);
-    card7253 = new ThreeTriosCard(new AttackValue[]{AttackValue.SEVEN, AttackValue.TWO,
+    cell7253 = new ThreeTriosCell(new AttackValue[]{AttackValue.SEVEN, AttackValue.TWO,
         AttackValue.FIVE, AttackValue.THREE}, GamePlayer.BLUE);
-    card4599 = new ThreeTriosCard(new AttackValue[]{AttackValue.FOUR, AttackValue.FIVE,
+    cell4599 = new ThreeTriosCell(new AttackValue[]{AttackValue.FOUR, AttackValue.FIVE,
         AttackValue.NINE, AttackValue.NINE}, GamePlayer.BLUE);
-    card4623 = new ThreeTriosCard(new AttackValue[]{AttackValue.FOUR, AttackValue.SIX,
+    cell4623 = new ThreeTriosCell(new AttackValue[]{AttackValue.FOUR, AttackValue.SIX,
         AttackValue.TWO, AttackValue.THREE}, GamePlayer.RED);
-    card2899 = new ThreeTriosCard(new AttackValue[]{AttackValue.TWO, AttackValue.EIGHT,
+    cell2899 = new ThreeTriosCell(new AttackValue[]{AttackValue.TWO, AttackValue.EIGHT,
         AttackValue.NINE, AttackValue.NINE}, GamePlayer.RED);
-    card27A9 = new ThreeTriosCard(new AttackValue[]{AttackValue.TWO, AttackValue.SEVEN,
+    cell27A9 = new ThreeTriosCell(new AttackValue[]{AttackValue.TWO, AttackValue.SEVEN,
         AttackValue.A, AttackValue.NINE}, GamePlayer.BLUE);
   }
 
@@ -66,12 +66,12 @@ public class ThreeTriosGridManagerTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void testOutOfBoundPlaceCard() {
-    noHoleManager.placeCard(card527A, 3, 0);
+    noHoleManager.placeCard(cell527A, 3, 0);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testNegativeIndexPlaceCard() {
-    noHoleManager.placeCard(card527A, -1, 0);
+    noHoleManager.placeCard(cell527A, -1, 0);
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -107,7 +107,7 @@ public class ThreeTriosGridManagerTest {
       }
     }
     // cannot place card in a cell that already has a card
-    noHoleManager.placeCard(card527A, 0, 0);
+    noHoleManager.placeCard(cell527A, 0, 0);
     assertFalse(noHoleManager.canPlaceCard(0, 0));
   }
 
@@ -124,7 +124,7 @@ public class ThreeTriosGridManagerTest {
       }
     }
     // cannot place card in a cell that already has a card
-    simpleGridManager.placeCard(card527A, 0, 0);
+    simpleGridManager.placeCard(cell527A, 0, 0);
     assertFalse(simpleGridManager.canPlaceCard(0, 0));
   }
 
@@ -142,78 +142,78 @@ public class ThreeTriosGridManagerTest {
       }
     }
     // cannot place card in a cell that already has a card
-    complexGridManager.placeCard(card527A, 0, 0);
+    complexGridManager.placeCard(cell527A, 0, 0);
     assertFalse(complexGridManager.canPlaceCard(0, 0));
   }
 
   @Test
   public void testPlaceCardNoHoles() {
-    noHoleManager.placeCard(card527A, 0, 0);
-    assertEquals(card527A, noHoleManager.getCardAt(0, 0));
+    noHoleManager.placeCard(cell527A, 0, 0);
+    assertEquals(cell527A, noHoleManager.getCardAt(0, 0));
     assertEquals(GamePlayer.RED, noHoleManager.getCardAt(0, 0).getOwner());
 
-    noHoleManager.placeCard(card7253, 1, 0);
-    assertEquals(card7253, noHoleManager.getCardAt(1, 0));
+    noHoleManager.placeCard(cell7253, 1, 0);
+    assertEquals(cell7253, noHoleManager.getCardAt(1, 0));
     assertEquals(GamePlayer.BLUE, noHoleManager.getCardAt(1, 0).getOwner());
 
-    noHoleManager.placeCard(card4599, 1, 2);
-    assertEquals(card4599, noHoleManager.getCardAt(1, 2));
+    noHoleManager.placeCard(cell4599, 1, 2);
+    assertEquals(cell4599, noHoleManager.getCardAt(1, 2));
     assertEquals(GamePlayer.BLUE, noHoleManager.getCardAt(1, 2).getOwner());
   }
 
   @Test
   public void testPlaceCardSimpleGrid() {
-    simpleGridManager.placeCard(card527A, 0, 0);
-    assertEquals(card527A, simpleGridManager.getCardAt(0, 0));
+    simpleGridManager.placeCard(cell527A, 0, 0);
+    assertEquals(cell527A, simpleGridManager.getCardAt(0, 0));
     assertEquals(GamePlayer.RED, simpleGridManager.getCardAt(0, 0).getOwner());
 
-    simpleGridManager.placeCard(card7253, 1, 0);
-    assertEquals(card7253, simpleGridManager.getCardAt(1, 0));
+    simpleGridManager.placeCard(cell7253, 1, 0);
+    assertEquals(cell7253, simpleGridManager.getCardAt(1, 0));
     assertEquals(GamePlayer.BLUE, simpleGridManager.getCardAt(1, 0).getOwner());
 
-    simpleGridManager.placeCard(card4599, 1, 3);
-    assertEquals(card4599, simpleGridManager.getCardAt(1, 3));
+    simpleGridManager.placeCard(cell4599, 1, 3);
+    assertEquals(cell4599, simpleGridManager.getCardAt(1, 3));
     assertEquals(GamePlayer.BLUE, simpleGridManager.getCardAt(1, 3).getOwner());
   }
 
   @Test
   public void testPlaceCardComplexGrid() {
-    complexGridManager.placeCard(card527A, 0, 0);
-    assertEquals(card527A, complexGridManager.getCardAt(0, 0));
+    complexGridManager.placeCard(cell527A, 0, 0);
+    assertEquals(cell527A, complexGridManager.getCardAt(0, 0));
     assertEquals(GamePlayer.RED, complexGridManager.getCardAt(0, 0).getOwner());
 
-    complexGridManager.placeCard(card7253, 0, 4);
-    assertEquals(card7253, complexGridManager.getCardAt(0, 4));
+    complexGridManager.placeCard(cell7253, 0, 4);
+    assertEquals(cell7253, complexGridManager.getCardAt(0, 4));
     assertEquals(GamePlayer.BLUE, complexGridManager.getCardAt(0, 4).getOwner());
 
-    complexGridManager.placeCard(card4599, 3, 2);
-    assertEquals(card4599, complexGridManager.getCardAt(3, 2));
+    complexGridManager.placeCard(cell4599, 3, 2);
+    assertEquals(cell4599, complexGridManager.getCardAt(3, 2));
     assertEquals(GamePlayer.BLUE, complexGridManager.getCardAt(3, 2).getOwner());
   }
 
   @Test(expected = IllegalStateException.class)
   public void testPlaceCardWhenThereIsCard() {
-    simpleGridManager.placeCard(card527A, 0, 0);
-    assertEquals(card527A, simpleGridManager.getCardAt(0, 0));
+    simpleGridManager.placeCard(cell527A, 0, 0);
+    assertEquals(cell527A, simpleGridManager.getCardAt(0, 0));
     assertEquals(GamePlayer.RED, simpleGridManager.getCardAt(0, 0).getOwner());
 
-    simpleGridManager.placeCard(card7253, 0, 0);
+    simpleGridManager.placeCard(cell7253, 0, 0);
   }
 
   @Test(expected = IllegalStateException.class)
   public void testPlaceCardInAHole() {
-    complexGridManager.placeCard(card4599, 1, 0);
+    complexGridManager.placeCard(cell4599, 1, 0);
   }
 
   @Test
   public void executeBattleNoHole() {
     Object[][] cardPlacements = {
-            {card527A, 0, 0, GamePlayer.RED},
-            {card7253, 1, 0, GamePlayer.BLUE},
-            {card4623, 2, 1, GamePlayer.RED},
-            {card4599, 1, 2, GamePlayer.BLUE},
-            {card27A9, 0, 1, GamePlayer.BLUE},
-            {card2899, 1, 1, GamePlayer.RED}
+            {cell527A, 0, 0, GamePlayer.RED},
+            {cell7253, 1, 0, GamePlayer.BLUE},
+            {cell4623, 2, 1, GamePlayer.RED},
+            {cell4599, 1, 2, GamePlayer.BLUE},
+            {cell27A9, 0, 1, GamePlayer.BLUE},
+            {cell2899, 1, 1, GamePlayer.RED}
     };
     GamePlayer[][] expectedGridOwners = {
             {GamePlayer.RED, GamePlayer.BLUE, null, null},
@@ -226,12 +226,12 @@ public class ThreeTriosGridManagerTest {
   @Test
   public void testExecuteBattleSimpleGrid() {
     Object[][] cardPlacements = {
-            {card4623, 1, 0, GamePlayer.RED},
-            {card7253, 2, 0, GamePlayer.BLUE},
-            {card2899, 2, 2, GamePlayer.RED},
-            {card27A9, 2, 3, GamePlayer.BLUE},
-            {card527A, 2, 1, GamePlayer.RED},
-            {card4599, 0, 0, GamePlayer.BLUE}};
+            {cell4623, 1, 0, GamePlayer.RED},
+            {cell7253, 2, 0, GamePlayer.BLUE},
+            {cell2899, 2, 2, GamePlayer.RED},
+            {cell27A9, 2, 3, GamePlayer.BLUE},
+            {cell527A, 2, 1, GamePlayer.RED},
+            {cell4599, 0, 0, GamePlayer.BLUE}};
     GamePlayer[][] expectedGridOwners = {
             {GamePlayer.BLUE, null, null, null},
             {GamePlayer.BLUE, null, null, null},
@@ -242,12 +242,12 @@ public class ThreeTriosGridManagerTest {
   @Test
   public void testExecuteBattleComplexGrid() {
     Object[][] cardPlacements = {
-            {card4623, 2, 1, GamePlayer.RED},
-            {card7253, 3, 0, GamePlayer.BLUE},
-            {card2899, 0, 0, GamePlayer.RED},
-            {card4599, 3, 2, GamePlayer.BLUE},
-            {card527A, 3, 1, GamePlayer.RED},
-            {card27A9, 0, 3, GamePlayer.BLUE}
+            {cell4623, 2, 1, GamePlayer.RED},
+            {cell7253, 3, 0, GamePlayer.BLUE},
+            {cell2899, 0, 0, GamePlayer.RED},
+            {cell4599, 3, 2, GamePlayer.BLUE},
+            {cell527A, 3, 1, GamePlayer.RED},
+            {cell27A9, 0, 3, GamePlayer.BLUE}
     };
     GamePlayer[][] expectedGridOwners = {
             {GamePlayer.RED, null, null, GamePlayer.BLUE, null},
@@ -261,11 +261,11 @@ public class ThreeTriosGridManagerTest {
   private void assertGridOwnerState(Object[][] cardPlacements, GamePlayer[][] expectedOwners,
                                     GridManager manager) {
     for (Object[] cardPlacement : cardPlacements) {
-      Card card = (Card) cardPlacement[0];
+      Cell cell = (Cell) cardPlacement[0];
       int row = (int) cardPlacement[1];
       int col = (int) cardPlacement[2];
       GamePlayer expectedOwner = (GamePlayer) cardPlacement[3];
-      manager.placeCard(card, row, col);
+      manager.placeCard(cell, row, col);
       assertEquals(expectedOwner, manager.getCardAt(row, col).getOwner());
       manager.executeBattle(row, col);
     }
@@ -284,15 +284,15 @@ public class ThreeTriosGridManagerTest {
     assertEquals(0, noHoleManager.countPlayerCards(GamePlayer.RED));
     assertEquals(0, noHoleManager.countPlayerCards(GamePlayer.BLUE));
 
-    noHoleManager.placeCard(card527A, 0, 0);
+    noHoleManager.placeCard(cell527A, 0, 0);
     assertEquals(1, noHoleManager.countPlayerCards(GamePlayer.RED));
     assertEquals(0, noHoleManager.countPlayerCards(GamePlayer.BLUE));
 
-    noHoleManager.placeCard(card7253, 1, 0);
+    noHoleManager.placeCard(cell7253, 1, 0);
     assertEquals(1, noHoleManager.countPlayerCards(GamePlayer.RED));
     assertEquals(1, noHoleManager.countPlayerCards(GamePlayer.BLUE));
 
-    noHoleManager.placeCard(card4599, 1, 2);
+    noHoleManager.placeCard(cell4599, 1, 2);
     assertEquals(1, noHoleManager.countPlayerCards(GamePlayer.RED));
     assertEquals(2, noHoleManager.countPlayerCards(GamePlayer.BLUE));
   }
@@ -306,7 +306,7 @@ public class ThreeTriosGridManagerTest {
     for (int row = 0; row < 3; row++) {
       for (int col = 0; col < 3; col++) {
         assertFalse(noHoleManager.isGameOver());
-        noHoleManager.placeCard(card527A, row, col);
+        noHoleManager.placeCard(cell527A, row, col);
       }
     }
     assertTrue(noHoleManager.isGameOver());
@@ -315,20 +315,20 @@ public class ThreeTriosGridManagerTest {
   @Test
   public void isGameOverSimpleGrid() {
     Object[][] cardPlacements = new Object[][] {
-            {card4623, 1, 0},
-            {card7253, 2, 0},
-            {card2899, 2, 2},
-            {card27A9, 2, 3},
-            {card527A, 2, 1},
-            {card4599, 0, 0},
-            {card4599, 1, 3},
+            {cell4623, 1, 0},
+            {cell7253, 2, 0},
+            {cell2899, 2, 2},
+            {cell27A9, 2, 3},
+            {cell527A, 2, 1},
+            {cell4599, 0, 0},
+            {cell4599, 1, 3},
     };
     for (Object[] cardPlacement : cardPlacements) {
-      Card card = (Card) cardPlacement[0];
+      Cell cell = (Cell) cardPlacement[0];
       int row = (int) cardPlacement[1];
       int col = (int) cardPlacement[2];
       assertFalse(simpleGridManager.isGameOver());
-      simpleGridManager.placeCard(card, row, col);
+      simpleGridManager.placeCard(cell, row, col);
     }
     assertTrue(simpleGridManager.isGameOver());
   }
@@ -336,22 +336,22 @@ public class ThreeTriosGridManagerTest {
   @Test
   public void isGameOverComplexGrid() {
     Object[][] cardPlacements = new Object[][] {
-            {card4623, 2, 1},
-            {card7253, 3, 0},
-            {card2899, 0, 0},
-            {card4599, 3, 2},
-            {card527A, 3, 1},
-            {card27A9, 0, 3},
-            {card27A9, 0, 2},
-            {card27A9, 0, 4},
-            {card27A9, 1, 3},
+            {cell4623, 2, 1},
+            {cell7253, 3, 0},
+            {cell2899, 0, 0},
+            {cell4599, 3, 2},
+            {cell527A, 3, 1},
+            {cell27A9, 0, 3},
+            {cell27A9, 0, 2},
+            {cell27A9, 0, 4},
+            {cell27A9, 1, 3},
     };
     for (Object[] cardPlacement : cardPlacements) {
-      Card card = (Card) cardPlacement[0];
+      Cell cell = (Cell) cardPlacement[0];
       int row = (int) cardPlacement[1];
       int col = (int) cardPlacement[2];
       assertFalse(complexGridManager.isGameOver());
-      complexGridManager.placeCard(card, row, col);
+      complexGridManager.placeCard(cell, row, col);
     }
     assertTrue(complexGridManager.isGameOver());
   }
@@ -359,17 +359,17 @@ public class ThreeTriosGridManagerTest {
   @Test
   public void getGridSimpleGrid() {
     Object[][] cardPlacements = {
-            {card4623, 1, 0},
-            {card7253, 2, 0},
-            {card2899, 2, 2},
-            {card27A9, 2, 3},
-            {card527A, 2, 1},
-            {card4599, 0, 0}
+            {cell4623, 1, 0},
+            {cell7253, 2, 0},
+            {cell2899, 2, 2},
+            {cell27A9, 2, 3},
+            {cell527A, 2, 1},
+            {cell4599, 0, 0}
     };
-    Card[][] expectedCardsLayout = {
-            {card4599, null, null, null},
-            {card4623, null, null, null},
-            {card7253, card527A, card2899, card27A9}
+    Cell[][] expectedCardsLayout = {
+            {cell4599, null, null, null},
+            {cell4623, null, null, null},
+            {cell7253, cell527A, cell2899, cell27A9}
     };
     assertGridEquals(cardPlacements, expectedCardsLayout, simpleGridManager);
     // modify grid return from getGrid should not affect the original grid
@@ -380,17 +380,17 @@ public class ThreeTriosGridManagerTest {
   @Test
   public void getGridNoHoles() {
     Object[][] cardPlacements = {
-            {card527A, 0, 0},
-            {card7253, 1, 0},
-            {card4623, 2, 1},
-            {card4599, 1, 2},
-            {card27A9, 0, 1},
-            {card2899, 1, 1}
+            {cell527A, 0, 0},
+            {cell7253, 1, 0},
+            {cell4623, 2, 1},
+            {cell4599, 1, 2},
+            {cell27A9, 0, 1},
+            {cell2899, 1, 1}
     };
-    Card[][] expectedCardsLayout = {
-            {card527A, card27A9, null},
-            {card7253, card2899, card4599},
-            {null, card4623, null}
+    Cell[][] expectedCardsLayout = {
+            {cell527A, cell27A9, null},
+            {cell7253, cell2899, cell4599},
+            {null, cell4623, null}
     };
     assertGridEquals(cardPlacements, expectedCardsLayout, noHoleManager);
     // modify grid return from getGrid should not affect the original grid
@@ -401,18 +401,18 @@ public class ThreeTriosGridManagerTest {
   @Test
   public void getGridComplexGrid() {
     Object[][] cardPlacements = {
-            {card4623, 2, 1},
-            {card7253, 3, 0},
-            {card2899, 0, 0},
-            {card4599, 3, 2},
-            {card527A, 3, 1},
-            {card27A9, 0, 3}
+            {cell4623, 2, 1},
+            {cell7253, 3, 0},
+            {cell2899, 0, 0},
+            {cell4599, 3, 2},
+            {cell527A, 3, 1},
+            {cell27A9, 0, 3}
     };
-    Card[][] expectedCardsLayout = {
-            {card2899, null, null, card27A9, null},
+    Cell[][] expectedCardsLayout = {
+            {cell2899, null, null, cell27A9, null},
             {null, null, null, null, null},
-            {null, card4623, null, null, null},
-            {card7253, card527A, card4599, null, null}
+            {null, cell4623, null, null, null},
+            {cell7253, cell527A, cell4599, null, null}
     };
     assertGridEquals(cardPlacements, expectedCardsLayout, complexGridManager);
     // modify grid return from getGrid should not affect the original grid
@@ -420,13 +420,13 @@ public class ThreeTriosGridManagerTest {
     assertArrayEquals(expectedCardsLayout, complexGridManager.getGrid());
   }
 
-  private void assertGridEquals(Object[][] cardPlacements, Card[][] expectedCardsLayout,
+  private void assertGridEquals(Object[][] cardPlacements, Cell[][] expectedCardsLayout,
                                 GridManager manager) {
     for (Object[] cardPlacement : cardPlacements) {
-      Card card = (Card) cardPlacement[0];
+      Cell cell = (Cell) cardPlacement[0];
       int row = (int) cardPlacement[1];
       int col = (int) cardPlacement[2];
-      manager.placeCard(card, row, col);
+      manager.placeCard(cell, row, col);
     }
     assertArrayEquals(expectedCardsLayout, manager.getGrid());
   }
@@ -457,11 +457,11 @@ public class ThreeTriosGridManagerTest {
 
   @Test
   public void testUnitBattleOneCard() {
-    noHoleManager.placeCard(card527A, 1, 1);
+    noHoleManager.placeCard(cell527A, 1, 1);
     noHoleManager.executeBattle(1, 1);
-    Card[][] expectedCardsLayout = {
+    Cell[][] expectedCardsLayout = {
             {null, null, null},
-            {null, card527A, null},
+            {null, cell527A, null},
             {null, null, null}
     };
     assertArrayEquals(expectedCardsLayout, noHoleManager.getGrid());
@@ -469,12 +469,12 @@ public class ThreeTriosGridManagerTest {
 
   @Test
   public void battleTwoCardsOwnerDoesNotSwitchToBlue() {
-    noHoleManager.placeCard(card527A, 1, 1); // red card
-    noHoleManager.placeCard(card7253, 1, 0); // blue card (smaller than red)
+    noHoleManager.placeCard(cell527A, 1, 1); // red card
+    noHoleManager.placeCard(cell7253, 1, 0); // blue card (smaller than red)
     noHoleManager.executeBattle(1, 0);
-    Card[][] expectedCardsLayout = {
+    Cell[][] expectedCardsLayout = {
             {null, null, null},
-            {card7253, card527A, null},
+            {cell7253, cell527A, null},
             {null, null, null}
     };
     assertArrayEquals(expectedCardsLayout, noHoleManager.getGrid());
@@ -484,12 +484,12 @@ public class ThreeTriosGridManagerTest {
 
   @Test
   public void battleTwoCardsOwnerSwitchToRed() {
-    noHoleManager.placeCard(card7253, 1, 0); // blue card
-    noHoleManager.placeCard(card527A, 1, 1); // red card
+    noHoleManager.placeCard(cell7253, 1, 0); // blue card
+    noHoleManager.placeCard(cell527A, 1, 1); // red card
     noHoleManager.executeBattle(1, 1);
-    Card[][] expectedCardsLayout = {
+    Cell[][] expectedCardsLayout = {
             {null, null, null},
-            {card7253, card527A, null},
+            {cell7253, cell527A, null},
             {null, null, null}
     };
     assertArrayEquals(expectedCardsLayout, noHoleManager.getGrid());
@@ -499,12 +499,12 @@ public class ThreeTriosGridManagerTest {
 
   @Test
   public void battleTwoCardsOwnerSwitchToBlue() {
-    noHoleManager.placeCard(card527A, 0, 2);
-    noHoleManager.placeCard(card7253, 1, 2);
+    noHoleManager.placeCard(cell527A, 0, 2);
+    noHoleManager.placeCard(cell7253, 1, 2);
     noHoleManager.executeBattle(1, 2);
-    Card[][] expectedCardsLayout = {
-            {null, null, card527A},
-            {null, null, card7253},
+    Cell[][] expectedCardsLayout = {
+            {null, null, cell527A},
+            {null, null, cell7253},
             {null, null, null}
     };
     assertArrayEquals(expectedCardsLayout, noHoleManager.getGrid());
@@ -514,11 +514,11 @@ public class ThreeTriosGridManagerTest {
 
   @Test
   public void battleTwoCardsTieAttackValue() {
-    noHoleManager.placeCard(card2899, 0, 1);
-    noHoleManager.placeCard(card27A9, 0, 2);
+    noHoleManager.placeCard(cell2899, 0, 1);
+    noHoleManager.placeCard(cell27A9, 0, 2);
     noHoleManager.executeBattle(0, 2);
-    Card[][] expectedCardsLayout = {
-            {null, card2899, card27A9},
+    Cell[][] expectedCardsLayout = {
+            {null, cell2899, cell27A9},
             {null, null, null},
             {null, null, null}
     };
@@ -529,11 +529,11 @@ public class ThreeTriosGridManagerTest {
 
   @Test
   public void battleTwoCardsApartFromEachOther() {
-    noHoleManager.placeCard(card2899, 0, 0);
-    noHoleManager.placeCard(card27A9, 0, 2);
+    noHoleManager.placeCard(cell2899, 0, 0);
+    noHoleManager.placeCard(cell27A9, 0, 2);
     noHoleManager.executeBattle(0, 2);
-    Card[][] expectedCardsLayout = {
-            {card2899, null, card27A9},
+    Cell[][] expectedCardsLayout = {
+            {cell2899, null, cell27A9},
             {null, null, null},
             {null, null, null}
     };
@@ -544,12 +544,12 @@ public class ThreeTriosGridManagerTest {
 
   @Test
   public void battleTwoCardsDiagonal() {
-    noHoleManager.placeCard(card2899, 0, 0);
-    noHoleManager.placeCard(card27A9, 1, 1);
+    noHoleManager.placeCard(cell2899, 0, 0);
+    noHoleManager.placeCard(cell27A9, 1, 1);
     noHoleManager.executeBattle(1, 1);
-    Card[][] expectedCardsLayout = {
-            {card2899, null, null},
-            {null, card27A9, null},
+    Cell[][] expectedCardsLayout = {
+            {cell2899, null, null},
+            {null, cell27A9, null},
             {null, null, null}
     };
     assertArrayEquals(expectedCardsLayout, noHoleManager.getGrid());
@@ -559,13 +559,13 @@ public class ThreeTriosGridManagerTest {
 
   @Test
   public void battleTwoCardsSameColor() {
-    noHoleManager.placeCard(card4623, 1, 1);
-    noHoleManager.placeCard(card7253, 0, 0);
-    noHoleManager.placeCard(card2899, 1, 0);
+    noHoleManager.placeCard(cell4623, 1, 1);
+    noHoleManager.placeCard(cell7253, 0, 0);
+    noHoleManager.placeCard(cell2899, 1, 0);
     noHoleManager.executeBattle(1, 1);
-    Card[][] expectedCardsLayout = {
-            {card7253, null, null},
-            {card2899, card4623, null},
+    Cell[][] expectedCardsLayout = {
+            {cell7253, null, null},
+            {cell2899, cell4623, null},
             {null, null, null}
     };
     assertArrayEquals(expectedCardsLayout, noHoleManager.getGrid());
@@ -606,55 +606,55 @@ public class ThreeTriosGridManagerTest {
 
   @Test
   public void testGetCardAt() {
-    noHoleManager.placeCard(card527A, 0, 0);
-    assertEquals(noHoleManager.getCardAt(0, 0), card527A);
+    noHoleManager.placeCard(cell527A, 0, 0);
+    assertEquals(noHoleManager.getCardAt(0, 0), cell527A);
   }
 
   @Test
   public void testGetOwnerAt() {
-    noHoleManager.placeCard(card527A, 0, 0);
-    assertEquals(noHoleManager.getOwnerAt(0, 0), card527A.getOwner());
+    noHoleManager.placeCard(cell527A, 0, 0);
+    assertEquals(noHoleManager.getOwnerAt(0, 0), cell527A.getOwner());
   }
 
   @Test(expected = IllegalStateException.class)
   public void countCardFlipCellOccupied() {
-    assertEquals(noHoleManager.countCardFlip(card4623, 0, 0), 0);
-    noHoleManager.placeCard(card4623, 0, 0);
-    noHoleManager.countCardFlip(card2899, 0, 0);
+    assertEquals(noHoleManager.countCardFlip(cell4623, 0, 0), 0);
+    noHoleManager.placeCard(cell4623, 0, 0);
+    noHoleManager.countCardFlip(cell2899, 0, 0);
   }
 
   @Test
   public void countCardFlipTwoCards() {
-    assertEquals(noHoleManager.countCardFlip(card4623, 0, 0), 0);
-    noHoleManager.placeCard(card4623, 0, 0);
+    assertEquals(noHoleManager.countCardFlip(cell4623, 0, 0), 0);
+    noHoleManager.placeCard(cell4623, 0, 0);
     // cannot flip color since two cards are the same color
-    assertEquals(noHoleManager.countCardFlip(card2899, 0, 1), 0);
+    assertEquals(noHoleManager.countCardFlip(cell2899, 0, 1), 0);
 
     // can flip since this card is not same color and attack value is larger
-    assertEquals(noHoleManager.countCardFlip(card27A9, 0, 1), 1);
+    assertEquals(noHoleManager.countCardFlip(cell27A9, 0, 1), 1);
   }
 
   @Test
   public void countCardFlipDiagonalDifferentColors() {
-    assertEquals(noHoleManager.countCardFlip(card4623, 0, 0), 0);
-    noHoleManager.placeCard(card4623, 0, 0);
-    assertEquals(noHoleManager.countCardFlip(card27A9, 1, 1), 0);
+    assertEquals(noHoleManager.countCardFlip(cell4623, 0, 0), 0);
+    noHoleManager.placeCard(cell4623, 0, 0);
+    assertEquals(noHoleManager.countCardFlip(cell27A9, 1, 1), 0);
   }
 
   @Test
   public void countCardFlipNoFlipSmallerOrEqual() {
-    noHoleManager.placeCard(card2899, 0, 0);
+    noHoleManager.placeCard(cell2899, 0, 0);
     // two cards are tied in attack values
-    assertEquals(noHoleManager.countCardFlip(card27A9, 0, 1), 0);
+    assertEquals(noHoleManager.countCardFlip(cell27A9, 0, 1), 0);
     // the to-be-placed card's attack value is less than that of card in grid
-    assertEquals(noHoleManager.countCardFlip(card7253, 0, 1), 0);
+    assertEquals(noHoleManager.countCardFlip(cell7253, 0, 1), 0);
   }
 
   @Test
   public void flipMoreThanOneCard() {
-    noHoleManager.placeCard(card4623, 0, 0);
-    noHoleManager.placeCard(card2899, 0, 1);
-    noHoleManager.placeCard(card527A, 0, 2);
-    assertEquals(noHoleManager.countCardFlip(card7253, 1, 2), 3);
+    noHoleManager.placeCard(cell4623, 0, 0);
+    noHoleManager.placeCard(cell2899, 0, 1);
+    noHoleManager.placeCard(cell527A, 0, 2);
+    assertEquals(noHoleManager.countCardFlip(cell7253, 1, 2), 3);
   }
 }

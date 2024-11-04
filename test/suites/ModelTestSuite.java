@@ -6,7 +6,7 @@ import org.junit.runners.Suite;
 import model.UtilsTest;
 import controller.GameConfigParserTest;
 import model.implementation.ThreeTriosModelTest;
-import model.implementation.ThreeTriosCardTest;
+import model.implementation.ThreeTriosCellTest;
 import model.enums.AttackValueTest;
 import model.implementation.ThreeTriosGridTest;
 import model.implementation.ThreeTriosHandTest;
@@ -20,7 +20,7 @@ import model.implementation.ThreeTriosGridManagerTest;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        ThreeTriosCardTest.class,
+        ThreeTriosCellTest.class,
         AttackValueTest.class,
         ThreeTriosHandTest.class,
         ThreeTriosGridTest.class,

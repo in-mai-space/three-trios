@@ -4,7 +4,7 @@ import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.Map;
 
-import model.interfaces.Card;
+import model.interfaces.Cell;
 import model.enums.CellType;
 import model.enums.GamePlayer;
 import model.interfaces.Grid;
@@ -13,7 +13,7 @@ import model.interfaces.Grid;
  * Represents a grid in the game ThreeTrios.
  */
 class ThreeTriosGrid implements Grid {
-  private final Card[][] cells;
+  private final Cell[][] cells;
   private final CellType[][] cellTypes;
   // both of cells and cellTypes use 2d-array because dimension of grid is fixed, and index of cell
   // types or index of cards do not shift around or get changed after card is placed in the grid
@@ -31,10 +31,10 @@ class ThreeTriosGrid implements Grid {
     this.cellTypes = cellTypes;
     this.rows = cellTypes.length;
     this.cols = cellTypes[0].length;
-    this.cells = new Card[rows][cols];
+    this.cells = new Cell[rows][cols];
   }
 
-  private ThreeTriosGrid(Card[][] cells, CellType[][] cellTypes) {
+  private ThreeTriosGrid(Cell[][] cells, CellType[][] cellTypes) {
     this.cells = cells;
     this.cellTypes = cellTypes;
     this.rows = cellTypes.length;
@@ -92,8 +92,8 @@ class ThreeTriosGrid implements Grid {
    *
    * @return a 2D array representing the grid of cards.
    */
-  public Card[][] getGrid() {
-    Card[][] gridCopy = new Card[this.rows][this.cols];
+  public Cell[][] getGrid() {
+    Cell[][] gridCopy = new Cell[this.rows][this.cols];
     for (int row = 0; row < this.rows; row++) {
       for (int col = 0; col < this.cols; col++) {
         if (cells[row][col] == null) {
@@ -126,7 +126,7 @@ class ThreeTriosGrid implements Grid {
   /**
    * Places a card in the specified cell of the grid if it is empty and the cell is not a hole.
    *
-   * @param card the card to be placed in the grid.
+   * @param cell the card to be placed in the grid.
    * @param row the row index where the card will be placed (0-indexed)
    * @param col the column index where the card will be placed (0-indexed)
    *
@@ -134,13 +134,13 @@ class ThreeTriosGrid implements Grid {
    * @throws IllegalArgumentException if the row or column index is out of bounds
    * @throws IllegalStateException if the cell is not empty or is a hole
    */
-  public void placeCard(Card card, int row, int col) {
-    if (card == null) {
+  public void placeCard(Cell cell, int row, int col) {
+    if (cell == null) {
       throw new IllegalArgumentException("Card cannot be null");
     }
     validateIndex(row, col);
     if (canPlaceCard(row, col)) {
-      cells[row][col] = card;
+      cells[row][col] = cell;
     } else {
       throw new IllegalStateException(String.format(
               "Cannot place card into row %d and column %d", row, col));
@@ -171,7 +171,7 @@ class ThreeTriosGrid implements Grid {
    * @throws IllegalArgumentException if the row or column index is out of bounds
    * @throws IllegalStateException if there is no card at cell
    */
-  public Card getCardAt(int row, int col) {
+  public Cell getCardAt(int row, int col) {
     validateIndex(row, col);
     if (cells[row][col] == null || getCellType(row, col) == CellType.HOLE) {
       throw new IllegalStateException("Cannot get card at this position");
@@ -208,13 +208,13 @@ class ThreeTriosGrid implements Grid {
    *         containing the row and column indices of the adjacent cards
    * @throws IllegalArgumentException if the row or column index is out of bounds
    */
-  public Map<Card, AbstractMap.SimpleEntry<Integer, Integer>> getAdjacentCards(int row, int col) {
+  public Map<Cell, AbstractMap.SimpleEntry<Integer, Integer>> getAdjacentCards(int row, int col) {
     validateIndex(row, col);
-    Map<Card, AbstractMap.SimpleEntry<Integer, Integer>> neighborCards = new HashMap<>();
-    Map<Card, AbstractMap.SimpleEntry<Integer, Integer>> horizontalNeighbors =
+    Map<Cell, AbstractMap.SimpleEntry<Integer, Integer>> neighborCards = new HashMap<>();
+    Map<Cell, AbstractMap.SimpleEntry<Integer, Integer>> horizontalNeighbors =
             getHorizontalNeighbors(row, col);
     neighborCards.putAll(horizontalNeighbors);
-    Map<Card, AbstractMap.SimpleEntry<Integer, Integer>> verticalNeighbors =
+    Map<Cell, AbstractMap.SimpleEntry<Integer, Integer>> verticalNeighbors =
             getVerticalNeighbors(row, col);
     neighborCards.putAll(verticalNeighbors);
     return neighborCards;
@@ -228,18 +228,18 @@ class ThreeTriosGrid implements Grid {
    *
    * @return map of left and right neighbors of a card
    */
-  private Map<Card, AbstractMap.SimpleEntry<Integer, Integer>> getHorizontalNeighbors(int row,
+  private Map<Cell, AbstractMap.SimpleEntry<Integer, Integer>> getHorizontalNeighbors(int row,
                                                                                       int col) {
     validateIndex(row, col);
-    Map<Card, AbstractMap.SimpleEntry<Integer, Integer>> neighborCards = new HashMap<>();
+    Map<Cell, AbstractMap.SimpleEntry<Integer, Integer>> neighborCards = new HashMap<>();
     if (col > 0) {
-      Card leftNeighbor = cells[row][col - 1];
+      Cell leftNeighbor = cells[row][col - 1];
       if (leftNeighbor != null) {
         neighborCards.put(leftNeighbor, new AbstractMap.SimpleEntry<>(row, col - 1));
       }
     }
     if (col < cols - 1) {
-      Card rightNeighbor = cells[row][col + 1];
+      Cell rightNeighbor = cells[row][col + 1];
       if (rightNeighbor != null) {
         neighborCards.put(rightNeighbor, new AbstractMap.SimpleEntry<>(row, col + 1));
       }
@@ -256,18 +256,18 @@ class ThreeTriosGrid implements Grid {
    *
    * @return map of top and left neighbors of a card
    */
-  private Map<Card, AbstractMap.SimpleEntry<Integer, Integer>> getVerticalNeighbors(int row,
+  private Map<Cell, AbstractMap.SimpleEntry<Integer, Integer>> getVerticalNeighbors(int row,
                                                                                     int col) {
     validateIndex(row, col);
-    Map<Card, AbstractMap.SimpleEntry<Integer, Integer>> neighborCards = new HashMap<>();
+    Map<Cell, AbstractMap.SimpleEntry<Integer, Integer>> neighborCards = new HashMap<>();
     if (row > 0) {
-      Card upperNeighbor = cells[row - 1][col];
+      Cell upperNeighbor = cells[row - 1][col];
       if (upperNeighbor != null) {
         neighborCards.put(upperNeighbor, new AbstractMap.SimpleEntry<>(row - 1, col));
       }
     }
     if (row < rows - 1) {
-      Card lowerNeighbor = cells[row + 1][col];
+      Cell lowerNeighbor = cells[row + 1][col];
       if (lowerNeighbor != null) {
         neighborCards.put(lowerNeighbor, new AbstractMap.SimpleEntry<>(row + 1, col));
       }

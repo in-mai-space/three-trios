@@ -1,23 +1,23 @@
 package model.strategy;
 
-import model.interfaces.Card;
+import model.interfaces.Cell;
 
 public class Move {
-  private final Card card;
+  private final Cell cell;
   private final int row;
   private final int col;
 
-  public Move(Card card, int row, int col) {
-    if (card == null) {
+  public Move(Cell cell, int row, int col) {
+    if (cell == null) {
       throw new IllegalArgumentException("Card should not be null");
     }
-    this.card = card;
+    this.cell = cell;
     this.row = row;
     this.col = col;
   }
 
-  public Card getCard() {
-    return card;
+  public Cell getCard() {
+    return cell;
   }
 
   public int getRow() {

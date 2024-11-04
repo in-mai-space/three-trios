@@ -7,11 +7,10 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import controller.GameConfigParser;
 import model.Utils;
 import model.enums.AttackValue;
-import model.implementation.ThreeTriosCard;
-import model.interfaces.Card;
+import model.implementation.ThreeTriosCell;
+import model.interfaces.Cell;
 import model.enums.CellType;
 
 import static org.junit.Assert.assertArrayEquals;
@@ -22,35 +21,35 @@ import static org.junit.Assert.assertThrows;
  * Test class for GameConfigParser.
  */
 public class GameConfigParserTest {
-  private List<Card> bigCards;
-  private List<Card> smallCards;
+  private List<Cell> bigCells;
+  private List<Cell> smallCells;
 
   @Before
   public void setUp() {
-    Card angryDragon97A2 = new ThreeTriosCard(new AttackValue[]{
+    Cell angryDragon97A2 = new ThreeTriosCell(new AttackValue[]{
         AttackValue.NINE, AttackValue.SEVEN, AttackValue.A, AttackValue.TWO}, "AngryDragon");
-    Card heroKnight4231 = new ThreeTriosCard(new AttackValue[]{
+    Cell heroKnight4231 = new ThreeTriosCell(new AttackValue[]{
         AttackValue.FOUR, AttackValue.TWO, AttackValue.THREE, AttackValue.ONE}, "HeroKnight");
-    Card skyWhale4594 = new ThreeTriosCard(new AttackValue[]{
+    Cell skyWhale4594 = new ThreeTriosCell(new AttackValue[]{
         AttackValue.FOUR, AttackValue.FIVE, AttackValue.NINE, AttackValue.FOUR}, "SkyWhale");
-    Card firePhoenix28A3 = new ThreeTriosCard(new AttackValue[]{
+    Cell firePhoenix28A3 = new ThreeTriosCell(new AttackValue[]{
         AttackValue.TWO, AttackValue.EIGHT, AttackValue.A, AttackValue.THREE}, "FirePhoenix");
-    Card evilQueen1A45 = new ThreeTriosCard(new AttackValue[]{
+    Cell evilQueen1A45 = new ThreeTriosCell(new AttackValue[]{
         AttackValue.ONE, AttackValue.A, AttackValue.FOUR, AttackValue.FIVE}, "EvilQueen");
-    Card corruptKing6293 = new ThreeTriosCard(new AttackValue[]{
+    Cell corruptKing6293 = new ThreeTriosCell(new AttackValue[]{
         AttackValue.SIX, AttackValue.TWO, AttackValue.NINE, AttackValue.THREE}, "CorruptKing");
-    Card windBird7253 = new ThreeTriosCard(new AttackValue[]{AttackValue.SEVEN, AttackValue.TWO,
+    Cell windBird7253 = new ThreeTriosCell(new AttackValue[]{AttackValue.SEVEN, AttackValue.TWO,
         AttackValue.FIVE, AttackValue.THREE}, "WindBird");
-    Card worldDragon7253 = new ThreeTriosCard(
+    Cell worldDragon7253 = new ThreeTriosCell(
         new AttackValue[]{AttackValue.SEVEN, AttackValue.TWO, AttackValue.FIVE, AttackValue.THREE},
             "WorldDragon");
-    Card waterSeal3A74 = new ThreeTriosCard(new AttackValue[]{AttackValue.THREE, AttackValue.A,
+    Cell waterSeal3A74 = new ThreeTriosCell(new AttackValue[]{AttackValue.THREE, AttackValue.A,
         AttackValue.SEVEN, AttackValue.FOUR}, "WaterSeal");
-    Card earthLizard9166 = new ThreeTriosCard(new AttackValue[]{AttackValue.NINE, AttackValue.ONE,
+    Cell earthLizard9166 = new ThreeTriosCell(new AttackValue[]{AttackValue.NINE, AttackValue.ONE,
         AttackValue.SIX, AttackValue.SIX}, "EarthLizard");
-    smallCards = new ArrayList<>(List.of(corruptKing6293, angryDragon97A2, windBird7253,
+    smallCells = new ArrayList<>(List.of(corruptKing6293, angryDragon97A2, windBird7253,
         heroKnight4231, worldDragon7253, skyWhale4594, waterSeal3A74, firePhoenix28A3));
-    bigCards = new ArrayList<>(List.of(corruptKing6293, angryDragon97A2, windBird7253,
+    bigCells = new ArrayList<>(List.of(corruptKing6293, angryDragon97A2, windBird7253,
         heroKnight4231, worldDragon7253, skyWhale4594, waterSeal3A74, firePhoenix28A3,
             earthLizard9166, evilQueen1A45));
   }
@@ -145,18 +144,18 @@ public class GameConfigParserTest {
   @Test
   public void getSmallAndBigCards() {
     String smallFilePath = Utils.getFilePath("small_cards.txt", "cards");
-    List<Card> actualSmallCards = GameConfigParser.getCards(smallFilePath);
+    List<Cell> actualSmallCells = GameConfigParser.getCells(smallFilePath);
     String bigFilePath = Utils.getFilePath("big_cards.txt", "cards");
-    List<Card> actualBigCards = GameConfigParser.getCards(bigFilePath);
-    assertEquals(actualSmallCards, smallCards);
-    assertEquals(actualBigCards, bigCards);
+    List<Cell> actualBigCells = GameConfigParser.getCells(bigFilePath);
+    assertEquals(actualSmallCells, smallCells);
+    assertEquals(actualBigCells, bigCells);
   }
 
   @Test
   public void noNameCards() {
     IllegalStateException thrown = assertThrows(IllegalStateException.class, () -> {
       String filePath = Utils.getFilePath("no_name.txt", "cards");
-      GameConfigParser.getCards(filePath);
+      GameConfigParser.getCells(filePath);
     });
     assertEquals("Card entry must have 5 elements: 7 3 9 A", thrown.getMessage());
   }
@@ -165,7 +164,7 @@ public class GameConfigParserTest {
   public void invalidLetterAsAttackValue() {
     IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
       String filePath = Utils.getFilePath("invalid_letter.txt", "cards");
-      GameConfigParser.getCards(filePath);
+      GameConfigParser.getCells(filePath);
     });
     assertEquals("Invalid attack value: B", thrown.getMessage());
   }
@@ -174,7 +173,7 @@ public class GameConfigParserTest {
   public void invalidNumberAsAttackValue() {
     IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> {
       String filePath = Utils.getFilePath("invalid_number.txt", "cards");
-      GameConfigParser.getCards(filePath);
+      GameConfigParser.getCells(filePath);
     });
     assertEquals("Invalid attack value: 10", thrown.getMessage());
   }
@@ -183,7 +182,7 @@ public class GameConfigParserTest {
   public void notEnoughAttackValues() {
     IllegalStateException thrown = assertThrows(IllegalStateException.class, () -> {
       String filePath = Utils.getFilePath("not_enough_values.txt", "cards");
-      GameConfigParser.getCards(filePath);
+      GameConfigParser.getCells(filePath);
     });
     assertEquals("Card entry must have 5 elements: HeroKnight 4 2 3", thrown.getMessage());
   }
@@ -192,21 +191,21 @@ public class GameConfigParserTest {
   public void cannotFindCardFile() {
     IllegalStateException thrown = assertThrows(IllegalStateException.class, () -> {
       String filePath = Utils.getFilePath("nonexistent.txt", "cards");
-      GameConfigParser.getCards(filePath);
+      GameConfigParser.getCells(filePath);
     });
     assertEquals("Cannot find file", thrown.getMessage());
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void getCardsNullFilePath() {
-    GameConfigParser.getCards(null);
+    GameConfigParser.getCells(null);
   }
 
   @Test
   public void getCardsSameName() {
     IllegalStateException thrown = assertThrows(IllegalStateException.class, () -> {
       String filePath = Utils.getFilePath("repeated_names.txt", "cards");
-      GameConfigParser.getCards(filePath);
+      GameConfigParser.getCells(filePath);
     });
     assertEquals("Cards cannot have the same name", thrown.getMessage());
   }

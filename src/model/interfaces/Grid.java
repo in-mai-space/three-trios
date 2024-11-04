@@ -41,7 +41,7 @@ public interface Grid {
    *
    * @return a 2D array representing the grid of cards.
    */
-  Card[][] getGrid();
+  Cell[][] getGrid();
 
   /**
    * Retrieves the current cell types of the grid as a 2D array. Modifying this array
@@ -54,7 +54,7 @@ public interface Grid {
   /**
    * Places a card in the specified cell of the grid if it is empty and the cell is not a hole.
    *
-   * @param card the card to be placed in the grid.
+   * @param cell the card to be placed in the grid.
    * @param row the row index where the card will be placed (0-indexed)
    * @param col the column index where the card will be placed (0-indexed)
    *
@@ -62,7 +62,7 @@ public interface Grid {
    * @throws IllegalArgumentException if the row or column index is out of bounds
    * @throws IllegalStateException if the cell is not empty or is a hole
    */
-  void placeCard(Card card, int row, int col);
+  void placeCard(Cell cell, int row, int col);
 
   /**
    * Checks if the grid is completely filled with cards.
@@ -90,7 +90,7 @@ public interface Grid {
    *         containing the row and column indices of the adjacent cards
    * @throws IllegalArgumentException if the row or column index is out of bounds
    */
-  Map<Card, AbstractMap.SimpleEntry<Integer, Integer>> getAdjacentCards(int row, int col);
+  Map<Cell, AbstractMap.SimpleEntry<Integer, Integer>> getAdjacentCards(int row, int col);
 
   /**
    * Checks if a card can be placed in the specified cell.
@@ -113,7 +113,7 @@ public interface Grid {
    * @throws IllegalArgumentException if the row or column index is out of bounds
    * @throws IllegalStateException if there is no card at cell
    */
-  Card getCardAt(int row, int col);
+  Cell getCardAt(int row, int col);
 
   /**
    * Gets the total number of cells in the grid.

@@ -2,11 +2,12 @@ package model.interfaces;
 
 import model.enums.AttackValue;
 import model.enums.Direction;
+import model.enums.GamePlayer;
 
 /**
  * Represents a cell in the game.
  */
-public interface Card {
+public interface Cell {
   /**
    * Get the name of the cell.
    *
@@ -41,7 +42,23 @@ public interface Card {
   boolean beats(Cell that, Direction direction);
 
   /**
+   * Get the current owner of the cell.
+   *
+   * @return the current owner of the cell
+   * @throws IllegalStateException if cell currently does not have an owner
+   */
+  GamePlayer getOwner();
+
+  /**
+   * Set the cell's new owner.
+   *
+   * @param owner new owner of the cell
+   * @throws IllegalArgumentException if owner is null
+   */
+  void setOwner(GamePlayer owner);
+
+  /**
    * Get a copy of the cell.
    */
-  Card getCopy();
+  Cell getCopy();
 }

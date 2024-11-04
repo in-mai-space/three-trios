@@ -14,16 +14,16 @@ import javax.swing.JPanel;
 
 import controller.Feature;
 import model.enums.GamePlayer;
-import model.interfaces.Card;
+import model.interfaces.Cell;
 
 class ThreeTriosHandPanel extends JPanel implements GamePanel {
-  private final List<Card> hand;
+  private final List<Cell> hand;
   private static final int PREFERRED_WIDTH = 180;
   private int selectedCardIndex = -1;
   private final GamePlayer currentPlayer;
   private Feature feature;
 
-  public ThreeTriosHandPanel(List<Card> hand, GamePlayer currentPlayer) {
+  public ThreeTriosHandPanel(List<Cell> hand, GamePlayer currentPlayer) {
     this.hand = hand;
     this.currentPlayer = currentPlayer;
     setOpaque(false);
@@ -58,42 +58,42 @@ class ThreeTriosHandPanel extends JPanel implements GamePanel {
     g2d.dispose();
   }
 
-  private void drawCard(Graphics2D g2d, Card card, int index, int startX, int cardHeight,
+  private void drawCard(Graphics2D g2d, Cell cell, int index, int startX, int cardHeight,
                         int cardWidth) {
     Graphics2D cardG2d = (Graphics2D) g2d.create();
     int yPos = index * cardHeight;
     AffineTransform transform = physicalToModel(startX, yPos, cardWidth, cardHeight);
     cardG2d.transform(transform);
 
-    if (card.getOwner() == currentPlayer) {
-      drawOwnedCard(cardG2d, card, index);
+    if (cell.getOwner() == currentPlayer) {
+      drawOwnedCard(cardG2d, cell, index);
     } else {
-      drawOpponentCard(cardG2d, card);
+      drawOpponentCard(cardG2d, cell);
     }
     cardG2d.dispose();
   }
 
-  private void drawOwnedCard(Graphics2D cardG2d, Card card, int index) {
+  private void drawOwnedCard(Graphics2D cardG2d, Cell cell, int index) {
     CellCard cardFrame = new CellCard.CardBuilder()
-            .setColor(ViewData.getCardColor(card.getOwner()))
-            .setAttackValues(card.getAllAttackValues())
+            .setColor(ViewData.getCardColor(cell.getOwner()))
+            .setAttackValues(cell.getAllAttackValues())
             .build();
     cardFrame.draw(cardG2d);
 
     if (index == selectedCardIndex) {
       CellCard selectedCard = new CellCard.CardBuilder()
-              .setColor(ViewData.getSelectedCardColor(card.getOwner()))
-              .setAttackValues(card.getAllAttackValues())
+              .setColor(ViewData.getSelectedCardColor(cell.getOwner()))
+              .setAttackValues(cell.getAllAttackValues())
               .build();
       selectedCard.draw(cardG2d);
     }
   }
 
-  private void drawOpponentCard(Graphics2D cardG2d, Card card) {
+  private void drawOpponentCard(Graphics2D cardG2d, Cell cell) {
     cardG2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
     CellCard cardFrame = new CellCard.CardBuilder()
-            .setColor(ViewData.getCardColor(card.getOwner()))
-            .setAttackValues(card.getAllAttackValues())
+            .setColor(ViewData.getCardColor(cell.getOwner()))
+            .setAttackValues(cell.getAllAttackValues())
             .build();
     cardFrame.draw(cardG2d);
   }
@@ -106,11 +106,11 @@ class ThreeTriosHandPanel extends JPanel implements GamePanel {
     int cardIndex = e.getY() / cardHeight;
 
     if (cardIndex >= 0 && cardIndex < hand.size()) {
-      Card clickedCard = hand.get(cardIndex);
-      if (clickedCard.getOwner() == currentPlayer) {
+      Cell clickedCell = hand.get(cardIndex);
+      if (clickedCell.getOwner() == currentPlayer) {
         selectedCardIndex = cardIndex;
         System.out.printf("Card clicked: Index %d, Owner: %s%n",
-                selectedCardIndex, clickedCard.getOwner());
+                selectedCardIndex, clickedCell.getOwner());
         repaint();
       } else {
         System.out.printf("Card clicked: Index %d is owned by another player.%n", cardIndex);

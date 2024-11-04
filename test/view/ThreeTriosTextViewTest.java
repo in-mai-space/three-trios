@@ -35,11 +35,11 @@ public class ThreeTriosTextViewTest {
     String cardsFilePath = Utils.getFilePath("big_cards.txt", "cards");
 
     noHolesModel = new ThreeTriosModel(GameConfigParser.getCellTypes(noHolesGrid),
-            GameConfigParser.getCards(cardsFilePath));
+            GameConfigParser.getCells(cardsFilePath));
     simpleModel = new ThreeTriosModel(GameConfigParser.getCellTypes(simpleGrid),
-            GameConfigParser.getCards(cardsFilePath));
+            GameConfigParser.getCells(cardsFilePath));
     complexModel = new ThreeTriosModel(GameConfigParser.getCellTypes(complexGrid),
-            GameConfigParser.getCards(cardsFilePath));
+            GameConfigParser.getCells(cardsFilePath));
     noHolesRender = new ArrayList<>(List.of(
             "Player: BLUE\n" +
                     "___\n" +

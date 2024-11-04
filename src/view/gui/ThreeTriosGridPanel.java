@@ -13,14 +13,14 @@ import javax.swing.JPanel;
 
 import controller.Feature;
 import model.enums.CellType;
-import model.interfaces.Card;
+import model.interfaces.Cell;
 
 /**
  * Represent the Grid view of ThreeTrios game.
  */
 class ThreeTriosGridPanel extends JPanel implements GamePanel {
   private final CellType[][] cellTypes;
-  private final Card[][] cards;
+  private final Cell[][] cells;
   private static final Color DEFAULT_COLOR = new Color(249, 224, 118);
   private Feature feature;
 
@@ -28,15 +28,15 @@ class ThreeTriosGridPanel extends JPanel implements GamePanel {
    * Construct a new ThreeTriosGridPanel.
    *
    * @param cellTypes cell types of the grid
-   * @param cards current grid of the game
+   * @param cells current grid of the game
    * @throws IllegalArgumentException if cellTypes or cards is null
    */
-  public ThreeTriosGridPanel(CellType[][] cellTypes, Card[][] cards) {
-    if (cellTypes == null || cards == null) {
+  public ThreeTriosGridPanel(CellType[][] cellTypes, Cell[][] cells) {
+    if (cellTypes == null || cells == null) {
       throw new IllegalArgumentException("Cell types and cards grid cannot be null");
     }
     this.cellTypes = cellTypes;
-    this.cards = cards;
+    this.cells = cells;
     setOpaque(false);
 
     addMouseListener(new MouseAdapter() {
@@ -126,14 +126,14 @@ class ThreeTriosGridPanel extends JPanel implements GamePanel {
               .setColor(new Color(189, 165, 93))
               .build();
     }
-    else if (cards[row][col] == null) {
+    else if (cells[row][col] == null) {
       return new CellCard.CardBuilder().setColor(DEFAULT_COLOR).build();
     }
     else {
-      Card card = cards[row][col];
+      Cell cell = cells[row][col];
       return new CellCard.CardBuilder()
-              .setColor(ViewData.getCardColor(card.getOwner()))
-              .setAttackValues(card.getAllAttackValues())
+              .setColor(ViewData.getCardColor(cell.getOwner()))
+              .setAttackValues(cell.getAllAttackValues())
               .build();
     }
   }

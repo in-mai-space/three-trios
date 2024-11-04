@@ -4,17 +4,16 @@ import controller.GameConfigParser;
 import model.Utils;
 import model.enums.CellType;
 import model.implementation.ThreeTriosModel;
-import model.interfaces.Card;
+import model.interfaces.Cell;
 import model.interfaces.GameModel;
-import model.interfaces.Grid;
 import view.gui.ThreeTriosView;
 
 public class Main {
     public static void main(String[] args) {
         CellType[][] cellTypes = GameConfigParser.getCellTypes(
                 Utils.getFilePath("complex_grid.txt", "grid"));
-        List<Card> cards = GameConfigParser.getCards(Utils.getFilePath("big_cards.txt", "cards"));
-        GameModel model = new ThreeTriosModel(cellTypes, cards);
+        List<Cell> cells = GameConfigParser.getCells(Utils.getFilePath("big_cards.txt", "cards"));
+        GameModel model = new ThreeTriosModel(cellTypes, cells);
         model.startGame(false);
         model.placeCard(0, 0, 0);
         model.placeCard(0, 0, 4);

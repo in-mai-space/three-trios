@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-import model.interfaces.Card;
+import model.interfaces.Cell;
 import model.enums.CellType;
 import model.interfaces.GameModel;
 import model.enums.GamePlayer;
@@ -32,7 +32,7 @@ public class ThreeTriosModel implements GameModel {
   private final GridManager ruleKeeper;
   private int currentPlayerIndex;
   private boolean gameStarted;
-  private final List<Card> allCards;
+  private final List<Cell> allCells;
   private final int numCells;
 
   /**
@@ -40,7 +40,7 @@ public class ThreeTriosModel implements GameModel {
    * and list of cards. This constructor is used for testing purposes.
    *
    * @param cellTypes a 2D array representing the grid layout of the game board
-   * @param allCards a list of {@code Card} objects representing the card database
+   * @param allCells a list of {@code Card} objects representing the card database
    * @return a new instance of {@code ThreeTriosModel} initialized with the given data
    *
    * @throws IllegalArgumentException if cellTypes or allCards is null
@@ -51,10 +51,10 @@ public class ThreeTriosModel implements GameModel {
    * @throws IllegalArgumentException if the number of cards is not at least the number of non-hole
    *                                  cells + 1
    */
-  public ThreeTriosModel(CellType[][] cellTypes, List<Card> allCards) {
-    validateModelArgs(cellTypes, allCards);
+  public ThreeTriosModel(CellType[][] cellTypes, List<Cell> allCells) {
+    validateModelArgs(cellTypes, allCells);
     GridManager manager = new ThreeTriosGridManager(cellTypes);
-    if (allCards.size() < manager.numberOfCells() + 1) {
+    if (allCells.size() < manager.numberOfCells() + 1) {
       throw new IllegalArgumentException("There must be at least " + (manager.numberOfCells() + 1)
               + " cards available.");
     }
@@ -62,7 +62,7 @@ public class ThreeTriosModel implements GameModel {
     this.ruleKeeper = manager;
     this.players = new GamePlayer[]{ GamePlayer.RED, GamePlayer.BLUE };
     this.currentPlayerIndex = 0;
-    this.allCards = allCards;
+    this.allCells = allCells;
   }
 
   /**
@@ -77,9 +77,9 @@ public class ThreeTriosModel implements GameModel {
     int playerIndex = 0;
     for (int i = 0; i < cardsPerPlayer * 2; i++) {
       if (playerHands.get(players[playerIndex]).handSize() < cardsPerPlayer) {
-        Card cardToDistribute = allCards.get(i);
-        playerHands.get(players[playerIndex]).addCard(cardToDistribute);
-        cardToDistribute.setOwner(players[playerIndex]);
+        Cell cellToDistribute = allCells.get(i);
+        playerHands.get(players[playerIndex]).addCard(cellToDistribute);
+        cellToDistribute.setOwner(players[playerIndex]);
         playerIndex = (playerIndex + 1) % players.length;
       }
     }
@@ -94,7 +94,7 @@ public class ThreeTriosModel implements GameModel {
   public void startGame(boolean shuffle) {
     validateGameInProgress();
     if (shuffle) {
-      Collections.shuffle(allCards);
+      Collections.shuffle(allCells);
     }
     distributeCards();
     this.gameStarted = true;
@@ -153,7 +153,7 @@ public class ThreeTriosModel implements GameModel {
    * @return list of cards in the player's hand
    * @throws IllegalStateException if the game has not started
    */
-  public List<Card> getHand(GamePlayer player) {
+  public List<Cell> getHand(GamePlayer player) {
     validateGameNotStarted();
     return playerHands.get(player).getCards();
   }
@@ -172,8 +172,8 @@ public class ThreeTriosModel implements GameModel {
   public void placeCard(int index, int row, int col) {
     validateGameNotStartOrOver();
     Hand currentPlayerHand = playerHands.get(players[currentPlayerIndex]);
-    Card card = currentPlayerHand.removeCard(index);
-    ruleKeeper.placeCard(card, row, col);
+    Cell cell = currentPlayerHand.removeCard(index);
+    ruleKeeper.placeCard(cell, row, col);
     ruleKeeper.executeBattle(row, col);
     nextPlayer();
   }
@@ -206,7 +206,7 @@ public class ThreeTriosModel implements GameModel {
    * Count how many opponents' card would be flipped if a card is played in the grid
    * at a certain position.
    *
-   * @param card card to be placed in grid
+   * @param cell card to be placed in grid
    * @param row  row index position on grid (0-indexed)
    * @param col  col index position on grid (0-indexed)
    *
@@ -215,9 +215,9 @@ public class ThreeTriosModel implements GameModel {
    * @throws IllegalStateException    if a card cannot be placed that location
    * @throws IllegalStateException if game is not started or over
    */
-  public int countCardFlip(Card card, int row, int col) {
+  public int countCardFlip(Cell cell, int row, int col) {
     validateGameNotStartOrOver();
-    return ruleKeeper.countCardFlip(card, row, col);
+    return ruleKeeper.countCardFlip(cell, row, col);
   }
 
   /**
@@ -227,7 +227,7 @@ public class ThreeTriosModel implements GameModel {
    * @return the 2d-array representation of cards in the grid
    * @throws IllegalStateException if game is not started
    */
-  public Card[][] getGrid() {
+  public Cell[][] getGrid() {
     validateGameNotStarted();
     return ruleKeeper.getGrid();
   }
@@ -251,7 +251,7 @@ public class ThreeTriosModel implements GameModel {
    * @return list of cards in current player's hand
    * @throws IllegalStateException if the game is not started
    */
-  public List<Card> getCurrentPlayerHand() {
+  public List<Cell> getCurrentPlayerHand() {
     validateGameNotStarted();
     return getHand(players[currentPlayerIndex]);
   }
@@ -296,20 +296,20 @@ public class ThreeTriosModel implements GameModel {
    * inside it is not empty, and cards are unique.
    *
    * @param cellTypes cellTypes configuration of the game
-   * @param allCards list of cards to be played in the game
+   * @param allCells list of cards to be played in the game
    *
    * @throws IllegalArgumentException if cellTypes and allCards are null
    * @throws IllegalArgumentException if row is null or a cellType at specific col and row is null
    * @throws IllegalArgumentException if cellTypes is empty
    * @throws IllegalArgumentException if cards are not unique
    */
-  private void validateModelArgs(CellType[][] cellTypes, List<Card> allCards) {
-    if (cellTypes == null || allCards == null) {
+  private void validateModelArgs(CellType[][] cellTypes, List<Cell> allCells) {
+    if (cellTypes == null || allCells == null) {
       throw new IllegalArgumentException("Cell types and cards cannot be null");
     }
     validateCellTypes(cellTypes);
-    Set<Card> uniqueCards = new HashSet<>(allCards);
-    if (uniqueCards.size() != allCards.size()) {
+    Set<Cell> uniqueCells = new HashSet<>(allCells);
+    if (uniqueCells.size() != allCells.size()) {
       throw new IllegalArgumentException("Cards must be unique");
     }
   }
@@ -380,7 +380,7 @@ public class ThreeTriosModel implements GameModel {
    * @throws IllegalStateException    if there is no card at that position
    * @throws IllegalStateException    if game is not started
    */
-  public Card getCardAt(int row, int col) {
+  public Cell getCardAt(int row, int col) {
     validateGameNotStarted();
     return ruleKeeper.getCardAt(row, col);
   }

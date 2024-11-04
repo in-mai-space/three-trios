@@ -12,15 +12,15 @@ public interface Hand {
    *
    * @return a copy of cards in hand
    */
-  List<Card> getCards();
+  List<Cell> getCards();
 
   /**
    * Add a card to the hand.
    *
-   * @param card the card to be added to the hand
+   * @param cell the card to be added to the hand
    * @throws IllegalArgumentException if the card is null
    */
-  void addCard(Card card);
+  void addCard(Cell cell);
 
   /**
    * Remove a card from hand given a 0-based index.
@@ -31,7 +31,7 @@ public interface Hand {
    * @throws IllegalArgumentException if the index is out of bounds
    * @throws IllegalStateException if the hand is empty
    */
-  Card removeCard(int index);
+  Cell removeCard(int index);
 
   /**
    * Return the current number of cards in hand.
