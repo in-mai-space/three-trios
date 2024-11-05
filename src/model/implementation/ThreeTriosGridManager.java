@@ -13,7 +13,7 @@ import model.interfaces.GridManager;
 /**
  * Manages the grid in the ThreeTriosGame.
  */
-class ThreeTriosGridManager implements GridManager {
+public class ThreeTriosGridManager implements GridManager {
   private final Grid grid;
 
   /**
@@ -22,7 +22,7 @@ class ThreeTriosGridManager implements GridManager {
    * @param cellTypes the grid to be managed
    * @throws IllegalArgumentException if the grid is null
    */
-  ThreeTriosGridManager(CellType[][] cellTypes) {
+  public ThreeTriosGridManager(CellType[][] cellTypes) {
     if (cellTypes == null) {
       throw new IllegalArgumentException("Grid cannot be null");
     }

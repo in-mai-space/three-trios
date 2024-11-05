@@ -2,6 +2,8 @@ package strategy;
 
 import model.interfaces.Cell;
 
+import java.util.Objects;
+
 public class Move {
   private final Cell cell;
   private final int row;
@@ -26,5 +28,24 @@ public class Move {
 
   public int getCol() {
     return col;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!(obj instanceof Move)) {
+      return false;
+    }
+    Move other = (Move) obj;
+    return Objects.equals(cell, other.cell) &&
+            row == other.row &&
+            col == other.col;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(cell, row, col);
   }
 }

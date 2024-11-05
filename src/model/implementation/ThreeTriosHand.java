@@ -9,7 +9,7 @@ import model.interfaces.Hand;
 /**
  * Represents ThreeTriosHand for the game ThreeTrios.
  */
-class ThreeTriosHand implements Hand {
+public class ThreeTriosHand implements Hand {
   private final List<Cell> cells;
   // hand size changes as player places in grid, does not require shifting array index
 
