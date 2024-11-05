@@ -1,4 +1,4 @@
-package model.strategy;
+package strategy;
 
 import model.interfaces.Cell;
 

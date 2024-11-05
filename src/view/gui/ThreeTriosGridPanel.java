@@ -61,7 +61,7 @@ class ThreeTriosGridPanel extends JPanel implements GamePanel {
       int row = (int) gridPoint.getY();
 
       if (row >= 0 && row < rows && col >= 0 && col < cols) {
-        System.out.println("Cell clicked at: Row " + row + ", Column " + col);
+        feature.printCellClicked(row, col);
       }
     } catch (NoninvertibleTransformException e) {
       System.err.println("Cannot invert");

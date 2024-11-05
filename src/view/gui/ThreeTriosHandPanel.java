@@ -107,14 +107,9 @@ class ThreeTriosHandPanel extends JPanel implements GamePanel {
 
     if (cardIndex >= 0 && cardIndex < hand.size()) {
       Cell clickedCell = hand.get(cardIndex);
-      if (clickedCell.getOwner() == currentPlayer) {
-        selectedCardIndex = cardIndex;
-        System.out.printf("Card clicked: Index %d, Owner: %s%n",
-                selectedCardIndex, clickedCell.getOwner());
-        repaint();
-      } else {
-        System.out.printf("Card clicked: Index %d is owned by another player.%n", cardIndex);
-      }
+      selectedCardIndex = cardIndex;
+      feature.printCardClicked(selectedCardIndex, clickedCell.getOwner());
+      repaint();
     }
   }
 

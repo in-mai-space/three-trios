@@ -30,6 +30,13 @@ public interface ReadOnlyGameModel {
   Cell[][] getGrid();
 
   /**
+   * Check if a card can be placed in a position in the model.
+   *
+   * @throws IllegalArgumentException if row or col is out of bound
+   */
+  boolean canPlaceCard(int row, int col);
+
+  /**
    * Get a copy of the layout of cell types. Modifying this 2d array does not modify
    * the game state.
    *

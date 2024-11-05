@@ -233,6 +233,18 @@ public class ThreeTriosModel implements GameModel {
   }
 
   /**
+   * Check if a card can be placed in a position in the model.
+   *
+   * @param row row index (0-indexed)
+   * @param col col index (0-indexed)
+   * @throws IllegalArgumentException if row or col is out of bound
+   */
+  @Override
+  public boolean canPlaceCard(int row, int col) {
+    return ruleKeeper.canPlaceCard(row, col);
+  }
+
+  /**
    * Get a copy of the layout of cell types. Modifying this 2d array does not modify
    * the game state.
    *
