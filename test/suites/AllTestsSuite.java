@@ -12,7 +12,8 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         ViewTestSuite.class,
-        ModelTestSuite.class
+        ModelTestSuite.class,
+        StrategyTestSuite.class
 })
 public class AllTestsSuite {
 }

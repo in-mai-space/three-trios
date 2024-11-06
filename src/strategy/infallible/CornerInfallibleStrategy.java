@@ -9,7 +9,7 @@ import strategy.Pair;
 import strategy.fallible.CornerFallibleStrategy;
 
 /**
- *
+ * Represent the game strategy of occupying 4 corners of the grid.
  */
 public class CornerInfallibleStrategy implements InfallibleGameStrategy {
   private final CornerFallibleStrategy cornerStrategy;

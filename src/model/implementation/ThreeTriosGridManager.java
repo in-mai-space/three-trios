@@ -1,6 +1,7 @@
 package model.implementation;
 
 import java.util.AbstractMap;
+import java.util.Arrays;
 import java.util.Map;
 
 import model.interfaces.Cell;
@@ -244,6 +245,7 @@ public class ThreeTriosGridManager implements GridManager {
 
         Direction direction = getDirection(row, col, adjacentRow, adjacentCol);
         if (placedCell.beats(adjacentCell, direction)) {
+          System.out.println(Arrays.toString(adjacentCell.getAllAttackValues()));
           adjacentCell.setOwner(currentPlayer);
           flippedCount += 1;
           flippedCount += countAndExecuteBattle(adjacentRow, adjacentCol, targetGrid);

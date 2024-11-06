@@ -1,4 +1,4 @@
-package strategy.infallible;
+package strategy;
 
 import org.junit.Test;
 
@@ -14,6 +14,8 @@ import model.interfaces.Cell;
 import model.interfaces.GameModel;
 import strategy.Move;
 import strategy.Pair;
+import strategy.infallible.InfallibleGameStrategy;
+import strategy.infallible.UpperLeftInfallibleStrategy;
 
 import static org.junit.Assert.assertEquals;
 

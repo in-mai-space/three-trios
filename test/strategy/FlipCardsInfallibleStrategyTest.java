@@ -1,4 +1,4 @@
-package strategy.infallible;
+package strategy;
 
 import org.junit.Test;
 
@@ -7,6 +7,8 @@ import model.enums.GamePlayer;
 import model.interfaces.GameModel;
 import strategy.Move;
 import strategy.Pair;
+import strategy.infallible.FlipCardsInfallibleStrategy;
+import strategy.infallible.InfallibleGameStrategy;
 
 import static org.junit.Assert.assertEquals;
 

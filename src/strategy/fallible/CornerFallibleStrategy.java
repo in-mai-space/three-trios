@@ -162,14 +162,12 @@ public class CornerFallibleStrategy extends AbstractFallibleStrategy {
    * @return comparator to sort the best moves
    */
   private static Comparator<Cell> getComparator(boolean verticalBlocked, boolean horizontalBlocked,
-                                                      Direction vertical, Direction horizontal) {
+                                                Direction vertical, Direction horizontal) {
     if (verticalBlocked && !horizontalBlocked) {
-      return Comparator.comparingInt((Cell cell) -> cell.getAttackValue(horizontal))
-              .thenComparingInt(cell -> cell.getAttackValue(vertical));
+      return Comparator.comparingInt((Cell cell) -> cell.getAttackValue(horizontal));
     }
     else if (horizontalBlocked && !verticalBlocked) {
-      return Comparator.comparingInt((Cell cell) -> cell.getAttackValue(vertical))
-              .thenComparingInt(cell -> cell.getAttackValue(horizontal));
+      return Comparator.comparingInt((Cell cell) -> cell.getAttackValue(vertical));
     }
     else {
       return Comparator.comparingInt((Cell cell) -> cell.getAttackValue(vertical))
