@@ -8,6 +8,7 @@ import model.enums.CellType;
 import model.implementation.ThreeTriosModel;
 import model.interfaces.Cell;
 import model.interfaces.GameModel;
+import model.interfaces.ReadOnlyGameModel;
 
 /**
  * Represent class model.Utils.

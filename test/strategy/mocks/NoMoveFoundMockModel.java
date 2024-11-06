@@ -16,25 +16,20 @@ import model.interfaces.GameModel;
 import model.interfaces.GridManager;
 import model.interfaces.Hand;
 
-public class ReadOnlyMockModel implements GameModel {
+public class NoMoveFoundMockModel implements GameModel {
   private final GamePlayer[] players;
-  private final GridManager ruleKeeper;
   private Map<GamePlayer, Hand> playerHands;
-  private final List<Cell> allCells;
   private final int numCells;
-  private final Appendable log;
+  private final GridManager ruleKeeper;
+  private final List<Cell> allCells;
 
-  public ReadOnlyMockModel(CellType[][] cellTypes, List<Cell> allCells, Appendable log) {
+  public NoMoveFoundMockModel(CellType[][] cellTypes, List<Cell> allCells) {
     GridManager manager = new ThreeTriosGridManager(cellTypes);
-    if (allCells.size() < manager.numberOfCells() + 1) {
-      throw new IllegalArgumentException("There must be at least " + (manager.numberOfCells() + 1)
-              + " cards available.");
-    }
     this.numCells = manager.numberOfCells();
     this.ruleKeeper = manager;
     this.players = new GamePlayer[]{ GamePlayer.RED, GamePlayer.BLUE };
     this.allCells = allCells;
-    this.log = log;
+    setUpCards();
   }
 
   private void setUpCards() {
@@ -74,16 +69,7 @@ public class ReadOnlyMockModel implements GameModel {
    */
   @Override
   public Cell[][] getGrid() {
-    transmit("Get grid");
     return ruleKeeper.getGrid();
-  }
-
-  private void transmit(String message) {
-    try {
-      log.append(message);
-      System.out.println(message);
-    }
-    catch (IOException ignored) { }
   }
 
   /**
@@ -95,8 +81,7 @@ public class ReadOnlyMockModel implements GameModel {
    */
   @Override
   public boolean canPlaceCard(int row, int col) {
-    transmit("Check can place card at row " + row + " and col " + col);
-    return ruleKeeper.canPlaceCard(row, col);
+    return false;
   }
 
   /**
@@ -211,8 +196,7 @@ public class ReadOnlyMockModel implements GameModel {
    */
   @Override
   public List<Cell> getHand(GamePlayer player) {
-    transmit("Get player's hand");
-    return playerHands.get(players[0]).getCards();
+    return playerHands.get(player).getCards();
   }
 
   /**
@@ -240,7 +224,7 @@ public class ReadOnlyMockModel implements GameModel {
    */
   @Override
   public void startGame(boolean shuffle) {
-    setUpCards();
+
   }
 
   /**
@@ -255,10 +239,7 @@ public class ReadOnlyMockModel implements GameModel {
    */
   @Override
   public void placeCard(int index, int row, int col) {
-    Hand currentPlayerHand = playerHands.get(players[0]);
-    Cell cell = currentPlayerHand.removeCard(index);
-    ruleKeeper.placeCard(cell, row, col);
-    ruleKeeper.executeBattle(row, col);
+
   }
 
   /**

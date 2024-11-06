@@ -2,13 +2,21 @@ package strategy;
 
 import org.junit.Test;
 
+import java.util.List;
+
+import controller.GameConfigParser;
 import model.Utils;
+import model.enums.CellType;
 import model.enums.GamePlayer;
+import model.interfaces.Cell;
 import model.interfaces.GameModel;
 import strategy.Move;
 import strategy.Pair;
 import strategy.infallible.FlipCardsInfallibleStrategy;
 import strategy.infallible.InfallibleGameStrategy;
+import strategy.infallible.UpperLeftInfallibleStrategy;
+import strategy.mocks.FlipManyCardsMockModel;
+import strategy.mocks.NoMoveFoundMockModel;
 
 import static org.junit.Assert.assertEquals;
 
@@ -114,5 +122,22 @@ public class FlipCardsInfallibleStrategyTest {
 
     Pair<Move, Integer> redFourthMove = flipManyCards.decideMove(model, GamePlayer.RED);
     assertEquals(redFourthMove, new Pair<>(new Move(model.getHand(GamePlayer.RED).get(0), 2,0), 4));
+  }
+
+  @Test
+  public void noHolesWithMockModel() {
+    InfallibleGameStrategy flipManyCardsStrategy = new FlipCardsInfallibleStrategy();
+    String gridFile = Utils.getFilePath("no_holes.txt", "grid");
+    String cardFile = Utils.getFilePath("big_cards.txt", "cards");
+    CellType[][] cellTypes = GameConfigParser.getCellTypes(gridFile);
+    List<Cell> cells = GameConfigParser.getCells(cardFile);
+    GameModel model = new FlipManyCardsMockModel(cellTypes, cells);
+    model.startGame(false);
+    Pair<Move, Integer> move = flipManyCardsStrategy.decideMove(model, GamePlayer.RED);
+    // mock model that returns highest number for count card flip if the name is corrupt king
+    // and the col and row is equal to 1
+    assertEquals(move.getKey().getCard().getName(), "CorruptKing");
+    assertEquals(move.getKey().getCol(), 1);
+    assertEquals(move.getKey().getRow(), 1);
   }
 }
