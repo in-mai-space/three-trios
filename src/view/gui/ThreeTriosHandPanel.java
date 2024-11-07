@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.AlphaComposite;
 
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
@@ -27,13 +29,48 @@ class ThreeTriosHandPanel extends JPanel implements GamePanel {
     this.hand = hand;
     this.currentPlayer = currentPlayer;
     setOpaque(false);
-    setPreferredSize(new Dimension(PREFERRED_WIDTH, 0));
+
+    // Set initial minimum size to ensure panel doesn't collapse
+    setMinimumSize(new Dimension(100, 0));
+
     addMouseListener(new MouseAdapter() {
       @Override
       public void mouseClicked(MouseEvent e) {
         handleCardClick(e);
       }
     });
+
+    addComponentListener(new ComponentAdapter() {
+      @Override
+      public void componentResized(ComponentEvent e) {
+        updateSize();
+      }
+
+      @Override
+      public void componentShown(ComponentEvent e) {
+        updateSize();
+      }
+    });
+  }
+
+  private void updateSize() {
+    if (getParent() != null) {
+      int parentWidth = getParent().getWidth();
+      int newWidth = Math.min(parentWidth / 3, PREFERRED_WIDTH);
+      setPreferredSize(new Dimension(newWidth, getHeight()));
+      revalidate();
+      repaint();
+    }
+  }
+
+  @Override
+  public Dimension getPreferredSize() {
+    if (getParent() != null) {
+      int parentWidth = getParent().getWidth();
+      int width = Math.max(100, Math.min(parentWidth / 3, PREFERRED_WIDTH));
+      return new Dimension(width, super.getPreferredSize().height);
+    }
+    return super.getPreferredSize();
   }
 
   private int getCardHeight() {
@@ -51,7 +88,8 @@ class ThreeTriosHandPanel extends JPanel implements GamePanel {
 
     int panelWidth = getWidth();
     int cardHeight = getCardHeight();
-    int cardWidth = Math.min(panelWidth - 10, 200);
+    // Adjust card width to be proportional to panel width
+    int cardWidth = Math.max(80, Math.min(panelWidth - 10, 200));
     int startX = (panelWidth - cardWidth) / 2;
 
     for (int i = 0; i < hand.size(); i++) {
