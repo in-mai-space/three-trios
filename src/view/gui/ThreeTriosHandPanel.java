@@ -102,14 +102,31 @@ class ThreeTriosHandPanel extends JPanel implements GamePanel {
   private void handleCardClick(MouseEvent e) {
     if (hand.isEmpty()) return;
 
+    int panelWidth = getWidth();
     int cardHeight = getCardHeight();
+    int cardWidth = Math.min(panelWidth - 10, 200);
+    int startX = (panelWidth - cardWidth) / 2;
+
+    int relativeX = e.getX() - startX;
     int cardIndex = e.getY() / cardHeight;
 
-    if (cardIndex >= 0 && cardIndex < hand.size()) {
+    int horizontalBuffer = (int)(cardWidth * 0.02);
+    int verticalBuffer = (int)(cardHeight * 0.02);
+
+    boolean isWithinHorizontalBounds = relativeX >= horizontalBuffer &&
+            relativeX <= (cardWidth - horizontalBuffer);
+    boolean isWithinVerticalBounds = (e.getY() % cardHeight) >= verticalBuffer &&
+            (e.getY() % cardHeight) <= (cardHeight - verticalBuffer);
+
+    if (cardIndex >= 0 && cardIndex < hand.size() &&
+            isWithinHorizontalBounds && isWithinVerticalBounds) {
       Cell clickedCell = hand.get(cardIndex);
-      selectedCardIndex = cardIndex;
-      feature.printCardClicked(selectedCardIndex, clickedCell.getOwner());
-      repaint();
+
+      if (clickedCell.getOwner() == currentPlayer) {
+        selectedCardIndex = cardIndex;
+        feature.printCardClicked(selectedCardIndex, clickedCell.getOwner());
+        repaint();
+      }
     }
   }
 

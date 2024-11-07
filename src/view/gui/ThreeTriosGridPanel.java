@@ -52,16 +52,29 @@ class ThreeTriosGridPanel extends JPanel implements GamePanel {
     int rows = cellTypes.length;
     int cols = cellTypes[0].length;
     AffineTransform transform = physicalToModel();
+
     try {
       AffineTransform inverseTransform = transform.createInverse();
       Point2D pixelPoint = new Point2D.Double(x, y);
       Point2D gridPoint = inverseTransform.transform(pixelPoint, null);
 
-      int col = (int) gridPoint.getX();
-      int row = (int) gridPoint.getY();
+      double exactCol = gridPoint.getX();
+      double exactRow = gridPoint.getY();
 
-      if (row >= 0 && row < rows && col >= 0 && col < cols) {
-        feature.printCellClicked(row, col);
+      double colFraction = exactCol - Math.floor(exactCol);
+      double rowFraction = exactRow - Math.floor(exactRow);
+
+      double buffer = 0.02;
+
+      if (colFraction > buffer && colFraction < (1 - buffer) &&
+              rowFraction > buffer && rowFraction < (1 - buffer)) {
+
+        int col = (int) exactCol;
+        int row = (int) exactRow;
+
+        if (row >= 0 && row < rows && col >= 0 && col < cols) {
+          feature.printCellClicked(row, col);
+        }
       }
     } catch (NoninvertibleTransformException e) {
       System.err.println("Cannot invert");
