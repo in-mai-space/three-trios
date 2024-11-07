@@ -51,12 +51,13 @@ class ThreeTriosGridPanel extends JPanel implements GamePanel {
   private void handleMouseClick(int x, int y) {
     int rows = cellTypes.length;
     int cols = cellTypes[0].length;
-    AffineTransform transform = physicalToModel();
+    AffineTransform transform = physicalToModel(); // map screen size to model
 
     try {
+      // map model back to screen
       AffineTransform inverseTransform = transform.createInverse();
-      Point2D pixelPoint = new Point2D.Double(x, y);
-      Point2D gridPoint = inverseTransform.transform(pixelPoint, null);
+      Point2D pixelPoint = new Point2D.Double(x, y); // a point clicked on screen
+      Point2D gridPoint = inverseTransform.transform(pixelPoint, null); // grid point clicked
 
       double exactCol = gridPoint.getX();
       double exactRow = gridPoint.getY();
@@ -64,8 +65,10 @@ class ThreeTriosGridPanel extends JPanel implements GamePanel {
       double colFraction = exactCol - Math.floor(exactCol);
       double rowFraction = exactRow - Math.floor(exactRow);
 
+      // ignore clicks near cell boundaries
       double buffer = 0.02;
 
+      // check if click is within the "interior" of the cell (not near edges)
       if (colFraction > buffer && colFraction < (1 - buffer) &&
               rowFraction > buffer && rowFraction < (1 - buffer)) {
 

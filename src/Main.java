@@ -6,6 +6,7 @@ import controller.ThreeTriosController;
 import model.Utils;
 import model.enums.CellType;
 import model.implementation.ThreeTriosModel;
+import model.implementation.ThreeTriosViewModel;
 import model.interfaces.Cell;
 import model.interfaces.GameModel;
 import view.gui.ThreeTriosView;
@@ -18,7 +19,7 @@ public class Main {
         GameModel model = new ThreeTriosModel(cellTypes, cells);
         GameController controller = new ThreeTriosController(model);
         model.startGame(false);
-        ThreeTriosView view = new ThreeTriosView(model);
+        ThreeTriosView view = new ThreeTriosView(new ThreeTriosViewModel(model));
         controller.setView(view);
         view.makeVisible();
     }

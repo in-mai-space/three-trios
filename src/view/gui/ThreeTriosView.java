@@ -13,11 +13,10 @@ import model.interfaces.ReadOnlyGameModel;
 public class ThreeTriosView extends JFrame implements GameGUIView {
   private final ThreeTriosMainPanel mainPanel;
 
-  public ThreeTriosView(GameModel model) {
+  public ThreeTriosView(ReadOnlyGameModel model) {
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    ReadOnlyGameModel readOnlyModel = new ThreeTriosViewModel(model);
     setTitle("Current player: " + model.getCurrentPlayer().toString());
-    mainPanel = new ThreeTriosMainPanel(readOnlyModel);
+    mainPanel = new ThreeTriosMainPanel(model);
     setUpContent(mainPanel);
   }
 
