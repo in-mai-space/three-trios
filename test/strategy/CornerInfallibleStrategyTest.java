@@ -2,11 +2,23 @@ package strategy;
 
 import org.junit.Test;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+
+import controller.GameConfigParser;
 import model.Utils;
+import model.enums.CellType;
 import model.enums.GamePlayer;
+import model.interfaces.Cell;
 import model.interfaces.GameModel;
 import strategy.infallible.CornerInfallibleStrategy;
 import strategy.infallible.InfallibleGameStrategy;
+import strategy.infallible.UpperLeftInfallibleStrategy;
+import strategy.mocks.GoToCornerMockModel;
+import strategy.mocks.NoMoveFoundMockModel;
 
 import static org.junit.Assert.assertEquals;
 
@@ -208,5 +220,62 @@ public class CornerInfallibleStrategyTest {
 
     Pair<Move, Integer> blueFirstMove = cornerStrategy.decideMove(model, GamePlayer.BLUE);
     assertEquals(blueFirstMove, new Pair<>(new Move(model.getHand(GamePlayer.BLUE).get(3), 0,2), 1));
+  }
+
+  @Test(expected = IllegalStateException.class)
+  public void cornerStrategyOccupiedWithMockModel() throws IOException {
+    InfallibleGameStrategy cornerStrategy = new CornerInfallibleStrategy();
+    String gridFile = Utils.getFilePath("no_holes.txt", "grid");
+    String cardFile = Utils.getFilePath("big_cards.txt", "cards");
+    CellType[][] cellTypes = GameConfigParser.getCellTypes(gridFile);
+    List<Cell> cells = GameConfigParser.getCells(cardFile);
+    GameModel model = new NoMoveFoundMockModel(cellTypes, cells);
+
+    try {
+      model.startGame(false);
+      cornerStrategy.decideMove(model, GamePlayer.RED);
+    } finally {
+      List<String> lines = Files.readAllLines(Paths.get("strategy-transcript.txt"));
+      String content = String.join("\n", lines);
+      assertEquals(content,
+              "Check can place card at row 0 and col 0\n" +
+              "Check can place card at row 0 and col 2\n" +
+              "Check can place card at row 2 and col 0\n" +
+              "Check can place card at row 2 and col 2\n" +
+              "Check can place card at row 0 and col 0\n" +
+              "Check can place card at row 0 and col 1\n" +
+              "Check can place card at row 0 and col 2\n" +
+              "Check can place card at row 1 and col 0\n" +
+              "Check can place card at row 1 and col 1\n" +
+              "Check can place card at row 1 and col 2\n" +
+              "Check can place card at row 2 and col 0\n" +
+              "Check can place card at row 2 and col 1\n" +
+              "Check can place card at row 2 and col 2");
+    }
+  }
+
+  @Test
+  public void goToCornerRow2Col2MockModel() throws IOException {
+    InfallibleGameStrategy cornerStrategy = new CornerInfallibleStrategy();
+    String gridFile = Utils.getFilePath("no_holes.txt", "grid");
+    String cardFile = Utils.getFilePath("big_cards.txt", "cards");
+    CellType[][] cellTypes = GameConfigParser.getCellTypes(gridFile);
+    List<Cell> cells = GameConfigParser.getCells(cardFile);
+    GameModel model = new GoToCornerMockModel(cellTypes, cells);
+    model.startGame(false);
+    Pair<Move, Integer> move = cornerStrategy.decideMove(model, GamePlayer.RED);
+    // make the strategy thinks that 2, 2 is opened, while the other corners always return false
+    // when canPlaceCard method is called
+    assertEquals(move.getKey().getRow(), 2);
+    assertEquals(move.getKey().getCol(), 2);
+
+    List<String> lines = Files.readAllLines(Paths.get("strategy-transcript.txt"));
+    String content = String.join("\n", lines);
+    assertEquals("Check can place card at row 0 and col 0\n" +
+            "Check can place card at row 0 and col 2\n" +
+            "Check can place card at row 2 and col 0\n" +
+            "Check can place card at row 2 and col 2\n" +
+            // (2, 2) is opened so now count card flip in it
+            "count card flip with card EarthLizard in row 2 and col 2", content);
   }
 }

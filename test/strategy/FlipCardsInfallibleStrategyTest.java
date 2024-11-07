@@ -2,6 +2,9 @@ package strategy;
 
 import org.junit.Test;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 import controller.GameConfigParser;
@@ -139,5 +142,31 @@ public class FlipCardsInfallibleStrategyTest {
     assertEquals(move.getKey().getCard().getName(), "CorruptKing");
     assertEquals(move.getKey().getCol(), 1);
     assertEquals(move.getKey().getRow(), 1);
+  }
+
+  @Test(expected = IllegalStateException.class)
+  public void mockModelCannotPlaceCard() throws IOException {
+    InfallibleGameStrategy flipManyCardsStrategy = new FlipCardsInfallibleStrategy();
+    String gridFile = Utils.getFilePath("no_holes.txt", "grid");
+    String cardFile = Utils.getFilePath("big_cards.txt", "cards");
+    CellType[][] cellTypes = GameConfigParser.getCellTypes(gridFile);
+    List<Cell> cells = GameConfigParser.getCells(cardFile);
+    GameModel model = new NoMoveFoundMockModel(cellTypes, cells);
+    try {
+      model.startGame(false);
+      flipManyCardsStrategy.decideMove(model, GamePlayer.RED);
+    } finally {
+      List<String> lines = Files.readAllLines(Paths.get("strategy-transcript.txt"));
+      int lineIndex = 0;
+      // check for each of 5 cards in hand for every single row and col
+      for (int i = 0; i < 5; i++) {
+        for (int row = 0; row < 3; row++) {
+          for (int col = 0; col < 3; col++) {
+            assertEquals("Check can place card at row " + row + " and col " + col,
+                    lines.get(lineIndex++));
+          }
+        }
+      }
+    }
   }
 }

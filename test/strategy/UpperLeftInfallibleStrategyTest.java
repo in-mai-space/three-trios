@@ -2,6 +2,9 @@ package strategy;
 
 import org.junit.Test;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 import controller.GameConfigParser;
@@ -67,13 +70,26 @@ public class UpperLeftInfallibleStrategyTest {
   }
 
   @Test(expected = IllegalStateException.class)
-  public void testExceptionMoveNotFoundMockModel() {
+  public void testExceptionMoveNotFoundMockModel() throws IOException {
     InfallibleGameStrategy mostUpperLeftestStrat = new UpperLeftInfallibleStrategy();
     String gridFile = Utils.getFilePath("no_holes.txt", "grid");
     String cardFile = Utils.getFilePath("big_cards.txt", "cards");
     CellType[][] cellTypes = GameConfigParser.getCellTypes(gridFile);
     List<Cell> cells = GameConfigParser.getCells(cardFile);
     GameModel model = new NoMoveFoundMockModel(cellTypes, cells);
-    mostUpperLeftestStrat.decideMove(model, GamePlayer.RED);
+    try {
+      model.startGame(false);
+      mostUpperLeftestStrat.decideMove(model, GamePlayer.RED);
+    } finally {
+      List<String> lines = Files.readAllLines(Paths.get("strategy-transcript.txt"));
+      int lineIndex = 0;
+      // check for every single row and col
+      for (int row = 0; row < 3; row++) {
+        for (int col = 0; col < 3; col++) {
+          assertEquals("Check can place card at row " + row + " and col " + col,
+                  lines.get(lineIndex++));
+        }
+      }
+    }
   }
 }
