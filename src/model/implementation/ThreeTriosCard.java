@@ -6,7 +6,6 @@ import model.enums.AttackValue;
 import model.interfaces.Card;
 import model.interfaces.Cell;
 import model.enums.Direction;
-import model.enums.GamePlayer;
 
 /**
  * Represents a card in the ThreeTriosGame.

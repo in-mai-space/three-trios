@@ -16,7 +16,6 @@ import model.interfaces.Cell;
 import model.interfaces.GameModel;
 import strategy.infallible.CornerInfallibleStrategy;
 import strategy.infallible.InfallibleGameStrategy;
-import strategy.infallible.UpperLeftInfallibleStrategy;
 import strategy.mocks.GoToCornerMockModel;
 import strategy.mocks.NoMoveFoundMockModel;
 

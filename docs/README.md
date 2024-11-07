@@ -99,3 +99,39 @@ docs
 ├── PLAYER.md
 ├── README.md: player interface design
 ```
+
+## Changes for Part 2
+Model methods:
+- canPlaceCard: 
+- getGridWidth
+- getGridHeight:
+- getOwnerAt
+- getCardAt
+- getScore
+- countCardFlip
+Refactor:
+- adapter for ReadOnlyGameModel
+- game config parser to controller
+- decouple the card from cell, cell should know its owner, while card does not, cell is composed of a card
+
+## New changes
+- strategy package
+  - splitted into fallible strategy and infallible
+  - move
+  - pair
+- controller
+  - controller interface contains setView and take in model for constructor (for now since there is no specifications), should be modified in the next hw
+  - feature interface: print methods (temporary for checking GUI)
+  - refactor: config parser here
+- view
+  - refactor into console (contains the text view) and gui
+  - gui:
+    - two interfaces: 
+      - gamepanel: addFeature, refresh 
+      - gameguiview: addFeature, refresh, makeVisible
+      - addFeature: add the controller for command callback pattern
+    - cell card: draw of card 
+    - three trios view (JFrame): view that contains main panel
+    - main panel (JPanel): contains 3 smaller panels - grid panel and two hand panels
+    - hand panel (JPanel): display the cards of a specific player
+- Main class, running the view

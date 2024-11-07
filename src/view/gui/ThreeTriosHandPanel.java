@@ -43,7 +43,9 @@ class ThreeTriosHandPanel extends JPanel implements GamePanel {
   @Override
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
-    if (hand.isEmpty()) return;
+    if (hand.isEmpty()) {
+      return;
+    }
 
     Graphics2D g2d = (Graphics2D) g.create();
 

@@ -14,11 +14,12 @@ import view.gui.ThreeTriosView;
 public class Main {
     public static void main(String[] args) {
         CellType[][] cellTypes = GameConfigParser.getCellTypes(
-                Utils.getFilePath("complex_grid.txt", "grid"));
+                Utils.getFilePath("no_holes.txt", "grid"));
         List<Cell> cells = GameConfigParser.getCells(Utils.getFilePath("big_cards.txt", "cards"));
         GameModel model = new ThreeTriosModel(cellTypes, cells);
         GameController controller = new ThreeTriosController(model);
         model.startGame(false);
+        model.placeCard(0, 0, 0);
         ThreeTriosView view = new ThreeTriosView(new ThreeTriosViewModel(model));
         controller.setView(view);
         view.makeVisible();

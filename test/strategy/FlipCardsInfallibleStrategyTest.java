@@ -13,11 +13,8 @@ import model.enums.CellType;
 import model.enums.GamePlayer;
 import model.interfaces.Cell;
 import model.interfaces.GameModel;
-import strategy.Move;
-import strategy.Pair;
 import strategy.infallible.FlipCardsInfallibleStrategy;
 import strategy.infallible.InfallibleGameStrategy;
-import strategy.infallible.UpperLeftInfallibleStrategy;
 import strategy.mocks.FlipManyCardsMockModel;
 import strategy.mocks.NoMoveFoundMockModel;
 
