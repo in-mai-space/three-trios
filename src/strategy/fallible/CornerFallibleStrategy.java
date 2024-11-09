@@ -14,6 +14,7 @@ import model.interfaces.Cell;
 import model.interfaces.ReadOnlyGameModel;
 import strategy.Move;
 import strategy.Pair;
+import strategy.ThreeTriosMove;
 
 /**
  * Represent the strategy that go to corner of the grid to expose the least amount
@@ -22,8 +23,20 @@ import strategy.Pair;
  * card to flip that card.
  */
 public class CornerFallibleStrategy extends AbstractFallibleStrategy {
+
+  /**
+   * Decide what is the next best move to play given the model and the player.
+   *
+   * @param model read only game model
+   * @param player player in the game, Red or Blue
+   * @return a next best move if it can find one, if not return empty
+   * @throws IllegalArgumentException if model or player is null
+   */
   @Override
   public Optional<Pair<Move, Integer>> decideMove(ReadOnlyGameModel model, GamePlayer player) {
+    if (model == null || player == null) {
+      throw new IllegalArgumentException("Model or player cannot be null");
+    }
     List<Pair<Integer, Integer>> cornerPositions = getCornerPositions(model);
     List<Cell> playerHand = model.getHand(player);
 
@@ -68,7 +81,8 @@ public class CornerFallibleStrategy extends AbstractFallibleStrategy {
     for (Pair<Integer, Integer> corner : cornerPositions) {
       Cell bestCard = bestCardWithCorner(playerHand, model, corner);
       int flippedCount = model.countCardFlip(bestCard, corner.getKey(), corner.getValue());
-      potentialMoves.put(new Move(bestCard, corner.getKey(), corner.getValue()), flippedCount);
+      potentialMoves.put(new ThreeTriosMove(bestCard, corner.getKey(), corner.getValue()),
+              flippedCount + model.getScore(model.getCurrentPlayer()));
     }
     return potentialMoves;
   }

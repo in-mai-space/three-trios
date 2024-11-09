@@ -12,6 +12,9 @@ class ThreeTriosMainPanel extends JPanel implements GamePanel {
   private final ThreeTriosHandPanel blueHand;
   private final ThreeTriosHandPanel redHand;
 
+  private int selectedRedCardIndex = -1;
+  private int selectedBlueCardIndex = -1;
+
   public ThreeTriosMainPanel(ReadOnlyGameModel model) {
     setLayout(new BorderLayout(10, 0));
     gridPanel = new ThreeTriosGridPanel(model.getCellTypes(), model.getGrid());
@@ -34,6 +37,9 @@ class ThreeTriosMainPanel extends JPanel implements GamePanel {
     gridPanel.addFeatures(features);
     blueHand.addFeatures(features);
     redHand.addFeatures(features);
+
+    blueHand.addOtherPanel(redHand);
+    redHand.addOtherPanel(blueHand);
   }
 
   @Override

@@ -11,13 +11,26 @@ import model.interfaces.Cell;
 import model.interfaces.ReadOnlyGameModel;
 import strategy.Move;
 import strategy.Pair;
+import strategy.ThreeTriosMove;
 
 /**
  * Represent the strategy that can flip as many cards as possible.
  */
 public class FlipCardsFallibleStrategy extends AbstractFallibleStrategy {
+
+  /**
+   * Decide what is the next best move to play given the model and the player.
+   *
+   * @param model read only game model
+   * @param player player in the game, Red or Blue
+   * @return a next best move if it can find one, if not return empty
+   * @throws IllegalArgumentException if model is null or player is null
+   */
   @Override
   public Optional<Pair<Move, Integer>> decideMove(ReadOnlyGameModel model, GamePlayer player) {
+    if (model == null || player == null) {
+      throw new IllegalArgumentException("Model or player cannot be null");
+    }
     Map<Move, Integer> moves = new HashMap<>();
     List<Cell> playerHand = model.getHand(player);
     // get all moves and its score into the new hashmap
@@ -56,22 +69,23 @@ public class FlipCardsFallibleStrategy extends AbstractFallibleStrategy {
       for (int col = 0; col < grid[0].length; col++) {
         if (model.canPlaceCard(row, col)) {
           int flippedCards = model.countCardFlip(handCard, row, col);
-          map.put(new Move(handCard, row, col), flippedCards);
+          map.put(new ThreeTriosMove(handCard, row, col), flippedCards +
+                  model.getScore(model.getCurrentPlayer()));
         }
       }
     }
   }
 
   /**
-   * Filter out the moves that can flip the most cards .
+   * Filter out the moves that can give the highest scores.
    *
    * @param moves map of all moves
-   * @return map of moves that flip the most cards
+   * @return map of moves that give the highest scores
    */
   private Map<Move, Integer> filterMaxScoreMoves(Map<Move, Integer> moves) {
-    int maxFlippedCards = moves.values().stream().max(Integer::compare).orElse(0);
+    int maxScores = moves.values().stream().max(Integer::compare).orElse(0);
     return moves.entrySet().stream()
-            .filter(entry -> entry.getValue() == maxFlippedCards)
+            .filter(entry -> entry.getValue() == maxScores)
             .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
   }
 }

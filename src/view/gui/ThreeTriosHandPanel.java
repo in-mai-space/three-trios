@@ -3,7 +3,6 @@ package view.gui;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.AlphaComposite;
 
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -18,11 +17,12 @@ import controller.Feature;
 import model.enums.GamePlayer;
 import model.interfaces.Cell;
 
-class ThreeTriosHandPanel extends JPanel implements GamePanel {
+class ThreeTriosHandPanel extends JPanel implements GamePanel, CardSelection {
   private final List<Cell> hand;
   private static final int PREFERRED_WIDTH = 180;
   private int selectedCardIndex = -1;
   private final GamePlayer currentPlayer;
+  private GamePanel opponentPanel;
   private Feature feature;
 
   public ThreeTriosHandPanel(List<Cell> hand, GamePlayer currentPlayer) {
@@ -105,15 +105,11 @@ class ThreeTriosHandPanel extends JPanel implements GamePanel {
     AffineTransform transform = physicalToModel(startX, yPos, cardWidth, cardHeight);
     cardG2d.transform(transform);
 
-    if (cell.getOwner() == currentPlayer) {
-      drawOwnedCard(cardG2d, cell, index);
-    } else {
-      drawOpponentCard(cardG2d, cell);
-    }
+    drawCard(cardG2d, cell, index);
     cardG2d.dispose();
   }
 
-  private void drawOwnedCard(Graphics2D cardG2d, Cell cell, int index) {
+  private void drawCard(Graphics2D cardG2d, Cell cell, int index) {
     CellCard cardFrame = new CellCard.CardBuilder()
             .setColor(ViewData.getCardColor(cell.getOwner()))
             .setAttackValues(cell.getAllAttackValues())
@@ -128,16 +124,6 @@ class ThreeTriosHandPanel extends JPanel implements GamePanel {
       selectedCard.draw(cardG2d);
     }
   }
-
-  private void drawOpponentCard(Graphics2D cardG2d, Cell cell) {
-    cardG2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
-    CellCard cardFrame = new CellCard.CardBuilder()
-            .setColor(ViewData.getCardColor(cell.getOwner()))
-            .setAttackValues(cell.getAllAttackValues())
-            .build();
-    cardFrame.draw(cardG2d);
-  }
-
 
   private void handleCardClick(MouseEvent e) {
     if (hand.isEmpty()) return;
@@ -161,12 +147,10 @@ class ThreeTriosHandPanel extends JPanel implements GamePanel {
     if (cardIndex >= 0 && cardIndex < hand.size() &&
             isWithinHorizontalBounds && isWithinVerticalBounds) {
       Cell clickedCell = hand.get(cardIndex);
-
-      if (clickedCell.getOwner() == currentPlayer) {
-        selectedCardIndex = cardIndex;
-        feature.printCardClicked(selectedCardIndex, clickedCell.getOwner());
-        repaint();
-      }
+      selectedCardIndex = cardIndex;
+      feature.printCardClicked(selectedCardIndex, clickedCell.getOwner());
+      repaint();
+      opponentPanel.refresh();
     }
   }
 
@@ -191,5 +175,11 @@ class ThreeTriosHandPanel extends JPanel implements GamePanel {
       throw new IllegalArgumentException("Features cannot be null");
     }
     this.feature = features;
+  }
+
+
+  @Override
+  public void addOtherPanel(GamePanel panel) {
+    this.opponentPanel = panel;
   }
 }

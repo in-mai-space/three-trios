@@ -59,79 +59,202 @@ The model manages the game's state and flow:
 
 ### View (Driven by the Model)
 The view presents the game's state to the players:
-- **Responsibilities**: The view renders the current player's information and cells, as well as the grid layout. It formats data into a displayable string, bridging the game state and user interface.
-> To test the view manually with model operations, go to ConsoleViewTest in src directory.
+- **Responsibilities**: The view renders the current player's information and cells, as well as the grid layout. It renders the state of a game for a player to see.
 
 ## Key Subcomponents of Model
 The model's core classes include:
 
-- **Card**: Represents the playable cell in the game.
-  - **Attributes**: AttackValue (1-9, with 'A' for 10), GamePlayer (owner), Direction (attack directions).
+- **Card**: Represents the card in the game.
+  - **Attributes**: AttackValue (1-9, with 'A' for 10), Direction (attack directions).
+- **Cell**: Represents the playable card in the game.
+    - **Attributes**: Card, Owner (Red or Blue).
 - **Grid**: Defines the grid layout and manages cell placement.
   - **Attributes**: CellType (cell or hole) and Card[][] (grid state).
 - **Hand**: Represents a player's collection of usable cells.
   - **Attributes**: List of cells (managed via a list rather than an array).
 - **GridManager**: Manages interactions with the grid, including move validation, battles, and game state updates.
-- **GameConfigParser**: Reads and parses configuration files to set up the game’s grid layout and load cell data.
+
+
+
+## Part 2 - Game Model and View Refactoring
+
+### Model
+1. **Game State and Behavior**
+  - **New Model Methods**
+    - `canPlaceCard`: Determines if a card can be placed at a given position.
+    - `getGridWidth`: Returns the grid's width.
+    - `getGridHeight`: Returns the grid's height.
+    - `getOwnerAt`: Returns the owner of the cell at a specified position.
+    - `getCardAt`: Retrieves the card located at a specified cell position.
+    - `getScore`: Computes and returns the current score of a specific player.
+    - `countCardFlip`: Counts number of cards that a card can flip when placed in a grid's position.
+
+2. **Refactoring**
+  - **ReadOnlyGameModel** (`ThreeTriosViewModel`):
+    - **Adapter** that provides a read-only view of the model, exposing only necessary observational methods for the view.
+  - **Decoupling**:
+    - **Cell and Card Separation**: Refactor to ensure that a `Cell` knows only its `owner`, while a `Card` object does not depend on ownership. Each `Cell` is now composed of a `Card`.
+  - **Relocating Configuration Parsing**:
+    - **Game Configuration Parser**: Move to the `controller` package, as the controller manages input and output operations.
+
+### Strategy
+1. **Packages Split**
+  - **Fallible Strategy**: Strategy variations where moves or decisions may return Optional empty move.
+  - **Infallible Strategy**: Strategies that must always return a move and throw exceptions when it can't find a move.
+
+2. **Move Class**
+  - Move objects represents a cell and its position, defined by:
+    - **Attributes**: `cell`, `row`, and `col`.
+
+3. **Pair Utility**
+  - **Generic `Pair<K, V>`**: Stores two values as a key-value pair, where both elements can be of any generic types.
+
+### Controller
+1. **Controller Interface**
+  - **Attributes**:
+    - `setView`: Associates a view with the controller.
+    - Constructor accepts the model (temporary: expected to change based on future requirements).
+
+2. **Feature Interface**:
+  - Contains temporary print methods to test and validate GUI.
+
+### View
+1. **Package Structure**:
+  - Split into `console` (text view) and `gui` (graphical user interface).
+
+2. **GUI Components**
+  - **Interfaces**:
+    - `GamePanel`: Manages game panel behavior, with methods such as `addFeature` and `refresh`.
+    - `GameGUIView`: Extends `GamePanel` with additional methods like `makeVisible`.
+  - **AddFeature**: Used for controller integration via command callbacks.
+
+3. **GUI Layout and Components**
+  - **Cell Card**: Component responsible for drawing card representations.
+  - **ThreeTriosView**: The main `JFrame` for the GUI, containing the MainPanel.
+  - **Main Panel (`JPanel`)**: Contains three sub-panels:
+    - `GridPanel`: Displays the game grid.
+    - `HandPanel`: Displays the hand of each player (Red and Blue).
+
+#### Execution
+- **Main Class**: Entry point to run the application.
 
 
 ## Source Organization
 
 ```plaintext
-src
-├── model
-│   ├── enums: AttackValue, CellType, Direction, GamePlayer
-│   ├── implementation: GameConfigParser, ThreeTriosCard, ThreeTriosGrid, ThreeTriosGridManager, ThreeTriosHand, ThreeTriosMode
-│   ├── interfaces: Card, GameModel, Grid, GridManager, Hand, ReadOnlyGameModel
-│   ├── model.Utils: retrieve file path
-├── view: interface GameView and class ThreeTriosTextView
-├── ConsoleViewTest: class for testing view manually
-test
-├── model
-│   ├── enums: tests for enums
-│   ├── implementation: tests for implementation classes
-├── view: test for text view
-├── suites: run all model tests, all view tests, run all tests
-config
-├── cells: config files for cell database
-├── grid: config files for grid structure
-docs
-├── PLAYER.md
-├── README.md: player interface design
+├── assets
+│   ├── Card from Blue.png
+│   ├── Card from Red.png
+│   ├── In Progress.png
+│   └── Initial State.png
+├── config
+│   ├── cards
+│   │   ├── big_cards.txt
+│   │   ├── big_grid_cards.txt
+│   │   ├── invalid_letter.txt
+│   │   ├── invalid_number.txt
+│   │   ├── no_name.txt
+│   │   ├── not_enough_values.txt
+│   │   ├── repeated_names.txt
+│   │   └── small_cards.txt
+│   └── grid
+│       ├── big_no_hole.txt
+│       ├── complex_grid.txt
+│       ├── invalid_char.txt
+│       ├── no_holes.txt
+│       ├── not_enough_cols.txt
+│       ├── not_enough_rows.txt
+│       ├── simple_grid.txt
+│       └── wrong_format.txt
+├── docs
+│   └── README.md
+├── src
+│   ├── Main.java
+│   ├── controller
+│   │   ├── Feature.java
+│   │   ├── GameConfigParser.java
+│   │   ├── GameController.java
+│   │   └── ThreeTriosController.java
+│   ├── model
+│   │   ├── Utils.java
+│   │   ├── enums
+│   │   │   ├── AttackValue.java
+│   │   │   ├── CellType.java
+│   │   │   ├── Direction.java
+│   │   │   └── GamePlayer.java
+│   │   ├── implementation
+│   │   │   ├── ThreeTriosCard.java
+│   │   │   ├── ThreeTriosCell.java
+│   │   │   ├── ThreeTriosGrid.java
+│   │   │   ├── ThreeTriosGridManager.java
+│   │   │   ├── ThreeTriosHand.java
+│   │   │   ├── ThreeTriosModel.java
+│   │   │   └── ThreeTriosViewModel.java
+│   │   └── interfaces
+│   │       ├── Card.java
+│   │       ├── Cell.java
+│   │       ├── GameModel.java
+│   │       ├── Grid.java
+│   │       ├── GridManager.java
+│   │       ├── Hand.java
+│   │       └── ReadOnlyGameModel.java
+│   ├── strategy
+│   │   ├── Move.java
+│   │   ├── Pair.java
+│   │   ├── ThreeTriosMove.java
+│   │   ├── fallible
+│   │   │   ├── AbstractFallibleStrategy.java
+│   │   │   ├── CornerFallibleStrategy.java
+│   │   │   ├── FallibleGameStrategy.java
+│   │   │   └── FlipCardsFallibleStrategy.java
+│   │   └── infallible
+│   │       ├── CornerInfallibleStrategy.java
+│   │       ├── FlipCardsInfallibleStrategy.java
+│   │       ├── InfallibleGameStrategy.java
+│   │       └── UpperLeftInfallibleStrategy.java
+│   └── view
+│       ├── console
+│       │   ├── GameView.java
+│       │   └── ThreeTriosTextView.java
+│       └── gui
+│           ├── CellCard.java
+│           ├── GameGUIView.java
+│           ├── GamePanel.java
+│           ├── ThreeTriosGridPanel.java
+│           ├── ThreeTriosHandPanel.java
+│           ├── ThreeTriosMainPanel.java
+│           ├── ThreeTriosView.java
+│           └── ViewData.java
+├── test
+│   ├── controller
+│   │   └── GameConfigParserTest.java
+│   ├── model
+│   │   ├── UtilsTest.java
+│   │   ├── enums
+│   │   │   ├── AttackValueTest.java
+│   │   │   └── GamePlayerTest.java
+│   │   └── implementation
+│   │       ├── ThreeTriosCellTest.java
+│   │       ├── ThreeTriosGridManagerTest.java
+│   │       ├── ThreeTriosGridTest.java
+│   │       ├── ThreeTriosHandTest.java
+│   │       └── ThreeTriosModelTest.java
+│   ├── strategy
+│   │   ├── CornerInfallibleStrategyTest.java
+│   │   ├── FlipCardsInfallibleStrategyTest.java
+│   │   ├── MoveTest.java
+│   │   ├── PairTest.java
+│   │   ├── UpperLeftInfallibleStrategyTest.java
+│   │   └── mocks
+│   │       ├── AbstractMockModel.java
+│   │       ├── FlipManyCardsMockModel.java
+│   │       ├── GoToCornerMockModel.java
+│   │       └── NoMoveFoundMockModel.java
+│   ├── suites
+│   │   ├── AllTestsSuite.java
+│   │   ├── ModelTestSuite.java
+│   │   ├── StrategyTestSuite.java
+│   │   └── ViewTestSuite.java
+│   └── view
+│       └── ThreeTriosTextViewTest.java
 ```
-
-## Changes for Part 2
-Model methods:
-- canPlaceCard: 
-- getGridWidth
-- getGridHeight:
-- getOwnerAt
-- getCardAt
-- getScore
-- countCardFlip
-Refactor:
-- adapter for ReadOnlyGameModel
-- game config parser to controller
-- decouple the card from cell, cell should know its owner, while card does not, cell is composed of a card
-
-## New changes
-- strategy package
-  - splitted into fallible strategy and infallible
-  - move
-  - pair
-- controller
-  - controller interface contains setView and take in model for constructor (for now since there is no specifications), should be modified in the next hw
-  - feature interface: print methods (temporary for checking GUI)
-  - refactor: config parser here
-- view
-  - refactor into console (contains the text view) and gui
-  - gui:
-    - two interfaces: 
-      - gamepanel: addFeature, refresh 
-      - gameguiview: addFeature, refresh, makeVisible
-      - addFeature: add the controller for command callback pattern
-    - cell card: draw of card 
-    - three trios view (JFrame): view that contains main panel
-    - main panel (JPanel): contains 3 smaller panels - grid panel and two hand panels
-    - hand panel (JPanel): display the cards of a specific player
-- Main class, running the view

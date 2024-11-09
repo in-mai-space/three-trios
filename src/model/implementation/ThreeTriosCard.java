@@ -90,22 +90,6 @@ public class ThreeTriosCard implements Card {
   }
 
   /**
-   * Checks if this card beats the other card's attack values given a direction.
-   *
-   * @param that the other card to battle with
-   * @param direction direction to compare the attack value
-   *
-   * @return true if this card beats other card's attack values in given direction
-   * @throws IllegalArgumentException if card is null
-   */
-  public boolean beats(Cell that, Direction direction) {
-    if (that == null) {
-      throw new IllegalArgumentException("Card cannot be null");
-    }
-    return this.getAttackValue(direction) > that.getAttackValue(getAdjacentDirection(direction));
-  }
-
-  /**
    * Get all attack values following order north, south, east, west. Modifying this array
    * does not change the values on the card.
    *
@@ -113,36 +97,6 @@ public class ThreeTriosCard implements Card {
    */
   public AttackValue[] getAllAttackValues() {
     return new AttackValue[]{north, south, east, west};
-  }
-
-  /**
-   * Get a copy of the card.
-   */
-  public Card getCopy() {
-    return new ThreeTriosCard(this.getAllAttackValues(), this.getName());
-  }
-
-  /**
-   * Get the adjacent direction given a direction. For example, if the given direction
-   * is North, then adjacent direction should be South.
-   *
-   * @param direction to find adjacent direction
-   * @return the adjacent direction
-   * @throws IllegalArgumentException if direction is invalid
-   */
-  private static Direction getAdjacentDirection(Direction direction) {
-    switch (direction) {
-      case NORTH:
-        return Direction.SOUTH;
-      case SOUTH:
-        return Direction.NORTH;
-      case WEST:
-        return Direction.EAST;
-      case EAST:
-        return Direction.WEST;
-      default:
-        throw new IllegalArgumentException("Invalid direction");
-    }
   }
 
   /**

@@ -4,44 +4,29 @@ import model.enums.AttackValue;
 import model.enums.Direction;
 
 /**
- * Represents a cell in the game.
+ * Represents a card in the game.
  */
 public interface Card {
   /**
-   * Get the name of the cell.
+   * Get the name of the card.
    *
-   * @return name of the cell as String
+   * @return name of the card as String
    */
   String getName();
 
   /**
-   * Get the attack value on the cell given a direction (north, south, east or west).
+   * Get the attack value on the card given a direction (north, south, east or west).
    *
-   * @param direction to get the attack value on the cell
-   * @return the attack value on the cell
+   * @param direction to get the attack value on the card
+   * @return the attack value on the card
    */
   int getAttackValue(Direction direction);
 
   /**
    * Get all attack values following order north, south, east, west. Modifying this list
-   * does not change the values on the cell.
+   * does not change the values on the card.
    *
    * @return list of attack values
    */
   AttackValue[] getAllAttackValues();
-
-  /**
-   * Checks if this card beats the other cell's attack values given a direction.
-   *
-   * @param that the other cell to battle with
-   * @param direction direction to compare the attack value
-   * @return true if this cell beats other cell's attack values in given direction
-   * @throws IllegalArgumentException if cell is null
-   */
-  boolean beats(Cell that, Direction direction);
-
-  /**
-   * Get a copy of the cell.
-   */
-  Card getCopy();
 }
