@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -170,6 +171,24 @@ public class ThreeTriosModelTest {
     model.getCurrentPlayer();
   }
 
+  @Test(expected = IllegalStateException.class)
+  public void getHandGameNotStarted() {
+    ThreeTriosModel model = loadModel("no_holes.txt", "big_cards.txt");
+    model.getCurrentPlayer();
+  }
+
+  @Test
+  public void getHand() {
+    ThreeTriosModel model = loadModel("no_holes.txt", "big_cards.txt");
+    model.startGame(false);
+    assertEquals(new ArrayList<>(
+            Arrays.asList(corruptKing6293, windBird7253, worldDragon7253, waterSeal3A74, earthLizard9166)),
+            model.getHand(GamePlayer.RED));
+    assertEquals(new ArrayList<>(
+            Arrays.asList(angryDragon97A2, heroKnight4231, skyWhale4594, firePhoenix28A3, evilQueen1A45)),
+            model.getHand(GamePlayer.BLUE));
+  }
+
   private void placeCardsInGrid(ThreeTriosModel model, int[][] positions) {
     for (int[] pos : positions) {
       model.placeCard(0, pos[0], pos[1]);
@@ -283,6 +302,41 @@ public class ThreeTriosModelTest {
     assertThrowsWithMessage(IllegalStateException.class, "Game has not started",
         () -> model.getHandSize(GamePlayer.RED)
     );
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void canPlaceCardGridPositionRowOutOfBound() {
+    ThreeTriosModel model = loadModel("no_holes.txt", "big_cards.txt");
+    model.startGame(false);
+    model.canPlaceCard(-1, 0);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void canPlaceCardGridPositionColOutOfBound() {
+    ThreeTriosModel model = loadModel("no_holes.txt", "big_cards.txt");
+    model.startGame(false);
+    model.canPlaceCard(2, 3);
+  }
+
+  @Test
+  public void canPlaceCardSimpleGrid() {
+    ThreeTriosModel model = loadModel("simple_grid.txt", "big_cards.txt");
+    model.startGame(false);
+    assertTrue(model.canPlaceCard(0, 0));
+    assertFalse(model.canPlaceCard(0, 1));
+    assertTrue(model.canPlaceCard(1, 0));
+    assertFalse(model.canPlaceCard(1, 1));
+  }
+
+  @Test
+  public void canPlaceCardComplexGrid() {
+    ThreeTriosModel model = loadModel("complex_grid.txt", "big_cards.txt");
+    model.startGame(false);
+    assertTrue(model.canPlaceCard(0, 0));
+    assertFalse(model.canPlaceCard(0, 1));
+    assertTrue(model.canPlaceCard(0, 2));
+    assertFalse(model.canPlaceCard(1, 0));
+    assertFalse(model.canPlaceCard(1, 1));
   }
 
   @Test
