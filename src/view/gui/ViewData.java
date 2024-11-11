@@ -5,6 +5,9 @@ import java.awt.Color;
 
 import model.enums.GamePlayer;
 
+/**
+ * Class that contains constant data such as colors and cell width height for the view.
+ */
 class ViewData {
   static final int CELL_WIDTH = 200;
   static final int  CELL_HEIGHT = 300;

@@ -8,9 +8,17 @@ import javax.swing.JPanel;
 import controller.Feature;
 import model.interfaces.ReadOnlyGameModel;
 
+/**
+ * Represent the game GUI view in the MVC model for ThreeTriosGame.
+ */
 public class ThreeTriosView extends JFrame implements GameGUIView {
   private final ThreeTriosMainPanel mainPanel;
 
+  /**
+   * Construct the new instance of the view.
+   *
+   * @param model
+   */
   public ThreeTriosView(ReadOnlyGameModel model) {
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setTitle("Current player: " + model.getCurrentPlayer().toString());

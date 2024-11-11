@@ -8,6 +8,10 @@ import java.awt.geom.Path2D;
 
 import model.enums.AttackValue;
 
+/**
+ * Represent a cell card on the grid. This class supports for rendering a card with its
+ * color and attack values.
+ */
 class CellCard extends Path2D.Double {
   private final Color color;
   private final AttackValue[] attackValues;

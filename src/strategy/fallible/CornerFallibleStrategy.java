@@ -19,8 +19,8 @@ import strategy.ThreeTriosMove;
 /**
  * Represent the strategy that go to corner of the grid to expose the least amount
  * of attack values as possible. It will search for cards in hand that are hardest to flip,
- * meaning it has a high attack value, since there is low probability of having another high
- * card to flip that card.
+ * meaning it has a high attack value in the direction that attack value is exposed, since there
+ * is low probability of having another high card to flip that card.
  */
 public class CornerFallibleStrategy extends AbstractFallibleStrategy {
 
