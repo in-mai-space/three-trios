@@ -10,8 +10,6 @@ import model.implementation.ThreeTriosModel;
 import model.interfaces.Cell;
 import model.interfaces.GameModel;
 
-import static org.junit.Assert.*;
-
 /**
  * Represents test for ThreeTriosController.
  */

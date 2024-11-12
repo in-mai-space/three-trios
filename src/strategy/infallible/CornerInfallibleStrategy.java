@@ -10,9 +10,9 @@ import strategy.fallible.CornerFallibleStrategy;
 
 /**
  * Represent the strategy that attempts to go to the corners and expose attack values that are
- * most unlikely to be flipped (or very high exposed attack value). Must return a move
- * and fall back to upper left strategy if fail. This strategy will throw exception if no
- * strategies can be found.
+ * most unlikely to be flipped (or very high exposed attack value). Must return a move and fall
+ * back to upper left strategy if fail. This strategy will throw exception if no strategies can
+ * be found.
  */
 public class CornerInfallibleStrategy implements InfallibleGameStrategy {
   private final CornerFallibleStrategy cornerStrategy;

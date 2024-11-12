@@ -4,7 +4,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * Represent tests for Pair
+ * Represent tests for Pair.
  */
 public class PairTest {
 

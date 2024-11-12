@@ -291,8 +291,4 @@ abstract class AbstractMockModel implements GameModel {
   public int getHandSize(GamePlayer player) {
     return 0;
   }
-
-  public String getFileContent() {
-    return this.logWriter.toString();
-  }
 }
