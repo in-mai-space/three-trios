@@ -246,7 +246,8 @@ public class CornerStrategyTest {
     try {
       model.startGame(false);
       cornerStrategy.decideMove(model, GamePlayer.RED);
-    } finally {
+    }
+    finally {
       List<String> lines = Files.readAllLines(Paths.get("strategy-transcript.txt"));
       String content = String.join("\n", lines);
       assertEquals(content,

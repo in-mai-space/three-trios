@@ -99,8 +99,8 @@ The model's core classes include:
 
 ### Strategy
 1. **Packages Split**
-  - **Fallible Strategy**: Strategy variations where moves or decisions may return Optional empty move.
-  - **Infallible Strategy**: Strategies that must always return a move and throw exceptions when it can't find a move.
+  - **Fallible Strategy**: Strategy variations where moves or decisions may return Optional empty move. A fallible strategy implemented is GoToCorner.
+  - **Infallible Strategy**: Strategies that must always return a move and throw exceptions when it can't find a move. The two infallible strategies are FlipManyCards and UpperLeft.
 
 2. **Move Class**
   - Move objects represents a cell and its position, defined by:
