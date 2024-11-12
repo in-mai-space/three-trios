@@ -17,19 +17,22 @@ public class ThreeTriosView extends JFrame implements GameGUIView {
   /**
    * Construct the new instance of the view.
    *
-   * @param model
+   * @param model read only version of game model
    */
   public ThreeTriosView(ReadOnlyGameModel model) {
+    if (model == null) {
+      throw new IllegalArgumentException("Model cannot be null");
+    }
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setTitle("Current player: " + model.getCurrentPlayer().toString());
     mainPanel = new ThreeTriosMainPanel(model);
-    setUpContent(mainPanel);
-  }
-
-  private void setUpContent(JPanel mainPanel) {
     setContentPane(mainPanel);
   }
 
+  /**
+   * Make the view visible when the game starts.
+   */
+  @Override
   public void makeVisible() {
     setPreferredSize(new Dimension(1400, 1200));
     pack();
@@ -38,6 +41,12 @@ public class ThreeTriosView extends JFrame implements GameGUIView {
     revalidate();
   }
 
+  /**
+   * Add features to the view.
+   *
+   * @param features controller that implements features
+   * @throws IllegalArgumentException if features is null
+   */
   @Override
   public void addFeatures(Feature features) {
     if (features == null) {
@@ -46,6 +55,9 @@ public class ThreeTriosView extends JFrame implements GameGUIView {
     mainPanel.addFeatures(features);
   }
 
+  /**
+   * Refresh the view when there is new changes to the game.
+   */
   @Override
   public void refresh() {
     repaint();

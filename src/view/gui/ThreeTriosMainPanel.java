@@ -39,6 +39,12 @@ class ThreeTriosMainPanel extends JPanel implements GamePanel {
     add(blueHand, BorderLayout.EAST);
   }
 
+  /**
+   * Add features to the panel.
+   *
+   * @param features controller that implements features
+   * @throws IllegalArgumentException if features is null
+   */
   @Override
   public void addFeatures(Feature features) {
     if (features == null) {
@@ -49,6 +55,9 @@ class ThreeTriosMainPanel extends JPanel implements GamePanel {
     redHand.addFeatures(features);
   }
 
+  /**
+   * Refresh the view when there is new changes to the game.
+   */
   @Override
   public void refresh() {
     blueHand.refresh();
