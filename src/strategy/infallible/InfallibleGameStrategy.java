@@ -17,6 +17,7 @@ public interface InfallibleGameStrategy {
    * @param player player to find the move for
    * @return a next best move for a player
    * @throws IllegalStateException if a move is not found
+   * @throws IllegalArgumentException if model or player is null
    */
   Pair<Move, Integer> decideMove(ReadOnlyGameModel model, GamePlayer player);
 }

@@ -9,10 +9,24 @@ import model.interfaces.Cell;
 import model.interfaces.GameModel;
 import model.interfaces.ReadOnlyGameModel;
 
+/**
+ * Represents the adapter for GameModel. This utilizes object adapter, which adapts the GameModel
+ * into a ReadOnlyGameModel to prevent the view from mutating the game model or casting it to
+ * access mutation methods.
+ */
 public class ThreeTriosViewModel implements ReadOnlyGameModel {
   private final GameModel adaptee;
 
+  /**
+   * Construct a new instance of ReadOnlyGameModel.
+   *
+   * @param adaptee the GameModel to adapt to ReadOnlyGameModel
+   * @throws IllegalArgumentException if the model is null
+   */
   public ThreeTriosViewModel(GameModel adaptee) {
+    if (adaptee == null) {
+      throw new IllegalArgumentException("Model cannot be null");
+    }
     this.adaptee = adaptee;
   }
 
@@ -42,8 +56,8 @@ public class ThreeTriosViewModel implements ReadOnlyGameModel {
   /**
    * Check if a card can be placed in a position in the model.
    *
-   * @param row
-   * @param col
+   * @param row row index (0-indexed)
+   * @param col col index (0-indexed)
    * @throws IllegalArgumentException if row or col is out of bound
    */
   @Override
@@ -113,7 +127,7 @@ public class ThreeTriosViewModel implements ReadOnlyGameModel {
   /**
    * Get the score of a player.
    *
-   * @param player
+   * @param player a player in the game (one of Red and Blue)
    * @return the number of cards owned in grid and hand of a player
    * @throws IllegalStateException if the game is not started
    */
@@ -125,8 +139,8 @@ public class ThreeTriosViewModel implements ReadOnlyGameModel {
   /**
    * Get card at a position in grid.
    *
-   * @param row row index
-   * @param col col index
+   * @param row row index (0-indexed)
+   * @param col col index (0-indexed)
    * @return the card at a row and position in grid
    * @throws IllegalArgumentException if index is out of bound
    * @throws IllegalStateException    if there is no card at that position
@@ -140,8 +154,8 @@ public class ThreeTriosViewModel implements ReadOnlyGameModel {
   /**
    * Get the owner of a card given row index and column index (0-based).
    *
-   * @param row row index
-   * @param col column index
+   * @param row row index (0-indexed)
+   * @param col column index (0-indexed)
    * @return the player that owns the card at specific location on grid
    * @throws IllegalStateException    if there is no card at the location
    * @throws IllegalArgumentException if index is out of bound

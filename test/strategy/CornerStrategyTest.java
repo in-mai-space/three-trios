@@ -290,4 +290,26 @@ public class CornerStrategyTest {
             // (2, 2) is opened so now count card flip in it
             "count card flip with card EarthLizard in row 2 and col 2", content);
   }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void cornerStrategyFallibleNullModel() {
+    new CornerFallibleStrategy().decideMove(null, GamePlayer.RED);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void cornerStrategyInfallibleNullModel() {
+    new CornerFallibleStrategy().decideMove(null, GamePlayer.RED);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void cornerStrategyFallibleNullPlayer() {
+    GameModel model = Utils.loadModel("no_holes.txt", "big_cards.txt");
+    new CornerFallibleStrategy().decideMove(model, null);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void cornerStrategyInfallibleNullPlayer() {
+    GameModel model = Utils.loadModel("no_holes.txt", "big_cards.txt");
+    new CornerInfallibleStrategy().decideMove(model, null);
+  }
 }

@@ -27,6 +27,11 @@ class CellCard extends Path2D.Double {
     closePath();
   }
 
+  /**
+   * Draw the graphics.
+   *
+   * @param g2d
+   */
   public void draw(Graphics2D g2d) {
     g2d.setColor(color);
     g2d.fill(this);
@@ -57,24 +62,52 @@ class CellCard extends Path2D.Double {
     g2d.drawString(attackValue, x - (float) g2d.getFontMetrics().stringWidth(attackValue) / 2, y);
   }
 
+  /**
+   * Represents the builder class for the class.
+   */
   public static class CardBuilder {
     private Color color;
     private AttackValue[] attackValues;
+
+    /**
+     * Construct a new instance of CardBuilder.
+     */
     public CardBuilder() {
       color = Color.WHITE; // default to white
       attackValues = new AttackValue[]{}; // default to empty
     }
 
+    /**
+     * Set the color of the card.
+     *
+     * @param color color of card
+     * @return the CardBuilder
+     */
     public CardBuilder setColor(Color color) {
+      if (color == null) {
+        throw new IllegalArgumentException("Color cannot be null");
+      }
       this.color = color;
       return this;
     }
 
+    /**
+     * Set the attack values to draw them on the card.
+     *
+     * @param attackValues attack values of card
+     * @return the CardBuilder
+     */
     public CardBuilder setAttackValues(AttackValue[] attackValues) {
       this.attackValues = attackValues;
       return this;
     }
 
+    /**
+     * Create the instance of card after customization. Return an empty white card cell if
+     * no customization is provided.
+     *
+     * @return a new instance of CellCard
+     */
     CellCard build() {
       return new CellCard(color, attackValues);
     }

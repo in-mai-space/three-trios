@@ -12,6 +12,7 @@ import model.enums.Direction;
 import model.enums.GamePlayer;
 import model.interfaces.Cell;
 import model.interfaces.ReadOnlyGameModel;
+import strategy.AbstractStrategy;
 import strategy.Move;
 import strategy.Pair;
 import strategy.ThreeTriosMove;
@@ -22,7 +23,7 @@ import strategy.ThreeTriosMove;
  * meaning it has a high attack value in the direction that attack value is exposed, since there
  * is low probability of having another high card to flip that card.
  */
-public class CornerFallibleStrategy extends AbstractFallibleStrategy {
+public class CornerFallibleStrategy extends AbstractStrategy implements FallibleGameStrategy {
 
   /**
    * Decide what is the next best move to play given the model and the player.

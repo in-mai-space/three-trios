@@ -22,8 +22,12 @@ public class UpperLeftInfallibleStrategy implements InfallibleGameStrategy {
    * @param player player to find the move for
    * @return a next best move for a player
    * @throws IllegalStateException if a move is not found
+   * @throws IllegalArgumentException if model or player is null
    */
   public Pair<Move, Integer> decideMove(ReadOnlyGameModel model, GamePlayer player) {
+    if (model == null || player == null) {
+      throw new IllegalArgumentException("Model or player cannot be null");
+    }
     Cell[][] grid = model.getGrid();
     List<Cell> playerHand = model.getHand(player);
     for (int row = 0; row < grid.length; row++) {

@@ -18,6 +18,7 @@ public class ThreeTriosController implements GameController {
    * Construct a new controller given a game model.
    *
    * @param model core logic model of the game
+   * @param log appendable object (this will change when specification of controller changes)
    * @throws IllegalArgumentException if the model or appendable is null
    */
   public ThreeTriosController(GameModel model, Appendable log) {

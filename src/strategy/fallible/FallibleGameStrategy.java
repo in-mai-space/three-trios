@@ -18,6 +18,7 @@ public interface FallibleGameStrategy {
    * @param model read only game model
    * @param player player in the game, Red or Blue
    * @return a next best move if it can find one, if not return empty
+   * @throws IllegalArgumentException if model or player is null
    */
   Optional<Pair<Move, Integer>> decideMove(ReadOnlyGameModel model, GamePlayer player);
 }

@@ -4,6 +4,8 @@ import model.enums.GamePlayer;
 
 /**
  * Represents the feature of the game. This interface should be implemented by the controller.
+ * The method of this interface is temporary, and will change with the specification of the
+ * controller.
  */
 public interface Feature {
 
@@ -11,7 +13,7 @@ public interface Feature {
    * Print in the console what index and which player clicks a card.
    *
    * @param index index of card in a hand (0-indexed)
-   * @param player player who owns the card
+   * @param player player who owns the card (Red or Blue)
    */
   void printCardClicked(int index, GamePlayer player);
 
