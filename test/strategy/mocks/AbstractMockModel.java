@@ -17,6 +17,9 @@ import model.interfaces.GameModel;
 import model.interfaces.GridManager;
 import model.interfaces.Hand;
 
+/**
+ * Represents the most general mock model.
+ */
 abstract class AbstractMockModel implements GameModel {
   protected final GamePlayer[] players;
   protected final GridManager ruleKeeper;
