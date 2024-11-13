@@ -1,0 +1,13 @@
+Check can place card at row 0 and col 0
+Check can place card at row 0 and col 2
+Check can place card at row 2 and col 0
+Check can place card at row 2 and col 2
+Check can place card at row 0 and col 0
+Check can place card at row 0 and col 1
+Check can place card at row 0 and col 2
+Check can place card at row 1 and col 0
+Check can place card at row 1 and col 1
+Check can place card at row 1 and col 2
+Check can place card at row 2 and col 0
+Check can place card at row 2 and col 1
+Check can place card at row 2 and col 2

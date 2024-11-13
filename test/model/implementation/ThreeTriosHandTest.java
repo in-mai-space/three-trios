@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.enums.AttackValue;
-import model.interfaces.Card;
+import model.interfaces.Cell;
 import model.enums.GamePlayer;
 
 import static org.junit.Assert.assertEquals;
@@ -20,28 +20,28 @@ public class ThreeTriosHandTest {
 
   private ThreeTriosHand hand;
   private ThreeTriosHand emptyHand;
-  private Card card1;
-  private Card card2;
+  private Cell cell1;
+  private Cell cell2;
 
   @Before
   public void setUp() {
-    card1 = new ThreeTriosCard(new AttackValue[] {AttackValue.ONE, AttackValue.TWO,
+    cell1 = new ThreeTriosCell(new AttackValue[] {AttackValue.ONE, AttackValue.TWO,
       AttackValue.THREE, AttackValue.FOUR}, "Card 1", GamePlayer.RED);
-    card2 = new ThreeTriosCard(new AttackValue[] {AttackValue.FIVE, AttackValue.SIX,
+    cell2 = new ThreeTriosCell(new AttackValue[] {AttackValue.FIVE, AttackValue.SIX,
       AttackValue.SEVEN, AttackValue.EIGHT}, "Card 2", GamePlayer.RED);
 
-    hand = new ThreeTriosHand(new ArrayList<>(List.of(card1)));
+    hand = new ThreeTriosHand(new ArrayList<>(List.of(cell1)));
     emptyHand = new ThreeTriosHand(new ArrayList<>());
   }
 
   @Test
   public void testGetCards() {
-    List<Card> cards = hand.getCards();
-    assertEquals(1, cards.size());
-    assertSame(card1, cards.get(0));
+    List<Cell> cells = hand.getCards();
+    assertEquals(1, cells.size());
+    assertSame(cell1, cells.get(0));
     // modifying the list should not change the cards in hand
     hand.getCards().clear();
-    assertEquals(1, cards.size());
+    assertEquals(1, cells.size());
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -51,10 +51,10 @@ public class ThreeTriosHandTest {
 
   @Test
   public void testAddCard() {
-    hand.addCard(card2);
-    List<Card> cards = hand.getCards();
-    assertEquals(2, cards.size());
-    assertSame(card2, cards.get(1));
+    hand.addCard(cell2);
+    List<Cell> cells = hand.getCards();
+    assertEquals(2, cells.size());
+    assertSame(cell2, cells.get(1));
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -64,9 +64,9 @@ public class ThreeTriosHandTest {
 
   @Test
   public void testRemoveCard() {
-    hand.addCard(card2);
-    Card removedCard = hand.removeCard(0);
-    assertSame(card1, removedCard);
+    hand.addCard(cell2);
+    Cell removedCell = hand.removeCard(0);
+    assertSame(cell1, removedCell);
     assertEquals(1, hand.handSize());
   }
 
@@ -88,7 +88,7 @@ public class ThreeTriosHandTest {
   @Test
   public void testHandSize() {
     assertEquals(1, hand.handSize());
-    hand.addCard(card2);
+    hand.addCard(cell2);
     assertEquals(2, hand.handSize());
     assertEquals(0, new ThreeTriosHand(new ArrayList<>()).handSize());
   }

@@ -1,4 +1,4 @@
-package model.implementation;
+package controller;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,7 +11,8 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 import model.enums.AttackValue;
-import model.interfaces.Card;
+import model.implementation.ThreeTriosCell;
+import model.interfaces.Cell;
 import model.enums.CellType;
 
 /**
@@ -20,7 +21,7 @@ import model.enums.CellType;
  * It reads a grid configuration from a specified file and loads the card data
  * into a list of Card objects.
  */
-class GameConfigParser {
+public class GameConfigParser {
   /**
    * Retrieves the cell types for the game grid from a specified file.
    *
@@ -33,13 +34,13 @@ class GameConfigParser {
    * @throws IllegalStateException if there is not enough rows or cols
    * @throws IllegalStateException if cellType char is not 'C' or 'X'
    */
-  static CellType[][] getCellTypes(String filePath) {
+  public static CellType[][] getCellTypes(String filePath) {
     validateFilepath(filePath);
     return loadGridConfig(filePath);
   }
 
   /**
-   * Retrieves the list of cards from a specified file.
+   * Retrieves the list of cells from a specified file.
    *
    * @param filePath the path to the card database file
    *
@@ -50,7 +51,7 @@ class GameConfigParser {
    * @throws IllegalArgumentException if the value is not valid
    * @throws IllegalStateException if the card names are not unique
    */
-  static List<Card> getCards(String filePath) {
+  public static List<Cell> getCells(String filePath) {
     validateFilepath(filePath);
     return loadCardDatabase(filePath);
   }
@@ -152,9 +153,9 @@ class GameConfigParser {
    *
    * @param filePath the path to the card database file
    */
-  private static List<Card> loadCardDatabase(String filePath) {
+  private static List<Cell> loadCardDatabase(String filePath) {
     File file = new File(filePath);
-    List<Card> cards = new ArrayList<>();
+    List<Cell> cells = new ArrayList<>();
     try (Scanner scanner = new Scanner(file)) {
       while (scanner.hasNextLine()) {
         String line = scanner.nextLine();
@@ -168,27 +169,27 @@ class GameConfigParser {
         AttackValue east = parseAttackValue(cardInfo[3]);
         AttackValue west = parseAttackValue(cardInfo[4]);
 
-        Card card = new ThreeTriosCard(new AttackValue[]{north, south, east, west}, cardName);
-        cards.add(card);
+        Cell cell = new ThreeTriosCell(new AttackValue[]{north, south, east, west}, cardName);
+        cells.add(cell);
       }
-      validateRepeatedNames(cards);
+      validateRepeatedNames(cells);
     } catch (FileNotFoundException e) {
       throw new IllegalStateException("Cannot find file");
     } catch (NumberFormatException e) {
       throw new IllegalStateException("Card values must be integers");
     }
-    return cards;
+    return cells;
   }
 
   /**
    * Validate whether the cards have repeated names.
    *
-   * @param cards list of cards
+   * @param cells list of cards
    * @throws IllegalStateException if the card names are not unique
    */
-  private static void validateRepeatedNames(List<Card> cards) {
-    Objects.requireNonNull(cards);
-    List<String> nameAsString = cards.stream().map(Card::getName).collect(Collectors.toList());
+  private static void validateRepeatedNames(List<Cell> cells) {
+    Objects.requireNonNull(cells);
+    List<String> nameAsString = cells.stream().map(Cell::getName).collect(Collectors.toList());
     HashSet<String> names = new HashSet<>(nameAsString);
     if (names.size() != nameAsString.size()) {
       throw new IllegalStateException("Cards cannot have the same name");

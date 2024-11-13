@@ -1,24 +1,20 @@
 package model.implementation;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import model.enums.AttackValue;
 import model.interfaces.Card;
 import model.enums.Direction;
-import model.enums.GamePlayer;
 
 /**
  * Represents a card in the ThreeTriosGame.
  */
-class ThreeTriosCard implements Card {
+public class ThreeTriosCard implements Card {
   private final String name;
   private final AttackValue north;
   private final AttackValue south;
   private final AttackValue east;
   private final AttackValue west;
-  private GamePlayer owner;
 
   /**
    * Construct a new ThreeTriosCard.
@@ -29,22 +25,13 @@ class ThreeTriosCard implements Card {
    *
    * @throws IllegalArgumentException if values are null or name is null
    */
-  ThreeTriosCard(AttackValue[] values, String name, GamePlayer owner) {
+  public ThreeTriosCard(AttackValue[] values, String name) {
     validateCard(values, name);
     this.north = values[0];
     this.south = values[1];
     this.east = values[2];
     this.west = values[3];
     this.name = name;
-    this.owner = owner;
-  }
-
-  ThreeTriosCard(AttackValue[] values, GamePlayer owner) {
-    this(values, "Card", owner);
-  }
-
-  ThreeTriosCard(AttackValue[] values, String name) {
-    this(values, name, null);
   }
 
   /**
@@ -102,83 +89,13 @@ class ThreeTriosCard implements Card {
   }
 
   /**
-   * Checks if this card beats the other card's attack values given a direction.
-   *
-   * @param that the other card to battle with
-   * @param direction direction to compare the attack value
-   *
-   * @return true if this card beats other card's attack values in given direction
-   * @throws IllegalArgumentException if card is null
-   */
-  public boolean beats(Card that, Direction direction) {
-    if (that == null) {
-      throw new IllegalArgumentException("Card cannot be null");
-    }
-    return this.getAttackValue(direction) > that.getAttackValue(getAdjacentDirection(direction));
-  }
-
-  /**
-   * Get all attack values following order north, south, east, west. Modifying this list
+   * Get all attack values following order north, south, east, west. Modifying this array
    * does not change the values on the card.
    *
-   * @return list of attack values
+   * @return array of attack values
    */
-  public List<AttackValue> getAllAttackValues() {
-    List<AttackValue> attackValues = new ArrayList<>();
-    attackValues.add(north);
-    attackValues.add(south);
-    attackValues.add(east);
-    attackValues.add(west);
-    return attackValues;
-  }
-
-  /**
-   * Get the current owner of the card.
-   *
-   * @return the current owner of the card
-   * @throws IllegalStateException if card currently does not have an owner
-   */
-  public GamePlayer getOwner() {
-    if (this.owner == null) {
-      throw new IllegalStateException("Card currently does not have an owner");
-    }
-    return this.owner;
-  }
-
-  /**
-   * Set the card's new owner.
-   *
-   * @param owner new owner of the card
-   * @throws IllegalArgumentException if owner is null
-   */
-  public void setOwner(GamePlayer owner) {
-    if (owner == null) {
-      throw new IllegalArgumentException("Owner cannot be null");
-    }
-    this.owner = owner;
-  }
-
-  /**
-   * Get the adjacent direction given a direction. For example, if the given direction
-   * is North, then adjacent direction should be South.
-   *
-   * @param direction to find adjacent direction
-   * @return the adjacent direction
-   * @throws IllegalArgumentException if direction is invalid
-   */
-  private static Direction getAdjacentDirection(Direction direction) {
-    switch (direction) {
-      case NORTH:
-        return Direction.SOUTH;
-      case SOUTH:
-        return Direction.NORTH;
-      case WEST:
-        return Direction.EAST;
-      case EAST:
-        return Direction.WEST;
-      default:
-        throw new IllegalArgumentException("Invalid direction");
-    }
+  public AttackValue[] getAllAttackValues() {
+    return new AttackValue[]{north, south, east, west};
   }
 
   /**

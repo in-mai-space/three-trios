@@ -25,14 +25,14 @@ public interface GridManager {
    * Places a card in the specified cell and initiates the battle phase.
    * The card is removed from the player's hand and placed on the grid.
    *
-   * @param card the card to be placed
+   * @param cell the card to be placed
    * @param row the row index where the card will be placed
    * @param col the column index where the card will be placed
    *
    * @throws IllegalArgumentException if the card is null
    * @throws IllegalArgumentException if the row or column index is out of bounds
    */
-  void placeCard(Card card, int row, int col);
+  void placeCard(Cell cell, int row, int col);
 
   /**
    * Executes the battle phase after a card is placed.
@@ -66,7 +66,7 @@ public interface GridManager {
    *
    * @return a 2D array representing the grid of cards
    */
-  Card[][] getGrid();
+  Cell[][] getGrid();
 
   /**
    * Retrieves the current cell types of the grid as a 2D array.
@@ -93,5 +93,45 @@ public interface GridManager {
    * @throws IllegalArgumentException if the row or column index is out of bounds
    * @throws IllegalStateException if there is no card at cell
    */
-  Card getCardAt(int row, int col);
+  Cell getCardAt(int row, int col);
+
+  /**
+   * Get the width of grid.
+   *
+   * @return the width of the grid
+   * @throws IllegalArgumentException if game is not started
+   */
+  int getWidth();
+
+  /**
+   * Get the height of grid.
+   *
+   * @return the height of the grid
+   * @throws IllegalArgumentException if game is not started
+   */
+  int getHeight();
+
+  /**
+   * Get the owner of a card given row index and column index (0-based).
+   *
+   * @param row row index
+   * @param col column index
+   *
+   * @return the player that owns the card at specific location on grid
+   * @throws IllegalStateException if there is no card at the location
+   */
+  GamePlayer getOwnerAt(int row, int col);
+
+  /**
+   * Count how many opponents' card would be flipped if a card is played in the grid
+   * at a certain position.
+   *
+   * @param cell card to be placed in grid
+   * @param row row index position on grid (0-indexed)
+   * @param col col index position on grid (0-indexed)
+   * @return number of opponents' card flipped if a card is placed in a position
+   * @throws IllegalArgumentException if row or column index out of bounds
+   * @throws IllegalStateException if a card cannot be placed that location
+   */
+  int countCardFlip(Cell cell, int row, int col);
 }

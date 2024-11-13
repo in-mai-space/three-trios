@@ -3,7 +3,7 @@ package model.implementation;
 import java.util.AbstractMap;
 import java.util.Map;
 
-import model.interfaces.Card;
+import model.interfaces.Cell;
 import model.enums.CellType;
 import model.enums.Direction;
 import model.enums.GamePlayer;
@@ -13,7 +13,7 @@ import model.interfaces.GridManager;
 /**
  * Manages the grid in the ThreeTriosGame.
  */
-class ThreeTriosGridManager implements GridManager {
+public class ThreeTriosGridManager implements GridManager {
   private final Grid grid;
 
   /**
@@ -22,7 +22,7 @@ class ThreeTriosGridManager implements GridManager {
    * @param cellTypes the grid to be managed
    * @throws IllegalArgumentException if the grid is null
    */
-  ThreeTriosGridManager(CellType[][] cellTypes) {
+  public ThreeTriosGridManager(CellType[][] cellTypes) {
     if (cellTypes == null) {
       throw new IllegalArgumentException("Grid cannot be null");
     }
@@ -47,54 +47,15 @@ class ThreeTriosGridManager implements GridManager {
    * Places a card in the specified cell and initiates the battle phase.
    * The card is removed from the player's hand and placed on the grid.
    *
-   * @param card the card to be placed
+   * @param cell the card to be placed
    * @param row the row index where the card will be placed
    * @param col the column index where the card will be placed
    *
    * @throws IllegalArgumentException if the card is null
    * @throws IllegalArgumentException if the row or column index is out of bounds
    */
-  public void placeCard(Card card, int row, int col) {
-    grid.placeCard(card, row, col);
-  }
-
-  /**
-   * Executes the battle phase after a card is placed.
-   * The placed card battles all adjacent cards belonging to the opposing player.
-   *
-   * @param row the row index of the newly placed card
-   * @param col the column index of the newly placed card
-   *
-   * @throws IllegalArgumentException if the row or column index is out of bounds
-   */
-  public void executeBattle(int row, int col) {
-    Card placedCard = grid.getCardAt(row, col);
-    GamePlayer currentPlayer = placedCard.getOwner();
-    // get adjacent cards of this specific card
-    Map<Card, AbstractMap.SimpleEntry<Integer, Integer>> adjacentCards =
-            grid.getAdjacentCards(row, col);
-
-    // battle this card with every adjacent cards
-    for (Map.Entry<Card, AbstractMap.SimpleEntry<Integer, Integer>> entry :
-            adjacentCards.entrySet()) {
-      // get the adjacent card
-      Card adjacentCard = entry.getKey();
-      // get its row and col
-      AbstractMap.SimpleEntry<Integer, Integer> position = entry.getValue();
-
-      GamePlayer adjacentOwner = adjacentCard.getOwner();
-
-      if (!adjacentOwner.equals(currentPlayer)) {
-        int adjacentRow = position.getKey();
-        int adjacentCol = position.getValue();
-
-        Direction direction = getDirection(row, col, adjacentRow, adjacentCol);
-        if (placedCard.beats(adjacentCard, direction)) {
-          adjacentCard.setOwner(currentPlayer);
-          executeBattle(adjacentRow, adjacentCol);
-        }
-      }
-    }
+  public void placeCard(Cell cell, int row, int col) {
+    grid.placeCard(cell, row, col);
   }
 
   /**
@@ -152,7 +113,7 @@ class ThreeTriosGridManager implements GridManager {
    *
    * @return a 2D array representing the grid of cards
    */
-  public Card[][] getGrid() {
+  public Cell[][] getGrid() {
     return grid.getGrid();
   }
 
@@ -184,7 +145,113 @@ class ThreeTriosGridManager implements GridManager {
    * @throws IllegalArgumentException if the row or column index is out of bounds
    * @throws IllegalStateException    if there is no card at cell
    */
-  public Card getCardAt(int row, int col) {
+  public Cell getCardAt(int row, int col) {
     return grid.getCardAt(row, col);
+  }
+
+  /**
+   * Get the width of grid.
+   *
+   * @return the width of the grid.
+   */
+  public int getWidth() {
+    return grid.getWidth();
+  }
+
+  /**
+   * Get the height of grid.
+   *
+   * @return the height of the grid.
+   */
+  public int getHeight() {
+    return grid.getHeight();
+  }
+
+  /**
+   * Get the owner of a card given row index and column index (0-based).
+   *
+   * @param row row index
+   * @param col column index
+   *
+   * @return the player that owns the card at specific location on grid
+   * @throws IllegalArgumentException if the row or column index is out of bounds
+   * @throws IllegalStateException if there is no card at the location
+   */
+  @Override
+  public GamePlayer getOwnerAt(int row, int col) {
+    return getCardAt(row, col).getOwner();
+  }
+
+  /**
+   * Count how many opponents' card would be flipped if a card is played in the grid
+   * at a certain position. This will use a copy of the grid to simulate the propagation
+   * rather than actually mutating the grid.
+   *
+   * @param cell card to be placed in grid
+   * @param row  row index position on grid (0-indexed)
+   * @param col  col index position on grid (0-indexed)
+   * @return number of opponents' card flipped if a card is placed in a position
+   * @throws IllegalArgumentException if row or column index out of bounds
+   * @throws IllegalStateException    if a card cannot be placed that location
+   */
+  public int countCardFlip(Cell cell, int row, int col) {
+    // use copy to avoid mutation of actual card in the original grid
+    Grid copyGrid = grid.getCopy();
+    copyGrid.placeCard(cell.getCopy(), row, col);
+    return countAndExecuteBattle(row, col, copyGrid);
+  }
+
+  /**
+   * Executes the battle phase after a card is placed.
+   * The placed card battles all adjacent cards belonging to the opposing player.
+   *
+   * @param row the row index of the newly placed card
+   * @param col the column index of the newly placed card
+   *
+   * @throws IllegalArgumentException if the row or column index is out of bounds
+   */
+  public void executeBattle(int row, int col) {
+    countAndExecuteBattle(row, col, grid);
+  }
+
+  /**
+   * Execute battle and count how many cards have been flipped.
+   *
+   * @param row row index (0-indexed)
+   * @param col col index (0-indexed)
+   * @param targetGrid grid to be mutated
+   * @return number of cards that is flipped during the battle
+   */
+  private int countAndExecuteBattle(int row, int col, Grid targetGrid) {
+    int flippedCount = 0;
+    Cell placedCell = targetGrid.getCardAt(row, col);
+    GamePlayer currentPlayer = placedCell.getOwner();
+    // get adjacent cards of this specific card
+    Map<Cell, AbstractMap.SimpleEntry<Integer, Integer>> adjacentCards =
+            targetGrid.getAdjacentCards(row, col);
+
+    // battle this card with every adjacent cards
+    for (Map.Entry<Cell, AbstractMap.SimpleEntry<Integer, Integer>> entry :
+            adjacentCards.entrySet()) {
+      // get the adjacent card
+      Cell adjacentCell = entry.getKey();
+      // get its row and col
+      AbstractMap.SimpleEntry<Integer, Integer> position = entry.getValue();
+
+      GamePlayer adjacentOwner = adjacentCell.getOwner();
+
+      if (!adjacentOwner.equals(currentPlayer)) {
+        int adjacentRow = position.getKey();
+        int adjacentCol = position.getValue();
+
+        Direction direction = getDirection(row, col, adjacentRow, adjacentCol);
+        if (placedCell.beats(adjacentCell, direction)) {
+          adjacentCell.setOwner(currentPlayer);
+          flippedCount += 1;
+          flippedCount += countAndExecuteBattle(adjacentRow, adjacentCol, targetGrid);
+        }
+      }
+    }
+    return flippedCount;
   }
 }

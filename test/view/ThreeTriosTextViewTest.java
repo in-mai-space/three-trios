@@ -7,10 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import controller.GameConfigParser;
 import model.Utils;
 import model.interfaces.GameModel;
 import model.implementation.ThreeTriosModel;
 import model.implementation.ThreeTriosModelTest;
+import view.console.GameView;
+import view.console.ThreeTriosTextView;
 
 import static org.junit.Assert.assertEquals;
 
@@ -31,9 +34,12 @@ public class ThreeTriosTextViewTest {
     String complexGrid = Utils.getFilePath("complex_grid.txt", "grid");
     String cardsFilePath = Utils.getFilePath("big_cards.txt", "cards");
 
-    noHolesModel = ThreeTriosModel.fromFiles(noHolesGrid, cardsFilePath);
-    simpleModel = ThreeTriosModel.fromFiles(simpleGrid, cardsFilePath);
-    complexModel = ThreeTriosModel.fromFiles(complexGrid, cardsFilePath);
+    noHolesModel = new ThreeTriosModel(GameConfigParser.getCellTypes(noHolesGrid),
+            GameConfigParser.getCells(cardsFilePath));
+    simpleModel = new ThreeTriosModel(GameConfigParser.getCellTypes(simpleGrid),
+            GameConfigParser.getCells(cardsFilePath));
+    complexModel = new ThreeTriosModel(GameConfigParser.getCellTypes(complexGrid),
+            GameConfigParser.getCells(cardsFilePath));
     noHolesRender = new ArrayList<>(List.of(
             "Player: BLUE\n" +
                     "___\n" +

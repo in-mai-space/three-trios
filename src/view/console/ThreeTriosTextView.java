@@ -1,10 +1,10 @@
-package view;
+package view.console;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 import model.interfaces.ReadOnlyGameModel;
-import model.interfaces.Card;
+import model.interfaces.Cell;
 import model.enums.AttackValue;
 import model.enums.CellType;
 
@@ -57,15 +57,15 @@ public class ThreeTriosTextView implements GameView<String> {
    *         each card's name and its attack values
    */
   private String renderHand() {
-    List<Card> cards = model.getCurrentPlayerHand();
+    List<Cell> cells = model.getCurrentPlayerHand();
     String cardsAsString = "";
 
-    for (Card card : cards) {
-      List<AttackValue> attackValues = card.getAllAttackValues();
+    for (Cell cell : cells) {
+      List<AttackValue> attackValues = List.of(cell.getAllAttackValues());
       String result = attackValues.stream()
               .map(AttackValue::toString)
               .collect(Collectors.joining(" "));
-      cardsAsString += card.getName() + " " + result + "\n";
+      cardsAsString += cell.getName() + " " + result + "\n";
     }
     return "Hand: \n" + cardsAsString;
   }
@@ -76,7 +76,7 @@ public class ThreeTriosTextView implements GameView<String> {
    * @return a string representation of the game grid
    */
   private String renderGrid() {
-    Card[][] grid = model.getGrid();
+    Cell[][] grid = model.getGrid();
     CellType[][] cellTypes = model.getCellTypes();
     StringBuilder gridBuilder = new StringBuilder();
 

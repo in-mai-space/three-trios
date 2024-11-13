@@ -6,11 +6,13 @@ import org.junit.Test;
 import java.util.AbstractMap;
 import java.util.Map;
 
+import controller.GameConfigParser;
 import model.Utils;
 import model.enums.AttackValue;
-import model.interfaces.Card;
+import model.interfaces.Cell;
 import model.enums.CellType;
 import model.enums.GamePlayer;
+import model.interfaces.Grid;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -26,12 +28,12 @@ public class ThreeTriosGridTest {
   private ThreeTriosGrid noHoleGrid;
   private ThreeTriosGrid simpleGrid;
   private ThreeTriosGrid complexGrid;
-  private Card card527A;
-  private Card card7253;
-  private Card card4599;
-  private Card card4623;
-  private Card card2899;
-  private Card card27A9;
+  private Cell cell527A;
+  private Cell cell7253;
+  private Cell cell4599;
+  private Cell cell4623;
+  private Cell cell2899;
+  private Cell cell27A9;
 
   @Before
   public void setUp() {
@@ -48,17 +50,17 @@ public class ThreeTriosGridTest {
     simpleGrid = new ThreeTriosGrid(simpleGridCellTypes);
     complexGrid = new ThreeTriosGrid(complexGridCellTypes);
 
-    card527A = new ThreeTriosCard(new AttackValue[]{AttackValue.FIVE, AttackValue.TWO,
+    cell527A = new ThreeTriosCell(new AttackValue[]{AttackValue.FIVE, AttackValue.TWO,
         AttackValue.SEVEN, AttackValue.A}, GamePlayer.RED);
-    card7253 = new ThreeTriosCard(new AttackValue[]{AttackValue.SEVEN, AttackValue.TWO,
+    cell7253 = new ThreeTriosCell(new AttackValue[]{AttackValue.SEVEN, AttackValue.TWO,
         AttackValue.FIVE, AttackValue.THREE}, GamePlayer.BLUE);
-    card4599 = new ThreeTriosCard(new AttackValue[]{AttackValue.FOUR, AttackValue.FIVE,
+    cell4599 = new ThreeTriosCell(new AttackValue[]{AttackValue.FOUR, AttackValue.FIVE,
         AttackValue.NINE, AttackValue.NINE}, GamePlayer.BLUE);
-    card4623 = new ThreeTriosCard(new AttackValue[]{AttackValue.FOUR, AttackValue.SIX,
+    cell4623 = new ThreeTriosCell(new AttackValue[]{AttackValue.FOUR, AttackValue.SIX,
         AttackValue.TWO, AttackValue.THREE}, GamePlayer.RED);
-    card2899 = new ThreeTriosCard(new AttackValue[]{AttackValue.TWO, AttackValue.EIGHT,
+    cell2899 = new ThreeTriosCell(new AttackValue[]{AttackValue.TWO, AttackValue.EIGHT,
         AttackValue.NINE, AttackValue.NINE}, GamePlayer.RED);
-    card27A9 = new ThreeTriosCard(new AttackValue[]{AttackValue.TWO, AttackValue.SEVEN,
+    cell27A9 = new ThreeTriosCell(new AttackValue[]{AttackValue.TWO, AttackValue.SEVEN,
         AttackValue.A, AttackValue.NINE}, GamePlayer.BLUE);
   }
 
@@ -99,7 +101,7 @@ public class ThreeTriosGridTest {
         assertTrue(noHoleGrid.isCellEmpty(row, col));
       }
     }
-    noHoleGrid.placeCard(card527A, 0, 0);
+    noHoleGrid.placeCard(cell527A, 0, 0);
     assertFalse(noHoleGrid.isCellEmpty(0, 0));
   }
 
@@ -128,35 +130,54 @@ public class ThreeTriosGridTest {
 
   @Test
   public void testGetGridModification() {
-    Card[][] gridCopy = noHoleGrid.getGrid();
+    Cell[][] gridCopy = noHoleGrid.getGrid();
     assertNull(gridCopy[0][0]);
-    gridCopy[0][0] = card527A; // modify this array
+    gridCopy[0][0] = cell527A; // modify this array
     // check that adding card to copy didn't change original
     assertTrue(noHoleGrid.canPlaceCard(0, 0));
+    noHoleGrid.placeCard(cell2899, 0,0);
+    assertEquals(cell2899.getOwner(), GamePlayer.RED);
+    noHoleGrid.getGrid()[0][0].setOwner(GamePlayer.BLUE);
+    // check that modifying owner of a copy of grid does not change actual data
+    assertEquals(cell2899.getOwner(), GamePlayer.RED);
+  }
+
+  @Test
+  public void testGetGridCopy() {
+    Grid copy = noHoleGrid.getCopy();
+    assertEquals(copy.getGrid(), noHoleGrid.getGrid());
+    copy.placeCard(cell2899, 0, 0);
+    // changing the copy does not affect the original grid
+    assertEquals(copy.getCardAt(0, 0), cell2899);
+    assertNull(noHoleGrid.getGrid()[0][0]);
+
+    noHoleGrid.placeCard(cell2899.getCopy(), 0, 0);
+    copy.getCardAt(0, 0).setOwner(GamePlayer.BLUE);
+    assertEquals(noHoleGrid.getCardAt(0, 0).getOwner(), GamePlayer.RED);
   }
 
   @Test
   public void testGetGridNoHoleGrid() {
     assertEquals(3, noHoleGrid.getGrid().length);
     assertEquals(3, noHoleGrid.getGrid()[0].length);
-    noHoleGrid.placeCard(card527A, 1, 1);
-    assertEquals(card527A, noHoleGrid.getGrid()[1][1]);
+    noHoleGrid.placeCard(cell527A, 1, 1);
+    assertEquals(cell527A, noHoleGrid.getGrid()[1][1]);
   }
 
   @Test
   public void testGetGridSimpleGrid() {
     assertEquals(3, simpleGrid.getGrid().length);
     assertEquals(4, simpleGrid.getGrid()[0].length);
-    simpleGrid.placeCard(card2899, 1, 3);
-    assertEquals(card2899, simpleGrid.getGrid()[1][3]);
+    simpleGrid.placeCard(cell2899, 1, 3);
+    assertEquals(cell2899, simpleGrid.getGrid()[1][3]);
   }
 
   @Test
   public void testGetGridComplexGrid() {
     assertEquals(4, complexGrid.getGrid().length);
     assertEquals(5, complexGrid.getGrid()[0].length);
-    complexGrid.placeCard(card4599, 2, 1);
-    assertEquals(card4599, complexGrid.getGrid()[2][1]);
+    complexGrid.placeCard(cell4599, 2, 1);
+    assertEquals(cell4599, complexGrid.getGrid()[2][1]);
   }
 
   @Test
@@ -204,61 +225,61 @@ public class ThreeTriosGridTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void testPlaceCardInvalidRow() {
-    complexGrid.placeCard(card527A, 4, 4);
+    complexGrid.placeCard(cell527A, 4, 4);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testPlaceCardInvalidCol() {
-    complexGrid.placeCard(card527A, 3, 5);
+    complexGrid.placeCard(cell527A, 3, 5);
   }
 
   @Test(expected = IllegalStateException.class)
   public void testPlaceCardHole() {
-    simpleGrid.placeCard(card527A, 1, 1);
+    simpleGrid.placeCard(cell527A, 1, 1);
   }
 
   @Test(expected = IllegalStateException.class)
   public void testPlaceCardNotEmpty() {
-    simpleGrid.placeCard(card527A, 0, 0);
-    simpleGrid.placeCard(card4599, 0, 0); // cell already has a card
+    simpleGrid.placeCard(cell527A, 0, 0);
+    simpleGrid.placeCard(cell4599, 0, 0); // cell already has a card
   }
 
   @Test
   public void testPlaceCardNoHoleGrid() {
     assertTrue(noHoleGrid.canPlaceCard(0, 0));
-    noHoleGrid.placeCard(card527A, 0, 0);
-    assertEquals(card527A, noHoleGrid.getCardAt(0, 0));
+    noHoleGrid.placeCard(cell527A, 0, 0);
+    assertEquals(cell527A, noHoleGrid.getCardAt(0, 0));
     assertEquals(GamePlayer.RED, noHoleGrid.getCardAt(0, 0).getOwner());
 
     assertTrue(noHoleGrid.canPlaceCard(0, 1));
-    noHoleGrid.placeCard(card7253, 0, 1);
-    assertEquals(card7253, noHoleGrid.getCardAt(0, 1));
+    noHoleGrid.placeCard(cell7253, 0, 1);
+    assertEquals(cell7253, noHoleGrid.getCardAt(0, 1));
     assertEquals(GamePlayer.BLUE, noHoleGrid.getCardAt(0, 1).getOwner());
   }
 
   @Test
   public void testPlaceCardSimpleGrid() {
     assertTrue(simpleGrid.canPlaceCard(0, 0));
-    simpleGrid.placeCard(card527A, 0, 0);
-    assertEquals(card527A, simpleGrid.getCardAt(0, 0));
+    simpleGrid.placeCard(cell527A, 0, 0);
+    assertEquals(cell527A, simpleGrid.getCardAt(0, 0));
     assertEquals(GamePlayer.RED, simpleGrid.getCardAt(0, 0).getOwner());
 
     assertTrue(simpleGrid.canPlaceCard(2, 3));
-    simpleGrid.placeCard(card4599, 2, 3);
-    assertEquals(card4599, simpleGrid.getCardAt(2, 3));
+    simpleGrid.placeCard(cell4599, 2, 3);
+    assertEquals(cell4599, simpleGrid.getCardAt(2, 3));
     assertEquals(GamePlayer.BLUE, simpleGrid.getCardAt(2, 3).getOwner());
   }
 
   @Test
   public void testPlaceCardComplexGrid() {
     assertTrue(complexGrid.canPlaceCard(0, 4));
-    complexGrid.placeCard(card4599, 0, 4);
-    assertEquals(card4599, complexGrid.getCardAt(0, 4));
+    complexGrid.placeCard(cell4599, 0, 4);
+    assertEquals(cell4599, complexGrid.getCardAt(0, 4));
     assertEquals(GamePlayer.BLUE, complexGrid.getCardAt(0, 4).getOwner());
 
     assertTrue(complexGrid.canPlaceCard(3, 0));
-    complexGrid.placeCard(card7253, 3, 0);
-    assertEquals(card7253, complexGrid.getCardAt(3, 0));
+    complexGrid.placeCard(cell7253, 3, 0);
+    assertEquals(cell7253, complexGrid.getCardAt(3, 0));
     assertEquals(GamePlayer.BLUE, complexGrid.getCardAt(3, 0).getOwner());
   }
 
@@ -279,21 +300,21 @@ public class ThreeTriosGridTest {
         assertTrue(noHoleGrid.canPlaceCard(row, col));
       }
     }
-    noHoleGrid.placeCard(card4623, 0, 0);
+    noHoleGrid.placeCard(cell4623, 0, 0);
     assertFalse(noHoleGrid.canPlaceCard(0, 0));
 
-    noHoleGrid.placeCard(card27A9, 0, 1);
+    noHoleGrid.placeCard(cell27A9, 0, 1);
     assertFalse(noHoleGrid.canPlaceCard(0, 1));
   }
 
   @Test
   public void testCanPlaceCardSimpleGrid() {
     assertTrue(simpleGrid.canPlaceCard(0, 0));
-    simpleGrid.placeCard(card27A9, 0, 0);
+    simpleGrid.placeCard(cell27A9, 0, 0);
     assertFalse(simpleGrid.canPlaceCard(0, 0));
 
     assertTrue(simpleGrid.canPlaceCard(2, 3));
-    simpleGrid.placeCard(card4623, 2, 3);
+    simpleGrid.placeCard(cell4623, 2, 3);
     assertFalse(simpleGrid.canPlaceCard(2, 3));
 
     // holes
@@ -304,11 +325,11 @@ public class ThreeTriosGridTest {
   @Test
   public void testCanPlaceCardComplexGrid() {
     assertTrue(complexGrid.canPlaceCard(0, 4));
-    complexGrid.placeCard(card4599, 0, 4);
+    complexGrid.placeCard(cell4599, 0, 4);
     assertFalse(complexGrid.canPlaceCard(0, 4));
 
     assertTrue(complexGrid.canPlaceCard(3, 0));
-    complexGrid.placeCard(card7253, 3, 0);
+    complexGrid.placeCard(cell7253, 3, 0);
     assertFalse(complexGrid.canPlaceCard(3, 0));
 
     // holes
@@ -338,14 +359,14 @@ public class ThreeTriosGridTest {
 
   @Test
   public void testGetCardAt() {
-    noHoleGrid.placeCard(card4623, 1, 1);
-    assertEquals(card4623, noHoleGrid.getCardAt(1, 1));
+    noHoleGrid.placeCard(cell4623, 1, 1);
+    assertEquals(cell4623, noHoleGrid.getCardAt(1, 1));
 
-    simpleGrid.placeCard(card27A9, 2, 1);
-    assertEquals(card27A9, simpleGrid.getCardAt(2, 1));
+    simpleGrid.placeCard(cell27A9, 2, 1);
+    assertEquals(cell27A9, simpleGrid.getCardAt(2, 1));
 
-    complexGrid.placeCard(card2899, 1, 3);
-    assertEquals(card2899, complexGrid.getCardAt(1, 3));
+    complexGrid.placeCard(cell2899, 1, 3);
+    assertEquals(cell2899, complexGrid.getCardAt(1, 3));
   }
 
   @Test
@@ -353,7 +374,7 @@ public class ThreeTriosGridTest {
     assertFalse(noHoleGrid.isFilled());
     for (int row = 0; row < 3; row++) {
       for (int col = 0; col < 3; col++) {
-        noHoleGrid.placeCard(card2899, row, col);
+        noHoleGrid.placeCard(cell2899, row, col);
       }
     }
     assertTrue(noHoleGrid.isFilled());
@@ -365,7 +386,7 @@ public class ThreeTriosGridTest {
     for (int row = 0; row < 3; row++) {
       for (int col = 0; col < 4; col++) {
         if (simpleGridCellTypes[row][col] == CellType.CELL) {
-          simpleGrid.placeCard(card4623, row, col);
+          simpleGrid.placeCard(cell4623, row, col);
         }
       }
     }
@@ -378,7 +399,7 @@ public class ThreeTriosGridTest {
     for (int row = 0; row < 4; row++) {
       for (int col = 0; col < 5; col++) {
         if (complexGridCellTypes[row][col] == CellType.CELL) {
-          complexGrid.placeCard(card27A9, row, col);
+          complexGrid.placeCard(cell27A9, row, col);
         }
       }
     }
@@ -397,78 +418,78 @@ public class ThreeTriosGridTest {
 
   @Test
   public void getAdjacentCardsNoHoleGrid() {
-    noHoleGrid.placeCard(card2899, 0, 0);
-    noHoleGrid.placeCard(card27A9, 1, 0);
-    noHoleGrid.placeCard(card7253, 0, 1);
-    noHoleGrid.placeCard(card4623, 1, 1);
-    noHoleGrid.placeCard(card4599, 2, 0);
+    noHoleGrid.placeCard(cell2899, 0, 0);
+    noHoleGrid.placeCard(cell27A9, 1, 0);
+    noHoleGrid.placeCard(cell7253, 0, 1);
+    noHoleGrid.placeCard(cell4623, 1, 1);
+    noHoleGrid.placeCard(cell4599, 2, 0);
 
-    Map<Card, AbstractMap.SimpleEntry<Integer, Integer>> neighborsOfTopLeft =
+    Map<Cell, AbstractMap.SimpleEntry<Integer, Integer>> neighborsOfTopLeft =
             noHoleGrid.getAdjacentCards(0, 0);
-    assertTrue(neighborsOfTopLeft.containsKey(card7253));
-    assertTrue(neighborsOfTopLeft.containsKey(card27A9));
+    assertTrue(neighborsOfTopLeft.containsKey(cell7253));
+    assertTrue(neighborsOfTopLeft.containsKey(cell27A9));
     assertEquals(2, neighborsOfTopLeft.keySet().size());
 
-    Map<Card, AbstractMap.SimpleEntry<Integer, Integer>> neighborsOfMiddleLeft =
+    Map<Cell, AbstractMap.SimpleEntry<Integer, Integer>> neighborsOfMiddleLeft =
             noHoleGrid.getAdjacentCards(1, 0);
-    assertTrue(neighborsOfMiddleLeft.containsKey(card2899));
-    assertTrue(neighborsOfMiddleLeft.containsKey(card4599));
-    assertTrue(neighborsOfMiddleLeft.containsKey(card4623));
+    assertTrue(neighborsOfMiddleLeft.containsKey(cell2899));
+    assertTrue(neighborsOfMiddleLeft.containsKey(cell4599));
+    assertTrue(neighborsOfMiddleLeft.containsKey(cell4623));
     assertEquals(3, neighborsOfMiddleLeft.keySet().size());
   }
 
   @Test
   public void getAdjacentCardsSimpleGrid() {
-    simpleGrid.placeCard(card2899, 0, 0);
-    simpleGrid.placeCard(card27A9, 1, 0);
-    simpleGrid.placeCard(card7253, 2, 0);
-    simpleGrid.placeCard(card4623, 2, 1);
-    simpleGrid.placeCard(card527A, 2, 2);
-    simpleGrid.placeCard(card4599, 2, 3);
+    simpleGrid.placeCard(cell2899, 0, 0);
+    simpleGrid.placeCard(cell27A9, 1, 0);
+    simpleGrid.placeCard(cell7253, 2, 0);
+    simpleGrid.placeCard(cell4623, 2, 1);
+    simpleGrid.placeCard(cell527A, 2, 2);
+    simpleGrid.placeCard(cell4599, 2, 3);
 
-    Map<Card, AbstractMap.SimpleEntry<Integer, Integer>> neighborsOfTopLeft =
+    Map<Cell, AbstractMap.SimpleEntry<Integer, Integer>> neighborsOfTopLeft =
             simpleGrid.getAdjacentCards(0, 0);
-    assertTrue(neighborsOfTopLeft.containsKey(card27A9));
+    assertTrue(neighborsOfTopLeft.containsKey(cell27A9));
 
-    Map<Card, AbstractMap.SimpleEntry<Integer, Integer>> neighborsOfMiddleLeft =
+    Map<Cell, AbstractMap.SimpleEntry<Integer, Integer>> neighborsOfMiddleLeft =
             simpleGrid.getAdjacentCards(1, 0);
-    assertTrue(neighborsOfMiddleLeft.containsKey(card7253));
-    assertTrue(neighborsOfMiddleLeft.containsKey(card2899));
+    assertTrue(neighborsOfMiddleLeft.containsKey(cell7253));
+    assertTrue(neighborsOfMiddleLeft.containsKey(cell2899));
 
-    Map<Card, AbstractMap.SimpleEntry<Integer, Integer>> neighborsOfBottomLeft =
+    Map<Cell, AbstractMap.SimpleEntry<Integer, Integer>> neighborsOfBottomLeft =
             simpleGrid.getAdjacentCards(2, 0);
-    assertTrue(neighborsOfBottomLeft.containsKey(card27A9));
-    assertTrue(neighborsOfBottomLeft.containsKey(card4623));
+    assertTrue(neighborsOfBottomLeft.containsKey(cell27A9));
+    assertTrue(neighborsOfBottomLeft.containsKey(cell4623));
 
-    Map<Card, AbstractMap.SimpleEntry<Integer, Integer>> neighborsOfBottom2ndFromTheRight =
+    Map<Cell, AbstractMap.SimpleEntry<Integer, Integer>> neighborsOfBottom2ndFromTheRight =
             simpleGrid.getAdjacentCards(2, 2);
-    assertTrue(neighborsOfBottom2ndFromTheRight.containsKey(card4599));
-    assertTrue(neighborsOfBottom2ndFromTheRight.containsKey(card4623));
+    assertTrue(neighborsOfBottom2ndFromTheRight.containsKey(cell4599));
+    assertTrue(neighborsOfBottom2ndFromTheRight.containsKey(cell4623));
   }
 
   @Test
   public void getAdjacentCardsComplexGrid() {
-    complexGrid.placeCard(card2899, 3, 0);
-    complexGrid.placeCard(card27A9, 3, 1);
-    complexGrid.placeCard(card7253, 2, 1);
-    complexGrid.placeCard(card4623, 3, 2);
+    complexGrid.placeCard(cell2899, 3, 0);
+    complexGrid.placeCard(cell27A9, 3, 1);
+    complexGrid.placeCard(cell7253, 2, 1);
+    complexGrid.placeCard(cell4623, 3, 2);
 
-    complexGrid.placeCard(card2899, 0, 2);
-    complexGrid.placeCard(card27A9, 0, 3);
-    complexGrid.placeCard(card7253, 1, 3);
-    complexGrid.placeCard(card4623, 0, 4);
+    complexGrid.placeCard(cell2899, 0, 2);
+    complexGrid.placeCard(cell27A9, 0, 3);
+    complexGrid.placeCard(cell7253, 1, 3);
+    complexGrid.placeCard(cell4623, 0, 4);
 
-    Map<Card, AbstractMap.SimpleEntry<Integer, Integer>> neighborsOfRow3Col1 =
+    Map<Cell, AbstractMap.SimpleEntry<Integer, Integer>> neighborsOfRow3Col1 =
             complexGrid.getAdjacentCards(3, 1);
-    assertTrue(neighborsOfRow3Col1.containsKey(card7253));
-    assertTrue(neighborsOfRow3Col1.containsKey(card2899));
-    assertTrue(neighborsOfRow3Col1.containsKey(card4623));
+    assertTrue(neighborsOfRow3Col1.containsKey(cell7253));
+    assertTrue(neighborsOfRow3Col1.containsKey(cell2899));
+    assertTrue(neighborsOfRow3Col1.containsKey(cell4623));
 
-    Map<Card, AbstractMap.SimpleEntry<Integer, Integer>> neighborsOfRow0Col3 =
+    Map<Cell, AbstractMap.SimpleEntry<Integer, Integer>> neighborsOfRow0Col3 =
             complexGrid.getAdjacentCards(0, 3);
-    assertTrue(neighborsOfRow0Col3.containsKey(card7253));
-    assertTrue(neighborsOfRow0Col3.containsKey(card2899));
-    assertTrue(neighborsOfRow0Col3.containsKey(card4623));
+    assertTrue(neighborsOfRow0Col3.containsKey(cell7253));
+    assertTrue(neighborsOfRow0Col3.containsKey(cell2899));
+    assertTrue(neighborsOfRow0Col3.containsKey(cell4623));
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -481,9 +502,9 @@ public class ThreeTriosGridTest {
     assertEquals(0, noHoleGrid.countPlayerCards(GamePlayer.RED));
     assertEquals(0, noHoleGrid.countPlayerCards(GamePlayer.BLUE));
 
-    noHoleGrid.placeCard(card2899, 0, 0);
-    noHoleGrid.placeCard(card27A9, 1, 1);
-    noHoleGrid.placeCard(card4623, 2, 2);
+    noHoleGrid.placeCard(cell2899, 0, 0);
+    noHoleGrid.placeCard(cell27A9, 1, 1);
+    noHoleGrid.placeCard(cell4623, 2, 2);
 
     assertEquals(2, noHoleGrid.countPlayerCards(GamePlayer.RED));
     assertEquals(1, noHoleGrid.countPlayerCards(GamePlayer.BLUE));
@@ -494,9 +515,9 @@ public class ThreeTriosGridTest {
     assertEquals(0, simpleGrid.countPlayerCards(GamePlayer.RED));
     assertEquals(0, simpleGrid.countPlayerCards(GamePlayer.BLUE));
 
-    simpleGrid.placeCard(card2899, 0, 0);
-    simpleGrid.placeCard(card27A9, 2, 0);
-    simpleGrid.placeCard(card527A, 2, 2);
+    simpleGrid.placeCard(cell2899, 0, 0);
+    simpleGrid.placeCard(cell27A9, 2, 0);
+    simpleGrid.placeCard(cell527A, 2, 2);
 
     assertEquals(2, simpleGrid.countPlayerCards(GamePlayer.RED));
     assertEquals(1, simpleGrid.countPlayerCards(GamePlayer.BLUE));
@@ -507,12 +528,23 @@ public class ThreeTriosGridTest {
     assertEquals(0, complexGrid.countPlayerCards(GamePlayer.RED));
     assertEquals(0, complexGrid.countPlayerCards(GamePlayer.BLUE));
 
-    complexGrid.placeCard(card2899, 0, 0);
-    complexGrid.placeCard(card27A9, 1, 3);
-    complexGrid.placeCard(card527A, 2, 1);
+    complexGrid.placeCard(cell2899, 0, 0);
+    complexGrid.placeCard(cell27A9, 1, 3);
+    complexGrid.placeCard(cell527A, 2, 1);
 
     assertEquals(2, complexGrid.countPlayerCards(GamePlayer.RED));
     assertEquals(1, complexGrid.countPlayerCards(GamePlayer.BLUE));
   }
 
+  @Test
+  public void getWidthAndHeight() {
+    assertEquals(noHoleGrid.getWidth(), 3);
+    assertEquals(noHoleGrid.getHeight(), 3);
+
+    assertEquals(simpleGrid.getWidth(), 4);
+    assertEquals(simpleGrid.getHeight(), 3);
+
+    assertEquals(complexGrid.getWidth(), 5);
+    assertEquals(complexGrid.getHeight(), 4);
+  }
 }

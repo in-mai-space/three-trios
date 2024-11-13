@@ -6,7 +6,7 @@ import static org.junit.Assert.assertEquals;
 
 
 /**
- * Represent tests for Utils.
+ * Represent tests for model.Utils.
  */
 public class UtilsTest {
   @Test
