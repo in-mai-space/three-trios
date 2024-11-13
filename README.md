@@ -121,7 +121,8 @@ The model's core classes include:
 ### View
 For the view, if the hand is not current player's hand, it will get gray out, but if you click on 
 one of the cards, the controller should still be able to print out the index of the cards that is 
-clicked for now. This will change based on the specification of the next homework.
+clicked for now. This will change based on the specification of the next homework. The photos of 
+the view is in the assets folder under the root of the project.
 1. **Package Structure**:
   - Split into `console` (text view) and `gui` (graphical user interface).
 
