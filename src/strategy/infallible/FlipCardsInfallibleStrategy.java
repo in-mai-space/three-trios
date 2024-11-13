@@ -76,8 +76,8 @@ public class FlipCardsInfallibleStrategy extends AbstractStrategy
       for (int col = 0; col < grid[0].length; col++) {
         if (model.canPlaceCard(row, col)) {
           int flippedCards = model.countCardFlip(handCard, row, col);
-          map.put(new ThreeTriosMove(handCard, row, col), flippedCards +
-                  model.getScore(model.getCurrentPlayer()));
+          map.put(new ThreeTriosMove(handCard, row, col), flippedCards
+                  + model.getScore(model.getCurrentPlayer()));
         }
       }
     }

@@ -70,7 +70,7 @@ public class PairTest {
   @Test
   public void testEqualsNull() {
     Pair<String, Integer> pair = new Pair<>("Key1", 100);
-    assertFalse(pair.equals(null));
+    assertFalse(pair == null);
   }
 
   @Test

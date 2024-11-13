@@ -41,9 +41,11 @@ public class CornerStrategyTest {
 
     // fallback to most upper and leftest with card index 0 in hand
     Pair<Move, Integer> move = cornerStrategy.decideMove(model, GamePlayer.RED);
-    Optional<Pair<Move, Integer>> emptyMove = cornerFallibleStrategy.decideMove(model, GamePlayer.RED);
+    Optional<Pair<Move, Integer>> emptyMove = cornerFallibleStrategy.decideMove(
+            model, GamePlayer.RED);
     assertEquals(Optional.empty(), emptyMove);
-    assertEquals(move, new Pair<>(new ThreeTriosMove(model.getHand(GamePlayer.RED).get(0), 0,1), 1));
+    assertEquals(move,
+            new Pair<>(new ThreeTriosMove(model.getHand(GamePlayer.RED).get(0), 0,1), 1));
   }
 
   @Test
