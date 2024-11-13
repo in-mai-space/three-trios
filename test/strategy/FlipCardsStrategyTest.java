@@ -31,48 +31,57 @@ public class FlipCardsStrategyTest {
 
     // at initial state of the game, no cards yet, so get the most upper left and first card index
     Pair<Move, Integer> firstMove = flipManyCards.decideMove(model, GamePlayer.RED);
-    assertEquals(firstMove, new Pair<>(new ThreeTriosMove(model.getHand(GamePlayer.RED).get(0), 0,0), 5));
+    assertEquals(firstMove, new Pair<>(new ThreeTriosMove(model.getHand(GamePlayer.RED).get(0),
+            0,0), 5));
 
     model.placeCard(1, 1, 1); // red places 7253 into 1, 1
     assertEquals(model.getScore(GamePlayer.RED), 5);
     assertEquals(model.getScore(GamePlayer.BLUE), 5);
 
     Pair<Move, Integer> redFirstMove = flipManyCards.decideMove(model, GamePlayer.RED);
-    assertEquals(redFirstMove, new Pair<>(new ThreeTriosMove(model.getHand(GamePlayer.RED).get(0), 0,0), 5));
+    assertEquals(redFirstMove, new Pair<>(new ThreeTriosMove(model.getHand(GamePlayer.RED).get(0),
+            0,0), 5));
     // since the current card in grid is red, so no card can be flipped, default to top left and
     // first card index for Red player
 
     Pair<Move, Integer> blueFirstMove = flipManyCards.decideMove(model, GamePlayer.BLUE);
-    assertEquals(blueFirstMove, new Pair<>(new ThreeTriosMove(model.getHand(GamePlayer.BLUE).get(3), 0,1), 6));
+    assertEquals(blueFirstMove, new Pair<>(new ThreeTriosMove(model.getHand(GamePlayer.BLUE).get(3),
+            0,1), 6));
     // since the card in grid is red at (1, 1), which has the value 7235, there are two cards that
     // can beat this card which is 28A3 and 1A45 from blue hand, since 28A3 is smaller index in
     // hand, place it in most upper and leftest position that can flip red card, which is (0, 1)
 
     model.placeCard(model.getHand(GamePlayer.BLUE).indexOf(blueFirstMove.getKey().getCard()),
-            blueFirstMove.getKey().getRow(), blueFirstMove.getKey().getCol()); // blue places 28A3 into (0, 1)
+            blueFirstMove.getKey().getRow(), blueFirstMove.getKey().getCol());
+    // blue places 28A3 into (0, 1)
     assertEquals(model.getScore(GamePlayer.RED), 4);
     assertEquals(model.getScore(GamePlayer.BLUE), 6);
 
     Pair<Move, Integer> redSecondMove = flipManyCards.decideMove(model, GamePlayer.RED);
-    assertEquals(redSecondMove, new Pair<>(new ThreeTriosMove(model.getHand(GamePlayer.RED).get(0), 0,0), 6));
+    assertEquals(redSecondMove, new Pair<>(new ThreeTriosMove(model.getHand(GamePlayer.RED).get(0),
+            0,0), 6));
 
     model.placeCard(model.getHand(GamePlayer.RED).indexOf(redSecondMove.getKey().getCard()),
-            redSecondMove.getKey().getRow(), redSecondMove.getKey().getCol()); // red places 6293 into (0, 0)
+            redSecondMove.getKey().getRow(), redSecondMove.getKey().getCol());
+    // red places 6293 into (0, 0)
 
     assertEquals(model.getScore(GamePlayer.RED), 6);
     assertEquals(model.getScore(GamePlayer.BLUE), 4);
 
     Pair<Move, Integer> blueSecondMove = flipManyCards.decideMove(model, GamePlayer.BLUE);
-    assertEquals(blueSecondMove, new Pair<>(new ThreeTriosMove(model.getHand(GamePlayer.BLUE).get(0), 1,0), 7));
+    assertEquals(blueSecondMove, new Pair<>(new ThreeTriosMove(
+            model.getHand(GamePlayer.BLUE).get(0), 1,0), 7));
 
     model.placeCard(model.getHand(GamePlayer.BLUE).indexOf(blueSecondMove.getKey().getCard()),
-            blueSecondMove.getKey().getRow(), blueSecondMove.getKey().getCol()); // blue places 97A2 into (1, 0)
+            blueSecondMove.getKey().getRow(), blueSecondMove.getKey().getCol());
+    // blue places 97A2 into (1, 0)
 
     assertEquals(model.getScore(GamePlayer.RED), 3);
     assertEquals(model.getScore(GamePlayer.BLUE), 7);
 
     Pair<Move, Integer> redThirdMove = flipManyCards.decideMove(model, GamePlayer.RED);
-    assertEquals(redThirdMove, new Pair<>(new ThreeTriosMove(model.getHand(GamePlayer.RED).get(2), 2,0), 7));
+    assertEquals(redThirdMove, new Pair<>(new ThreeTriosMove(model.getHand(GamePlayer.RED).get(2),
+            2,0), 7));
   }
 
   @Test
@@ -82,9 +91,11 @@ public class FlipCardsStrategyTest {
 
     // since the grid is empty, the first move default to top left and first card index
     Pair<Move, Integer> redInitialMove = flipManyCards.decideMove(model, GamePlayer.RED);
-    assertEquals(redInitialMove, new Pair<>(new ThreeTriosMove(model.getHand(GamePlayer.RED).get(0), 0,0), 4));
+    assertEquals(redInitialMove, new Pair<>(new ThreeTriosMove(model.getHand(GamePlayer.RED).get(0),
+            0,0), 4));
     Pair<Move, Integer> blueInitialMove = flipManyCards.decideMove(model, GamePlayer.BLUE);
-    assertEquals(blueInitialMove, new Pair<>(new ThreeTriosMove(model.getHand(GamePlayer.BLUE).get(0), 0,0), 4));
+    assertEquals(blueInitialMove, new Pair<>(new ThreeTriosMove(
+            model.getHand(GamePlayer.BLUE).get(0), 0,0), 4));
 
     assertEquals(model.getScore(GamePlayer.RED), 4);
     assertEquals(model.getScore(GamePlayer.BLUE), 4);
@@ -92,7 +103,8 @@ public class FlipCardsStrategyTest {
     model.placeCard(0, 0, 0); // red places 6293 in (0, 0)
 
     Pair<Move, Integer> blueFirstMove = flipManyCards.decideMove(model, GamePlayer.BLUE);
-    assertEquals(blueFirstMove, new Pair<>(new ThreeTriosMove(model.getHand(GamePlayer.BLUE).get(0), 1,0), 5));
+    assertEquals(blueFirstMove, new Pair<>(new ThreeTriosMove(
+            model.getHand(GamePlayer.BLUE).get(0), 1,0), 5));
 
     model.placeCard(model.getHand(GamePlayer.BLUE).indexOf(blueFirstMove.getKey().getCard()),
             blueFirstMove.getKey().getRow(), blueFirstMove.getKey().getCol());
@@ -100,31 +112,36 @@ public class FlipCardsStrategyTest {
     // since there is no card in red that can flip, default to most upper leftest
     // and first card index in hand
     Pair<Move, Integer> redSecondMove = flipManyCards.decideMove(model, GamePlayer.RED);
-    assertEquals(redSecondMove, new Pair<>(new ThreeTriosMove(model.getHand(GamePlayer.RED).get(0), 1,3), 3));
+    assertEquals(redSecondMove, new Pair<>(new ThreeTriosMove(
+            model.getHand(GamePlayer.RED).get(0), 1,3), 3));
 
     model.placeCard(model.getHand(GamePlayer.RED).indexOf(redSecondMove.getKey().getCard()),
             redSecondMove.getKey().getRow(), redSecondMove.getKey().getCol());
 
     Pair<Move, Integer> blueSecondMove = flipManyCards.decideMove(model, GamePlayer.BLUE);
-    assertEquals(blueSecondMove, new Pair<>(new ThreeTriosMove(model.getHand(GamePlayer.BLUE).get(0), 2,3), 6));
+    assertEquals(blueSecondMove, new Pair<>(new ThreeTriosMove(
+            model.getHand(GamePlayer.BLUE).get(0), 2,3), 6));
 
     model.placeCard(model.getHand(GamePlayer.BLUE).indexOf(blueSecondMove.getKey().getCard()),
             blueSecondMove.getKey().getRow(), blueSecondMove.getKey().getCol());
 
     Pair<Move, Integer> redThirdMove = flipManyCards.decideMove(model, GamePlayer.RED);
-    assertEquals(redThirdMove, new Pair<>(new ThreeTriosMove(model.getHand(GamePlayer.RED).get(0), 2,2), 4));
+    assertEquals(redThirdMove, new Pair<>(new ThreeTriosMove(
+            model.getHand(GamePlayer.RED).get(0), 2,2), 4));
 
     model.placeCard(model.getHand(GamePlayer.RED).indexOf(redThirdMove.getKey().getCard()),
             redThirdMove.getKey().getRow(), redThirdMove.getKey().getCol());
 
     Pair<Move, Integer> blueThirdMove = flipManyCards.decideMove(model, GamePlayer.BLUE);
-    assertEquals(blueThirdMove, new Pair<>(new ThreeTriosMove(model.getHand(GamePlayer.BLUE).get(0), 2,1), 7));
+    assertEquals(blueThirdMove, new Pair<>(new ThreeTriosMove(
+            model.getHand(GamePlayer.BLUE).get(0), 2,1), 7));
 
     model.placeCard(model.getHand(GamePlayer.BLUE).indexOf(blueThirdMove.getKey().getCard()),
             blueThirdMove.getKey().getRow(), blueThirdMove.getKey().getCol());
 
     Pair<Move, Integer> redFourthMove = flipManyCards.decideMove(model, GamePlayer.RED);
-    assertEquals(redFourthMove, new Pair<>(new ThreeTriosMove(model.getHand(GamePlayer.RED).get(0), 2,0), 5));
+    assertEquals(redFourthMove, new Pair<>(new ThreeTriosMove(
+            model.getHand(GamePlayer.RED).get(0), 2,0), 5));
   }
 
   @Test

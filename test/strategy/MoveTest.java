@@ -21,19 +21,19 @@ public class MoveTest {
 
   @Test
   public void getCard() {
-    Move move = new ThreeTriosMove(new ThreeTriosCell(
-            new AttackValue[]{AttackValue.A, AttackValue.THREE, AttackValue.NINE, AttackValue.SEVEN},
+    Move move = new ThreeTriosMove(new ThreeTriosCell(new AttackValue[]{AttackValue.A,
+            AttackValue.THREE, AttackValue.NINE, AttackValue.SEVEN},
             "CorruptKing", GamePlayer.BLUE), 0, 1);
 
-    assertEquals(move.getCard(), new ThreeTriosCell(
-            new AttackValue[]{AttackValue.A, AttackValue.THREE, AttackValue.NINE, AttackValue.SEVEN},
+    assertEquals(move.getCard(), new ThreeTriosCell(new AttackValue[]{AttackValue.A,
+            AttackValue.THREE, AttackValue.NINE, AttackValue.SEVEN},
             "CorruptKing", GamePlayer.BLUE));
   }
 
   @Test
   public void getRow() {
-    Move move = new ThreeTriosMove(new ThreeTriosCell(
-            new AttackValue[]{AttackValue.A, AttackValue.THREE, AttackValue.NINE, AttackValue.SEVEN},
+    Move move = new ThreeTriosMove(new ThreeTriosCell(new AttackValue[]{AttackValue.A,
+            AttackValue.THREE, AttackValue.NINE, AttackValue.SEVEN},
             "CorruptKing", GamePlayer.BLUE), 0, 1);
 
     assertEquals(0, move.getRow());
@@ -41,8 +41,8 @@ public class MoveTest {
 
   @Test
   public void getCol() {
-    Move move = new ThreeTriosMove(new ThreeTriosCell(
-            new AttackValue[]{AttackValue.A, AttackValue.THREE, AttackValue.NINE, AttackValue.SEVEN},
+    Move move = new ThreeTriosMove(new ThreeTriosCell(new AttackValue[]{AttackValue.A,
+            AttackValue.THREE, AttackValue.NINE, AttackValue.SEVEN},
             "CorruptKing", GamePlayer.BLUE), 0, 1);
 
     assertEquals(1, move.getCol());
@@ -50,12 +50,12 @@ public class MoveTest {
 
   @Test
   public void testEquals() {
-    Move move1 = new ThreeTriosMove(new ThreeTriosCell(
-            new AttackValue[]{AttackValue.A, AttackValue.THREE, AttackValue.NINE, AttackValue.SEVEN},
+    Move move1 = new ThreeTriosMove(new ThreeTriosCell(new AttackValue[]{AttackValue.A,
+            AttackValue.THREE, AttackValue.NINE, AttackValue.SEVEN},
             "CorruptKing", GamePlayer.BLUE), 0, 1);
 
-    Move move2 = new ThreeTriosMove(new ThreeTriosCell(
-            new AttackValue[]{AttackValue.A, AttackValue.THREE, AttackValue.NINE, AttackValue.SEVEN},
+    Move move2 = new ThreeTriosMove(new ThreeTriosCell(new AttackValue[]{AttackValue.A,
+            AttackValue.THREE, AttackValue.NINE, AttackValue.SEVEN},
             "CorruptKing", GamePlayer.BLUE), 0, 1);
 
     assertEquals(move1, move2);
@@ -63,12 +63,12 @@ public class MoveTest {
 
   @Test
   public void testHashCode() {
-    Move move1 = new ThreeTriosMove(new ThreeTriosCell(
-            new AttackValue[]{AttackValue.A, AttackValue.THREE, AttackValue.NINE, AttackValue.SEVEN},
+    Move move1 = new ThreeTriosMove(new ThreeTriosCell(new AttackValue[]{AttackValue.A,
+            AttackValue.THREE, AttackValue.NINE, AttackValue.SEVEN},
             "CorruptKing", GamePlayer.BLUE), 0, 1);
 
-    Move move2 = new ThreeTriosMove(new ThreeTriosCell(
-            new AttackValue[]{AttackValue.A, AttackValue.THREE, AttackValue.NINE, AttackValue.SEVEN},
+    Move move2 = new ThreeTriosMove(new ThreeTriosCell(new AttackValue[]{AttackValue.A,
+            AttackValue.THREE, AttackValue.NINE, AttackValue.SEVEN},
             "CorruptKing", GamePlayer.BLUE), 0, 1);
 
     assertEquals(move1.hashCode(), move2.hashCode());

@@ -55,28 +55,32 @@ public class CornerStrategyTest {
     // strategy picks all the four corners to fill in first with the card that is least likely
     // to be flipped
     Pair<Move, Integer> redFirstMove = cornerStrategy.decideMove(model, GamePlayer.RED);
-    assertEquals(redFirstMove, new Pair<>(new ThreeTriosMove(model.getHand(GamePlayer.RED).get(3), 0,0), 5));
+    assertEquals(redFirstMove, new Pair<>(
+            new ThreeTriosMove(model.getHand(GamePlayer.RED).get(3), 0,0), 5));
     assertEquals(redFirstMove, cornerFallibleStrategy.decideMove(model, GamePlayer.RED).get());
 
     model.placeCard(model.getHand(GamePlayer.RED).indexOf(redFirstMove.getKey().getCard()),
             redFirstMove.getKey().getRow(), redFirstMove.getKey().getCol());
 
     Pair<Move, Integer> blueFirstMove = cornerStrategy.decideMove(model, GamePlayer.BLUE);
-    assertEquals(blueFirstMove, new Pair<>(new ThreeTriosMove(model.getHand(GamePlayer.BLUE).get(4), 0,2), 5));
+    assertEquals(blueFirstMove, new Pair<>(
+            new ThreeTriosMove(model.getHand(GamePlayer.BLUE).get(4), 0,2), 5));
     assertEquals(blueFirstMove, cornerFallibleStrategy.decideMove(model, GamePlayer.BLUE).get());
 
     model.placeCard(model.getHand(GamePlayer.BLUE).indexOf(blueFirstMove.getKey().getCard()),
             blueFirstMove.getKey().getRow(), blueFirstMove.getKey().getCol());
 
     Pair<Move, Integer> redSecondMove = cornerStrategy.decideMove(model, GamePlayer.RED);
-    assertEquals(redSecondMove, new Pair<>(new ThreeTriosMove(model.getHand(GamePlayer.RED).get(3), 2,0), 5));
+    assertEquals(redSecondMove, new Pair<>(
+            new ThreeTriosMove(model.getHand(GamePlayer.RED).get(3), 2,0), 5));
     assertEquals(redSecondMove, cornerFallibleStrategy.decideMove(model, GamePlayer.RED).get());
 
     model.placeCard(model.getHand(GamePlayer.RED).indexOf(redSecondMove.getKey().getCard()),
             redSecondMove.getKey().getRow(), redSecondMove.getKey().getCol());
 
     Pair<Move, Integer> blueSecondMove = cornerStrategy.decideMove(model, GamePlayer.BLUE);
-    assertEquals(blueSecondMove, new Pair<>(new ThreeTriosMove(model.getHand(GamePlayer.BLUE).get(0), 2,2), 5));
+    assertEquals(blueSecondMove, new Pair<>(
+            new ThreeTriosMove(model.getHand(GamePlayer.BLUE).get(0), 2,2), 5));
     assertEquals(blueSecondMove, cornerFallibleStrategy.decideMove(model, GamePlayer.BLUE).get());
 
     model.placeCard(model.getHand(GamePlayer.BLUE).indexOf(blueSecondMove.getKey().getCard()),
@@ -84,13 +88,15 @@ public class CornerStrategyTest {
 
     // when all the four corners are occupied, fallback to upper left strategy
     Pair<Move, Integer> redThirdMove = cornerStrategy.decideMove(model, GamePlayer.RED);
-    assertEquals(redThirdMove, new Pair<>(new ThreeTriosMove(model.getHand(GamePlayer.RED).get(0), 0,1), 1));
+    assertEquals(redThirdMove, new Pair<>(
+            new ThreeTriosMove(model.getHand(GamePlayer.RED).get(0), 0,1), 1));
     assertEquals(Optional.empty(), cornerFallibleStrategy.decideMove(model, GamePlayer.BLUE));
 
     model.placeCard(model.getHand(GamePlayer.RED).indexOf(redThirdMove.getKey().getCard()),
             redThirdMove.getKey().getRow(), redThirdMove.getKey().getCol());
     Pair<Move, Integer> blueThirdMove = cornerStrategy.decideMove(model, GamePlayer.BLUE);
-    assertEquals(blueThirdMove, new Pair<>(new ThreeTriosMove(model.getHand(GamePlayer.BLUE).get(0), 1,0), 0));
+    assertEquals(blueThirdMove, new Pair<>(
+            new ThreeTriosMove(model.getHand(GamePlayer.BLUE).get(0), 1,0), 0));
   }
 
   @Test
@@ -99,31 +105,36 @@ public class CornerStrategyTest {
     InfallibleGameStrategy cornerStrategy = new CornerInfallibleStrategy();
 
     Pair<Move, Integer> redFirstMove = cornerStrategy.decideMove(model, GamePlayer.RED);
-    assertEquals(redFirstMove, new Pair<>(new ThreeTriosMove(model.getHand(GamePlayer.RED).get(3), 0,0), 4));
+    assertEquals(redFirstMove, new Pair<>(
+            new ThreeTriosMove(model.getHand(GamePlayer.RED).get(3), 0,0), 4));
 
     model.placeCard(model.getHand(GamePlayer.RED).indexOf(redFirstMove.getKey().getCard()),
             redFirstMove.getKey().getRow(), redFirstMove.getKey().getCol());
 
     Pair<Move, Integer> blueFirstMove = cornerStrategy.decideMove(model, GamePlayer.BLUE);
-    assertEquals(blueFirstMove, new Pair<>(new ThreeTriosMove(model.getHand(GamePlayer.BLUE).get(0), 2,0), 4));
+    assertEquals(blueFirstMove, new Pair<>(
+            new ThreeTriosMove(model.getHand(GamePlayer.BLUE).get(0), 2,0), 4));
 
     model.placeCard(model.getHand(GamePlayer.BLUE).indexOf(blueFirstMove.getKey().getCard()),
             blueFirstMove.getKey().getRow(), blueFirstMove.getKey().getCol());
 
     Pair<Move, Integer> redSecondMove = cornerStrategy.decideMove(model, GamePlayer.RED);
-    assertEquals(redSecondMove, new Pair<>(new ThreeTriosMove(model.getHand(GamePlayer.RED).get(1), 2,3), 4));
+    assertEquals(redSecondMove, new Pair<>(
+            new ThreeTriosMove(model.getHand(GamePlayer.RED).get(1), 2,3), 4));
 
     model.placeCard(model.getHand(GamePlayer.RED).indexOf(redSecondMove.getKey().getCard()),
             redSecondMove.getKey().getRow(), redSecondMove.getKey().getCol());
 
     Pair<Move, Integer> blueSecondMove = cornerStrategy.decideMove(model, GamePlayer.BLUE);
-    assertEquals(blueSecondMove, new Pair<>(new ThreeTriosMove(model.getHand(GamePlayer.BLUE).get(0), 1,0), 0));
+    assertEquals(blueSecondMove, new Pair<>(
+            new ThreeTriosMove(model.getHand(GamePlayer.BLUE).get(0), 1,0), 0));
 
     model.placeCard(model.getHand(GamePlayer.BLUE).indexOf(blueSecondMove.getKey().getCard()),
             blueSecondMove.getKey().getRow(), blueSecondMove.getKey().getCol());
 
     Pair<Move, Integer> redThirdMove = cornerStrategy.decideMove(model, GamePlayer.RED);
-    assertEquals(redThirdMove, new Pair<>(new ThreeTriosMove(model.getHand(GamePlayer.RED).get(0), 1,3), 0));
+    assertEquals(redThirdMove, new Pair<>(
+            new ThreeTriosMove(model.getHand(GamePlayer.RED).get(0), 1,3), 0));
   }
 
   @Test
@@ -132,26 +143,30 @@ public class CornerStrategyTest {
     InfallibleGameStrategy cornerStrategy = new CornerInfallibleStrategy();
 
     Pair<Move, Integer> redFirstMove = cornerStrategy.decideMove(model, GamePlayer.RED);
-    assertEquals(redFirstMove, new Pair<>(new ThreeTriosMove(model.getHand(GamePlayer.RED).get(3), 0,0), 5));
+    assertEquals(redFirstMove, new Pair<>(
+            new ThreeTriosMove(model.getHand(GamePlayer.RED).get(3), 0,0), 5));
 
     model.placeCard(model.getHand(GamePlayer.RED).indexOf(redFirstMove.getKey().getCard()),
             redFirstMove.getKey().getRow(), redFirstMove.getKey().getCol());
 
     Pair<Move, Integer> blueFirstMove = cornerStrategy.decideMove(model, GamePlayer.BLUE);
-    assertEquals(blueFirstMove, new Pair<>(new ThreeTriosMove(model.getHand(GamePlayer.BLUE).get(4), 0,4), 5));
+    assertEquals(blueFirstMove, new Pair<>(
+            new ThreeTriosMove(model.getHand(GamePlayer.BLUE).get(4), 0,4), 5));
 
     model.placeCard(model.getHand(GamePlayer.BLUE).indexOf(blueFirstMove.getKey().getCard()),
             blueFirstMove.getKey().getRow(), blueFirstMove.getKey().getCol());
 
     // pick a different card compared to two grids above since the grid above it is a hole
     Pair<Move, Integer> redSecondMove = cornerStrategy.decideMove(model, GamePlayer.RED);
-    assertEquals(redSecondMove, new Pair<>(new ThreeTriosMove(model.getHand(GamePlayer.RED).get(0), 3,0), 5));
+    assertEquals(redSecondMove, new Pair<>(
+            new ThreeTriosMove(model.getHand(GamePlayer.RED).get(0), 3,0), 5));
 
     model.placeCard(model.getHand(GamePlayer.RED).indexOf(redSecondMove.getKey().getCard()),
             redSecondMove.getKey().getRow(), redSecondMove.getKey().getCol());
 
     Pair<Move, Integer> blueSecondMove = cornerStrategy.decideMove(model, GamePlayer.BLUE);
-    assertEquals(blueSecondMove, new Pair<>(new ThreeTriosMove(model.getHand(GamePlayer.BLUE).get(0), 0,2), 0));
+    assertEquals(blueSecondMove, new Pair<>(
+            new ThreeTriosMove(model.getHand(GamePlayer.BLUE).get(0), 0,2), 0));
   }
 
   @Test
@@ -164,10 +179,12 @@ public class CornerStrategyTest {
 
     // should search for card with highest attack value for south
     Pair<Move, Integer> redFirstMove = cornerStrategy.decideMove(model, GamePlayer.RED);
-    assertEquals(redFirstMove, new Pair<>(new ThreeTriosMove(model.getHand(GamePlayer.RED).get(2), 0,0), 5));
+    assertEquals(redFirstMove, new Pair<>(
+            new ThreeTriosMove(model.getHand(GamePlayer.RED).get(2), 0,0), 5));
 
     Pair<Move, Integer> blueFirstMove = cornerStrategy.decideMove(model, GamePlayer.BLUE);
-    assertEquals(blueFirstMove, new Pair<>(new ThreeTriosMove(model.getHand(GamePlayer.BLUE).get(4), 0,0), 6));
+    assertEquals(blueFirstMove, new Pair<>(
+            new ThreeTriosMove(model.getHand(GamePlayer.BLUE).get(4), 0,0), 6));
   }
 
   @Test
@@ -183,11 +200,13 @@ public class CornerStrategyTest {
     // should search for card with highest attack value for north
     Pair<Move, Integer> redFirstMove = cornerStrategy.decideMove(model, GamePlayer.RED);
     // two cards have the same attack value of north, get the lower index one
-    assertEquals(redFirstMove, new Pair<>(new ThreeTriosMove(model.getHand(GamePlayer.RED).get(1), 2,0), 5));
+    assertEquals(redFirstMove, new Pair<>(
+            new ThreeTriosMove(model.getHand(GamePlayer.RED).get(1), 2,0), 5));
 
     Pair<Move, Integer> blueFirstMove = cornerStrategy.decideMove(model, GamePlayer.BLUE);
     // two cards have the same attack value of north, get the lower index one
-    assertEquals(blueFirstMove, new Pair<>(new ThreeTriosMove(model.getHand(GamePlayer.BLUE).get(0), 2,0), 5));
+    assertEquals(blueFirstMove, new Pair<>(
+            new ThreeTriosMove(model.getHand(GamePlayer.BLUE).get(0), 2,0), 5));
   }
 
   @Test
@@ -207,11 +226,13 @@ public class CornerStrategyTest {
     // should search for card with highest attack value for east
     Pair<Move, Integer> redFirstMove = cornerStrategy.decideMove(model, GamePlayer.RED);
     // two cards have the same highest attack value for east, should get lower index in hand
-    assertEquals(redFirstMove, new Pair<>(new ThreeTriosMove(model.getHand(GamePlayer.RED).get(0), 2,0), 3));
+    assertEquals(redFirstMove, new Pair<>(
+            new ThreeTriosMove(model.getHand(GamePlayer.RED).get(0), 2,0), 3));
 
     Pair<Move, Integer> blueFirstMove = cornerStrategy.decideMove(model, GamePlayer.BLUE);
     // two cards have the same highest attack value for east, should get lower index in hand
-    assertEquals(blueFirstMove, new Pair<>(new ThreeTriosMove(model.getHand(GamePlayer.BLUE).get(0), 2,0), 7));
+    assertEquals(blueFirstMove, new Pair<>(
+            new ThreeTriosMove(model.getHand(GamePlayer.BLUE).get(0), 2,0), 7));
   }
 
   @Test
@@ -228,10 +249,12 @@ public class CornerStrategyTest {
     // should search for card with highest attack value for west
     Pair<Move, Integer> redFirstMove = cornerStrategy.decideMove(model, GamePlayer.RED);
     // three cards have the same highest attack value for west, should get lower index in hand
-    assertEquals(redFirstMove, new Pair<>(new ThreeTriosMove(model.getHand(GamePlayer.RED).get(0), 0,2), 4));
+    assertEquals(redFirstMove, new Pair<>(
+            new ThreeTriosMove(model.getHand(GamePlayer.RED).get(0), 0,2), 4));
 
     Pair<Move, Integer> blueFirstMove = cornerStrategy.decideMove(model, GamePlayer.BLUE);
-    assertEquals(blueFirstMove, new Pair<>(new ThreeTriosMove(model.getHand(GamePlayer.BLUE).get(3), 0,2), 5));
+    assertEquals(blueFirstMove, new Pair<>(
+            new ThreeTriosMove(model.getHand(GamePlayer.BLUE).get(3), 0,2), 5));
   }
 
   @Test(expected = IllegalStateException.class)

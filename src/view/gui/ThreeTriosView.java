@@ -3,7 +3,6 @@ package view.gui;
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 import controller.Feature;
 import model.interfaces.ReadOnlyGameModel;

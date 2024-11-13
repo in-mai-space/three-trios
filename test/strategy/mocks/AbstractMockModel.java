@@ -28,7 +28,7 @@ abstract class AbstractMockModel implements GameModel {
   protected final int numCells;
   protected FileWriter logWriter;
 
-  public AbstractMockModel(CellType[][] cellTypes, List<Cell> allCells) {
+  protected AbstractMockModel(CellType[][] cellTypes, List<Cell> allCells) {
     GridManager manager = new ThreeTriosGridManager(cellTypes);
     if (allCells.size() < manager.numberOfCells() + 1) {
       throw new IllegalArgumentException("There must be at least " + (manager.numberOfCells() + 1)
@@ -93,8 +93,8 @@ abstract class AbstractMockModel implements GameModel {
   /**
    * Check if a card can be placed in a position in the model.
    *
-   * @param row
-   * @param col
+   * @param row row index in grid (0-indexed)
+   * @param col col index in grid (0-indexed)
    * @throws IllegalArgumentException if row or col is out of bound
    */
   @Override
@@ -165,7 +165,7 @@ abstract class AbstractMockModel implements GameModel {
   /**
    * Get the score of a player.
    *
-   * @param player
+   * @param player a player in game (Red or Blue)
    * @return the number of cards owned in grid and hand of a player
    * @throws IllegalStateException if the game is not started
    */
@@ -177,8 +177,8 @@ abstract class AbstractMockModel implements GameModel {
   /**
    * Get card at a position in grid.
    *
-   * @param row row index
-   * @param col col index
+   * @param row row index (0-indexed)
+   * @param col col index (0-indexed)
    * @return the card at a row and position in grid
    * @throws IllegalArgumentException if index is out of bound
    * @throws IllegalStateException    if there is no card at that position

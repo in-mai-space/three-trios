@@ -181,12 +181,11 @@ public class ThreeTriosModelTest {
   public void getHand() {
     ThreeTriosModel model = loadModel("no_holes.txt", "big_cards.txt");
     model.startGame(false);
+    assertEquals(new ArrayList<>(Arrays.asList(corruptKing6293, windBird7253, worldDragon7253,
+                    waterSeal3A74, earthLizard9166)), model.getHand(GamePlayer.RED));
     assertEquals(new ArrayList<>(
-            Arrays.asList(corruptKing6293, windBird7253, worldDragon7253, waterSeal3A74, earthLizard9166)),
-            model.getHand(GamePlayer.RED));
-    assertEquals(new ArrayList<>(
-            Arrays.asList(angryDragon97A2, heroKnight4231, skyWhale4594, firePhoenix28A3, evilQueen1A45)),
-            model.getHand(GamePlayer.BLUE));
+            Arrays.asList(angryDragon97A2, heroKnight4231, skyWhale4594, firePhoenix28A3,
+                    evilQueen1A45)), model.getHand(GamePlayer.BLUE));
   }
 
   private void placeCardsInGrid(ThreeTriosModel model, int[][] positions) {
@@ -579,28 +578,32 @@ public class ThreeTriosModelTest {
   @Test
   public void getWidthGameNotStarted() {
     ThreeTriosModel model = loadModel("no_holes.txt", "big_cards.txt");
-    IllegalStateException exception = assertThrows(IllegalStateException.class, model::getGridWidth);
+    IllegalStateException exception = assertThrows(IllegalStateException.class,
+            model::getGridWidth);
     assertEquals("Game has not started", exception.getMessage());
   }
 
   @Test
   public void geHeightGameNotStarted() {
     ThreeTriosModel model = loadModel("no_holes.txt", "big_cards.txt");
-    IllegalStateException exception = assertThrows(IllegalStateException.class, model::getGridHeight);
+    IllegalStateException exception = assertThrows(IllegalStateException.class,
+            model::getGridHeight);
     assertEquals("Game has not started", exception.getMessage());
   }
 
   @Test
   public void getCardAtGameNotStarted() {
     ThreeTriosModel model = loadModel("simple_grid.txt", "big_cards.txt");
-    IllegalStateException exception = assertThrows(IllegalStateException.class, () -> model.getCardAt(0, 0));
+    IllegalStateException exception = assertThrows(IllegalStateException.class,
+            () -> model.getCardAt(0, 0));
     assertEquals("Game has not started", exception.getMessage());
   }
 
   @Test
   public void getOwnerAtGameNotStarted() {
     ThreeTriosModel model = loadModel("simple_grid.txt", "big_cards.txt");
-    IllegalStateException exception = assertThrows(IllegalStateException.class, () -> model.getOwnerAt(0, 0));
+    IllegalStateException exception = assertThrows(IllegalStateException.class,
+            () -> model.getOwnerAt(0, 0));
     assertEquals("Game has not started", exception.getMessage());
   }
 
@@ -608,7 +611,8 @@ public class ThreeTriosModelTest {
   public void getCardAtOutOfBound() {
     ThreeTriosModel model = loadModel("simple_grid.txt", "big_cards.txt");
     model.startGame(true);
-    IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> model.getCardAt(0, 4));
+    IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+            () -> model.getCardAt(0, 4));
     assertEquals("Column index is out of bounds.", exception.getMessage());
   }
 
@@ -616,8 +620,10 @@ public class ThreeTriosModelTest {
   public void getOwnerAtOutOfBound() {
     ThreeTriosModel model = loadModel("simple_grid.txt", "big_cards.txt");
     model.startGame(true);
-    IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> model.getOwnerAt(3, 0));
-    assertEquals("Row index is out of bounds.", exception.getMessage()); // Replace with actual expected message
+    IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
+            () -> model.getOwnerAt(3, 0));
+    assertEquals("Row index is out of bounds.", exception.getMessage());
+    // Replace with actual expected message
   }
 
   @Test
@@ -632,21 +638,24 @@ public class ThreeTriosModelTest {
   public void getOwnerAtInvalidPosition() {
     ThreeTriosModel model = loadModel("simple_grid.txt", "big_cards.txt");
     model.startGame(true);
-    IllegalStateException exception = assertThrows(IllegalStateException.class, () -> model.getOwnerAt(0, 0));
+    IllegalStateException exception = assertThrows(IllegalStateException.class,
+            () -> model.getOwnerAt(0, 0));
     assertEquals("Cannot get card at this position", exception.getMessage());
   }
 
   @Test
   public void getScoreGameNotStarted() {
     ThreeTriosModel model = loadModel("simple_grid.txt", "big_cards.txt");
-    IllegalStateException exception = assertThrows(IllegalStateException.class, () -> model.getScore(GamePlayer.BLUE));
+    IllegalStateException exception = assertThrows(IllegalStateException.class,
+            () -> model.getScore(GamePlayer.BLUE));
     assertEquals("Game has not started", exception.getMessage());
   }
 
   @Test
   public void countCardFlipGameNotStarted() {
     ThreeTriosModel model = loadModel("simple_grid.txt", "big_cards.txt");
-    IllegalStateException exception = assertThrows(IllegalStateException.class, () -> model.countCardFlip(windBird7253, 0, 0));
+    IllegalStateException exception = assertThrows(IllegalStateException.class,
+            () -> model.countCardFlip(windBird7253, 0, 0));
     assertEquals("Game has not started", exception.getMessage());
   }
 
@@ -659,7 +668,8 @@ public class ThreeTriosModelTest {
             {1, 0}, {1, 1}, {1, 2},
             {2, 0}, {2, 1}, {2, 2}
     });
-    IllegalStateException exception = assertThrows(IllegalStateException.class, () -> model.countCardFlip(windBird7253, 0, 0));
+    IllegalStateException exception = assertThrows(IllegalStateException.class,
+            () -> model.countCardFlip(windBird7253, 0, 0));
     assertEquals("Game is over", exception.getMessage());
   }
 
@@ -678,7 +688,8 @@ public class ThreeTriosModelTest {
     ThreeTriosModel model = loadModel("no_holes.txt", "big_cards.txt");
     model.startGame(false);
     model.placeCard(0, 0, 0);
-    IllegalStateException exception = assertThrows(IllegalStateException.class, () -> model.countCardFlip(windBird7253, 0, 0));
+    IllegalStateException exception = assertThrows(IllegalStateException.class,
+            () -> model.countCardFlip(windBird7253, 0, 0));
     assertEquals("Cannot place card into row 0 and column 0", exception.getMessage());
   }
 

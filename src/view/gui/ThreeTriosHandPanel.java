@@ -87,7 +87,9 @@ class ThreeTriosHandPanel extends JPanel implements GamePanel {
   @Override
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
-    if (hand.isEmpty()) return;
+    if (hand.isEmpty()) {
+      return;
+    }
 
     Graphics2D g2d = (Graphics2D) g.create();
 
@@ -108,7 +110,9 @@ class ThreeTriosHandPanel extends JPanel implements GamePanel {
    * @param e mouse clicked event
    */
   private void handleCardClick(MouseEvent e) {
-    if (hand.isEmpty()) return;
+    if (hand.isEmpty()) {
+      return;
+    }
 
     int cardHeight = getCardHeight();
     int cardIndex = e.getY() / cardHeight;
