@@ -595,7 +595,7 @@ public class ThreeTriosModelTest {
   public void getCardAtGameNotStarted() {
     ThreeTriosModel model = loadModel("simple_grid.txt", "big_cards.txt");
     IllegalStateException exception = assertThrows(IllegalStateException.class,
-      () -> model.getCardAt(0, 0));
+        () -> model.getCardAt(0, 0));
     assertEquals("Game has not started", exception.getMessage());
   }
 
@@ -603,7 +603,7 @@ public class ThreeTriosModelTest {
   public void getOwnerAtGameNotStarted() {
     ThreeTriosModel model = loadModel("simple_grid.txt", "big_cards.txt");
     IllegalStateException exception = assertThrows(IllegalStateException.class,
-      () -> model.getOwnerAt(0, 0));
+        () -> model.getOwnerAt(0, 0));
     assertEquals("Game has not started", exception.getMessage());
   }
 
@@ -612,7 +612,7 @@ public class ThreeTriosModelTest {
     ThreeTriosModel model = loadModel("simple_grid.txt", "big_cards.txt");
     model.startGame(true);
     IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-      () -> model.getCardAt(0, 4));
+        () -> model.getCardAt(0, 4));
     assertEquals("Column index is out of bounds.", exception.getMessage());
   }
 
@@ -621,7 +621,7 @@ public class ThreeTriosModelTest {
     ThreeTriosModel model = loadModel("simple_grid.txt", "big_cards.txt");
     model.startGame(true);
     IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
-      () -> model.getOwnerAt(3, 0));
+        () -> model.getOwnerAt(3, 0));
     assertEquals("Row index is out of bounds.", exception.getMessage());
     // Replace with actual expected message
   }
@@ -631,7 +631,7 @@ public class ThreeTriosModelTest {
     ThreeTriosModel model = loadModel("simple_grid.txt", "big_cards.txt");
     model.startGame(true);
     IllegalStateException exception = assertThrows(IllegalStateException.class,
-      () -> model.getCardAt(0, 0));
+        () -> model.getCardAt(0, 0));
     assertEquals("Cannot get card at this position", exception.getMessage());
   }
 
@@ -640,7 +640,7 @@ public class ThreeTriosModelTest {
     ThreeTriosModel model = loadModel("simple_grid.txt", "big_cards.txt");
     model.startGame(true);
     IllegalStateException exception = assertThrows(IllegalStateException.class,
-      () -> model.getOwnerAt(0, 0));
+        () -> model.getOwnerAt(0, 0));
     assertEquals("Cannot get card at this position", exception.getMessage());
   }
 
@@ -648,7 +648,7 @@ public class ThreeTriosModelTest {
   public void getScoreGameNotStarted() {
     ThreeTriosModel model = loadModel("simple_grid.txt", "big_cards.txt");
     IllegalStateException exception = assertThrows(IllegalStateException.class,
-      () -> model.getScore(GamePlayer.BLUE));
+        () -> model.getScore(GamePlayer.BLUE));
     assertEquals("Game has not started", exception.getMessage());
   }
 
@@ -656,7 +656,7 @@ public class ThreeTriosModelTest {
   public void countCardFlipGameNotStarted() {
     ThreeTriosModel model = loadModel("simple_grid.txt", "big_cards.txt");
     IllegalStateException exception = assertThrows(IllegalStateException.class,
-      () -> model.countCardFlip(windBird7253, 0, 0));
+        () -> model.countCardFlip(windBird7253, 0, 0));
     assertEquals("Game has not started", exception.getMessage());
   }
 
@@ -670,7 +670,7 @@ public class ThreeTriosModelTest {
             {2, 0}, {2, 1}, {2, 2}
     });
     IllegalStateException exception = assertThrows(IllegalStateException.class,
-      () -> model.countCardFlip(windBird7253, 0, 0));
+        () -> model.countCardFlip(windBird7253, 0, 0));
     assertEquals("Game is over", exception.getMessage());
   }
 
@@ -690,7 +690,7 @@ public class ThreeTriosModelTest {
     model.startGame(false);
     model.placeCard(0, 0, 0);
     IllegalStateException exception = assertThrows(IllegalStateException.class,
-      () -> model.countCardFlip(windBird7253, 0, 0));
+        () -> model.countCardFlip(windBird7253, 0, 0));
     assertEquals("Cannot place card into row 0 and column 0", exception.getMessage());
   }
 
