@@ -63,7 +63,7 @@ public class ThreeTriosController implements GameController {
    */
   @Override
   public void printCardClicked(int index, GamePlayer player) {
-    transmit(String.format("Card clicked: Index %d, Owner: %s%n",
+    transmit(String.format("Card clicked: Index %d, Owner: %s",
             index, player.toString()));
   }
 

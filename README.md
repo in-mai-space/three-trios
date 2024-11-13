@@ -148,7 +148,7 @@ clicked for now. This will change based on the specification of the next homewor
 ├── assets
 │   ├── Card from Blue.png
 │   ├── Card from Red.png
-│   ├── In Progress.png
+│   ├── Game In Progress.png
 │   └── Initial State.png
 ├── config
 │   ├── cards
@@ -169,8 +169,9 @@ clicked for now. This will change based on the specification of the next homewor
 │       ├── not_enough_rows.txt
 │       ├── simple_grid.txt
 │       └── wrong_format.txt
-├── docs
-│   └── README.md
+├── README.md
+├── strategy-transcript.txt
+├── three-trios.jar
 ├── src
 │   ├── Main.java
 │   ├── controller
@@ -205,11 +206,10 @@ clicked for now. This will change based on the specification of the next homewor
 │   │   ├── Move.java
 │   │   ├── Pair.java
 │   │   ├── ThreeTriosMove.java
+│   │   ├── AbstractStrategy.java
 │   │   ├── fallible
-│   │   │   ├── AbstractFallibleStrategy.java
-│   │   │   ├── CornerFallibleStrategy.java
 │   │   │   ├── FallibleGameStrategy.java
-│   │   │   └── FlipCardsFallibleStrategy.java
+│   │   │   └── CornerFallibleStrategy.java
 │   │   └── infallible
 │   │       ├── CornerInfallibleStrategy.java
 │   │       ├── FlipCardsInfallibleStrategy.java
@@ -227,9 +227,10 @@ clicked for now. This will change based on the specification of the next homewor
 │           ├── ThreeTriosHandPanel.java
 │           ├── ThreeTriosMainPanel.java
 │           ├── ThreeTriosView.java
-│           └── ViewData.java
+│           └── GameViewConfig.java
 ├── test
 │   ├── controller
+|   │   ├── ThreeTriosControllerTest.java
 │   │   └── GameConfigParserTest.java
 │   ├── model
 │   │   ├── UtilsTest.java
@@ -243,11 +244,11 @@ clicked for now. This will change based on the specification of the next homewor
 │   │       ├── ThreeTriosHandTest.java
 │   │       └── ThreeTriosModelTest.java
 │   ├── strategy
-│   │   ├── CornerInfallibleStrategyTest.java
-│   │   ├── FlipCardsInfallibleStrategyTest.java
+│   │   ├── CornerStrategyTest.java
+│   │   ├── FlipCardsStrategyTest.java
 │   │   ├── MoveTest.java
 │   │   ├── PairTest.java
-│   │   ├── UpperLeftInfallibleStrategyTest.java
+│   │   ├── UpperLeftStrategyTest.java
 │   │   └── mocks
 │   │       ├── AbstractMockModel.java
 │   │       ├── FlipManyCardsMockModel.java
