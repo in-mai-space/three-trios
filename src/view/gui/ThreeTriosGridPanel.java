@@ -95,8 +95,8 @@ class ThreeTriosGridPanel extends JPanel implements GamePanel {
       double buffer = 0.02;
 
       // check if click is within the "interior" of the cell (not near edges)
-      if (colFraction > buffer && colFraction < (1 - buffer) &&
-              rowFraction > buffer && rowFraction < (1 - buffer)) {
+      if (colFraction > buffer && colFraction < (1 - buffer)
+              && rowFraction > buffer && rowFraction < (1 - buffer)) {
 
         int col = (int) exactCol;
         int row = (int) exactRow;

@@ -10,8 +10,8 @@ import view.gui.GameGUIView;
  * Represents the ThreeTriosController.
  */
 public class ThreeTriosController implements GameController {
-  private final GameModel model;
-  private GameGUIView view;
+  //private final GameModel model;
+  //private GameGUIView view;
   private final Appendable log;
 
   /**
@@ -25,7 +25,7 @@ public class ThreeTriosController implements GameController {
     if (model == null || log == null) {
       throw new IllegalArgumentException("Model or appendable cannot be null");
     }
-    this.model = model;
+    //this.model = model;
     this.log = log;
   }
 
@@ -51,7 +51,7 @@ public class ThreeTriosController implements GameController {
     if (view == null) {
       throw new IllegalArgumentException("Model cannot be null");
     }
-    this.view = view;
+    //this.view = view;
     view.addFeatures(this);
   }
 

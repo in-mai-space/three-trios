@@ -4,7 +4,6 @@ import java.util.Objects;
 
 import model.enums.AttackValue;
 import model.interfaces.Card;
-import model.interfaces.Cell;
 import model.enums.Direction;
 
 /**

@@ -168,7 +168,7 @@ public class CornerFallibleStrategy extends AbstractStrategy implements Fallible
   }
 
   /**
-   * Comparator to sort the best moves for this strategy
+   * Comparator to sort the best moves for this strategy.
    *
    * @param verticalBlocked true if a corner is vertically blocked, false otherwise
    * @param horizontalBlocked true if a corner is horizontally blocked, false otherwise

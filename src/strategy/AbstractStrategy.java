@@ -11,7 +11,7 @@ import model.interfaces.Cell;
  * Represent abstract class for strategy, which shares the breaking tie method between infallible
  * and fallible strategies.
  */
-abstract public class AbstractStrategy {
+public abstract class AbstractStrategy {
 
   /**
    * Break ties between the moves if there are more than one next best moves. It will prioritize

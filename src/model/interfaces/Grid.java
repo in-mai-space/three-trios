@@ -128,6 +128,7 @@ public interface Grid {
    * @return the width of the grid.
    */
   int getWidth();
+
   /**
    * Get the height of grid.
    *

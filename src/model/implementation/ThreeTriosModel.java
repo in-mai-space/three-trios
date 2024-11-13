@@ -41,7 +41,6 @@ public class ThreeTriosModel implements GameModel {
    *
    * @param cellTypes a 2D array representing the grid layout of the game board
    * @param allCells a list of {@code Card} objects representing the card database
-   * @return a new instance of {@code ThreeTriosModel} initialized with the given data
    *
    * @throws IllegalArgumentException if cellTypes or allCards is null
    * @throws IllegalArgumentException if cellTypes is empty or has a length of 0
@@ -360,6 +359,7 @@ public class ThreeTriosModel implements GameModel {
     validateGameNotStarted();
     return ruleKeeper.getWidth();
   }
+
   /**
    * Get the height of grid.
    *

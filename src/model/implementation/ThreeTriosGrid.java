@@ -367,6 +367,7 @@ class ThreeTriosGrid implements Grid {
   public int getWidth() {
     return cellTypes[0].length;
   }
+
   /**
    * Get the height of grid.
    *

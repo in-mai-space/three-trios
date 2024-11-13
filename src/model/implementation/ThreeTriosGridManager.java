@@ -157,6 +157,7 @@ public class ThreeTriosGridManager implements GridManager {
   public int getWidth() {
     return grid.getWidth();
   }
+
   /**
    * Get the height of grid.
    *
@@ -165,6 +166,7 @@ public class ThreeTriosGridManager implements GridManager {
   public int getHeight() {
     return grid.getHeight();
   }
+
   /**
    * Get the owner of a card given row index and column index (0-based).
    *

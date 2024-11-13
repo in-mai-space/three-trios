@@ -18,7 +18,8 @@ import strategy.ThreeTriosMove;
  * Represent the strategy that attempts to flip as many cards as possible. Must return a move.
  * This strategy will throw exception if no strategies can be found.
  */
-public class FlipCardsInfallibleStrategy extends AbstractStrategy implements InfallibleGameStrategy {
+public class FlipCardsInfallibleStrategy extends AbstractStrategy
+        implements InfallibleGameStrategy {
   /**
    * Decide what is the next best move to play given the model and the player.
    *

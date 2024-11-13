@@ -65,9 +65,9 @@ public class ThreeTriosMove implements Move {
       return false;
     }
     ThreeTriosMove other = (ThreeTriosMove) obj;
-    return Objects.equals(cell, other.cell) &&
-            row == other.row &&
-            col == other.col;
+    return Objects.equals(cell, other.cell)
+            && row == other.row
+            && col == other.col;
   }
 
   @Override
