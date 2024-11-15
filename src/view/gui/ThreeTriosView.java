@@ -29,6 +29,13 @@ public class ThreeTriosView extends JFrame implements GameGUIView {
     this.model = model;
   }
 
+  /**
+   * Sets the player for the game window, updating the interface to reflect
+   * the current player’s details or state.
+   *
+   * @param player The player to be set for the window, typically used to
+   *               display player-specific information or status
+   */
   @Override
   public void setPlayer(GamePlayer player) {
     this.player = player;
@@ -39,10 +46,9 @@ public class ThreeTriosView extends JFrame implements GameGUIView {
    */
   @Override
   public void makeVisible() {
-    setTitle("Current player: " + model.getCurrentPlayer().toString());
+    setTitle(String.format("Player: %s | Current player: %s", player, model.getCurrentPlayer()));
     mainPanel = new ThreeTriosMainPanel(model, player);
     setContentPane(mainPanel);
-
     setPreferredSize(new Dimension(1400, 1200));
     pack();
     setLocationRelativeTo(null);
@@ -51,9 +57,10 @@ public class ThreeTriosView extends JFrame implements GameGUIView {
   }
 
   /**
-   * Show message dialog pane
+   * Show message dialog pane to notify player of their turn, any errors, or end of
+   * game status.
    *
-   * @param message
+   * @param message message to be shown to player
    */
   @Override
   public void showMessageDialogPane(String message) {
@@ -80,6 +87,7 @@ public class ThreeTriosView extends JFrame implements GameGUIView {
   @Override
   public void refresh() {
     mainPanel.refresh();
+    setTitle(String.format("Player: %s | Current player: %s", player, model.getCurrentPlayer()));
     revalidate();
     repaint();
   }

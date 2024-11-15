@@ -10,10 +10,7 @@ import model.implementation.ThreeTriosViewModel;
 import model.interfaces.Cell;
 import model.interfaces.GameModel;
 import player.HumanPlayer;
-import player.MachinePlayer;
 import player.ThreeTriosPlayer;
-import strategy.infallible.FlipCardsInfallibleStrategy;
-import strategy.infallible.UpperLeftInfallibleStrategy;
 import view.gui.GameGUIView;
 import view.gui.ThreeTriosView;
 
@@ -30,7 +27,7 @@ public class Main {
    */
   public static void main(String[] args) {
     CellType[][] cellTypes = GameConfigParser.getCellTypes(
-            Utils.getFilePath("no_holes.txt", "grid"));
+            Utils.getFilePath("complex_grid.txt", "grid"));
     List<Cell> cells = GameConfigParser.getCells(Utils.getFilePath("big_cards.txt", "cards"));
     GameModel model = new ThreeTriosModel(cellTypes, cells);
 

@@ -68,20 +68,27 @@ public class ThreeTriosModel implements GameModel, ModelFeature {
     this.observers = new HashSet<>();
   }
 
+  /**
+   * Registers a controller as an observer to this model, allowing it to receive updates.
+   *
+   * @param observer The controller to be added as an observer
+   * @throws IllegalArgumentException if controller is null
+   */
   @Override
-  public void addObserver(ControllerFeature controller) {
-    observers.add(controller);
+  public void addObserver(ControllerFeature observer) {
+    if (observer == null) {
+      throw new IllegalArgumentException("Observer cannot be null");
+    }
+    observers.add(observer);
   }
 
-  @Override
-  public void onTurnChange(GamePlayer player) {
+  private void onTurnChange(GamePlayer player) {
     for (ControllerFeature observer : observers) {
       observer.notifyPlayerTurn(player);
     }
   }
 
-  @Override
-  public void onGameOver(Optional<GamePlayer> winner, int score) {
+  private void onGameOver(Optional<GamePlayer> winner, int score) {
     for (ControllerFeature observer : observers) {
       observer.announceGameOver(winner, score);
     }
@@ -197,11 +204,16 @@ public class ThreeTriosModel implements GameModel, ModelFeature {
    */
   public void placeCard(int index, int row, int col) {
     validateGameNotStartOrOver();
-    Hand currentPlayerHand = playerHands.get(players[currentPlayerIndex]);
-    Cell cell = currentPlayerHand.removeCard(index);
-    ruleKeeper.placeCard(cell, row, col);
-    ruleKeeper.executeBattle(row, col);
-    updateGameState();
+    if (canPlaceCard(row, col)) {
+      Hand currentPlayerHand = playerHands.get(players[currentPlayerIndex]);
+      Cell cell = currentPlayerHand.removeCard(index);
+      ruleKeeper.placeCard(cell, row, col);
+      ruleKeeper.executeBattle(row, col);
+      updateGameState();
+    }
+    else {
+      throw new IllegalStateException("Card cannot be placed in this position");
+    }
   }
 
   /**

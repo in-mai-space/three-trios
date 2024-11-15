@@ -28,9 +28,19 @@ public interface GameGUIView {
   void makeVisible();
 
   /**
-   * Show message dialog pane
+   * Show message dialog pane to notify player of their turn, any errors, or end of
+   * game status.
+   *
+   * @param message message to be shown to player
    */
   void showMessageDialogPane(String message);
 
+  /**
+   * Sets the player for the game window, updating the interface to reflect
+   * the current player’s details or state.
+   *
+   * @param player The player to be set for the window, typically used to
+   *               display player-specific information or status
+   */
   void setPlayer(GamePlayer player);
 }

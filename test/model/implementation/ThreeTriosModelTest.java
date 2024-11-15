@@ -210,8 +210,8 @@ public class ThreeTriosModelTest {
   public void placeCardInvalidIndexInHand() {
     ThreeTriosModel model = loadModel("no_holes.txt", "big_cards.txt");
     model.startGame(false);
-    assertThrowsWithMessage(IllegalArgumentException.class, "Index out of bound for card",
-        () -> model.placeCard(5, 5, 0)
+    assertThrowsWithMessage(IllegalArgumentException.class, "Row index is out of bounds.",
+        () -> model.placeCard(6, 5, 0)
     );
   }
 
