@@ -45,7 +45,7 @@ public class Main {
     String secondPlayer = args[1];
 
     CellType[][] cellTypes = GameConfigParser.getCellTypes(
-            Utils.getFilePath("complex_grid.txt", "grid"));
+            Utils.getFilePath("no_holes.txt", "grid"));
     List<Cell> cells = GameConfigParser.getCells(Utils.getFilePath("big_cards.txt", "cards"));
 
     GameModel model = new ThreeTriosModel(cellTypes, cells);
