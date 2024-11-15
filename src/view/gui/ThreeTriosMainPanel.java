@@ -22,14 +22,14 @@ class ThreeTriosMainPanel extends JPanel implements GamePanel {
    * @param model read only version of the model that contains only observational methods
    * @throws IllegalArgumentException if model is null
    */
-  public ThreeTriosMainPanel(ReadOnlyGameModel model) {
+  public ThreeTriosMainPanel(ReadOnlyGameModel model, GamePlayer player) {
     if (model == null) {
       throw new IllegalArgumentException("Model cannot be null");
     }
     setLayout(new BorderLayout(10, 0));
     gridPanel = new ThreeTriosGridPanel(model);
-    blueHand = new ThreeTriosHandPanel(model, GamePlayer.BLUE);
-    redHand = new ThreeTriosHandPanel(model, GamePlayer.RED);
+    blueHand = new ThreeTriosHandPanel(model, GamePlayer.BLUE, player);
+    redHand = new ThreeTriosHandPanel(model, GamePlayer.RED, player);
     setUpSubPanels();
   }
 

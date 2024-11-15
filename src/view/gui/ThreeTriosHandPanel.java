@@ -23,18 +23,20 @@ class ThreeTriosHandPanel extends JPanel implements GamePanel {
   private static final int PREFERRED_WIDTH = 180;
   private int selectedCardIndex = -1;
   private ControllerFeature observer;
-  private GamePlayer handOwner;
+  private final GamePlayer handOwner;
   private final ReadOnlyGameModel model;
+  private final GamePlayer playerInWindow;
 
   /**
    * Construct a new instance of player's hand.
    */
-  public ThreeTriosHandPanel(ReadOnlyGameModel model, GamePlayer playerHand) {
+  public ThreeTriosHandPanel(ReadOnlyGameModel model, GamePlayer playerHand, GamePlayer playerInWindow) {
     if (model == null) {
       throw new IllegalArgumentException("Hand or current player cannot be null");
     }
     this.model = model;
     this.handOwner = playerHand;
+    this.playerInWindow = playerInWindow;
     setOpaque(false);
     setPreferredSize(new Dimension(PREFERRED_WIDTH, 0));
     addMouseListener(new MouseAdapter() {
@@ -210,13 +212,13 @@ class ThreeTriosHandPanel extends JPanel implements GamePanel {
     AffineTransform transform = physicalToModel(startX, yPos, cardWidth, cardHeight);
     cardG2d.transform(transform);
 
-    if (cell.getOwner() == observer.getPlayer() && model.getCurrentPlayer() != handOwner) {
+    if (cell.getOwner() == playerInWindow && model.getCurrentPlayer() != handOwner) {
       drawOwnedCardGrayOut(cardG2d, cell, index);
     }
-    else if (cell.getOwner() == observer.getPlayer()) {
+    else if (cell.getOwner() == playerInWindow) {
       drawOwnedCard(cardG2d, cell, index);
     }
-    else if (cell.getOwner() != observer.getPlayer()) {
+    else if (cell.getOwner() != playerInWindow) {
       drawOpponentCard(cardG2d, cell);
     }
 

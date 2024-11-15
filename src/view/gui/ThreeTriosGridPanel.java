@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 
 import controller.ControllerFeature;
 import model.enums.CellType;
+import model.enums.GamePlayer;
 import model.interfaces.Cell;
 import model.interfaces.ReadOnlyGameModel;
 

@@ -16,6 +16,7 @@ public class ThreeTriosController implements GameController {
   private int selectedCardIndex;
   private final GamePlayer color;
   private final ThreeTriosPlayer player;
+  private final boolean isMachine;
 
   /**
    * Construct a new controller given a game model.
@@ -33,7 +34,7 @@ public class ThreeTriosController implements GameController {
     this.color = color;
     this.selectedCardIndex = -1;
     this.player = player;
-    player.addObserver(this);
+    this.isMachine = player.addObserver(this);
     model.addObserver(this);
   }
 
@@ -77,8 +78,11 @@ public class ThreeTriosController implements GameController {
 
   @Override
   public void gameStart() {
+    view.setPlayer(getPlayer());
     view.makeVisible();
-    view.addObserver(this);
+    if (!isMachine) {
+      view.addObserver(this);
+    }
   }
 
   @Override

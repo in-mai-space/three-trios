@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import javax.swing.*;
 
 import controller.ControllerFeature;
+import model.enums.GamePlayer;
 import model.interfaces.ReadOnlyGameModel;
 
 /**
@@ -13,6 +14,7 @@ import model.interfaces.ReadOnlyGameModel;
 public class ThreeTriosView extends JFrame implements GameGUIView {
   private ThreeTriosMainPanel mainPanel;
   private final ReadOnlyGameModel model;
+  private GamePlayer player;
 
   /**
    * Construct the new instance of the view.
@@ -27,13 +29,18 @@ public class ThreeTriosView extends JFrame implements GameGUIView {
     this.model = model;
   }
 
+  @Override
+  public void setPlayer(GamePlayer player) {
+    this.player = player;
+  }
+
   /**
    * Make the view visible when the game starts.
    */
   @Override
   public void makeVisible() {
     setTitle("Current player: " + model.getCurrentPlayer().toString());
-    mainPanel = new ThreeTriosMainPanel(model);
+    mainPanel = new ThreeTriosMainPanel(model, player);
     setContentPane(mainPanel);
 
     setPreferredSize(new Dimension(1400, 1200));

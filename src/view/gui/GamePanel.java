@@ -1,6 +1,7 @@
 package view.gui;
 
 import controller.ControllerFeature;
+import model.enums.GamePlayer;
 
 /**
  * Represents interface for the game panel.

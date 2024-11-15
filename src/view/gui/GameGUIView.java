@@ -1,6 +1,7 @@
 package view.gui;
 
 import controller.ControllerFeature;
+import model.enums.GamePlayer;
 
 /**
  * Represents the interface of GameGUIView which allows it to add features, refresh view
@@ -30,4 +31,6 @@ public interface GameGUIView {
    * Show message dialog pane
    */
   void showMessageDialogPane(String message);
+
+  void setPlayer(GamePlayer player);
 }
