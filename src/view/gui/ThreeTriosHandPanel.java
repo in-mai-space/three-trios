@@ -12,7 +12,7 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import controller.Feature;
+import controller.ControllerFeature;
 import model.enums.GamePlayer;
 import model.interfaces.Cell;
 
@@ -24,7 +24,8 @@ class ThreeTriosHandPanel extends JPanel implements GamePanel {
   private static final int PREFERRED_WIDTH = 180;
   private int selectedCardIndex = -1;
   private final GamePlayer currentPlayer;
-  private Feature feature;
+  private ControllerFeature observer;
+  private GamePlayer player;
 
   /**
    * Construct a new instance of player's hand.
@@ -56,11 +57,12 @@ class ThreeTriosHandPanel extends JPanel implements GamePanel {
    * @throws IllegalArgumentException if features is null
    */
   @Override
-  public void addFeatures(Feature features) {
+  public void addObserver(ControllerFeature features) {
     if (features == null) {
       throw new IllegalArgumentException("Features cannot be null");
     }
-    this.feature = features;
+    this.observer = features;
+    this.player = observer.getPlayer();
   }
 
   /**
@@ -118,9 +120,8 @@ class ThreeTriosHandPanel extends JPanel implements GamePanel {
     int cardIndex = e.getY() / cardHeight;
 
     if (cardIndex >= 0 && cardIndex < hand.size()) {
-      Cell clickedCell = hand.get(cardIndex);
       selectedCardIndex = cardIndex;
-      feature.printCardClicked(selectedCardIndex, clickedCell.getOwner());
+      observer.selectCard(cardIndex);
       repaint();
     }
   }

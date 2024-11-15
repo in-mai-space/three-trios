@@ -1,6 +1,6 @@
 package view.gui;
 
-import controller.Feature;
+import controller.ControllerFeature;
 
 /**
  * Represents the interface of GameGUIView which allows it to add features, refresh view
@@ -14,7 +14,7 @@ public interface GameGUIView {
    * @param features controller that implements features
    * @throws IllegalArgumentException if features is null
    */
-  void addFeatures(Feature features);
+  void addObserver(ControllerFeature features);
 
   /**
    * Refresh the view when there is new changes to the game.
@@ -25,4 +25,9 @@ public interface GameGUIView {
    * Make the view visible when the game starts.
    */
   void makeVisible();
+
+  /**
+   * Show message dialog pane
+   */
+  void showMessageDialogPane(String message);
 }

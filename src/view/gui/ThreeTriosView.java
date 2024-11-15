@@ -2,9 +2,9 @@ package view.gui;
 
 import java.awt.Dimension;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
-import controller.Feature;
+import controller.ControllerFeature;
 import model.interfaces.ReadOnlyGameModel;
 
 /**
@@ -12,6 +12,7 @@ import model.interfaces.ReadOnlyGameModel;
  */
 public class ThreeTriosView extends JFrame implements GameGUIView {
   private final ThreeTriosMainPanel mainPanel;
+  private final JOptionPane messagePanel;
 
   /**
    * Construct the new instance of the view.
@@ -25,6 +26,7 @@ public class ThreeTriosView extends JFrame implements GameGUIView {
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setTitle("Current player: " + model.getCurrentPlayer().toString());
     mainPanel = new ThreeTriosMainPanel(model);
+    messagePanel = new JOptionPane();
     setContentPane(mainPanel);
   }
 
@@ -41,17 +43,27 @@ public class ThreeTriosView extends JFrame implements GameGUIView {
   }
 
   /**
+   * Show message dialog pane
+   *
+   * @param message
+   */
+  @Override
+  public void showMessageDialogPane(String message) {
+    messagePanel.createDialog(message);
+  }
+
+  /**
    * Add features to the view.
    *
    * @param features controller that implements features
    * @throws IllegalArgumentException if features is null
    */
   @Override
-  public void addFeatures(Feature features) {
+  public void addObserver(ControllerFeature features) {
     if (features == null) {
       throw new IllegalArgumentException("Features cannot be null");
     }
-    mainPanel.addFeatures(features);
+    mainPanel.addObserver(features);
   }
 
   /**

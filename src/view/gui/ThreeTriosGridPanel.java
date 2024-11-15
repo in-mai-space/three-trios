@@ -10,7 +10,7 @@ import java.awt.geom.Point2D;
 
 import javax.swing.JPanel;
 
-import controller.Feature;
+import controller.ControllerFeature;
 import model.enums.CellType;
 import model.interfaces.Cell;
 
@@ -20,7 +20,7 @@ import model.interfaces.Cell;
 class ThreeTriosGridPanel extends JPanel implements GamePanel {
   private final CellType[][] cellTypes;
   private final Cell[][] cells;
-  private Feature feature;
+  private ControllerFeature observer;
 
   /**
    * Construct a new ThreeTriosGridPanel.
@@ -53,11 +53,11 @@ class ThreeTriosGridPanel extends JPanel implements GamePanel {
    * @throws IllegalArgumentException if features is null
    */
   @Override
-  public void addFeatures(Feature features) {
+  public void addObserver(ControllerFeature features) {
     if (features == null) {
       throw new IllegalArgumentException("Features cannot be null");
     }
-    this.feature = features;
+    this.observer = features;
   }
 
   /**
@@ -102,7 +102,7 @@ class ThreeTriosGridPanel extends JPanel implements GamePanel {
         int row = (int) exactRow;
 
         if (row >= 0 && row < rows && col >= 0 && col < cols) {
-          feature.printCellClicked(row, col);
+          observer.placeCard(col, row);
         }
       }
     } catch (NoninvertibleTransformException e) {

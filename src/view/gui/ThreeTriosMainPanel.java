@@ -3,7 +3,7 @@ package view.gui;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
 
-import controller.Feature;
+import controller.ControllerFeature;
 import model.enums.GamePlayer;
 import model.interfaces.ReadOnlyGameModel;
 
@@ -46,13 +46,13 @@ class ThreeTriosMainPanel extends JPanel implements GamePanel {
    * @throws IllegalArgumentException if features is null
    */
   @Override
-  public void addFeatures(Feature features) {
+  public void addObserver(ControllerFeature features) {
     if (features == null) {
       throw new IllegalArgumentException("Features cannot be null");
     }
-    gridPanel.addFeatures(features);
-    blueHand.addFeatures(features);
-    redHand.addFeatures(features);
+    gridPanel.addObserver(features);
+    blueHand.addObserver(features);
+    redHand.addObserver(features);
   }
 
   /**

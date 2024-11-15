@@ -9,17 +9,19 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+import controller.ControllerFeature;
 import model.interfaces.Cell;
 import model.enums.CellType;
 import model.interfaces.GameModel;
 import model.enums.GamePlayer;
 import model.interfaces.GridManager;
 import model.interfaces.Hand;
+import model.interfaces.ModelFeature;
 
 /**
  * Represents ThreeTriosModel for the ThreeTriosGame.
  */
-public class ThreeTriosModel implements GameModel {
+public class ThreeTriosModel implements GameModel, ModelFeature {
   private final GamePlayer[] players; // array because list of players is fixed throughout game
   // INVARIANT: there are always 2 players
   // - logical statement
@@ -34,6 +36,7 @@ public class ThreeTriosModel implements GameModel {
   private boolean gameStarted;
   private final List<Cell> allCells;
   private final int numCells;
+  private final Set<ControllerFeature> observers;
 
   /**
    * Creates a new instance of {@code ThreeTriosModel} using the provided grid layout
@@ -62,6 +65,26 @@ public class ThreeTriosModel implements GameModel {
     this.players = new GamePlayer[]{ GamePlayer.RED, GamePlayer.BLUE };
     this.currentPlayerIndex = 0;
     this.allCells = allCells;
+    this.observers = new HashSet<>();
+  }
+
+  @Override
+  public void addObserver(ControllerFeature controller) {
+    observers.add(controller);
+  }
+
+  @Override
+  public void onTurnChange(GamePlayer player) {
+    for (ControllerFeature observer : observers) {
+      observer.notifyPlayerTurn(player);
+    }
+  }
+
+  @Override
+  public void onGameOver(Optional<GamePlayer> winner, int score) {
+    for (ControllerFeature observer : observers) {
+      observer.announceGameOver(winner, score);
+    }
   }
 
   /**
@@ -97,6 +120,9 @@ public class ThreeTriosModel implements GameModel {
     }
     distributeCards();
     this.gameStarted = true;
+    for (ControllerFeature observer : observers) {
+      observer.gameStart();
+    }
   }
 
   /**
@@ -174,7 +200,22 @@ public class ThreeTriosModel implements GameModel {
     Cell cell = currentPlayerHand.removeCard(index);
     ruleKeeper.placeCard(cell, row, col);
     ruleKeeper.executeBattle(row, col);
-    nextPlayer();
+    updateGameState();
+  }
+
+  /**
+   * Check if game is over to check to notify players.
+   */
+  private void updateGameState() {
+    if (gameOver()) {
+      onGameOver(getWinner(), getWinner().isEmpty()
+              ? getScore(getCurrentPlayer())
+              : getScore(getWinner().get()));
+    }
+    else {
+      nextPlayer();
+      onTurnChange(getCurrentPlayer());
+    }
   }
 
   /**

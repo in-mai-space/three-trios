@@ -1,80 +1,86 @@
 package controller;
 
-import java.io.IOException;
+import java.util.Optional;
 
 import model.enums.GamePlayer;
 import model.interfaces.GameModel;
+import player.ThreeTriosPlayer;
 import view.gui.GameGUIView;
 
 /**
  * Represents the ThreeTriosController.
  */
 public class ThreeTriosController implements GameController {
-  //private final GameModel model;
-  //private GameGUIView view;
-  private final Appendable log;
+  private final GameModel model;
+  private final GameGUIView view;
+  private int selectedCardIndex;
+  private final GamePlayer color;
 
   /**
    * Construct a new controller given a game model.
    *
    * @param model core logic model of the game
-   * @param log appendable object (this will change when specification of controller changes)
    * @throws IllegalArgumentException if the model or appendable is null
    */
-  public ThreeTriosController(GameModel model, Appendable log) {
-    if (model == null || log == null) {
-      throw new IllegalArgumentException("Model or appendable cannot be null");
+  public ThreeTriosController(GameModel model, ThreeTriosPlayer player,
+                              GameGUIView view, GamePlayer color) {
+    if (model == null || player == null || view == null) {
+      throw new IllegalArgumentException("Model, player, or view cannot be null");
     }
-    //this.model = model;
-    this.log = log;
+    this.model = model;
+    this.view = view;
+    this.color = color;
+    this.selectedCardIndex = -1;
+    boolean isMachine = player.addObserver(this);
+    if (!isMachine) {
+      view.addObserver(this);
+    }
+    model.addObserver(this);
   }
 
-  /**
-   * Transmit message (to console in this case).
-   *
-   * @param message message to be transmit
-   */
-  private void transmit(String message) {
+  @Override
+  public GamePlayer getPlayer() {
+    return color;
+  }
+
+  @Override
+  public void selectCard(int index) {
+    selectedCardIndex = index;
+  }
+
+  @Override
+  public void placeCard(int row, int col) {
+    if (selectedCardIndex == -1) {
+      view.showMessageDialogPane("Please select a card before placing it to grid");
+    }
     try {
-      log.append(message).append("\n");
+      model.placeCard(selectedCardIndex, row, col);
+      view.refresh();
+      selectedCardIndex = -1;
+    } catch (IllegalStateException | IllegalArgumentException exception) {
+      view.showMessageDialogPane(exception.getMessage());
     }
-    catch (IOException ignored) { }
   }
 
-  /**
-   * Set the view of the game.
-   *
-   * @param view GUI view
-   * @throws IllegalArgumentException if view is null
-   */
-  public void setView(GameGUIView view) {
-    if (view == null) {
-      throw new IllegalArgumentException("Model cannot be null");
+  @Override
+  public void announceGameOver(Optional<GamePlayer> winner, int score) {
+    if (winner.isEmpty()) {
+      view.showMessageDialogPane("Game results in a tie with score " + score);
     }
-    //this.view = view;
-    view.addFeatures(this);
+    else {
+      view.showMessageDialogPane("Winner is " + winner.get() + ", the score is " + score);
+    }
   }
 
-  /**
-   * Print in the console what index and which player clicks a card.
-   *
-   * @param index index of card in a hand (0-indexed)
-   * @param player player who owns the card
-   */
   @Override
-  public void printCardClicked(int index, GamePlayer player) {
-    transmit(String.format("Card clicked: Index %d, Owner: %s",
-            index, player.toString()));
+  public void gameStart() {
+    view.makeVisible();
   }
 
-  /**
-   * Print in the console which row and col player clicks on grid.
-   *
-   * @param row row index of the cell (0-indexed)
-   * @param col col index of the cell (0-indexed)
-   */
   @Override
-  public void printCellClicked(int row, int col) {
-    transmit(String.format("Cell clicked at: Row " + row + ", Column " + col));
+  public void notifyPlayerTurn(GamePlayer nextPlayer) {
+    if (color == nextPlayer) {
+      view.showMessageDialogPane("Player " + nextPlayer + ": Please select a card");
+    }
   }
 }

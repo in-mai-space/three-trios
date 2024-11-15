@@ -1,6 +1,6 @@
 package view.gui;
 
-import controller.Feature;
+import controller.ControllerFeature;
 
 /**
  * Represents interface for the game panel.
@@ -13,7 +13,7 @@ public interface GamePanel {
    * @param features controller that implements features
    * @throws IllegalArgumentException if features is null
    */
-  void addFeatures(Feature features);
+  void addObserver(ControllerFeature features);
 
   /**
    * Refresh the view when there is new changes to the game.

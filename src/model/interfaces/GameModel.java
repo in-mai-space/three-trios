@@ -5,7 +5,7 @@ import model.enums.GamePlayer;
 /**
  * Represents a model for the game.
  */
-public interface GameModel extends ReadOnlyGameModel {
+public interface GameModel extends ReadOnlyGameModel, ModelFeature {
 
   /**
    * Initializes the game by distributing cards and shuffling cards.
