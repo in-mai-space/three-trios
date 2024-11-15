@@ -71,7 +71,6 @@ public class ThreeTriosController implements GameController {
    */
   @Override
   public void placeCard(int row, int col) {
-    System.out.println(model.getHand(color).size());
     view.refresh();
     if (selectedCardIndex == -1) {
       view.showMessageDialogPane("Please select a card before placing it on the grid");
