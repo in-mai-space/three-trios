@@ -12,6 +12,7 @@ import model.interfaces.GameModel;
 import player.HumanPlayer;
 import player.MachinePlayer;
 import player.ThreeTriosPlayer;
+import strategy.infallible.FlipCardsInfallibleStrategy;
 import strategy.infallible.UpperLeftInfallibleStrategy;
 import view.gui.GameGUIView;
 import view.gui.ThreeTriosView;
@@ -33,8 +34,11 @@ public class Main {
     List<Cell> cells = GameConfigParser.getCells(Utils.getFilePath("big_cards.txt", "cards"));
     GameModel model = new ThreeTriosModel(cellTypes, cells);
 
-    ThreeTriosPlayer player1 = new HumanPlayer(model);
-    ThreeTriosPlayer player2 = new HumanPlayer(model);
+//    ThreeTriosPlayer player1 = new HumanPlayer(model);
+//    ThreeTriosPlayer player2 = new HumanPlayer(model);
+
+    ThreeTriosPlayer player1 = new MachinePlayer(model, new UpperLeftInfallibleStrategy());
+    ThreeTriosPlayer player2 = new MachinePlayer(model, new FlipCardsInfallibleStrategy());
 
     GameGUIView player1View = new ThreeTriosView(new ThreeTriosViewModel(model));
     GameGUIView player2View = new ThreeTriosView(new ThreeTriosViewModel(model));

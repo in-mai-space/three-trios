@@ -1,6 +1,5 @@
 package controller;
 
-import java.util.Arrays;
 import java.util.Optional;
 
 import model.enums.GamePlayer;
@@ -16,7 +15,6 @@ public class ThreeTriosController implements GameController {
   private final GameGUIView view;
   private int selectedCardIndex;
   private final GamePlayer color;
-  private boolean isMachine;
   private final ThreeTriosPlayer player;
 
   /**
@@ -35,7 +33,7 @@ public class ThreeTriosController implements GameController {
     this.color = color;
     this.selectedCardIndex = -1;
     this.player = player;
-    this.isMachine = player.addObserver(this);
+    player.addObserver(this);
     model.addObserver(this);
   }
 
@@ -51,21 +49,24 @@ public class ThreeTriosController implements GameController {
 
   @Override
   public void placeCard(int row, int col) {
+    view.refresh();
     if (selectedCardIndex == -1) {
       view.showMessageDialogPane("Please select a card before placing it to grid");
     }
-    try {
-      model.placeCard(selectedCardIndex, row, col);
-      view.refresh();
-      selectedCardIndex = -1;
-    } catch (IllegalStateException | IllegalArgumentException exception) {
-      view.showMessageDialogPane(exception.getMessage());
+    else {
+      try {
+        model.placeCard(selectedCardIndex, row, col);
+        view.refresh();
+        selectedCardIndex = -1;
+      } catch (IllegalStateException | IllegalArgumentException exception) {
+        view.showMessageDialogPane(exception.getMessage());
+      }
     }
   }
 
   @Override
   public void announceGameOver(Optional<GamePlayer> winner, int score) {
-    System.out.println(Arrays.deepToString(model.getGrid()));
+    view.refresh();
     if (winner.isEmpty()) {
       view.showMessageDialogPane("Game results in a tie with score " + score);
     }
@@ -77,17 +78,15 @@ public class ThreeTriosController implements GameController {
   @Override
   public void gameStart() {
     view.makeVisible();
-    if (!isMachine) {
-      view.addObserver(this);
-    }
+    view.addObserver(this);
   }
 
   @Override
   public void notifyPlayerTurn(GamePlayer nextPlayer) {
+    view.refresh();
     if (color == nextPlayer) {
       view.showMessageDialogPane("Player " + nextPlayer + ": Please select a card");
     }
-    view.refresh();
     player.playCard();
   }
 }

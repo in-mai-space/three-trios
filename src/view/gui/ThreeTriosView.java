@@ -12,7 +12,6 @@ import model.interfaces.ReadOnlyGameModel;
  */
 public class ThreeTriosView extends JFrame implements GameGUIView {
   private ThreeTriosMainPanel mainPanel;
-  private JOptionPane messagePanel;
   private final ReadOnlyGameModel model;
 
   /**
@@ -25,7 +24,6 @@ public class ThreeTriosView extends JFrame implements GameGUIView {
       throw new IllegalArgumentException("Model cannot be null");
     }
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    messagePanel = new JOptionPane();
     this.model = model;
   }
 
@@ -52,7 +50,7 @@ public class ThreeTriosView extends JFrame implements GameGUIView {
    */
   @Override
   public void showMessageDialogPane(String message) {
-    messagePanel.createDialog(message);
+    JOptionPane.showMessageDialog(this, message);
   }
 
   /**

@@ -22,7 +22,7 @@ public class MachinePlayer implements ThreeTriosPlayer {
   }
 
   public void playCard() {
-    if (!model.gameOver()) {
+    if (!model.gameOver() && player == model.getCurrentPlayer()) {
       Pair<Move, Integer> nextMove = strategy.decideMove(model, player);
       int cardIndex = model.getHand(player).indexOf(nextMove.getKey().getCard());
       int row = nextMove.getKey().getRow();
