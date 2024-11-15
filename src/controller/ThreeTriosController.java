@@ -123,7 +123,7 @@ public class ThreeTriosController implements GameController {
   @Override
   public void notifyPlayerTurn(GamePlayer nextPlayer) {
     view.refresh();
-    if (color == nextPlayer) {
+    if (color == nextPlayer && !isMachine) {
       view.showMessageDialogPane("Player " + nextPlayer + ": Please select a card");
     }
     player.playCard();

@@ -15,7 +15,6 @@ import player.MachinePlayer;
 import player.ThreeTriosPlayer;
 import strategy.infallible.CornerInfallibleStrategy;
 import strategy.infallible.FlipCardsInfallibleStrategy;
-import strategy.infallible.UpperLeftInfallibleStrategy;
 import view.gui.GameGUIView;
 import view.gui.ThreeTriosView;
 
@@ -38,12 +37,12 @@ public class Main {
    *             If the arguments are not valid, the game will not start.
    */
   public static void main(String[] args) {
-//    if (args.length != 2) {
-//      return;
-//    }
-//
-//    String firstPlayer = args[0];
-//    String secondPlayer = args[1];
+    if (args.length != 2) {
+      return;
+    }
+
+    String firstPlayer = args[0];
+    String secondPlayer = args[1];
 
     CellType[][] cellTypes = GameConfigParser.getCellTypes(
             Utils.getFilePath("complex_grid.txt", "grid"));
@@ -52,14 +51,8 @@ public class Main {
     GameModel model = new ThreeTriosModel(cellTypes, cells);
     ReadOnlyGameModel viewModel = new ThreeTriosViewModel(model);
 
-//    ThreeTriosPlayer player1 = createPlayer(firstPlayer, viewModel);
-//    ThreeTriosPlayer player2 = createPlayer(secondPlayer, viewModel);
-
-//    ThreeTriosPlayer player1 = new HumanPlayer(model);
-//    ThreeTriosPlayer player2 = new HumanPlayer(model);
-
-    ThreeTriosPlayer player1 = new MachinePlayer(model, new UpperLeftInfallibleStrategy());
-    ThreeTriosPlayer player2 = new MachinePlayer(model, new FlipCardsInfallibleStrategy());
+    ThreeTriosPlayer player1 = createPlayer(firstPlayer, viewModel);
+    ThreeTriosPlayer player2 = createPlayer(secondPlayer, viewModel);
 
     GameGUIView player1View = new ThreeTriosView(viewModel);
     GameGUIView player2View = new ThreeTriosView(viewModel);

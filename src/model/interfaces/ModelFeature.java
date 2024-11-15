@@ -1,9 +1,6 @@
 package model.interfaces;
 
-import java.util.Optional;
-
 import controller.ControllerFeature;
-import model.enums.GamePlayer;
 
 /**
  * Interface representing features of the game model that can be observed by a controller.
