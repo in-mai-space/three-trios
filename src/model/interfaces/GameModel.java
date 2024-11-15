@@ -29,14 +29,6 @@ public interface GameModel extends ReadOnlyGameModel, ModelFeature {
   void placeCard(int index, int row, int col);
 
   /**
-   * Checks if the game is over.
-   *
-   * @return True if the game is over, otherwise false
-   * @throws IllegalStateException if game is not started or is over
-   */
-  boolean gameOver();
-
-  /**
    * Gets the size of the specified player's hand.
    *
    * @param player The player whose hand size is to be retrieved

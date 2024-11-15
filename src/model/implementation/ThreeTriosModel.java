@@ -122,6 +122,7 @@ public class ThreeTriosModel implements GameModel, ModelFeature {
     this.gameStarted = true;
     for (ControllerFeature observer : observers) {
       observer.gameStart();
+      observer.notifyPlayerTurn(getCurrentPlayer());
     }
   }
 

@@ -139,4 +139,12 @@ public interface ReadOnlyGameModel {
    * @throws IllegalStateException if game is not started or game is over
    */
   int countCardFlip(Cell cell, int row, int col);
+
+  /**
+   * Checks if the game is over.
+   *
+   * @return True if the game is over, otherwise false
+   * @throws IllegalStateException if game is not started
+   */
+  boolean gameOver();
 }

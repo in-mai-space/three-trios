@@ -13,29 +13,27 @@ import javax.swing.JPanel;
 import controller.ControllerFeature;
 import model.enums.CellType;
 import model.interfaces.Cell;
+import model.interfaces.ReadOnlyGameModel;
 
 /**
  * Represent the Grid view of ThreeTrios game.
  */
 class ThreeTriosGridPanel extends JPanel implements GamePanel {
-  private final CellType[][] cellTypes;
-  private final Cell[][] cells;
   private ControllerFeature observer;
+  private final ReadOnlyGameModel model;
 
   /**
    * Construct a new ThreeTriosGridPanel.
    *
-   * @param cellTypes cell types of the grid
-   * @param cells current grid of the game
+   * @param model read only game model
    * @throws IllegalArgumentException if cellTypes or cards is null
    */
-  public ThreeTriosGridPanel(CellType[][] cellTypes, Cell[][] cells) {
-    if (cellTypes == null || cells == null) {
-      throw new IllegalArgumentException("Cell types and cards grid cannot be null");
+  public ThreeTriosGridPanel(ReadOnlyGameModel model) {
+    if (model == null) {
+      throw new IllegalArgumentException("Model cannot be null");
     }
-    this.cellTypes = cellTypes;
-    this.cells = cells;
     setOpaque(false);
+    this.model = model;
 
     addMouseListener(new MouseAdapter() {
       @Override
@@ -65,6 +63,7 @@ class ThreeTriosGridPanel extends JPanel implements GamePanel {
    */
   @Override
   public void refresh() {
+    revalidate();
     repaint();
   }
 
@@ -75,8 +74,8 @@ class ThreeTriosGridPanel extends JPanel implements GamePanel {
    * @param yPos y position on screen
    */
   private void handleMouseClick(int xPos, int yPos) {
-    int rows = cellTypes.length;
-    int cols = cellTypes[0].length;
+    int rows = model.getCellTypes().length;
+    int cols = model.getCellTypes()[0].length;
     AffineTransform transform = physicalToModel(); // map screen size to model
 
     try {
@@ -102,7 +101,7 @@ class ThreeTriosGridPanel extends JPanel implements GamePanel {
         int row = (int) exactRow;
 
         if (row >= 0 && row < rows && col >= 0 && col < cols) {
-          observer.placeCard(col, row);
+          observer.placeCard(row, col);
         }
       }
     } catch (NoninvertibleTransformException e) {
@@ -115,8 +114,8 @@ class ThreeTriosGridPanel extends JPanel implements GamePanel {
    * @return the transformation
    */
   private AffineTransform physicalToModel() {
-    int rows = cellTypes.length;
-    int cols = cellTypes[0].length;
+    int rows = model.getCellTypes().length;
+    int cols = model.getCellTypes()[0].length;
 
     int cellWidth = getWidth() / cols;
     int cellHeight = getHeight() / rows;
@@ -136,8 +135,8 @@ class ThreeTriosGridPanel extends JPanel implements GamePanel {
     super.paintComponent(g);
     Graphics2D g2d = (Graphics2D) g.create();
 
-    int rows = cellTypes.length;
-    int cols = cellTypes[0].length;
+    int rows = model.getCellTypes().length;
+    int cols = model.getCellTypes()[0].length;
 
     int cellWidth = getWidth() / cols;
     int cellHeight = getHeight() / rows;
@@ -161,16 +160,16 @@ class ThreeTriosGridPanel extends JPanel implements GamePanel {
    * @return the customized version of cell card
    */
   private CellCard createCellFrame(int row, int col) {
-    if (cellTypes[row][col] == CellType.HOLE) {
+    if (model.getCellTypes()[row][col] == CellType.HOLE) {
       return new CellCard.CardBuilder()
               .setColor(GameViewConfig.HOLE_COLOR)
               .build();
     }
-    else if (cells[row][col] == null) {
+    else if (model.getGrid()[row][col] == null) {
       return new CellCard.CardBuilder().setColor(GameViewConfig.CELL_COLOR).build();
     }
     else {
-      Cell cell = cells[row][col];
+      Cell cell = model.getGrid()[row][col];
       return new CellCard.CardBuilder()
               .setColor(GameViewConfig.getCardColor(cell.getOwner()))
               .setAttackValues(cell.getAllAttackValues())

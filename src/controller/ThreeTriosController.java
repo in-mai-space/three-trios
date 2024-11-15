@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 import model.enums.GamePlayer;
@@ -15,6 +16,8 @@ public class ThreeTriosController implements GameController {
   private final GameGUIView view;
   private int selectedCardIndex;
   private final GamePlayer color;
+  private boolean isMachine;
+  private final ThreeTriosPlayer player;
 
   /**
    * Construct a new controller given a game model.
@@ -31,10 +34,8 @@ public class ThreeTriosController implements GameController {
     this.view = view;
     this.color = color;
     this.selectedCardIndex = -1;
-    boolean isMachine = player.addObserver(this);
-    if (!isMachine) {
-      view.addObserver(this);
-    }
+    this.player = player;
+    this.isMachine = player.addObserver(this);
     model.addObserver(this);
   }
 
@@ -64,6 +65,7 @@ public class ThreeTriosController implements GameController {
 
   @Override
   public void announceGameOver(Optional<GamePlayer> winner, int score) {
+    System.out.println(Arrays.deepToString(model.getGrid()));
     if (winner.isEmpty()) {
       view.showMessageDialogPane("Game results in a tie with score " + score);
     }
@@ -75,6 +77,9 @@ public class ThreeTriosController implements GameController {
   @Override
   public void gameStart() {
     view.makeVisible();
+    if (!isMachine) {
+      view.addObserver(this);
+    }
   }
 
   @Override
@@ -82,5 +87,7 @@ public class ThreeTriosController implements GameController {
     if (color == nextPlayer) {
       view.showMessageDialogPane("Player " + nextPlayer + ": Please select a card");
     }
+    view.refresh();
+    player.playCard();
   }
 }

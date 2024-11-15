@@ -196,4 +196,15 @@ public class ThreeTriosViewModel implements ReadOnlyGameModel {
   public int countCardFlip(Cell cell, int row, int col) {
     return adaptee.countCardFlip(cell, row, col);
   }
+
+  /**
+   * Checks if the game is over.
+   *
+   * @return True if the game is over, otherwise false
+   * @throws IllegalStateException if game is not started
+   */
+  @Override
+  public boolean gameOver() {
+    return adaptee.gameOver();
+  }
 }

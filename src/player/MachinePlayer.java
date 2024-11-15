@@ -22,12 +22,14 @@ public class MachinePlayer implements ThreeTriosPlayer {
   }
 
   public void playCard() {
-    Pair<Move, Integer> nextMove = strategy.decideMove(model, player);
-    int cardIndex = model.getHand(player).indexOf(nextMove.getKey().getCard());
-    int row = nextMove.getKey().getRow();
-    int col = nextMove.getKey().getCol();
-    observer.selectCard(cardIndex);
-    observer.placeCard(row, col);
+    if (!model.gameOver()) {
+      Pair<Move, Integer> nextMove = strategy.decideMove(model, player);
+      int cardIndex = model.getHand(player).indexOf(nextMove.getKey().getCard());
+      int row = nextMove.getKey().getRow();
+      int col = nextMove.getKey().getCol();
+      observer.selectCard(cardIndex);
+      observer.placeCard(row, col);
+    }
   }
 
   @Override

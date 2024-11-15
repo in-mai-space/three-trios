@@ -11,8 +11,9 @@ import model.interfaces.ReadOnlyGameModel;
  * Represent the game GUI view in the MVC model for ThreeTriosGame.
  */
 public class ThreeTriosView extends JFrame implements GameGUIView {
-  private final ThreeTriosMainPanel mainPanel;
-  private final JOptionPane messagePanel;
+  private ThreeTriosMainPanel mainPanel;
+  private JOptionPane messagePanel;
+  private final ReadOnlyGameModel model;
 
   /**
    * Construct the new instance of the view.
@@ -24,10 +25,8 @@ public class ThreeTriosView extends JFrame implements GameGUIView {
       throw new IllegalArgumentException("Model cannot be null");
     }
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    setTitle("Current player: " + model.getCurrentPlayer().toString());
-    mainPanel = new ThreeTriosMainPanel(model);
     messagePanel = new JOptionPane();
-    setContentPane(mainPanel);
+    this.model = model;
   }
 
   /**
@@ -35,6 +34,10 @@ public class ThreeTriosView extends JFrame implements GameGUIView {
    */
   @Override
   public void makeVisible() {
+    setTitle("Current player: " + model.getCurrentPlayer().toString());
+    mainPanel = new ThreeTriosMainPanel(model);
+    setContentPane(mainPanel);
+
     setPreferredSize(new Dimension(1400, 1200));
     pack();
     setLocationRelativeTo(null);
@@ -71,6 +74,8 @@ public class ThreeTriosView extends JFrame implements GameGUIView {
    */
   @Override
   public void refresh() {
+    mainPanel.refresh();
+    revalidate();
     repaint();
   }
 }

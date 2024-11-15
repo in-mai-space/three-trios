@@ -27,9 +27,9 @@ class ThreeTriosMainPanel extends JPanel implements GamePanel {
       throw new IllegalArgumentException("Model cannot be null");
     }
     setLayout(new BorderLayout(10, 0));
-    gridPanel = new ThreeTriosGridPanel(model.getCellTypes(), model.getGrid());
-    blueHand = new ThreeTriosHandPanel(model.getHand(GamePlayer.BLUE), model.getCurrentPlayer());
-    redHand = new ThreeTriosHandPanel(model.getHand(GamePlayer.RED), model.getCurrentPlayer());
+    gridPanel = new ThreeTriosGridPanel(model);
+    blueHand = new ThreeTriosHandPanel(model, GamePlayer.BLUE);
+    redHand = new ThreeTriosHandPanel(model, GamePlayer.RED);
     setUpSubPanels();
   }
 
@@ -48,7 +48,7 @@ class ThreeTriosMainPanel extends JPanel implements GamePanel {
   @Override
   public void addObserver(ControllerFeature features) {
     if (features == null) {
-      throw new IllegalArgumentException("Features cannot be null");
+      throw new IllegalArgumentException("Observer cannot be null");
     }
     gridPanel.addObserver(features);
     blueHand.addObserver(features);
@@ -63,6 +63,7 @@ class ThreeTriosMainPanel extends JPanel implements GamePanel {
     blueHand.refresh();
     redHand.refresh();
     gridPanel.refresh();
+    revalidate();
     repaint();
   }
 }
