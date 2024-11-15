@@ -94,10 +94,12 @@ public class ThreeTriosController implements GameController {
   @Override
   public void announceGameOver(Optional<GamePlayer> winner, int score) {
     view.refresh();
-    if (winner.isEmpty()) {
-      view.showMessageDialogPane("Game results in a tie with score " + score);
-    } else {
-      view.showMessageDialogPane("Winner is " + winner.get() + ", the score is " + score);
+    if (!isMachine) {
+      if (winner.isEmpty()) {
+        view.showMessageDialogPane("Game results in a tie with score " + score);
+      } else {
+        view.showMessageDialogPane("Winner is " + winner.get() + ", the score is " + score);
+      }
     }
   }
 
