@@ -39,12 +39,6 @@ class ThreeTriosHandPanel extends JPanel implements GamePanel {
     this.playerInWindow = playerInWindow;
     setOpaque(false);
     setPreferredSize(new Dimension(PREFERRED_WIDTH, 0));
-    addMouseListener(new MouseAdapter() {
-      @Override
-      public void mouseClicked(MouseEvent e) {
-        handleCardClick(e);
-      }
-    });
   }
 
   /**
@@ -59,6 +53,13 @@ class ThreeTriosHandPanel extends JPanel implements GamePanel {
       throw new IllegalArgumentException("Features cannot be null");
     }
     this.observer = features;
+    // only add mouse listener when there is an observer
+    addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        handleCardClick(e);
+      }
+    });
   }
 
   /**

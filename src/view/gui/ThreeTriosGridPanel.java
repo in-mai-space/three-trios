@@ -35,14 +35,6 @@ class ThreeTriosGridPanel extends JPanel implements GamePanel {
     }
     setOpaque(false);
     this.model = model;
-
-    addMouseListener(new MouseAdapter() {
-      @Override
-      public void mouseClicked(MouseEvent e) {
-        handleMouseClick(e.getX(), e.getY());
-        repaint();
-      }
-    });
   }
 
   /**
@@ -57,6 +49,14 @@ class ThreeTriosGridPanel extends JPanel implements GamePanel {
       throw new IllegalArgumentException("Features cannot be null");
     }
     this.observer = features;
+    // only add mouse listener if there is an observer
+    addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        handleMouseClick(e.getX(), e.getY());
+        repaint();
+      }
+    });
   }
 
   /**
