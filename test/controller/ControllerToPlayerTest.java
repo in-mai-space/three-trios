@@ -9,11 +9,9 @@ import model.Utils;
 import model.enums.GamePlayer;
 import model.implementation.ThreeTriosModel;
 import model.interfaces.GameModel;
-import player.HumanPlayer;
 import player.ThreeTriosPlayer;
 import strategy.infallible.CornerInfallibleStrategy;
 import view.gui.GameGUIView;
-import view.gui.ThreeTriosView;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
