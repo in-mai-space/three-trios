@@ -1,6 +1,7 @@
 package player;
 
 import controller.ControllerFeature;
+import model.Utils;
 import model.enums.GamePlayer;
 import model.interfaces.ReadOnlyGameModel;
 import strategy.Move;
@@ -16,9 +17,10 @@ public class MachinePlayer implements ThreeTriosPlayer {
   private final ReadOnlyGameModel model;
   private ControllerFeature observer;
   private GamePlayer player;
+  private final Appendable log;
 
   /**
-   * Constructs a MachinePlayer with the specified game model and strategy.
+   * Main constructor to create a MachinePlayer with the specified game model and strategy.
    *
    * @param model    A read-only view of the game model
    * @param strategy The strategy used to decide moves for the machine player
@@ -30,6 +32,24 @@ public class MachinePlayer implements ThreeTriosPlayer {
     }
     this.strategy = strategy;
     this.model = model;
+    this.log = new StringBuilder();
+  }
+
+  /**
+   * Constructs a MachinePlayer with the specified game model and strategy. This is a
+   * convenient constructor for testing.
+   *
+   * @param model    A read-only view of the game model
+   * @param strategy The strategy used to decide moves for the machine player
+   * @throws IllegalArgumentException if model or strategy is null
+   */
+  public MachinePlayer(ReadOnlyGameModel model, InfallibleGameStrategy strategy, Appendable log) {
+    if (model == null || strategy == null) {
+      throw new IllegalArgumentException("Model and strategy cannot be null");
+    }
+    this.strategy = strategy;
+    this.model = model;
+    this.log = log;
   }
 
   /**
@@ -43,6 +63,7 @@ public class MachinePlayer implements ThreeTriosPlayer {
       int cardIndex = model.getHand(player).indexOf(nextMove.getKey().getCard());
       int row = nextMove.getKey().getRow();
       int col = nextMove.getKey().getCol();
+      Utils.transmit(log, "Player " + player + " plays card with index " + cardIndex + " to row "+ row + " and col " + col);
       observer.selectCard(cardIndex);
       observer.placeCard(row, col);
     }

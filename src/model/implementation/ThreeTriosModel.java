@@ -40,7 +40,7 @@ public class ThreeTriosModel implements GameModel, ModelFeature {
 
   /**
    * Creates a new instance of {@code ThreeTriosModel} using the provided grid layout
-   * and list of cards. This constructor is used for testing purposes.
+   * and list of cards.
    *
    * @param cellTypes a 2D array representing the grid layout of the game board
    * @param allCells a list of {@code Card} objects representing the card database
@@ -54,6 +54,36 @@ public class ThreeTriosModel implements GameModel, ModelFeature {
    *                                  cells + 1
    */
   public ThreeTriosModel(CellType[][] cellTypes, List<Cell> allCells) {
+    validateModelArgs(cellTypes, allCells);
+    GridManager manager = new ThreeTriosGridManager(cellTypes);
+    if (allCells.size() < manager.numberOfCells() + 1) {
+      throw new IllegalArgumentException("There must be at least " + (manager.numberOfCells() + 1)
+              + " cards available.");
+    }
+    this.numCells = manager.numberOfCells();
+    this.ruleKeeper = manager;
+    this.players = new GamePlayer[]{ GamePlayer.RED, GamePlayer.BLUE };
+    this.currentPlayerIndex = 0;
+    this.allCells = allCells;
+    this.observers = new HashSet<>();
+  }
+
+  /**
+   * Creates a new instance of {@code ThreeTriosModel} using the provided grid layout
+   * and list of cards. This constructor is used for testing purposes.
+   *
+   * @param cellTypes a 2D array representing the grid layout of the game board
+   * @param allCells a list of {@code Card} objects representing the card database
+   *
+   * @throws IllegalArgumentException if cellTypes or allCards is null
+   * @throws IllegalArgumentException if cellTypes is empty or has a length of 0
+   * @throws IllegalArgumentException if the number of non-hole cells is even
+   * @throws IllegalArgumentException if cards in the allCards list are not unique
+   * @throws IllegalArgumentException if a row in the grid is null or contains a null cell type
+   * @throws IllegalArgumentException if the number of cards is not at least the number of non-hole
+   *                                  cells + 1
+   */
+  public ThreeTriosModel(CellType[][] cellTypes, List<Cell> allCells, Appendable log) {
     validateModelArgs(cellTypes, allCells);
     GridManager manager = new ThreeTriosGridManager(cellTypes);
     if (allCells.size() < manager.numberOfCells() + 1) {

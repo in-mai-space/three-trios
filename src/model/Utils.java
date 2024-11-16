@@ -43,6 +43,20 @@ public class Utils {
     return model;
   }
 
+  /**
+   * Helper method to load model using grid filepath and cards filepath.
+   * @param gridFilePath file path to grid
+   * @param cardsFilePath file path to cards
+   * @return game model
+   */
+  public static GameModel loadModelNotStarted(String gridFilePath, String cardsFilePath) {
+    String gridFile = Utils.getFilePath(gridFilePath, "grid");
+    String cardFile = Utils.getFilePath(cardsFilePath, "cards");
+    CellType[][] cellTypes = GameConfigParser.getCellTypes(gridFile);
+    List<Cell> cells = GameConfigParser.getCells(cardFile);
+    return new ThreeTriosModel(cellTypes, cells);
+  }
+
   public static void transmit(Appendable log, String message) {
     try {
       log.append(message).append("\n");

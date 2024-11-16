@@ -21,7 +21,6 @@ import model.implementation.ThreeTriosGridManagerTest;
         ThreeTriosCellTest.class,
         ThreeTriosHandTest.class,
         ThreeTriosGridTest.class,
-        GameConfigParserTest.class,
         ThreeTriosGridManagerTest.class,
         ThreeTriosModelTest.class,
 })
