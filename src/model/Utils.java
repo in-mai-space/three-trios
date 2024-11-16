@@ -42,4 +42,10 @@ public class Utils {
     model.startGame(false);
     return model;
   }
+
+  public static void transmit(Appendable log, String message) {
+    try {
+      log.append(message).append("\n");
+    } catch (Exception ignored) { }
+  }
 }
