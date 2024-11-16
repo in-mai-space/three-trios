@@ -144,13 +144,14 @@ the view is in the assets folder under the root of the project.
 - **Main Class**: Entry point to run the application.
 
 
-## Changes for Part 3:
+## Part 3
 Part 3 connects all the components together using the Observer pattern. Controller is the observer, and it listens
 to the model, the view (if the player is HumanPlayer), and the player. When the game start in model, model notifies
 controller, and controller will tell either the view to notify human player to choose card to play or notify machine
 player to choose card based on strategy. When machine chooses a move, it notifies the controller and controller will
 call model methods. If a player is human, the view will notify controller, and controller relays that to the model. 
 This cycle keeps repeating until game is over.
+
 ```
 +------------------+                                             +------------------+
 |      View 1      |                                             |      View 2      |
@@ -186,7 +187,7 @@ This cycle keeps repeating until game is over.
 - ModelFeature interface with addObserver method: GameModel interface will now extends additional ModelFeature interface, which allows model to add multiple controllers as the observer so that it can notify these observers when the event happens. We represent the observers as a Set to maintain uniqueness.
 - The model will notify the observers when game start, as well as when a card is placed successfully or game is over with private methods onTurnChange and onGameOver
 
-### View
+### View (view photos are in assets folder)
 - We modify the subpanels of the view to take in the ReadOnlyGameModel so it can be revalidated when the model changes
 - We choose to render the view differently depending on which player Red or Blue it is, so the view has an extra methods called setPlayer
 - We also gray out the opponent's player hand, so if a player tries click on opponent's player hand, nothing will happen, since they can only select card from their hand
