@@ -56,7 +56,7 @@ public class ControllerToViewTest {
     ThreeTriosPlayer player = new HumanPlayer(model);
     GameController controller = new ThreeTriosController(model, player, view, GamePlayer.RED);
     model.startGame(true);
-    controller.selectCard(0);
+    controller.selectCard(0, GamePlayer.RED);
     controller.placeCard(0, 0);
     assertEquals(out.toString(), "View is set player with color RED\n" +
             "Make the view visible\n" +
@@ -89,7 +89,7 @@ public class ControllerToViewTest {
     model.placeCard(0, 2, 0);
     model.placeCard(0, 2, 1);
     model.placeCard(0, 2, 2);
-    controller.selectCard(0);
+    controller.selectCard(0, GamePlayer.RED);
     controller.placeCard(0, 0);
     assertTrue(out.toString().contains("showMessageDialogPane is called with message: " +
             "Game is already over\n"));
@@ -108,7 +108,7 @@ public class ControllerToViewTest {
     GameController controller = new ThreeTriosController(model, player, view, GamePlayer.RED);
     model.startGame(true);
     // controller cannot place card in (0, 0) because the machine plays in (0, 0) already
-    controller.selectCard(0);
+    controller.selectCard(0, GamePlayer.RED);
     controller.placeCard(0, 0);
     assertTrue(out.toString().contains("showMessageDialogPane is called with message: " +
             "Card cannot be placed in this position\n"));
@@ -263,5 +263,22 @@ public class ControllerToViewTest {
     // it's player RED machine's turn but since it's machine it does not show window
     assertFalse(out.toString().contains("showMessageDialogPane is called with message: " +
             "Player RED: Please select a card\n"));
+  }
+
+  @Test
+  public void notAllowSelectCardFromOpponentHand() {
+    String gridPath = Utils.getFilePath("no_holes.txt", "grid");
+    String cardPath = Utils.getFilePath("big_cards.txt", "cards");
+
+    GameModel model = new ThreeTriosModel(GameConfigParser.getCellTypes(gridPath),
+            GameConfigParser.getCells(cardPath));
+    Appendable out = new StringBuilder();
+    GameGUIView view = new MockGUIView(model, out);
+    ThreeTriosPlayer player = new MachinePlayer(model, new CornerInfallibleStrategy());
+    GameController controller = new ThreeTriosController(model, player, view, GamePlayer.RED);
+    model.startGame(true);
+    controller.selectCard(0, GamePlayer.BLUE);
+    assertTrue(out.toString().contains("showMessageDialogPane is called with message: " +
+            "Please only select cards from your hand.\n"));
   }
 }

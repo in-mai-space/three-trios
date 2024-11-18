@@ -73,15 +73,15 @@ public class IntegrationTest {
     GameController redController = new ThreeTriosController(model, redPlayer, redView, GamePlayer.RED);
     GameController blueController = new ThreeTriosController(model, bluePlayer, blueView, GamePlayer.BLUE);
     // player Red places card in 0, 0
-    redController.selectCard(0);
+    redController.selectCard(0, GamePlayer.RED);
     redController.placeCard(0, 0);
 
     // red tries to play again when it's not their turn, nothing happens
-    redController.selectCard(0);
+    redController.selectCard(0, GamePlayer.RED);
     redController.placeCard(0, 1);
 
     // player Blue tries to play card in 0, 0 again, not error is thrown since it's handled by view
-    blueController.selectCard(0);
+    blueController.selectCard(0, GamePlayer.BLUE);
     blueController.placeCard(0, 0);
 
     // card is still owned by player Red in 0, 0
@@ -89,7 +89,7 @@ public class IntegrationTest {
     assertEquals(model.getCardAt(0, 0), corruptKing6293);
 
     // now blue selects the correct location so they can place the card there
-    blueController.selectCard(0);
+    blueController.selectCard(0, GamePlayer.BLUE);
     blueController.placeCard(0, 1);
 
     assertEquals(model.getCardAt(0, 1).getOwner(), GamePlayer.BLUE);
@@ -115,8 +115,8 @@ public class IntegrationTest {
     GameGUIView redView = new MockGUIView(model, new StringBuilder());
     ThreeTriosPlayer redPlayer = new HumanPlayer(model);
     GameController redController = new ThreeTriosController(model, redPlayer, redView, GamePlayer.RED);
-    redController.selectCard(1);
-    redController.selectCard(0);
+    redController.selectCard(1, GamePlayer.RED);
+    redController.selectCard(0, GamePlayer.RED);
     redController.placeCard(0, 0);
 
     assertEquals(model.getCardAt(0, 0), corruptKing6293);
@@ -134,39 +134,39 @@ public class IntegrationTest {
 
     assertFalse(model.gameOver());
 
-    redController.selectCard(0);
+    redController.selectCard(0, GamePlayer.RED);
     redController.placeCard(0, 0);
     assertEquals(model.getCardAt(0, 0), corruptKing6293);
 
-    blueController.selectCard(0);
+    blueController.selectCard(0, GamePlayer.BLUE);
     blueController.placeCard(0, 1);
     assertEquals(model.getCardAt(0, 1), angryDragon97A2);
 
-    redController.selectCard(0);
+    redController.selectCard(0, GamePlayer.RED);
     redController.placeCard(0, 2);
     assertEquals(model.getCardAt(0, 2), windBird7253);
 
-    blueController.selectCard(0);
+    blueController.selectCard(0, GamePlayer.BLUE);
     blueController.placeCard(1, 0);
     assertEquals(model.getCardAt(1, 0), heroKnight4231);
 
-    redController.selectCard(0);
+    redController.selectCard(0, GamePlayer.RED);
     redController.placeCard(1, 1);
     assertEquals(model.getCardAt(1, 1), worldDragon7253);
 
-    blueController.selectCard(0);
+    blueController.selectCard(0, GamePlayer.BLUE);
     blueController.placeCard(1, 2);
     assertEquals(model.getCardAt(1, 2), skyWhale4594);
 
-    redController.selectCard(0);
+    redController.selectCard(0, GamePlayer.RED);
     redController.placeCard(2, 0);
     assertEquals(model.getCardAt(2, 0), waterSeal3A74);
 
-    blueController.selectCard(0);
+    blueController.selectCard(0, GamePlayer.BLUE);
     blueController.placeCard(2, 1);
     assertEquals(model.getCardAt(2, 1), firePhoenix28A3);
 
-    redController.selectCard(0);
+    redController.selectCard(0, GamePlayer.RED);
     redController.placeCard(2, 2);
     assertEquals(model.getCardAt(2, 2), earthLizard9166);
 
@@ -194,7 +194,7 @@ public class IntegrationTest {
     assertTrue(model.gameOver());
 
     // no error was thrown since it's handled by view notification to player
-    blueController.selectCard(0);
+    blueController.selectCard(0, GamePlayer.BLUE);
     blueController.placeCard(0, 0);
 
     // the card did not get change since game is already over
@@ -246,7 +246,7 @@ public class IntegrationTest {
     // machine did not play since it's the human player's turn first
     assertEquals(out.toString(), "");
 
-    redController.selectCard(0);
+    redController.selectCard(0, GamePlayer.RED);
     redController.placeCard(0,0);
     assertEquals(model.getCardAt(0, 0), corruptKing6293);
     // machine player plays a card
@@ -254,7 +254,7 @@ public class IntegrationTest {
     assertEquals(model.getScore(GamePlayer.RED), 4);
     assertEquals(model.getScore(GamePlayer.BLUE), 6);
 
-    redController.selectCard(0);
+    redController.selectCard(0, GamePlayer.RED);
     redController.placeCard(0,1);
     assertEquals(model.getCardAt(0, 1), windBird7253);
     assertEquals(out.toString(), "Player BLUE plays card with index 0 to row 1 and col 0\n" +
@@ -262,7 +262,7 @@ public class IntegrationTest {
     assertEquals(model.getScore(GamePlayer.RED), 3);
     assertEquals(model.getScore(GamePlayer.BLUE), 7);
 
-    redController.selectCard(0);
+    redController.selectCard(0, GamePlayer.RED);
     redController.placeCard(0,2);
     assertEquals(model.getCardAt(0, 2), worldDragon7253);
     assertEquals(out.toString(), "Player BLUE plays card with index 0 to row 1 and col 0\n" +
@@ -271,7 +271,7 @@ public class IntegrationTest {
     assertEquals(model.getScore(GamePlayer.RED), 2);
     assertEquals(model.getScore(GamePlayer.BLUE), 8);
 
-    redController.selectCard(0);
+    redController.selectCard(0, GamePlayer.RED);
     redController.placeCard(2,0);
     assertEquals(model.getCardAt(2, 0), waterSeal3A74);
     assertEquals(out.toString(), "Player BLUE plays card with index 0 to row 1 and col 0\n" +
@@ -281,7 +281,7 @@ public class IntegrationTest {
     assertEquals(model.getScore(GamePlayer.RED), 2);
     assertEquals(model.getScore(GamePlayer.BLUE), 8);
 
-    redController.selectCard(0);
+    redController.selectCard(0, GamePlayer.RED);
     redController.placeCard(2,2);
     assertTrue(model.gameOver());
 
@@ -299,7 +299,7 @@ public class IntegrationTest {
 
     model.startGame(false);
 
-    redController.selectCard(0);
+    redController.selectCard(0, GamePlayer.RED);
     redController.placeCard(0, 1); // hole cell
 
     // card was not removed from hand since it's a hole
@@ -307,7 +307,7 @@ public class IntegrationTest {
     assertNull(model.getGrid()[0][1]);
 
     // place a card in empty non-hole cell
-    redController.selectCard(0);
+    redController.selectCard(0, GamePlayer.RED);
     redController.placeCard(0, 0);
 
     // card is now removed from hand and placed in grid

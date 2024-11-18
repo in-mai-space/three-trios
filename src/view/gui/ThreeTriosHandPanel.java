@@ -118,12 +118,8 @@ class ThreeTriosHandPanel extends JPanel implements GamePanel {
     int cardIndex = e.getY() / cardHeight;
 
     if (cardIndex >= 0 && cardIndex < model.getHand(handOwner).size()) {
-      if (model.getHand(handOwner).get(cardIndex).getOwner() != observer.getPlayer()) {
-        return;
-      }
-
       selectedCardIndex = cardIndex;
-      observer.selectCard(cardIndex);
+      observer.selectCard(cardIndex, handOwner);
       repaint();
     }
   }

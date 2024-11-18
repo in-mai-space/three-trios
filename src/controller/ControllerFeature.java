@@ -24,7 +24,7 @@ public interface ControllerFeature {
    *
    * @param index the index of the card to be selected in hand (0-indexed)
    */
-  void selectCard(int index);
+  void selectCard(int index, GamePlayer player);
 
   /**
    * Places a card at the specified position on the game grid.

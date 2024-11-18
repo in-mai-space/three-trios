@@ -64,7 +64,7 @@ public class MachinePlayer implements ThreeTriosPlayer {
       int row = nextMove.getKey().getRow();
       int col = nextMove.getKey().getCol();
       Utils.transmit(log, "Player " + player + " plays card with index " + cardIndex + " to row "+ row + " and col " + col);
-      observer.selectCard(cardIndex);
+      observer.selectCard(cardIndex, player);
       observer.placeCard(row, col);
     }
   }

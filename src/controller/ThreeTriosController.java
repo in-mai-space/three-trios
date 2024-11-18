@@ -59,8 +59,13 @@ public class ThreeTriosController implements GameController {
    * @param index index of card in hand
    */
   @Override
-  public void selectCard(int index) {
-    selectedCardIndex = index;
+  public void selectCard(int index, GamePlayer player) {
+    if (player != color) {
+      view.showMessageDialogPane("Please only select cards from your hand.");
+    }
+    else {
+      selectedCardIndex = index;
+    }
   }
 
   /**
