@@ -103,13 +103,16 @@ public class ControllerToViewTest {
     GameModel model = new ThreeTriosModel(GameConfigParser.getCellTypes(gridPath),
             GameConfigParser.getCells(cardPath));
     Appendable out = new StringBuilder();
-    GameGUIView view = new MockGUIView(model, out);
+    GameGUIView redView = new MockGUIView(model, out);
+    GameGUIView blueView = new MockGUIView(model, out);
     ThreeTriosPlayer player = new MachinePlayer(model, new CornerInfallibleStrategy());
-    GameController controller = new ThreeTriosController(model, player, view, GamePlayer.RED);
+    GameController redController = new ThreeTriosController(model, player, redView, GamePlayer.RED);
+    GameController blueController = new ThreeTriosController(model,
+            new HumanPlayer(model), blueView, GamePlayer.BLUE);
     model.startGame(true);
     // controller cannot place card in (0, 0) because the machine plays in (0, 0) already
-    controller.selectCard(0, GamePlayer.RED);
-    controller.placeCard(0, 0);
+    blueController.selectCard(0, GamePlayer.BLUE);
+    blueController.placeCard(0, 0);
     assertTrue(out.toString().contains("showMessageDialogPane is called with message: " +
             "Card cannot be placed in this position\n"));
   }
@@ -280,5 +283,25 @@ public class ControllerToViewTest {
     controller.selectCard(0, GamePlayer.BLUE);
     assertTrue(out.toString().contains("showMessageDialogPane is called with message: " +
             "Please only select cards from your hand.\n"));
+  }
+
+  @Test
+  public void notAllowPlayerToSelectTheirCardWhenNotTurn() {
+    String gridPath = Utils.getFilePath("no_holes.txt", "grid");
+    String cardPath = Utils.getFilePath("big_cards.txt", "cards");
+
+    GameModel model = new ThreeTriosModel(GameConfigParser.getCellTypes(gridPath),
+            GameConfigParser.getCells(cardPath));
+    Appendable out = new StringBuilder();
+    GameGUIView viewRed = new MockGUIView(model, new StringBuilder());
+    GameGUIView viewBlue = new MockGUIView(model, out);
+    ThreeTriosPlayer playerRed = new HumanPlayer(model);
+    ThreeTriosPlayer playerBlue = new HumanPlayer(model);
+    new ThreeTriosController(model, playerRed, viewRed, GamePlayer.RED);
+    GameController blueController = new ThreeTriosController(model, playerBlue, viewBlue, GamePlayer.BLUE);
+    model.startGame(true);
+    blueController.selectCard(0, GamePlayer.BLUE);
+    assertTrue(out.toString().contains("showMessageDialogPane is called with message: " +
+            "Please wait. It's not your turn.\n"));
   }
 }
