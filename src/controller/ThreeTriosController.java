@@ -63,6 +63,9 @@ public class ThreeTriosController implements GameController {
     if (player != color) {
       view.showMessageDialogPane("Please only select cards from your hand.");
     }
+    else if (getPlayer() != model.getCurrentPlayer()) {
+      view.showMessageDialogPane("Please wait. It's not your turn.");
+    }
     else {
       selectedCardIndex = index;
     }
