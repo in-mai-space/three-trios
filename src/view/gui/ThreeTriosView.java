@@ -2,7 +2,8 @@ package view.gui;
 
 import java.awt.Dimension;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import controller.ControllerFeature;
 import model.enums.GamePlayer;

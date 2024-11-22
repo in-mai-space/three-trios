@@ -17,6 +17,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+/**
+ * Tests that the controller calls the appropriate player method using mock player.
+ */
 public class ControllerToPlayerTest {
   @Test
   public void controllerConstructorHumanPlayerAddObserverDoesNothing() {

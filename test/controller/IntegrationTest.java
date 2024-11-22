@@ -22,6 +22,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+/**
+ * Tests all components together with real model, player, controller, and mock GUI view.
+ */
 public class IntegrationTest {
   private Cell angryDragon97A2;
   private Cell heroKnight4231;
@@ -36,24 +39,24 @@ public class IntegrationTest {
   @Before
   public void setUp() {
     angryDragon97A2 = new ThreeTriosCell(new AttackValue[]{ AttackValue.NINE, AttackValue.SEVEN,
-            AttackValue.A, AttackValue.TWO}, "AngryDragon", GamePlayer.BLUE);
+        AttackValue.A, AttackValue.TWO}, "AngryDragon", GamePlayer.BLUE);
     heroKnight4231 = new ThreeTriosCell(new AttackValue[]{ AttackValue.FOUR, AttackValue.TWO,
-            AttackValue.THREE, AttackValue.ONE}, "HeroKnight", GamePlayer.BLUE);
+        AttackValue.THREE, AttackValue.ONE}, "HeroKnight", GamePlayer.BLUE);
     skyWhale4594 = new ThreeTriosCell(new AttackValue[]{ AttackValue.FOUR, AttackValue.FIVE,
-            AttackValue.NINE, AttackValue.FOUR}, "SkyWhale", GamePlayer.BLUE);
+        AttackValue.NINE, AttackValue.FOUR}, "SkyWhale", GamePlayer.BLUE);
     firePhoenix28A3 = new ThreeTriosCell(new AttackValue[]{ AttackValue.TWO, AttackValue.EIGHT,
-            AttackValue.A, AttackValue.THREE}, "FirePhoenix", GamePlayer.BLUE);
+        AttackValue.A, AttackValue.THREE}, "FirePhoenix", GamePlayer.BLUE);
 
     corruptKing6293 = new ThreeTriosCell(new AttackValue[]{ AttackValue.SIX, AttackValue.TWO,
-            AttackValue.NINE, AttackValue.THREE}, "CorruptKing", GamePlayer.RED);
+        AttackValue.NINE, AttackValue.THREE}, "CorruptKing", GamePlayer.RED);
     windBird7253 = new ThreeTriosCell(new AttackValue[]{ AttackValue.SEVEN, AttackValue.TWO,
-            AttackValue.FIVE, AttackValue.THREE}, "WindBird", GamePlayer.RED);
+        AttackValue.FIVE, AttackValue.THREE}, "WindBird", GamePlayer.RED);
     worldDragon7253 = new ThreeTriosCell(new AttackValue[]{ AttackValue.SEVEN, AttackValue.TWO,
-            AttackValue.FIVE, AttackValue.THREE}, "WorldDragon", GamePlayer.RED);
+        AttackValue.FIVE, AttackValue.THREE}, "WorldDragon", GamePlayer.RED);
     waterSeal3A74 = new ThreeTriosCell(new AttackValue[]{ AttackValue.THREE, AttackValue.A,
-            AttackValue.SEVEN, AttackValue.FOUR}, "WaterSeal", GamePlayer.RED);
+        AttackValue.SEVEN, AttackValue.FOUR}, "WaterSeal", GamePlayer.RED);
     earthLizard9166 = new ThreeTriosCell(new AttackValue[]{ AttackValue.NINE, AttackValue.ONE,
-            AttackValue.SIX, AttackValue.SIX}, "EarthLizard", GamePlayer.RED);
+        AttackValue.SIX, AttackValue.SIX}, "EarthLizard", GamePlayer.RED);
   }
 
   @Test
@@ -63,8 +66,10 @@ public class IntegrationTest {
     GameGUIView blueView = new MockGUIView(model, new StringBuilder());
     ThreeTriosPlayer redPlayer = new HumanPlayer(model);
     ThreeTriosPlayer bluePlayer = new HumanPlayer(model);
-    GameController redController = new ThreeTriosController(model, redPlayer, redView, GamePlayer.RED);
-    GameController blueController = new ThreeTriosController(model, bluePlayer, blueView, GamePlayer.BLUE);
+    GameController redController = new ThreeTriosController(model, redPlayer,
+            redView, GamePlayer.RED);
+    GameController blueController = new ThreeTriosController(model, bluePlayer,
+            blueView, GamePlayer.BLUE);
     // player Red places card in 0, 0
     redController.selectCard(0, GamePlayer.RED);
     redController.placeCard(0, 0);
@@ -95,7 +100,8 @@ public class IntegrationTest {
     GameModel model = Utils.loadModel("no_holes.txt", "big_cards.txt");
     GameGUIView redView = new MockGUIView(model, new StringBuilder());
     ThreeTriosPlayer redPlayer = new HumanPlayer(model);
-    GameController redController = new ThreeTriosController(model, redPlayer, redView, GamePlayer.RED);
+    GameController redController = new ThreeTriosController(model, redPlayer,
+            redView, GamePlayer.RED);
     // player Red attempts to place card in 0, 0 but has not selected card
     redController.placeCard(0, 0);
 
@@ -108,7 +114,8 @@ public class IntegrationTest {
     GameModel model = Utils.loadModel("no_holes.txt", "big_cards.txt");
     GameGUIView redView = new MockGUIView(model, new StringBuilder());
     ThreeTriosPlayer redPlayer = new HumanPlayer(model);
-    GameController redController = new ThreeTriosController(model, redPlayer, redView, GamePlayer.RED);
+    GameController redController = new ThreeTriosController(model, redPlayer,
+            redView, GamePlayer.RED);
     redController.selectCard(1, GamePlayer.RED);
     redController.selectCard(0, GamePlayer.RED);
     redController.placeCard(0, 0);
@@ -123,8 +130,10 @@ public class IntegrationTest {
     GameGUIView blueView = new MockGUIView(model, new StringBuilder());
     ThreeTriosPlayer redPlayer = new HumanPlayer(model);
     ThreeTriosPlayer bluePlayer = new HumanPlayer(model);
-    GameController redController = new ThreeTriosController(model, redPlayer, redView, GamePlayer.RED);
-    GameController blueController = new ThreeTriosController(model, bluePlayer, blueView, GamePlayer.BLUE);
+    GameController redController = new ThreeTriosController(model, redPlayer,
+            redView, GamePlayer.RED);
+    GameController blueController = new ThreeTriosController(model, bluePlayer,
+            blueView, GamePlayer.BLUE);
 
     assertFalse(model.gameOver());
 
@@ -176,8 +185,10 @@ public class IntegrationTest {
     GameGUIView blueView = new MockGUIView(model, new StringBuilder());
     ThreeTriosPlayer redPlayer = new HumanPlayer(model);
     ThreeTriosPlayer bluePlayer = new HumanPlayer(model);
-    GameController redController = new ThreeTriosController(model, redPlayer, redView, GamePlayer.RED);
-    GameController blueController = new ThreeTriosController(model, bluePlayer, blueView, GamePlayer.BLUE);
+    GameController redController = new ThreeTriosController(model, redPlayer,
+            redView, GamePlayer.RED);
+    GameController blueController = new ThreeTriosController(model, bluePlayer,
+            blueView, GamePlayer.BLUE);
 
     for (int row = 0; row < 3; row++) {
       for (int col = 0; col < 3; col++) {
@@ -203,8 +214,10 @@ public class IntegrationTest {
     Appendable out = new StringBuilder();
     ThreeTriosPlayer redPlayer = new MachinePlayer(model, new FlipCardsInfallibleStrategy(), out);
     ThreeTriosPlayer bluePlayer = new MachinePlayer(model, new CornerInfallibleStrategy(), out);
-    GameController redController = new ThreeTriosController(model, redPlayer, redView, GamePlayer.RED);
-    GameController blueController = new ThreeTriosController(model, bluePlayer, blueView, GamePlayer.BLUE);
+    GameController redController = new ThreeTriosController(model, redPlayer,
+            redView, GamePlayer.RED);
+    GameController blueController = new ThreeTriosController(model, bluePlayer,
+            blueView, GamePlayer.BLUE);
     model.startGame(false);
 
     // assert that when the model starts, it does notify controller and controller passes
@@ -233,8 +246,10 @@ public class IntegrationTest {
     Appendable out = new StringBuilder();
     ThreeTriosPlayer redPlayer = new HumanPlayer(model);
     ThreeTriosPlayer bluePlayer = new MachinePlayer(model, new FlipCardsInfallibleStrategy(), out);
-    GameController redController = new ThreeTriosController(model, redPlayer, redView, GamePlayer.RED);
-    GameController blueController = new ThreeTriosController(model, bluePlayer, blueView, GamePlayer.BLUE);
+    GameController redController = new ThreeTriosController(model, redPlayer,
+            redView, GamePlayer.RED);
+    GameController blueController = new ThreeTriosController(model, bluePlayer,
+            blueView, GamePlayer.BLUE);
     model.startGame(false);
 
     // machine did not play since it's the human player's turn first
@@ -289,7 +304,8 @@ public class IntegrationTest {
     GameModel model = Utils.loadModelNotStarted("complex_grid.txt", "big_cards.txt");
     GameGUIView redView = new MockGUIView(model, new StringBuilder());
     ThreeTriosPlayer redPlayer = new HumanPlayer(model);
-    GameController redController = new ThreeTriosController(model, redPlayer, redView, GamePlayer.RED);
+    GameController redController = new ThreeTriosController(model, redPlayer,
+            redView, GamePlayer.RED);
 
     model.startGame(false);
 

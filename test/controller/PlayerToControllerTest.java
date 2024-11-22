@@ -19,6 +19,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+/**
+ * Tests that the player calls the appropriate controller method using mock controller.
+ */
 public class PlayerToControllerTest {
   @Test
   public void testHumanPlayerAddObserver() {
@@ -105,8 +108,10 @@ public class PlayerToControllerTest {
     GameGUIView blueView = new MockGUIView(model, new StringBuilder());
     ThreeTriosPlayer redPlayer = new MachinePlayer(model, new CornerInfallibleStrategy());
     ThreeTriosPlayer bluePlayer = new MachinePlayer(model, new CornerInfallibleStrategy());
-    GameController redController = new MockController(model, redPlayer, redView, GamePlayer.RED, out);
-    GameController blueController = new MockController(model, bluePlayer, blueView, GamePlayer.BLUE, out);
+    GameController redController = new MockController(model, redPlayer,
+            redView, GamePlayer.RED, out);
+    GameController blueController = new MockController(model, bluePlayer,
+            blueView, GamePlayer.BLUE, out);
     model.startGame(false); // calls controller.gameStart() and controller.notifyPlayerTurn()
     assertEquals(model.getCurrentPlayer(), GamePlayer.RED);
     bluePlayer.addObserver(blueController); // calls observer.getPlayer
@@ -129,8 +134,10 @@ public class PlayerToControllerTest {
     GameGUIView blueView = new MockGUIView(model, new StringBuilder());
     ThreeTriosPlayer redPlayer = new MachinePlayer(model, new UpperLeftInfallibleStrategy());
     ThreeTriosPlayer bluePlayer = new MachinePlayer(model, new UpperLeftInfallibleStrategy());
-    GameController redController = new MockController(model, redPlayer, redView, GamePlayer.RED, out);
-    GameController blueController = new MockController(model, bluePlayer, blueView, GamePlayer.BLUE, out);
+    GameController redController = new MockController(model, redPlayer,
+            redView, GamePlayer.RED, out);
+    GameController blueController = new MockController(model, bluePlayer,
+            blueView, GamePlayer.BLUE, out);
     model.startGame(false); // calls controller.gameStart() and controller.notifyPlayerTurn()
     redPlayer.addObserver(redController); // calls observer.getPlayer
     bluePlayer.addObserver(blueController); // calls observer.getPlayer

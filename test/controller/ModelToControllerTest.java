@@ -4,18 +4,18 @@ import org.junit.Test;
 
 import controller.mocks.MockController;
 import controller.mocks.MockGUIView;
-import controller.mocks.MockModel;
 import model.Utils;
 import model.enums.GamePlayer;
 import model.interfaces.GameModel;
 import player.HumanPlayer;
-import player.MachinePlayer;
 import player.ThreeTriosPlayer;
-import strategy.infallible.FlipCardsInfallibleStrategy;
 import view.gui.GameGUIView;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Tests that the model calls the appropriate controller method using mock controller.
+ */
 public class ModelToControllerTest {
 
   @Test

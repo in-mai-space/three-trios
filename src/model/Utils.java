@@ -57,6 +57,11 @@ public class Utils {
     return new ThreeTriosModel(cellTypes, cells);
   }
 
+  /**
+   * Passes a message onto the appendable.
+   * @param log appendable
+   * @param message message in a string
+   */
   public static void transmit(Appendable log, String message) {
     try {
       log.append(message).append("\n");

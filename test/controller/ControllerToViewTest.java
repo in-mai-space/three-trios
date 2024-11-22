@@ -19,6 +19,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+/**
+ * Tests that the controller calls the appropriate view method using mock view.
+ */
 public class ControllerToViewTest {
   @Test
   public void controllerPlaceCardWhenCardNotSelected() {
@@ -238,8 +241,10 @@ public class ControllerToViewTest {
     GameGUIView viewBlue = new MockGUIView(model, outBlue);
     ThreeTriosPlayer playerRed = new HumanPlayer(model);
     ThreeTriosPlayer playerBlue = new HumanPlayer(model);
-    GameController redController = new ThreeTriosController(model, playerRed, viewRed, GamePlayer.RED);
-    GameController blueController = new ThreeTriosController(model, playerBlue, viewBlue, GamePlayer.BLUE);
+    GameController redController = new ThreeTriosController(model, playerRed,
+            viewRed, GamePlayer.RED);
+    GameController blueController = new ThreeTriosController(model, playerBlue,
+            viewBlue, GamePlayer.BLUE);
     redController.notifyPlayerTurn(GamePlayer.BLUE);
     blueController.notifyPlayerTurn(GamePlayer.BLUE);
     // the player is RED, and it's BLUE turn so it's not going to show message
@@ -298,7 +303,8 @@ public class ControllerToViewTest {
     ThreeTriosPlayer playerRed = new HumanPlayer(model);
     ThreeTriosPlayer playerBlue = new HumanPlayer(model);
     new ThreeTriosController(model, playerRed, viewRed, GamePlayer.RED);
-    GameController blueController = new ThreeTriosController(model, playerBlue, viewBlue, GamePlayer.BLUE);
+    GameController blueController = new ThreeTriosController(model, playerBlue,
+            viewBlue, GamePlayer.BLUE);
     model.startGame(true);
     blueController.selectCard(0, GamePlayer.BLUE);
     assertTrue(out.toString().contains("showMessageDialogPane is called with message: " +

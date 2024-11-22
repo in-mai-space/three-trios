@@ -2,13 +2,9 @@ package controller;
 
 import org.junit.Test;
 
-import java.util.Optional;
-
 import controller.mocks.MockGUIView;
 import controller.mocks.MockModel;
-import model.Utils;
 import model.enums.GamePlayer;
-import model.implementation.ThreeTriosModel;
 import model.interfaces.GameModel;
 import player.HumanPlayer;
 import player.ThreeTriosPlayer;
@@ -16,6 +12,9 @@ import view.gui.GameGUIView;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * Tests that the controller calls the appropriate model method using mock model.
+ */
 public class ControllerToModelTest {
 
   @Test
@@ -27,8 +26,8 @@ public class ControllerToModelTest {
     new ThreeTriosController(model, player, view, GamePlayer.RED);
     model.startGame(false);
     // when controller is constructed, it adds itself as the observer
-    assertEquals(out.toString(), "Model adds controller as observer\n" +
-            "Model starts game\n");
+    assertEquals(out.toString(), "Model adds controller as observer\n"
+            + "Model starts game\n");
   }
 
   @Test
@@ -42,9 +41,9 @@ public class ControllerToModelTest {
     controller.selectCard(0, GamePlayer.RED);
     controller.placeCard(0, 0);
     // when controller is constructed, it adds itself as the observer
-    assertEquals(out.toString(), "Model adds controller as observer\n" +
-            "Model starts game\n" +
-            "Check if game is over\n" +
-            "Place card with index 0 into row 0 and col 0\n");
+    assertEquals(out.toString(), "Model adds controller as observer\n"
+            + "Model starts game\n"
+            + "Check if game is over\n"
+            + "Place card with index 0 into row 0 and col 0\n");
   }
 }

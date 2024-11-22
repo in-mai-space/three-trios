@@ -30,7 +30,8 @@ class ThreeTriosHandPanel extends JPanel implements GamePanel {
   /**
    * Construct a new instance of player's hand.
    */
-  public ThreeTriosHandPanel(ReadOnlyGameModel model, GamePlayer playerHand, GamePlayer playerInWindow) {
+  public ThreeTriosHandPanel(ReadOnlyGameModel model, GamePlayer playerHand,
+                             GamePlayer playerInWindow) {
     if (model == null) {
       throw new IllegalArgumentException("Hand or current player cannot be null");
     }
