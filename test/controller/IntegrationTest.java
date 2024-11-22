@@ -72,6 +72,7 @@ public class IntegrationTest {
     // red tries to play again when it's not their turn, nothing happens
     redController.selectCard(0, GamePlayer.RED);
     redController.placeCard(0, 1);
+    assertNull(model.getGrid()[0][1]);
 
     // player Blue tries to play card in 0, 0 again, not error is thrown since it's handled by view
     blueController.selectCard(0, GamePlayer.BLUE);
