@@ -194,7 +194,7 @@ This cycle keeps repeating until game is over.
 - If a human player did not select a card from their hand and select a cell in grid right away, the controller is going to relay error message to view to notify player
 - If a human player did select a card but click on a cell that cannot place, the controller is going to also relay that error to view to notify player
 - If a human player keeps clicking the grid even after game is over, the controller will tell view to notify player that game is over
-- If a player 
+- If a player selects card, and then they click on a cell that cannot place a card, the card will be unselected, and they have to select card
 
 ## Source Organization
 
