@@ -27,7 +27,6 @@ public class IntegrationTest {
   private Cell heroKnight4231;
   private Cell skyWhale4594;
   private Cell firePhoenix28A3;
-  private Cell evilQueen1A45;
   private Cell corruptKing6293;
   private Cell windBird7253;
   private Cell worldDragon7253;
@@ -44,8 +43,6 @@ public class IntegrationTest {
             AttackValue.NINE, AttackValue.FOUR}, "SkyWhale", GamePlayer.BLUE);
     firePhoenix28A3 = new ThreeTriosCell(new AttackValue[]{ AttackValue.TWO, AttackValue.EIGHT,
             AttackValue.A, AttackValue.THREE}, "FirePhoenix", GamePlayer.BLUE);
-    evilQueen1A45 = new ThreeTriosCell(new AttackValue[]{ AttackValue.ONE, AttackValue.A,
-            AttackValue.FOUR, AttackValue.FIVE}, "EvilQueen", GamePlayer.BLUE);
 
     corruptKing6293 = new ThreeTriosCell(new AttackValue[]{ AttackValue.SIX, AttackValue.TWO,
             AttackValue.NINE, AttackValue.THREE}, "CorruptKing", GamePlayer.RED);
