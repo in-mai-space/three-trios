@@ -5,8 +5,6 @@ import org.junit.runners.Suite;
 
 import strategy.CornerStrategyTest;
 import strategy.FlipCardsStrategyTest;
-import strategy.MoveTest;
-import strategy.PairTest;
 import strategy.UpperLeftStrategyTest;
 
 /**
@@ -19,9 +17,7 @@ import strategy.UpperLeftStrategyTest;
 @Suite.SuiteClasses({
         UpperLeftStrategyTest.class,
         FlipCardsStrategyTest.class,
-        CornerStrategyTest.class,
-        MoveTest.class,
-        PairTest.class
+        CornerStrategyTest.class
 })
 public class StrategyTestSuite {
 }

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import controller.ControllerFeature;
 import model.enums.CellType;
 import model.enums.GamePlayer;
 import model.implementation.ThreeTriosGridManager;
@@ -290,5 +291,15 @@ abstract class AbstractMockModel implements GameModel {
   @Override
   public int getHandSize(GamePlayer player) {
     return 0;
+  }
+
+  /**
+   * Registers a controller as an observer to this model, allowing it to receive updates.
+   *
+   * @param observer The controller to be added as an observer
+   * @throws IllegalArgumentException if controller is null
+   */
+  public void addObserver(ControllerFeature controller) {
+    // mock model does nothing
   }
 }

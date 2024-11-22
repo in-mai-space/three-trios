@@ -1,17 +1,9 @@
 package controller;
 
-import view.gui.GameGUIView;
-
 /**
- * Represent a simple controller interface for the game.
+ * Represents the interface for the game controller.
  */
-public interface GameController extends Feature {
-
-  /**
-   * Set the view of the game.
-   *
-   * @param view GUI view
-   * @throws IllegalArgumentException if view is null
-   */
-  void setView(GameGUIView view);
+public interface GameController extends ControllerFeature {
+  // any additional methods that observable does not need and only for controller
+  // more methods can be added later in the future if necessary
 }

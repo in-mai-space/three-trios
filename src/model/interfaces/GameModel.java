@@ -5,7 +5,7 @@ import model.enums.GamePlayer;
 /**
  * Represents a model for the game.
  */
-public interface GameModel extends ReadOnlyGameModel {
+public interface GameModel extends ReadOnlyGameModel, ModelFeature {
 
   /**
    * Initializes the game by distributing cards and shuffling cards.
@@ -27,14 +27,6 @@ public interface GameModel extends ReadOnlyGameModel {
    * @throws IllegalStateException if the game is not started or is over
    */
   void placeCard(int index, int row, int col);
-
-  /**
-   * Checks if the game is over.
-   *
-   * @return True if the game is over, otherwise false
-   * @throws IllegalStateException if game is not started or is over
-   */
-  boolean gameOver();
 
   /**
    * Gets the size of the specified player's hand.

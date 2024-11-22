@@ -144,15 +144,67 @@ the view is in the assets folder under the root of the project.
 - **Main Class**: Entry point to run the application.
 
 
+## Part 3
+Part 3 connects all the components together using the Observer pattern. Controller is the observer, and it listens
+to the model, the view (if the player is HumanPlayer), and the player. When the game start in model, model notifies
+controller, and controller will tell either the view to notify human player to choose card to play or notify machine
+player to choose card based on strategy. When machine chooses a move, it notifies the controller and controller will
+call model methods. If a player is human, the view will notify controller, and controller relays that to the model. 
+This cycle keeps repeating until game is over.
+
+```
++------------------+                                             +------------------+
+|      View 1      |                                             |      View 2      |
+|                  |                                             |                  |
++------------------+                                             +------------------+
+         ^                                                                ^
+         |      only listen to view if the player is HumanPlayer          |
+         v                                                                v
++------------------+                 +--------------+            +------------------+
+|   Controller 1   |<--------------> |    Model     |<---------->|   Controller 2   |
+|                  |                 |              |            |                  |
++------------------+                 +--------------+            +------------------+
+         ^                                                                ^
+         |                                                                |
+         v                                                                v
++------------------+                                             +------------------+
+|     Player 1     |                                             |     Player 2     |
+|                  |                                             |                  |
++------------------+                                             +------------------+
+```
+
+### Controller
+- Add methods to ControllerFeature interface (selectCard, playCard, gameStart, announceGameOver, notifyPlayerTurn, getPlayer), which enables the controller to coordinate between different observable when there is an event
+- GameController interface extends ControllerFeature, this interface right now does not have any methods, but more methods can be added later if controller wants to provide more methods for clients but does not need to expose these methods to observable objects
+- The controller will tell the view to notify the player if and only if player is human
+
+### Player
+- ThreeTriosPlayer interface: represent methods that player needs to play game, which is addObserver and playCard
+- HumanPlayer class: this is a dummy class, so it does not contain any real implementation, but it will work as an abstraction for player
+- MachinePlayer class: this class will add the controller as its observer and choose move based on the strategy given
+
+### Model
+- ModelFeature interface with addObserver method: GameModel interface will now extends additional ModelFeature interface, which allows model to add multiple controllers as the observer so that it can notify these observers when the event happens. We represent the observers as a Set to maintain uniqueness.
+- The model will notify the observers when game start, as well as when a card is placed successfully or game is over with private methods onTurnChange and onGameOver
+
+### View (view photos are in assets folder)
+- We modify the subpanels of the view to take in the ReadOnlyGameModel so it can be revalidated when the model changes
+- We choose to render the view differently depending on which player Red or Blue it is, so the view has an extra methods called setPlayer
+- We also gray out the opponent's player hand, so if a player tries click on opponent's player hand, nothing will happen, since they can only select card from their hand
+- If a human player did not select a card from their hand and select a cell in grid right away, the controller is going to relay error message to view to notify player
+- If a human player did select a card but click on a cell that cannot place, the controller is going to also relay that error to view to notify player
+- If a human player keeps clicking the grid even after game is over, the controller will tell view to notify player that game is over
+- If a player selects card, and then they click on a cell that cannot place a card, the card will be unselected, and they have to select card
+
 ## Source Organization
 
 ```plaintext
-├── assets
-│   ├── Card from Blue.png
-│   ├── Card from Red.png
-│   ├── Game In Progress.png
-│   └── Initial State.png
-├── config
+├── assets: photos of view
+│   ├── Game Over.png
+│   ├── In Progress.png
+│   ├── Player Blue turn.png
+│   └── Player Red turn.png
+├── config: configuration for games
 │   ├── cards
 │   │   ├── big_cards.txt
 │   │   ├── big_grid_cards.txt
@@ -177,7 +229,7 @@ the view is in the assets folder under the root of the project.
 ├── src
 │   ├── Main.java
 │   ├── controller
-│   │   ├── Feature.java
+│   │   ├── ControllerFeature.java
 │   │   ├── GameConfigParser.java
 │   │   ├── GameController.java
 │   │   └── ThreeTriosController.java
@@ -200,6 +252,7 @@ the view is in the assets folder under the root of the project.
 │   │       ├── Card.java
 │   │       ├── Cell.java
 │   │       ├── GameModel.java
+│   │       ├── ModelFeature.java
 │   │       ├── Grid.java
 │   │       ├── GridManager.java
 │   │       ├── Hand.java
@@ -232,13 +285,20 @@ the view is in the assets folder under the root of the project.
 │           └── GameViewConfig.java
 ├── test
 │   ├── controller
-|   │   ├── ThreeTriosControllerTest.java
+│   │   ├── mocks
+│   │   │   ├── MockController.java
+│   │   │   ├── MockGUIView.java
+│   │   │   ├── MockHumanPlayer.java
+│   │   │   ├── MockMachinePlayer.java
+│   │   │   └── MockModel.java
+│   │   ├── ControllerToModelTest.java
+│   │   ├── ModelToControllerTest.java
+│   │   ├── ControllerToViewTest.java
+│   │   ├── ControllerToPlayerTest.java
+│   │   ├── PlayerToControllerTest.java
+│   │   ├── IntegrationTest.java
 │   │   └── GameConfigParserTest.java
 │   ├── model
-│   │   ├── UtilsTest.java
-│   │   ├── enums
-│   │   │   ├── AttackValueTest.java
-│   │   │   └── GamePlayerTest.java
 │   │   └── implementation
 │   │       ├── ThreeTriosCellTest.java
 │   │       ├── ThreeTriosGridManagerTest.java
@@ -248,19 +308,15 @@ the view is in the assets folder under the root of the project.
 │   ├── strategy
 │   │   ├── CornerStrategyTest.java
 │   │   ├── FlipCardsStrategyTest.java
-│   │   ├── MoveTest.java
-│   │   ├── PairTest.java
 │   │   ├── UpperLeftStrategyTest.java
 │   │   └── mocks
 │   │       ├── AbstractMockModel.java
 │   │       ├── FlipManyCardsMockModel.java
 │   │       ├── GoToCornerMockModel.java
 │   │       └── NoMoveFoundMockModel.java
-│   ├── suites
+│   ├── suites: to run multiple test classes at the same time
 │   │   ├── AllTestsSuite.java
+│   │   ├── ControllerTestSuite.java
 │   │   ├── ModelTestSuite.java
-│   │   ├── StrategyTestSuite.java
-│   │   └── ViewTestSuite.java
-│   └── view
-│       └── ThreeTriosTextViewTest.java
+│   │   └── StrategyTestSuite.java
 ```

@@ -3,11 +3,8 @@ package suites;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
-import model.UtilsTest;
-import controller.GameConfigParserTest;
 import model.implementation.ThreeTriosModelTest;
 import model.implementation.ThreeTriosCellTest;
-import model.enums.AttackValueTest;
 import model.implementation.ThreeTriosGridTest;
 import model.implementation.ThreeTriosHandTest;
 import model.implementation.ThreeTriosGridManagerTest;
@@ -21,13 +18,10 @@ import model.implementation.ThreeTriosGridManagerTest;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         ThreeTriosCellTest.class,
-        AttackValueTest.class,
         ThreeTriosHandTest.class,
         ThreeTriosGridTest.class,
-        GameConfigParserTest.class,
         ThreeTriosGridManagerTest.class,
         ThreeTriosModelTest.class,
-        UtilsTest.class
 })
 public class ModelTestSuite {
 }

@@ -9,17 +9,19 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+import controller.ControllerFeature;
 import model.interfaces.Cell;
 import model.enums.CellType;
 import model.interfaces.GameModel;
 import model.enums.GamePlayer;
 import model.interfaces.GridManager;
 import model.interfaces.Hand;
+import model.interfaces.ModelFeature;
 
 /**
  * Represents ThreeTriosModel for the ThreeTriosGame.
  */
-public class ThreeTriosModel implements GameModel {
+public class ThreeTriosModel implements GameModel, ModelFeature {
   private final GamePlayer[] players; // array because list of players is fixed throughout game
   // INVARIANT: there are always 2 players
   // - logical statement
@@ -34,10 +36,11 @@ public class ThreeTriosModel implements GameModel {
   private boolean gameStarted;
   private final List<Cell> allCells;
   private final int numCells;
+  private final Set<ControllerFeature> observers;
 
   /**
    * Creates a new instance of {@code ThreeTriosModel} using the provided grid layout
-   * and list of cards. This constructor is used for testing purposes.
+   * and list of cards.
    *
    * @param cellTypes a 2D array representing the grid layout of the game board
    * @param allCells a list of {@code Card} objects representing the card database
@@ -62,6 +65,63 @@ public class ThreeTriosModel implements GameModel {
     this.players = new GamePlayer[]{ GamePlayer.RED, GamePlayer.BLUE };
     this.currentPlayerIndex = 0;
     this.allCells = allCells;
+    this.observers = new HashSet<>();
+  }
+
+  /**
+   * Creates a new instance of {@code ThreeTriosModel} using the provided grid layout
+   * and list of cards. This constructor is used for testing purposes.
+   *
+   * @param cellTypes a 2D array representing the grid layout of the game board
+   * @param allCells a list of {@code Card} objects representing the card database
+   *
+   * @throws IllegalArgumentException if cellTypes or allCards is null
+   * @throws IllegalArgumentException if cellTypes is empty or has a length of 0
+   * @throws IllegalArgumentException if the number of non-hole cells is even
+   * @throws IllegalArgumentException if cards in the allCards list are not unique
+   * @throws IllegalArgumentException if a row in the grid is null or contains a null cell type
+   * @throws IllegalArgumentException if the number of cards is not at least the number of non-hole
+   *                                  cells + 1
+   */
+  public ThreeTriosModel(CellType[][] cellTypes, List<Cell> allCells, Appendable log) {
+    validateModelArgs(cellTypes, allCells);
+    GridManager manager = new ThreeTriosGridManager(cellTypes);
+    if (allCells.size() < manager.numberOfCells() + 1) {
+      throw new IllegalArgumentException("There must be at least " + (manager.numberOfCells() + 1)
+              + " cards available.");
+    }
+    this.numCells = manager.numberOfCells();
+    this.ruleKeeper = manager;
+    this.players = new GamePlayer[]{ GamePlayer.RED, GamePlayer.BLUE };
+    this.currentPlayerIndex = 0;
+    this.allCells = allCells;
+    this.observers = new HashSet<>();
+  }
+
+  /**
+   * Registers a controller as an observer to this model, allowing it to receive updates.
+   *
+   * @param observer The controller to be added as an observer
+   * @throws IllegalArgumentException if controller is null
+   */
+  @Override
+  public void addObserver(ControllerFeature observer) {
+    if (observer == null) {
+      throw new IllegalArgumentException("Observer cannot be null");
+    }
+    observers.add(observer);
+  }
+
+  private void onTurnChange(GamePlayer player) {
+    for (ControllerFeature observer : observers) {
+      observer.notifyPlayerTurn(player);
+    }
+  }
+
+  private void onGameOver(Optional<GamePlayer> winner, int score) {
+    for (ControllerFeature observer : observers) {
+      observer.announceGameOver(winner, score);
+    }
   }
 
   /**
@@ -97,6 +157,10 @@ public class ThreeTriosModel implements GameModel {
     }
     distributeCards();
     this.gameStarted = true;
+    for (ControllerFeature observer : observers) {
+      observer.gameStart();
+      observer.notifyPlayerTurn(getCurrentPlayer());
+    }
   }
 
   /**
@@ -170,11 +234,31 @@ public class ThreeTriosModel implements GameModel {
    */
   public void placeCard(int index, int row, int col) {
     validateGameNotStartOrOver();
-    Hand currentPlayerHand = playerHands.get(players[currentPlayerIndex]);
-    Cell cell = currentPlayerHand.removeCard(index);
-    ruleKeeper.placeCard(cell, row, col);
-    ruleKeeper.executeBattle(row, col);
-    nextPlayer();
+    if (canPlaceCard(row, col)) {
+      Hand currentPlayerHand = playerHands.get(players[currentPlayerIndex]);
+      Cell cell = currentPlayerHand.removeCard(index);
+      ruleKeeper.placeCard(cell, row, col);
+      ruleKeeper.executeBattle(row, col);
+      updateGameState();
+    }
+    else {
+      throw new IllegalStateException("Card cannot be placed in this position");
+    }
+  }
+
+  /**
+   * Check if game is over to check to notify players.
+   */
+  private void updateGameState() {
+    if (gameOver()) {
+      onGameOver(getWinner(), getWinner().isEmpty()
+              ? getScore(getCurrentPlayer())
+              : getScore(getWinner().get()));
+    }
+    else {
+      nextPlayer();
+      onTurnChange(getCurrentPlayer());
+    }
   }
 
   /**

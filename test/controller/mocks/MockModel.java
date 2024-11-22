@@ -1,33 +1,77 @@
-package model.implementation;
+package controller.mocks;
 
 import java.util.List;
 import java.util.Optional;
 
+import controller.ControllerFeature;
+import model.Utils;
 import model.enums.CellType;
 import model.enums.GamePlayer;
 import model.interfaces.Cell;
 import model.interfaces.GameModel;
-import model.interfaces.ReadOnlyGameModel;
 
 /**
- * Represents the adapter for GameModel. This utilizes object adapter, which adapts the GameModel
- * into a ReadOnlyGameModel to prevent the view from mutating the game model or casting it to
- * access mutation methods.
+ * Represents MockModel for controller unit test.
  */
-public class ThreeTriosViewModel implements ReadOnlyGameModel {
-  private final GameModel adaptee;
+public class MockModel implements GameModel {
+  private final Appendable log;
 
   /**
-   * Construct a new instance of ReadOnlyGameModel.
-   *
-   * @param adaptee the GameModel to adapt to ReadOnlyGameModel
-   * @throws IllegalArgumentException if the model is null
+   * Construct a new mock model with an appendable.
+   * @param log appendable to print out messages
    */
-  public ThreeTriosViewModel(GameModel adaptee) {
-    if (adaptee == null) {
-      throw new IllegalArgumentException("Model cannot be null");
-    }
-    this.adaptee = adaptee;
+  public MockModel(Appendable log) {
+    this.log = log;
+  }
+
+  /**
+   * Initializes the game by distributing cards and shuffling cards.
+   *
+   * @param shuffle true if want to shuffle this list of cards, false otherwise
+   * @throws IllegalStateException if game is already in progress
+   */
+  @Override
+  public void startGame(boolean shuffle) {
+    Utils.transmit(log, "Model starts game");
+  }
+
+  /**
+   * Places a card at the specified position on the grid.
+   *
+   * @param index The index of the card in the player's hand (0-indexed)
+   * @param row   The row to place the card (0-indexed)
+   * @param col   The column to place the card (0-indexed)
+   * @throws IllegalArgumentException if index, row, or col out of bound
+   * @throws IllegalStateException    if cannot place a card because cell is a hole or is non-empty
+   * @throws IllegalStateException    if the game is not started or is over
+   */
+  @Override
+  public void placeCard(int index, int row, int col) {
+    Utils.transmit(log, "Place card with index " + index + " into row " + row +
+            " and col " + col);
+  }
+
+  /**
+   * Gets the size of the specified player's hand.
+   *
+   * @param player The player whose hand size is to be retrieved
+   * @return The size of the player's hand
+   * @throws IllegalStateException if game is not started or is over
+   */
+  @Override
+  public int getHandSize(GamePlayer player) {
+    return 0;
+  }
+
+  /**
+   * Registers a controller as an observer to this model, allowing it to receive updates.
+   *
+   * @param observer The controller to be added as an observer
+   * @throws IllegalArgumentException if controller is null
+   */
+  @Override
+  public void addObserver(ControllerFeature observer) {
+    Utils.transmit(log, "Model adds controller as observer");
   }
 
   /**
@@ -38,7 +82,7 @@ public class ThreeTriosViewModel implements ReadOnlyGameModel {
    */
   @Override
   public GamePlayer getCurrentPlayer() {
-    return adaptee.getCurrentPlayer();
+    return GamePlayer.RED;
   }
 
   /**
@@ -50,7 +94,7 @@ public class ThreeTriosViewModel implements ReadOnlyGameModel {
    */
   @Override
   public Cell[][] getGrid() {
-    return adaptee.getGrid();
+    return new Cell[0][];
   }
 
   /**
@@ -62,7 +106,7 @@ public class ThreeTriosViewModel implements ReadOnlyGameModel {
    */
   @Override
   public boolean canPlaceCard(int row, int col) {
-    return adaptee.canPlaceCard(row, col);
+    return false;
   }
 
   /**
@@ -74,7 +118,7 @@ public class ThreeTriosViewModel implements ReadOnlyGameModel {
    */
   @Override
   public CellType[][] getCellTypes() {
-    return adaptee.getCellTypes();
+    return new CellType[0][];
   }
 
   /**
@@ -86,7 +130,7 @@ public class ThreeTriosViewModel implements ReadOnlyGameModel {
    */
   @Override
   public List<Cell> getCurrentPlayerHand() {
-    return adaptee.getCurrentPlayerHand();
+    return null;
   }
 
   /**
@@ -99,7 +143,7 @@ public class ThreeTriosViewModel implements ReadOnlyGameModel {
    */
   @Override
   public Optional<GamePlayer> getWinner() {
-    return adaptee.getWinner();
+    return Optional.empty();
   }
 
   /**
@@ -110,7 +154,7 @@ public class ThreeTriosViewModel implements ReadOnlyGameModel {
    */
   @Override
   public int getGridWidth() {
-    return adaptee.getGridWidth();
+    return 0;
   }
 
   /**
@@ -121,26 +165,26 @@ public class ThreeTriosViewModel implements ReadOnlyGameModel {
    */
   @Override
   public int getGridHeight() {
-    return adaptee.getGridHeight();
+    return 0;
   }
 
   /**
    * Get the score of a player.
    *
-   * @param player a player in the game (one of Red and Blue)
+   * @param player player Red or Blue
    * @return the number of cards owned in grid and hand of a player
    * @throws IllegalStateException if the game is not started
    */
   @Override
   public int getScore(GamePlayer player) {
-    return adaptee.getScore(player);
+    return 0;
   }
 
   /**
    * Get card at a position in grid.
    *
-   * @param row row index (0-indexed)
-   * @param col col index (0-indexed)
+   * @param row row index
+   * @param col col index
    * @return the card at a row and position in grid
    * @throws IllegalArgumentException if index is out of bound
    * @throws IllegalStateException    if there is no card at that position
@@ -148,14 +192,14 @@ public class ThreeTriosViewModel implements ReadOnlyGameModel {
    */
   @Override
   public Cell getCardAt(int row, int col) {
-    return adaptee.getCardAt(row, col);
+    return null;
   }
 
   /**
    * Get the owner of a card given row index and column index (0-based).
    *
-   * @param row row index (0-indexed)
-   * @param col column index (0-indexed)
+   * @param row row index
+   * @param col column index
    * @return the player that owns the card at specific location on grid
    * @throws IllegalStateException    if there is no card at the location
    * @throws IllegalArgumentException if index is out of bound
@@ -163,7 +207,7 @@ public class ThreeTriosViewModel implements ReadOnlyGameModel {
    */
   @Override
   public GamePlayer getOwnerAt(int row, int col) {
-    return adaptee.getOwnerAt(row, col);
+    return null;
   }
 
   /**
@@ -177,7 +221,7 @@ public class ThreeTriosViewModel implements ReadOnlyGameModel {
    */
   @Override
   public List<Cell> getHand(GamePlayer player) {
-    return adaptee.getHand(player);
+    return null;
   }
 
   /**
@@ -194,7 +238,7 @@ public class ThreeTriosViewModel implements ReadOnlyGameModel {
    */
   @Override
   public int countCardFlip(Cell cell, int row, int col) {
-    return adaptee.countCardFlip(cell, row, col);
+    return 0;
   }
 
   /**
@@ -205,6 +249,7 @@ public class ThreeTriosViewModel implements ReadOnlyGameModel {
    */
   @Override
   public boolean gameOver() {
-    return adaptee.gameOver();
+    Utils.transmit(log, "Check if game is over");
+    return false;
   }
 }

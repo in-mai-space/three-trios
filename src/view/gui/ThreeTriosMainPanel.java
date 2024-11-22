@@ -3,7 +3,7 @@ package view.gui;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
 
-import controller.Feature;
+import controller.ControllerFeature;
 import model.enums.GamePlayer;
 import model.interfaces.ReadOnlyGameModel;
 
@@ -22,14 +22,14 @@ class ThreeTriosMainPanel extends JPanel implements GamePanel {
    * @param model read only version of the model that contains only observational methods
    * @throws IllegalArgumentException if model is null
    */
-  public ThreeTriosMainPanel(ReadOnlyGameModel model) {
+  public ThreeTriosMainPanel(ReadOnlyGameModel model, GamePlayer player) {
     if (model == null) {
       throw new IllegalArgumentException("Model cannot be null");
     }
     setLayout(new BorderLayout(10, 0));
-    gridPanel = new ThreeTriosGridPanel(model.getCellTypes(), model.getGrid());
-    blueHand = new ThreeTriosHandPanel(model.getHand(GamePlayer.BLUE), model.getCurrentPlayer());
-    redHand = new ThreeTriosHandPanel(model.getHand(GamePlayer.RED), model.getCurrentPlayer());
+    gridPanel = new ThreeTriosGridPanel(model);
+    blueHand = new ThreeTriosHandPanel(model, GamePlayer.BLUE, player);
+    redHand = new ThreeTriosHandPanel(model, GamePlayer.RED, player);
     setUpSubPanels();
   }
 
@@ -46,13 +46,13 @@ class ThreeTriosMainPanel extends JPanel implements GamePanel {
    * @throws IllegalArgumentException if features is null
    */
   @Override
-  public void addFeatures(Feature features) {
+  public void addObserver(ControllerFeature features) {
     if (features == null) {
-      throw new IllegalArgumentException("Features cannot be null");
+      throw new IllegalArgumentException("Observer cannot be null");
     }
-    gridPanel.addFeatures(features);
-    blueHand.addFeatures(features);
-    redHand.addFeatures(features);
+    gridPanel.addObserver(features);
+    blueHand.addObserver(features);
+    redHand.addObserver(features);
   }
 
   /**
@@ -63,6 +63,7 @@ class ThreeTriosMainPanel extends JPanel implements GamePanel {
     blueHand.refresh();
     redHand.refresh();
     gridPanel.refresh();
+    revalidate();
     repaint();
   }
 }

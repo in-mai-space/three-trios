@@ -8,45 +8,38 @@ import java.awt.AlphaComposite;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
-import java.util.List;
 
 import javax.swing.JPanel;
 
-import controller.Feature;
+import controller.ControllerFeature;
 import model.enums.GamePlayer;
 import model.interfaces.Cell;
+import model.interfaces.ReadOnlyGameModel;
 
 /**
  * Represent player's hand with cards in the game.
  */
 class ThreeTriosHandPanel extends JPanel implements GamePanel {
-  private final List<Cell> hand;
   private static final int PREFERRED_WIDTH = 180;
   private int selectedCardIndex = -1;
-  private final GamePlayer currentPlayer;
-  private Feature feature;
+  private ControllerFeature observer;
+  private final GamePlayer handOwner;
+  private final ReadOnlyGameModel model;
+  private final GamePlayer playerInWindow;
 
   /**
    * Construct a new instance of player's hand.
-   *
-   * @param hand list of cards owned by this player that can be placed in grid
-   * @param currentPlayer current player in the game, which can be this player, or
-   *                      the opponent
    */
-  public ThreeTriosHandPanel(List<Cell> hand, GamePlayer currentPlayer) {
-    if (hand == null || currentPlayer == null) {
+  public ThreeTriosHandPanel(ReadOnlyGameModel model, GamePlayer playerHand,
+                             GamePlayer playerInWindow) {
+    if (model == null) {
       throw new IllegalArgumentException("Hand or current player cannot be null");
     }
-    this.hand = hand;
-    this.currentPlayer = currentPlayer;
+    this.model = model;
+    this.handOwner = playerHand;
+    this.playerInWindow = playerInWindow;
     setOpaque(false);
     setPreferredSize(new Dimension(PREFERRED_WIDTH, 0));
-    addMouseListener(new MouseAdapter() {
-      @Override
-      public void mouseClicked(MouseEvent e) {
-        handleCardClick(e);
-      }
-    });
   }
 
   /**
@@ -56,11 +49,18 @@ class ThreeTriosHandPanel extends JPanel implements GamePanel {
    * @throws IllegalArgumentException if features is null
    */
   @Override
-  public void addFeatures(Feature features) {
+  public void addObserver(ControllerFeature features) {
     if (features == null) {
       throw new IllegalArgumentException("Features cannot be null");
     }
-    this.feature = features;
+    this.observer = features;
+    // only add mouse listener when there is an observer
+    addMouseListener(new MouseAdapter() {
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        handleCardClick(e);
+      }
+    });
   }
 
   /**
@@ -69,6 +69,7 @@ class ThreeTriosHandPanel extends JPanel implements GamePanel {
   @Override
   public void refresh() {
     selectedCardIndex = -1;
+    revalidate();
     repaint();
   }
 
@@ -77,7 +78,7 @@ class ThreeTriosHandPanel extends JPanel implements GamePanel {
    * @return the card height
    */
   private int getCardHeight() {
-    return getHeight() / Math.max(1, hand.size());
+    return getHeight() / Math.max(1, model.getHand(handOwner).size());
   }
 
   /**
@@ -87,7 +88,7 @@ class ThreeTriosHandPanel extends JPanel implements GamePanel {
   @Override
   protected void paintComponent(Graphics g) {
     super.paintComponent(g);
-    if (hand.isEmpty()) {
+    if (model.getHand(handOwner).isEmpty()) {
       return;
     }
 
@@ -98,8 +99,8 @@ class ThreeTriosHandPanel extends JPanel implements GamePanel {
     int cardWidth = Math.min(panelWidth - 10, 200);
     int startX = (panelWidth - cardWidth) / 2;
 
-    for (int i = 0; i < hand.size(); i++) {
-      drawCard(g2d, hand.get(i), i, startX, cardHeight, cardWidth);
+    for (int i = 0; i < model.getHand(handOwner).size(); i++) {
+      drawCard(g2d, model.getHand(handOwner).get(i), i, startX, cardHeight, cardWidth);
     }
     g2d.dispose();
   }
@@ -110,17 +111,16 @@ class ThreeTriosHandPanel extends JPanel implements GamePanel {
    * @param e mouse clicked event
    */
   private void handleCardClick(MouseEvent e) {
-    if (hand.isEmpty()) {
+    if (model.getHand(handOwner).isEmpty()) {
       return;
     }
 
     int cardHeight = getCardHeight();
     int cardIndex = e.getY() / cardHeight;
 
-    if (cardIndex >= 0 && cardIndex < hand.size()) {
-      Cell clickedCell = hand.get(cardIndex);
+    if (cardIndex >= 0 && cardIndex < model.getHand(handOwner).size()) {
       selectedCardIndex = cardIndex;
-      feature.printCardClicked(selectedCardIndex, clickedCell.getOwner());
+      observer.selectCard(cardIndex, handOwner);
       repaint();
     }
   }
@@ -145,6 +145,21 @@ class ThreeTriosHandPanel extends JPanel implements GamePanel {
               .build();
       selectedCard.draw(cardG2d);
     }
+  }
+
+  /**
+   * Draw current player's card.
+   * @param cardG2d graphics to drawn on
+   * @param cell a player's card
+   * @param index current selected card index
+   */
+  private void drawOwnedCardGrayOut(Graphics2D cardG2d, Cell cell, int index) {
+    cardG2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+    CellCard cardFrame = new CellCard.CardBuilder()
+            .setColor(GameViewConfig.getCardColor(cell.getOwner()))
+            .setAttackValues(cell.getAllAttackValues())
+            .build();
+    cardFrame.draw(cardG2d);
   }
 
   /**
@@ -195,11 +210,16 @@ class ThreeTriosHandPanel extends JPanel implements GamePanel {
     AffineTransform transform = physicalToModel(startX, yPos, cardWidth, cardHeight);
     cardG2d.transform(transform);
 
-    if (cell.getOwner() == currentPlayer) {
+    if (cell.getOwner() == playerInWindow && model.getCurrentPlayer() != handOwner) {
+      drawOwnedCardGrayOut(cardG2d, cell, index);
+    }
+    else if (cell.getOwner() == playerInWindow) {
       drawOwnedCard(cardG2d, cell, index);
-    } else {
+    }
+    else if (cell.getOwner() != playerInWindow) {
       drawOpponentCard(cardG2d, cell);
     }
+
     cardG2d.dispose();
   }
 }

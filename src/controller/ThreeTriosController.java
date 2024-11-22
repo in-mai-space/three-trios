@@ -1,80 +1,147 @@
 package controller;
 
-import java.io.IOException;
+import java.util.Optional;
 
 import model.enums.GamePlayer;
 import model.interfaces.GameModel;
+import player.ThreeTriosPlayer;
 import view.gui.GameGUIView;
 
 /**
- * Represents the ThreeTriosController.
+ * Controller class for the Three Trios game, managing interactions between the model,
+ * view, and player. It handles game actions such as selecting and placing cards,
+ * starting the game, and announcing the game outcome.
  */
 public class ThreeTriosController implements GameController {
-  //private final GameModel model;
-  //private GameGUIView view;
-  private final Appendable log;
+  private final GameModel model;
+  private final GameGUIView view;
+  private int selectedCardIndex;
+  private final GamePlayer color;
+  private final ThreeTriosPlayer player;
+  private final boolean isMachine;
 
   /**
-   * Construct a new controller given a game model.
+   * Constructs a ThreeTriosController with the given game model, player, view, and color.
    *
-   * @param model core logic model of the game
-   * @param log appendable object (this will change when specification of controller changes)
-   * @throws IllegalArgumentException if the model or appendable is null
+   * @param model  The core logic model of the game
+   * @param player The player interacting with the game
+   * @param view   The GUI view for displaying game state
+   * @param color  The color/type of the player
+   * @throws IllegalArgumentException if model, player, view, color is null
    */
-  public ThreeTriosController(GameModel model, Appendable log) {
-    if (model == null || log == null) {
-      throw new IllegalArgumentException("Model or appendable cannot be null");
+  public ThreeTriosController(GameModel model, ThreeTriosPlayer player,
+                              GameGUIView view, GamePlayer color) {
+    if (model == null || player == null || view == null || color == null) {
+      throw new IllegalArgumentException("Model, player, color or view cannot be null");
     }
-    //this.model = model;
-    this.log = log;
+    this.model = model;
+    this.view = view;
+    this.color = color;
+    this.selectedCardIndex = -1;
+    this.player = player;
+    this.isMachine = player.addObserver(this);
+    model.addObserver(this);
   }
 
   /**
-   * Transmit message (to console in this case).
+   * Returns the player's color/type.
    *
-   * @param message message to be transmit
-   */
-  private void transmit(String message) {
-    try {
-      log.append(message).append("\n");
-    }
-    catch (IOException ignored) { }
-  }
-
-  /**
-   * Set the view of the game.
-   *
-   * @param view GUI view
-   * @throws IllegalArgumentException if view is null
-   */
-  public void setView(GameGUIView view) {
-    if (view == null) {
-      throw new IllegalArgumentException("Model cannot be null");
-    }
-    //this.view = view;
-    view.addFeatures(this);
-  }
-
-  /**
-   * Print in the console what index and which player clicks a card.
-   *
-   * @param index index of card in a hand (0-indexed)
-   * @param player player who owns the card
+   * @return The color/type of the player
    */
   @Override
-  public void printCardClicked(int index, GamePlayer player) {
-    transmit(String.format("Card clicked: Index %d, Owner: %s",
-            index, player.toString()));
+  public GamePlayer getPlayer() {
+    return color;
   }
 
   /**
-   * Print in the console which row and col player clicks on grid.
+   * Selects a card by index, preparing it to be placed on the game grid.
    *
-   * @param row row index of the cell (0-indexed)
-   * @param col col index of the cell (0-indexed)
+   * @param index index of card in hand
    */
   @Override
-  public void printCellClicked(int row, int col) {
-    transmit(String.format("Cell clicked at: Row " + row + ", Column " + col));
+  public void selectCard(int index, GamePlayer player) {
+    if (player != color) {
+      view.showMessageDialogPane("Please only select cards from your hand.");
+    }
+    else if (getPlayer() != model.getCurrentPlayer()) {
+      view.showMessageDialogPane("Please wait. It's not your turn.");
+    }
+    else {
+      selectedCardIndex = index;
+    }
+  }
+
+  /**
+   * Places the selected card on the grid at the specified row and column.
+   *
+   * @param row row index (0-indexed)
+   * @param col col index (0-indexed)
+   */
+  @Override
+  public void placeCard(int row, int col) {
+    if (model.gameOver()) {
+      view.showMessageDialogPane("Game is already over");
+      return;
+    }
+    view.refresh();
+    if (selectedCardIndex == -1) {
+      view.showMessageDialogPane("Please select a card before placing it on the grid");
+    }
+    else {
+      try {
+        model.placeCard(selectedCardIndex, row, col);
+        view.refresh();
+      }
+      catch (IllegalStateException | IllegalArgumentException exception) {
+        view.showMessageDialogPane(exception.getMessage());
+      }
+      selectedCardIndex = -1;
+    }
+  }
+
+  /**
+   * Announces the end of the game, displaying the winner and final score.
+   *
+   * @param winner winning player, empty is game results in tie
+   * @param score  score of the winner
+   */
+  @Override
+  public void announceGameOver(Optional<GamePlayer> winner, int score) {
+    view.refresh();
+    if (!isMachine) {
+      if (winner.isEmpty()) {
+        view.showMessageDialogPane("Game results in a tie with score " + score);
+      } else {
+        view.showMessageDialogPane("Winner is " + winner.get() + ", the score is " + score);
+      }
+    }
+  }
+
+  /**
+   * Starts the game, setting the player's color/type in the view and making it visible.
+   * Registers the view observer only if the player is human.
+   */
+  @Override
+  public void gameStart() {
+    view.setPlayer(getPlayer());
+    view.makeVisible();
+    // does not need to listen to view if it's a machine player!
+    if (!isMachine) {
+      view.addObserver(this);
+    }
+  }
+
+  /**
+   * Notifies the player when it's their turn and prompts them to select a card if human.
+   *
+   * @param nextPlayer The player whose turn is next
+   */
+  @Override
+  public void notifyPlayerTurn(GamePlayer nextPlayer) {
+    view.refresh();
+    if (color == nextPlayer && !isMachine) {
+      view.showMessageDialogPane("Player " + nextPlayer + ": Please select a card");
+    }
+    player.playCard();
   }
 }
