@@ -11,14 +11,15 @@ import view.gui.GameGUIView;
 
 public class MockController implements GameController {
   private final Appendable log;
-  private GamePlayer color;
-  private ThreeTriosPlayer player;
+  private final GamePlayer color;
+  private final ThreeTriosPlayer player;
 
   public MockController(GameModel model, ThreeTriosPlayer player,
                         GameGUIView view, GamePlayer color, Appendable log) {
     this.log = log;
     this.color = color;
     this.player = player;
+    model.addObserver(this);
   }
 
   /**
