@@ -198,12 +198,12 @@ This cycle keeps repeating until game is over.
 ## Source Organization
 
 ```plaintext
-├── assets
-│   ├── Card from Blue.png
-│   ├── Card from Red.png
-│   ├── Game In Progress.png
-│   └── Initial State.png
-├── config
+├── assets: photos of view
+│   ├── Game Over.png
+│   ├── In Progress.png
+│   ├── Player Blue turn.png
+│   └── Player Red turn.png
+├── config: configuration for games
 │   ├── cards
 │   │   ├── big_cards.txt
 │   │   ├── big_grid_cards.txt
@@ -228,7 +228,7 @@ This cycle keeps repeating until game is over.
 ├── src
 │   ├── Main.java
 │   ├── controller
-│   │   ├── Feature.java
+│   │   ├── ControllerFeature.java
 │   │   ├── GameConfigParser.java
 │   │   ├── GameController.java
 │   │   └── ThreeTriosController.java
@@ -283,13 +283,20 @@ This cycle keeps repeating until game is over.
 │           └── GameViewConfig.java
 ├── test
 │   ├── controller
-|   │   ├── ThreeTriosControllerTest.java
+│   │   ├── mocks
+│   │   │   ├── MockController.java
+│   │   │   ├── MockGUIView.java
+│   │   │   ├── MockHumanPlayer.java
+│   │   │   ├── MockMachinePlayer.java
+│   │   │   └── MockModel.java
+│   │   ├── ControllerToModelTest.java
+│   │   ├── ModelToControllerTest.java
+│   │   ├── ControllerToViewTest.java
+│   │   ├── ControllerToPlayerTest.java
+│   │   ├── PlayerToControllerTest.java
+│   │   ├── IntegrationTest.java
 │   │   └── GameConfigParserTest.java
 │   ├── model
-│   │   ├── UtilsTest.java
-│   │   ├── enums
-│   │   │   ├── AttackValueTest.java
-│   │   │   └── GamePlayerTest.java
 │   │   └── implementation
 │   │       ├── ThreeTriosCellTest.java
 │   │       ├── ThreeTriosGridManagerTest.java
@@ -299,19 +306,15 @@ This cycle keeps repeating until game is over.
 │   ├── strategy
 │   │   ├── CornerStrategyTest.java
 │   │   ├── FlipCardsStrategyTest.java
-│   │   ├── MoveTest.java
-│   │   ├── PairTest.java
 │   │   ├── UpperLeftStrategyTest.java
 │   │   └── mocks
 │   │       ├── AbstractMockModel.java
 │   │       ├── FlipManyCardsMockModel.java
 │   │       ├── GoToCornerMockModel.java
 │   │       └── NoMoveFoundMockModel.java
-│   ├── suites
+│   ├── suites: to run multiple test classes at the same time
 │   │   ├── AllTestsSuite.java
+│   │   ├── ControllerTestSuite.java
 │   │   ├── ModelTestSuite.java
-│   │   ├── StrategyTestSuite.java
-│   │   └── ViewTestSuite.java
-│   └── view
-│       └── ThreeTriosTextViewTest.java
+│   │   └── StrategyTestSuite.java
 ```
