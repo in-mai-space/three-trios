@@ -3,12 +3,9 @@ package controller;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.List;
-
 import controller.mocks.MockGUIView;
 import model.Utils;
 import model.enums.AttackValue;
-import model.enums.CellType;
 import model.enums.GamePlayer;
 import model.implementation.ThreeTriosCell;
 import model.interfaces.Cell;
@@ -18,7 +15,6 @@ import player.MachinePlayer;
 import player.ThreeTriosPlayer;
 import strategy.infallible.CornerInfallibleStrategy;
 import strategy.infallible.FlipCardsInfallibleStrategy;
-import strategy.mocks.NoMoveFoundMockModel;
 import view.gui.GameGUIView;
 
 import static org.junit.Assert.assertEquals;

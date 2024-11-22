@@ -86,7 +86,8 @@ public class ThreeTriosController implements GameController {
     view.refresh();
     if (selectedCardIndex == -1) {
       view.showMessageDialogPane("Please select a card before placing it on the grid");
-    } else {
+    }
+    else {
       try {
         model.placeCard(selectedCardIndex, row, col);
         view.refresh();
