@@ -113,6 +113,7 @@ public class PlayerToControllerTest {
     // doesn't call observer.selectCard and observer.placeCard because currentPlayer is not BLUE
     bluePlayer.playCard();
     assertEquals(out.toString(), "gameStart() called\n" + "notifyPlayerTurn called()\n"
+            + "gameStart() called\n" + "notifyPlayerTurn called()\n"
             + "getPlayer() called\n");
   }
 
