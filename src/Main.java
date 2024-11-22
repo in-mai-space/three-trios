@@ -34,33 +34,35 @@ public class Main {
    * @param args Command line arguments, where:
    *             - args[0] specifies the first player's type ("human", "strategy1", "strategy2")
    *             - args[1] specifies the second player's type ("human", "strategy1", "strategy2")
-   *             If the arguments are not valid, the game will not start.
+   *             If the arguments are not valid or there are errors constructing model, view or
+   *             controller, the game will not start.
    */
   public static void main(String[] args) {
-    if (args.length != 2) {
-      return;
+    String firstPlayer = args.length < 2 ? "human" : args[0];
+    String secondPlayer = args.length < 2 ? "human" : args[1];
+
+    try {
+      CellType[][] cellTypes = GameConfigParser.getCellTypes(
+              Utils.getFilePath("complex_grid.txt", "grid"));
+      List<Cell> cells = GameConfigParser.getCells(Utils.getFilePath("big_cards.txt", "cards"));
+
+      GameModel model = new ThreeTriosModel(cellTypes, cells);
+      ReadOnlyGameModel viewModel = new ThreeTriosViewModel(model);
+
+      ThreeTriosPlayer player1 = createPlayer(firstPlayer, viewModel);
+      ThreeTriosPlayer player2 = createPlayer(secondPlayer, viewModel);
+
+      GameGUIView player1View = new ThreeTriosView(viewModel);
+      GameGUIView player2View = new ThreeTriosView(viewModel);
+
+      new ThreeTriosController(model, player1, player1View, GamePlayer.RED);
+      new ThreeTriosController(model, player2, player2View, GamePlayer.BLUE);
+
+      model.startGame(true);
     }
-
-    String firstPlayer = args[0];
-    String secondPlayer = args[1];
-
-    CellType[][] cellTypes = GameConfigParser.getCellTypes(
-            Utils.getFilePath("complex_grid.txt", "grid"));
-    List<Cell> cells = GameConfigParser.getCells(Utils.getFilePath("big_cards.txt", "cards"));
-
-    GameModel model = new ThreeTriosModel(cellTypes, cells);
-    ReadOnlyGameModel viewModel = new ThreeTriosViewModel(model);
-
-    ThreeTriosPlayer player1 = createPlayer(firstPlayer, viewModel);
-    ThreeTriosPlayer player2 = createPlayer(secondPlayer, viewModel);
-
-    GameGUIView player1View = new ThreeTriosView(viewModel);
-    GameGUIView player2View = new ThreeTriosView(viewModel);
-
-    new ThreeTriosController(model, player1, player1View, GamePlayer.RED);
-    new ThreeTriosController(model, player2, player2View, GamePlayer.BLUE);
-
-    model.startGame(true);
+    catch (IllegalStateException | IllegalArgumentException exception) {
+      System.out.println("Game cannot be launched");
+    }
   }
 
   /**
