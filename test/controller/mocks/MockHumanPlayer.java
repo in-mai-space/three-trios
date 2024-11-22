@@ -1,14 +1,22 @@
 package controller.mocks;
 
-import java.io.IOException;
-
 import controller.ControllerFeature;
 import model.Utils;
 import model.interfaces.ReadOnlyGameModel;
 import player.ThreeTriosPlayer;
 
+/**
+ * Represents a mock human player for controller unit testing.
+ */
 public class MockHumanPlayer implements ThreeTriosPlayer {
   private final Appendable log;
+
+  /**
+   * Construct a new mock human player.
+   *
+   * @param model game model
+   * @param log appendable to collect messages
+   */
   public MockHumanPlayer(ReadOnlyGameModel model, Appendable log) {
     // does nothing
     this.log = log;

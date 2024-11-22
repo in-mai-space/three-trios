@@ -9,11 +9,23 @@ import model.interfaces.GameModel;
 import player.ThreeTriosPlayer;
 import view.gui.GameGUIView;
 
+/**
+ * Represents mock controller for model unit testing and player unit testing.
+ */
 public class MockController implements GameController {
   private final Appendable log;
   private final GamePlayer color;
   private final ThreeTriosPlayer player;
 
+  /**
+   * Construct a new instance of a mock controller.
+   *
+   * @param model game model
+   * @param player player in the game (Human or Machine)
+   * @param view game GUI view
+   * @param color color of the player
+   * @param log appendable to collect messages
+   */
   public MockController(GameModel model, ThreeTriosPlayer player,
                         GameGUIView view, GamePlayer color, Appendable log) {
     this.log = log;
@@ -38,7 +50,7 @@ public class MockController implements GameController {
    * in the player's hand or the game context.
    *
    * @param index  the index of the card to be selected in hand (0-indexed)
-   * @param player
+   * @param player player color: Red or Blue
    */
   @Override
   public void selectCard(int index, GamePlayer player) {

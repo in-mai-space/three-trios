@@ -293,7 +293,13 @@ abstract class AbstractMockModel implements GameModel {
     return 0;
   }
 
+  /**
+   * Registers a controller as an observer to this model, allowing it to receive updates.
+   *
+   * @param observer The controller to be added as an observer
+   * @throws IllegalArgumentException if controller is null
+   */
   public void addObserver(ControllerFeature controller) {
-
+    // mock model does nothing
   }
 }

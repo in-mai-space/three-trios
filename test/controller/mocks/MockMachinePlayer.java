@@ -5,8 +5,6 @@ import model.Utils;
 import model.enums.GamePlayer;
 import model.interfaces.ReadOnlyGameModel;
 import player.ThreeTriosPlayer;
-import strategy.Move;
-import strategy.Pair;
 import strategy.infallible.InfallibleGameStrategy;
 
 /**
@@ -14,10 +12,6 @@ import strategy.infallible.InfallibleGameStrategy;
  * Uses a game strategy to decide moves based on the game state.
  */
 public class MockMachinePlayer implements ThreeTriosPlayer {
-  private final InfallibleGameStrategy strategy;
-  private final ReadOnlyGameModel model;
-  private ControllerFeature observer;
-  private GamePlayer player;
   private final Appendable log;
 
   /**
@@ -27,9 +21,8 @@ public class MockMachinePlayer implements ThreeTriosPlayer {
    * @param strategy The strategy used to decide moves for the machine player
    * @throws IllegalArgumentException if model or strategy is null
    */
-  public MockMachinePlayer(ReadOnlyGameModel model, InfallibleGameStrategy strategy, Appendable log) {
-    this.strategy = strategy;
-    this.model = model;
+  public MockMachinePlayer(ReadOnlyGameModel model, InfallibleGameStrategy strategy,
+                           Appendable log) {
     this.log = log;
   }
 
@@ -52,8 +45,7 @@ public class MockMachinePlayer implements ThreeTriosPlayer {
    */
   @Override
   public boolean addObserver(ControllerFeature observer) {
-    this.observer = observer;
-    this.player = observer.getPlayer();
+    GamePlayer player = observer.getPlayer();
     Utils.transmit(log, "add controller as observer with player " + player);
     return true;
   }

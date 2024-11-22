@@ -1,15 +1,23 @@
 package controller.mocks;
 
-import javax.swing.*;
-
 import controller.ControllerFeature;
 import model.Utils;
 import model.enums.GamePlayer;
 import model.interfaces.ReadOnlyGameModel;
 import view.gui.GameGUIView;
 
+/**
+ * Represents mock view for controller unit testing.
+ */
 public class MockGUIView implements GameGUIView {
   private final Appendable log;
+
+  /**
+   * Construct a new instance of GUI view mock.
+   *
+   * @param model game model
+   * @param log appendable to collect message
+   */
   public MockGUIView(ReadOnlyGameModel model, Appendable log) {
     if (model == null) {
       throw new IllegalArgumentException("Model cannot be null");

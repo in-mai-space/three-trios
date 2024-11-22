@@ -91,7 +91,8 @@ public class ThreeTriosController implements GameController {
       try {
         model.placeCard(selectedCardIndex, row, col);
         view.refresh();
-      } catch (IllegalStateException | IllegalArgumentException exception) {
+      }
+      catch (IllegalStateException | IllegalArgumentException exception) {
         view.showMessageDialogPane(exception.getMessage());
       }
       selectedCardIndex = -1;

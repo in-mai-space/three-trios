@@ -10,9 +10,16 @@ import model.enums.GamePlayer;
 import model.interfaces.Cell;
 import model.interfaces.GameModel;
 
+/**
+ * Represents MockModel for controller unit test.
+ */
 public class MockModel implements GameModel {
   private final Appendable log;
 
+  /**
+   * Construct a new mock model with an appendable.
+   * @param log appendable to print out messages
+   */
   public MockModel(Appendable log) {
     this.log = log;
   }
@@ -93,8 +100,8 @@ public class MockModel implements GameModel {
   /**
    * Check if a card can be placed in a position in the model.
    *
-   * @param row
-   * @param col
+   * @param row row index (0-indexed)
+   * @param col col index (0-indexed)
    * @throws IllegalArgumentException if row or col is out of bound
    */
   @Override
@@ -164,7 +171,7 @@ public class MockModel implements GameModel {
   /**
    * Get the score of a player.
    *
-   * @param player
+   * @param player player Red or Blue
    * @return the number of cards owned in grid and hand of a player
    * @throws IllegalStateException if the game is not started
    */
