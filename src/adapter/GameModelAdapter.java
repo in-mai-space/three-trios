@@ -25,8 +25,8 @@ public class GameModelAdapter<C extends Card> implements ThreeTriosGameModel<C> 
 
   public GameModelAdapter(GameModel model) {
     this.baseModel = model;
-    this.redPlayer = new PlayerAdapter(GamePlayer.RED);
-    this.bluePlayer = new PlayerAdapter(GamePlayer.BLUE);
+    this.redPlayer = new PlayerAdapter(CardColor.RED);
+    this.bluePlayer = new PlayerAdapter(CardColor.BLUE);
   }
 
   /**
@@ -53,7 +53,7 @@ public class GameModelAdapter<C extends Card> implements ThreeTriosGameModel<C> 
     if (winner.isPresent()) {
       return getPlayer(Utils.convertColor(winner.get()));
     }
-    return null;
+    return getPlayer(CardColor.UNASSIGNED);
   }
 
   /**
@@ -77,8 +77,11 @@ public class GameModelAdapter<C extends Card> implements ThreeTriosGameModel<C> 
     if (color == CardColor.RED) {
       return redPlayer;
     }
-    else {
+    else if (color == CardColor.BLUE) {
       return bluePlayer;
+    }
+    else {
+      return new PlayerAdapter(CardColor.UNASSIGNED);
     }
   }
 

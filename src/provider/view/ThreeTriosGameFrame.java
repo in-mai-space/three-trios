@@ -65,7 +65,8 @@ public class ThreeTriosGameFrame extends JFrame implements ThreeTriosView {
   public void updateWindowTitle() {
     if (!model.gameOver()) {
       this.setTitle("Three Trios Game - Current Player: " + model.getCurrentPlayerName());
-    } else {
+    }
+    else {
       this.setTitle("Three Trios Game - Game Over : The winner is "
               + model.determineWinner().getPlayerColor().toString());
     }

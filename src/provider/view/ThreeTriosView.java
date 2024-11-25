@@ -21,6 +21,8 @@ public interface ThreeTriosView {
   void initialize();
 
   void refresh();
+
   void showMessage(String message);
+
   void setPlayerActionFeatures(PlayerActionFeatures playerActionFeatures);
 }

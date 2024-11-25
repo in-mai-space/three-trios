@@ -2,17 +2,15 @@ package adapter;
 
 import java.util.ArrayList;
 
-import model.Utils;
-import model.enums.GamePlayer;
 import provider.model.CardColor;
 import provider.model.Player;
 import provider.model.Strategy;
 import provider.model.ThreeTriosCard;
 
 public class PlayerAdapter implements Player {
-  private final GamePlayer color;
+  private final CardColor color;
 
-  public PlayerAdapter(GamePlayer color) {
+  public PlayerAdapter(CardColor color) {
     this.color = color;
   }
 
@@ -23,7 +21,7 @@ public class PlayerAdapter implements Player {
    */
   @Override
   public CardColor getPlayerColor() {
-    return Utils.convertColor(color);
+    return color;
   }
 
   /**
