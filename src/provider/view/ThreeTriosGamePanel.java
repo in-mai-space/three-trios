@@ -102,7 +102,8 @@ public class ThreeTriosGamePanel extends JPanel implements GamePanel {
           if (card != null) {
             if (card.getColor() == CardColor.BLUE) {
               g2.setColor(PASTEL_BLUE);
-            } else {
+            }
+            else {
               g2.setColor(PASTEL_PINK);
             }
 

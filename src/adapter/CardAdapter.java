@@ -11,9 +11,6 @@ public class CardAdapter implements ThreeTriosCard {
   private final Cell card;
 
   public CardAdapter(Cell card) {
-    if (card == null) {
-      throw new IllegalArgumentException("Card cannot be null");
-    }
     this.card = card;
   }
 

@@ -89,7 +89,8 @@ public class GameModelAdapter<C extends Card> implements ThreeTriosGameModel<C> 
    */
   @Override
   public GridCell[][] getGrid() {
-    return new GridCell[0][];
+    GridCell[][] grid = new GridCell[baseModel.getGridHeight()][baseModel.getGridWidth()];
+    return grid;
   }
 
   /**
@@ -138,7 +139,12 @@ public class GameModelAdapter<C extends Card> implements ThreeTriosGameModel<C> 
    */
   @Override
   public ThreeTriosCard getCardAt(int row, int col) {
-    return new CardAdapter(baseModel.getCardAt(row, col));
+    try {
+      return new CardAdapter(baseModel.getCardAt(row, col));
+    }
+    catch (IllegalStateException e) {
+      return null;
+    }
   }
 
   /**
@@ -148,7 +154,12 @@ public class GameModelAdapter<C extends Card> implements ThreeTriosGameModel<C> 
    */
   @Override
   public String getCurrentPlayerName() {
-    return baseModel.getCurrentPlayer().toString();
+    try {
+      return baseModel.getCurrentPlayer().toString();
+    }
+    catch (IllegalStateException e) {
+      return GamePlayer.RED.toString();
+    }
   }
 
   @Override
