@@ -5,7 +5,8 @@ import javax.swing.JFrame;
 import java.awt.BorderLayout;
 import java.io.IOException;
 
-import provider.model.ProviderCard;
+import provider.controller.PlayerActionFeatures;
+import provider.model.ThreeTriosCard;
 import provider.model.ThreeTriosGameModel;
 
 /**
@@ -16,12 +17,12 @@ import provider.model.ThreeTriosGameModel;
 public class ThreeTriosGameFrame extends JFrame implements ThreeTriosView {
 
   private final ThreeTriosGamePanel gameFramePanel;
-  private final ThreeTriosGameModel<ProviderCard> model;
+  private final ThreeTriosGameModel<ThreeTriosCard> model;
 
   /**
    * Constructor for the ThreeTriosGameFrame.
    */
-  public ThreeTriosGameFrame(ThreeTriosGameModel<ProviderCard> model) {
+  public ThreeTriosGameFrame(ThreeTriosGameModel<ThreeTriosCard> model) {
     this.model = model;
     this.setTitle("Three Trios Game - Current Player: " + model.getCurrentPlayerName());
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -46,6 +47,16 @@ public class ThreeTriosGameFrame extends JFrame implements ThreeTriosView {
   public void refresh() {
     updateWindowTitle();
     gameFramePanel.repaint();
+  }
+
+  @Override
+  public void showMessage(String message) {
+    // Unnecessary for this version
+  }
+
+  @Override
+  public void setPlayerActionFeatures(PlayerActionFeatures playerActionFeatures) {
+    // Unnecessary for this version
   }
 
   /**

@@ -3,7 +3,7 @@ package provider.model;
 /**
  * Interface for a grid used to play a game of Three Trios.
  */
-public interface ProviderGrid {
+public interface GridInt {
 
   /**
    * Sets a cell to playable or not playable given a cell and a truth value.
@@ -25,7 +25,7 @@ public interface ProviderGrid {
    * @param col the column the cell is located
    * @return the cell
    */
-  ProviderCell getCell(int row, int col);
+  GridCell getCell(int row, int col);
 
   /**
    * Returns the number of cells in the graph that are not holes.

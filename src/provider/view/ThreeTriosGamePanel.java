@@ -11,7 +11,7 @@ import java.awt.FontMetrics;
 
 import provider.controller.PlayerActionFeatures;
 import provider.model.CardColor;
-import provider.model.ProviderCard;
+import provider.model.ThreeTriosCard;
 import provider.model.ThreeTriosGameModel;
 
 /**
@@ -21,7 +21,7 @@ import provider.model.ThreeTriosGameModel;
  * cards.
  */
 public class ThreeTriosGamePanel extends JPanel implements GamePanel {
-  private final ThreeTriosGameModel<ProviderCard> model;
+  private final ThreeTriosGameModel<ThreeTriosCard> model;
   private int cellSize;
   private int selectedRedCardIndex = -1;
   private int selectedBlueCardIndex = -1;
@@ -34,7 +34,7 @@ public class ThreeTriosGamePanel extends JPanel implements GamePanel {
   /**
    * Creates an instance of the ThreeTriosGamePanel.
    */
-  public ThreeTriosGamePanel(ThreeTriosGameModel<ProviderCard> model) {
+  public ThreeTriosGamePanel(ThreeTriosGameModel<ThreeTriosCard> model) {
     this.model = model;
     GridClickListener gridClickListener = new GridClickListener(this);
     this.addMouseListener(gridClickListener);
@@ -98,7 +98,7 @@ public class ThreeTriosGamePanel extends JPanel implements GamePanel {
           g2.setColor(PASTEL_YELLOW);
           g2.fillRect(x, y, cellSize, cellSize);
 
-          ProviderCard card = model.getCardAt(row, col);
+          ThreeTriosCard card = model.getCardAt(row, col);
           if (card != null) {
             if (card.getColor() == CardColor.BLUE) {
               g2.setColor(PASTEL_BLUE);
@@ -155,7 +155,7 @@ public class ThreeTriosGamePanel extends JPanel implements GamePanel {
 
   private String[] getLeftPanelCellText(int row) {
     if (row < model.getRedHand().size()) {
-      ProviderCard card = model.getRedHand().get(row);
+      ThreeTriosCard card = model.getRedHand().get(row);
       return new String[]{
               card.getNorthValString(),
               card.getEastValString(),
@@ -168,7 +168,7 @@ public class ThreeTriosGamePanel extends JPanel implements GamePanel {
 
   private String[] getRightPanelCellText(int row) {
     if (row < model.getBlueHand().size()) {
-      ProviderCard card = model.getBlueHand().get(row);
+      ThreeTriosCard card = model.getBlueHand().get(row);
       return new String[]{
               card.getNorthValString(),
               card.getEastValString(),
@@ -277,7 +277,7 @@ public class ThreeTriosGamePanel extends JPanel implements GamePanel {
     }
   }
 
-  public ThreeTriosGameModel<ProviderCard> getModel() {
+  public ThreeTriosGameModel<ThreeTriosCard> getModel() {
     return model;
   }
 

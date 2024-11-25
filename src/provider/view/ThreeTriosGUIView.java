@@ -5,7 +5,7 @@ import java.io.IOException;
 import javax.swing.JOptionPane;
 
 import provider.controller.PlayerActionFeatures;
-import provider.model.ProviderCard;
+import provider.model.ThreeTriosCard;
 import provider.model.ThreeTriosGameModel;
 
 /**
@@ -19,7 +19,7 @@ public class ThreeTriosGUIView implements ThreeTriosView {
    * Constructs a GUIView object.
    * @param readOnlyModel for the view to render
    */
-  public ThreeTriosGUIView(ThreeTriosGameModel<ProviderCard> readOnlyModel) {
+  public ThreeTriosGUIView(ThreeTriosGameModel<ThreeTriosCard> readOnlyModel) {
     gameFrame = new ThreeTriosGameFrame(readOnlyModel);
   }
 

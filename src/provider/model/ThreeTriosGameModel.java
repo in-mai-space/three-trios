@@ -27,7 +27,7 @@ public interface ThreeTriosGameModel<C extends Card> extends ReadOnlyThreeTriosG
    * @param red player 1
    * @param blue player 2
    */
-  void startGame(ProviderGrid grid, ArrayList<C> deck, int handSize, Player red, Player blue);
+  void startGame(GridInt grid, ArrayList<C> deck, int handSize, Player red, Player blue);
 
   /**
    * Play the given card from the given player's hand to the grid.

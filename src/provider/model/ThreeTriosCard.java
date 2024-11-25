@@ -3,7 +3,7 @@ package provider.model;
 /**
  * Interface representing a card in the ThreeTrios Game.
  */
-public interface ProviderCard extends Card {
+public interface ThreeTriosCard extends Card {
 
   /**
    * Returns the north value of the card.

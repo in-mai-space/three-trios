@@ -19,7 +19,7 @@ public interface Player {
    *
    * @return a list of ThreeTrioCards
    */
-  ArrayList<ProviderCard> getHand();
+  ArrayList<ThreeTriosCard> getHand();
 
   /**
    * Tells us if the player is human or a machine.

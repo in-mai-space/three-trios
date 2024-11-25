@@ -42,7 +42,7 @@ public interface ReadOnlyThreeTriosGameModel {
    * Provides the current grid.
    * @return the grid from the constructor
    */
-  ProviderCell[][] getGrid();
+  GridCell[][] getGrid();
 
   /**
    * Returns whether the given cell is a hole or not.
@@ -52,12 +52,12 @@ public interface ReadOnlyThreeTriosGameModel {
   /**
    * Returns the blue player's hand.
    */
-  ArrayList<ProviderCard> getBlueHand();
+  ArrayList<ThreeTriosCard> getBlueHand();
 
   /**
    * Returns the blue player's hand.
    */
-  ArrayList<ProviderCard> getRedHand();
+  ArrayList<ThreeTriosCard> getRedHand();
 
   /**
    * Returns the card at the given row and col of the grid.
@@ -66,7 +66,7 @@ public interface ReadOnlyThreeTriosGameModel {
    * @return the card at the given spot, if it's a hole or does not contain one, return null
    * @throws IllegalStateException if the row or column is out of bounds
    */
-  ProviderCard getCardAt(int row, int col);
+  ThreeTriosCard getCardAt(int row, int col);
 
   /**
    * Returns the color of the current player in String format.
