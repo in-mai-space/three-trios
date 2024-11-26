@@ -156,7 +156,6 @@ public class GameModelAdapter<C extends Card> implements ThreeTriosGameModel<C> 
    * @param row the row from which to get the card
    * @param col the column from which to get the card
    * @return the card at the given spot, if it's a hole or does not contain one, return null
-   * @throws IllegalStateException if the row or column is out of bounds
    */
   @Override
   public ThreeTriosCard getCardAt(int row, int col) {
@@ -183,6 +182,13 @@ public class GameModelAdapter<C extends Card> implements ThreeTriosGameModel<C> 
     }
   }
 
+  /**
+   * Prints to the console of row and col. This method is not supported because we are not printing
+   * out anything to the console.
+   *
+   * @param row row index (0-indexed)
+   * @param col col index (0-indexed)
+   */
   @Override
   public void logInspection(int row, int col) {
     throw new UnsupportedOperationException("Method not supported");
@@ -206,19 +212,14 @@ public class GameModelAdapter<C extends Card> implements ThreeTriosGameModel<C> 
 
   /**
    * Play the given card from the given player's hand to the grid.
-   * The method can only be called once per turn.
+   * The method can only be called once per turn. This method is unsupported because our model
+   * does not involve a player.
    *
    * @param player    the player playing the card
    * @param cardIndex a 0-index number representing the card to play from the hand
    * @param row       the row of the grid the player wants to play to
    * @param col       the column of the grid the player wants to play to
-   * @throws IllegalStateException    if the game has not started
-   * @throws IllegalStateException    the game is over
-   * @throws IllegalStateException    if a player tries to play twice in a row
-   * @throws IllegalArgumentException if the row or column is out of bounds
-   * @throws IllegalArgumentException if the cell being played to is a hole
-   * @throws IllegalArgumentException if cardIndex < 0
-   *                                  or greater/equal to the number of cards in hand
+   * @throws UnsupportedOperationException if is called
    */
   @Override
   public void playCard(Player player, int cardIndex, int row, int col) {
@@ -227,17 +228,24 @@ public class GameModelAdapter<C extends Card> implements ThreeTriosGameModel<C> 
 
   /**
    * Play the given card from the given player's hand to the grid.
-   * The method can only be called once per turn.
+   * The method can only be called once per turn. This method is not support because our model
+   * does all the operations of draw card and switch turn when a card is placed on a grid.
    *
    * @param player the player drawing cards
-   * @throws IllegalStateException if the deck is empty
-   * @throws IllegalStateException if the player already has a full hand
+   * @throws UnsupportedOperationException if is called
    */
   @Override
   public void drawCard(Player player) {
     throw new UnsupportedOperationException("Method not supported");
   }
 
+  /**
+   * Add controller as an observer of model events. This method is currently not supported
+   * since we are still using our original model and controller.
+   *
+   * @param status the controller
+   * @throws UnsupportedOperationException if is called
+   */
   @Override
   public void setModelActionFeatures(ModelStatusFeatures status) {
     throw new UnsupportedOperationException("Method not supported");

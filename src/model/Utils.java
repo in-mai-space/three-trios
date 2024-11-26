@@ -70,6 +70,12 @@ public class Utils {
     } catch (Exception ignored) { }
   }
 
+  /**
+   * Convert from provider's card color enum to original color enum.
+   *
+   * @param color provider's color enum
+   * @return original enum that represents player's color
+   */
   public static GamePlayer convertColor(CardColor color) {
     if (color == CardColor.RED) {
       return GamePlayer.RED;
@@ -80,6 +86,12 @@ public class Utils {
     return null;
   }
 
+  /**
+   * Convert from original color enum to provider's color enum.
+   *
+   * @param color original color enum
+   * @return the provider's color enum
+   */
   public static CardColor convertColor(GamePlayer color) {
     if (color == GamePlayer.RED) {
       return CardColor.RED;
@@ -87,6 +99,6 @@ public class Utils {
     else if (color == GamePlayer.BLUE) {
       return CardColor.BLUE;
     }
-    return null;
+    return CardColor.UNASSIGNED;
   }
 }

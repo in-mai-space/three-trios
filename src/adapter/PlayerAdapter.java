@@ -8,7 +8,8 @@ import provider.model.Strategy;
 import provider.model.ThreeTriosCard;
 
 /**
- * Represents a PlayerAdapter to work with the controller.
+ * Represents a PlayerAdapter to work with the controller. This is more like a dummy class that
+ * provides enough methods that are called by model.
  */
 public class PlayerAdapter implements Player {
   private final CardColor color;
@@ -36,9 +37,10 @@ public class PlayerAdapter implements Player {
   }
 
   /**
-   * Returns the current hand of the player.
+   * Returns the current hand of the player. We do not have mechanism to get hand using a player,
+   * so this method is not supported.
    *
-   * @return a list of ThreeTrioCards
+   * @throws UnsupportedOperationException if method is called
    */
   @Override
   public ArrayList<ThreeTriosCard> getHand() {
@@ -46,24 +48,35 @@ public class PlayerAdapter implements Player {
   }
 
   /**
-   * Tells us if the player is human or a machine.
+   * Tells us if the player is human or a machine. Our player does not have a way to check if a
+   * player is machine player or not, so this method is unsupported.
    *
-   * @return true if the player is a machine
+   * @throws UnsupportedOperationException if method is called
    */
   @Override
   public boolean isMachPlayer() {
     throw new UnsupportedOperationException("Method not supported");
   }
 
+  /**
+   * Keep track of the player turn coordinates. Since our model does not keep track of this data,
+   * method is not supported.
+   *
+   * @param cardIdx card index
+   * @param row row index (0-indexed)
+   * @param col col index (0-indexed)
+   * @throws UnsupportedOperationException if method is called
+   */
   @Override
   public int[] playTurnCoords(int cardIdx, int row, int col) {
     throw new UnsupportedOperationException("Method not supported");
   }
 
   /**
-   * Returns the strategy the player is using.
+   * Returns the strategy the player is using. Our player does not have the method strategy, so
+   * this method is supported.
    *
-   * @return a Strategy the player is using.
+   * @throws UnsupportedOperationException if method is called
    */
   @Override
   public Strategy getStrategy() {

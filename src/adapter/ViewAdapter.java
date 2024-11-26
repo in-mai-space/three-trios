@@ -76,6 +76,6 @@ public class ViewAdapter implements GameGUIView {
    */
   @Override
   public void setPlayer(GamePlayer player) {
-    // nothing happened since it's not applicable
+    // nothing happened since the provider's code does not have a set player method
   }
 }
