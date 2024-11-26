@@ -7,10 +7,21 @@ import model.interfaces.Cell;
 import provider.model.CardColor;
 import provider.model.ThreeTriosCard;
 
+/**
+ * Represents a CardAdapter to adapt a Cell to a ThreeTriosCard
+ */
 public class CardAdapter implements ThreeTriosCard {
   private final Cell card;
 
+  /**
+   * Construct a new card adapter.
+   *
+   * @param card take in a cell
+   */
   public CardAdapter(Cell card) {
+    if (card == null) {
+      throw new IllegalArgumentException("Card cannot be null");
+    }
     this.card = card;
   }
 

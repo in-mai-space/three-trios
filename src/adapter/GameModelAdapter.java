@@ -18,12 +18,25 @@ import provider.model.Player;
 import provider.model.ThreeTriosCard;
 import provider.model.ThreeTriosGameModel;
 
+/**
+ * Represents the GameModelAdapter to adapt original model to provider's model.
+ *
+ * @param <C> any interface that extends Card interface
+ */
 public class GameModelAdapter<C extends Card> implements ThreeTriosGameModel<C> {
   private final GameModel baseModel;
   private final Player redPlayer;
   private final Player bluePlayer;
 
+  /**
+   * Construct a new model adapter.
+   *
+   * @param model model to be adapted
+   */
   public GameModelAdapter(GameModel model) {
+    if (model == null) {
+      throw new IllegalArgumentException("Model cannot be null");
+    }
     this.baseModel = model;
     this.redPlayer = new PlayerAdapter(CardColor.RED);
     this.bluePlayer = new PlayerAdapter(CardColor.BLUE);
@@ -63,7 +76,7 @@ public class GameModelAdapter<C extends Card> implements ThreeTriosGameModel<C> 
    */
   @Override
   public Phases getGamePhase() {
-    return null;
+    throw new UnsupportedOperationException("Method not supported");
   }
 
   /**
@@ -92,15 +105,14 @@ public class GameModelAdapter<C extends Card> implements ThreeTriosGameModel<C> 
    */
   @Override
   public GridCell[][] getGrid() {
-    GridCell[][] grid = new GridCell[baseModel.getGridHeight()][baseModel.getGridWidth()];
-    return grid;
+    return new GridCell[baseModel.getGridHeight()][baseModel.getGridWidth()];
   }
 
   /**
    * Returns whether the given cell is a hole or not.
    *
-   * @param row
-   * @param col
+   * @param row row index (0-indexed)
+   * @param col col index (0-indexed)
    */
   @Override
   public boolean isHole(int row, int col) {
@@ -123,6 +135,12 @@ public class GameModelAdapter<C extends Card> implements ThreeTriosGameModel<C> 
     return getPlayerHand(GamePlayer.RED);
   }
 
+  /**
+   * Return list of ThreeTriosCard given a GamePlayer color enum.
+   *
+   * @param color color
+   * @return list of player's hand given a color
+   */
   private ArrayList<ThreeTriosCard> getPlayerHand(GamePlayer color) {
     List<model.interfaces.Cell> hand = baseModel.getHand(color);
     ArrayList<ThreeTriosCard> handCards = new ArrayList<>();
@@ -167,7 +185,7 @@ public class GameModelAdapter<C extends Card> implements ThreeTriosGameModel<C> 
 
   @Override
   public void logInspection(int row, int col) {
-    // unused method
+    throw new UnsupportedOperationException("Method not supported");
   }
 
   /**
@@ -204,7 +222,7 @@ public class GameModelAdapter<C extends Card> implements ThreeTriosGameModel<C> 
    */
   @Override
   public void playCard(Player player, int cardIndex, int row, int col) {
-    // unused method
+    throw new UnsupportedOperationException("Method not supported");
   }
 
   /**
@@ -216,12 +234,12 @@ public class GameModelAdapter<C extends Card> implements ThreeTriosGameModel<C> 
    * @throws IllegalStateException if the player already has a full hand
    */
   @Override
-  public void drawCard(Player player) throws Exception {
-    // unused method
+  public void drawCard(Player player) {
+    throw new UnsupportedOperationException("Method not supported");
   }
 
   @Override
   public void setModelActionFeatures(ModelStatusFeatures status) {
-    // unused method
+    throw new UnsupportedOperationException("Method not supported");
   }
 }

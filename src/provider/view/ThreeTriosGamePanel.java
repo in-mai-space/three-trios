@@ -40,7 +40,8 @@ public class ThreeTriosGamePanel extends JPanel implements GamePanel {
 
   public void setFeatures(PlayerActionFeatures playerActionFeatures) {
     this.playerActionFeatures = playerActionFeatures;
-    this.addMouseListener(new GridClickListener(this));
+    GridClickListener gridClickListener = new GridClickListener(this);
+    this.addMouseListener(gridClickListener);
   }
 
   public int getCellSize() {

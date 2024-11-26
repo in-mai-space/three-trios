@@ -1,14 +1,21 @@
 package adapter;
 
 import controller.ControllerFeature;
-import controller.GameController;
 import model.enums.GamePlayer;
 import provider.controller.PlayerActionFeatures;
 import provider.controller.ThreeTriosController;
 
+/**
+ * Represents ControllerAdapter to adapt original controller to provider's controller.
+ */
 public class ControllerAdapter implements ThreeTriosController, PlayerActionFeatures {
   private final ControllerFeature controller;
 
+  /**
+   * Construct a new ControllerAdapter.
+   *
+   * @param controller controller
+   */
   public ControllerAdapter(ControllerFeature controller) {
     if (controller == null) {
       throw new IllegalArgumentException("Controller cannot be null");
@@ -20,10 +27,10 @@ public class ControllerAdapter implements ThreeTriosController, PlayerActionFeat
    * A method that handles user clicks and turns them into
    * move on the board.
    *
-   * @param cardSelected
-   * @param cellRow
-   * @param cellCol
-   * @param cardColor
+   * @param cardSelected index of card selected
+   * @param cellRow row index (0-indexed)
+   * @param cellCol col index (0-indexed)
+   * @param cardColor 0 if Red and 1 if Blue
    */
   @Override
   public void onCardSelected(int cardSelected, int cellRow, int cellCol, int cardColor) {
@@ -47,6 +54,6 @@ public class ControllerAdapter implements ThreeTriosController, PlayerActionFeat
    */
   @Override
   public void takeTurn() {
-    // not necessary for adapter
+    throw new UnsupportedOperationException("Method not supported");
   }
 }

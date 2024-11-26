@@ -7,10 +7,21 @@ import provider.model.Player;
 import provider.model.Strategy;
 import provider.model.ThreeTriosCard;
 
+/**
+ * Represents a PlayerAdapter to work with the controller.
+ */
 public class PlayerAdapter implements Player {
   private final CardColor color;
 
+  /**
+   * Construct a player adapter given a color.
+   *
+   * @param color card color
+   */
   public PlayerAdapter(CardColor color) {
+    if (color == null) {
+      throw new IllegalArgumentException("Color cannot be null");
+    }
     this.color = color;
   }
 
@@ -31,7 +42,7 @@ public class PlayerAdapter implements Player {
    */
   @Override
   public ArrayList<ThreeTriosCard> getHand() {
-    return null;
+    throw new UnsupportedOperationException("Method not supported");
   }
 
   /**
@@ -41,12 +52,12 @@ public class PlayerAdapter implements Player {
    */
   @Override
   public boolean isMachPlayer() {
-    return false;
+    throw new UnsupportedOperationException("Method not supported");
   }
 
   @Override
   public int[] playTurnCoords(int cardIdx, int row, int col) {
-    return new int[0];
+    throw new UnsupportedOperationException("Method not supported");
   }
 
   /**
@@ -56,6 +67,6 @@ public class PlayerAdapter implements Player {
    */
   @Override
   public Strategy getStrategy() {
-    return null;
+    throw new UnsupportedOperationException("Method not supported");
   }
 }
