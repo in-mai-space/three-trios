@@ -1,0 +1,1 @@
+Our code providers are really supportive in abstracting out interface type from concrete class as well as changing the parts of code that are buggy to allow us to fully adapt our code to work with their view.
