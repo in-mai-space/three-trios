@@ -56,7 +56,8 @@ public class Main {
       ThreeTriosPlayer player2 = createPlayer(secondPlayer, viewModel);
 
       GameGUIView player1View = new ThreeTriosView(viewModel);
-      provider.view.ThreeTriosView player2View = new ThreeTriosGUIView(new GameModelAdapter<>(model));
+      provider.view.ThreeTriosView player2View =
+              new ThreeTriosGUIView(new GameModelAdapter<>(model));
 
       new ThreeTriosController(model, player1, player1View, GamePlayer.RED);
       new ThreeTriosController(model, player2, new ViewAdapter(player2View), GamePlayer.BLUE);

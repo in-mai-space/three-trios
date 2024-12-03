@@ -8,7 +8,7 @@ import provider.model.CardColor;
 import provider.model.ThreeTriosCard;
 
 /**
- * Represents a CardAdapter to adapt a Cell to a ThreeTriosCard
+ * Represents a CardAdapter to adapt a Cell to a ThreeTriosCard.
  */
 public class CardAdapter implements ThreeTriosCard {
   private final Cell card;

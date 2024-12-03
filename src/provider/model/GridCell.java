@@ -1,5 +1,8 @@
 package provider.model;
 
+/**
+ * Represents a GridCell on the grid of ThreeTriosGame.
+ */
 public interface GridCell {
   /**
    * Determines whether the cell is a hole or not.
