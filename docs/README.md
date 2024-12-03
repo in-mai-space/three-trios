@@ -210,10 +210,8 @@ takeTurn method is in the interface of the provider's model, but since we hide i
 - If there are no command-line arguments, or number of string is less than 2, then it will default to "human human"
 
 ### Test files that are removed to be under 125 files limit
-- enum tests
-- Utils test
-- Move and Pair test in Strategy package
-- ThreeTriosTextViewTest (test for view in the console) since we are focusing GUI implementation
+- all tests and invalid config txt files because it will be 151 files including all of them
+- please refer to past homework submissions to see all tests and config files
 
 ## Source Organization
 
@@ -346,8 +344,7 @@ takeTurn method is in the interface of the provider's model, but since we hide i
 │   │   ├── ControllerToViewTest.java
 │   │   ├── ControllerToPlayerTest.java
 │   │   ├── PlayerToControllerTest.java
-│   │   ├── IntegrationTest.java
-│   │   └── GameConfigParserTest.java
+│   │   └── IntegrationTest.java
 │   ├── model
 │   │   └── implementation
 │   │       ├── ThreeTriosCellTest.java
