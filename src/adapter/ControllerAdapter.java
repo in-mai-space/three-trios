@@ -48,10 +48,10 @@ public class ControllerAdapter implements ThreeTriosController, PlayerActionFeat
   }
 
   /**
-   * Checks if the player is a MachinePlayer and plays it's turn and
+   * Checks if the player is a MachinePlayer and plays its turn and
    * calls another method to swap to the next player and allow for
    * their turn to take place. This method is not supported because the model handles
-   * placing cards and switch turn in one go.
+   * placing cards and switch turn in one call.
    *
    * @throws UnsupportedOperationException if method is called
    */

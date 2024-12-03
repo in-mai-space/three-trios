@@ -196,14 +196,33 @@ This cycle keeps repeating until game is over.
 - If a human player keeps clicking the grid even after game is over, the controller will tell view to notify player that game is over
 - If a player selects card, and then they click on a cell that cannot place a card, the card will be unselected, and they have to select card
 
+## Part 4: Adapter
+- We are able to adapt our controller and model to fully integrate with the provider's view. The only small limitation is their window is small and not fully expanded when launched. 
+Since we are not allowed to modify the code, we have to manually expand the provider's window to see their GUI view.
+- Certain methods in our adapter throws UnsupportedOperationException because certain methods in provider's interface of model, controller, and player does not work with ours. For example, 
+takeTurn method is in the interface of the provider's model, but since we hide implementation detail in the model and only expose placeCard method, takeTurn will throw exception.
+- We did document why we throw UnsupportedOperationException for certain methods in adapter package.
+
+### Command-line arguments to start game in Main
+-  The command-line arguments should take in 2 strings
+  - first string: one of "human", "strategy1", "strategy2"
+  - second string: one of "human", "strategy1", "strategy2"
+- If there are no command-line arguments, or number of string is less than 2, then it will default to "human human"
+
+### Test files that are removed to be under 125 files limit
+- enum tests
+- Utils test
+- Move and Pair test in Strategy package
+- ThreeTriosTextViewTest (test for view in the console) since we are focusing GUI implementation
+
 ## Source Organization
 
 ```plaintext
-├── assets: photos of view
-│   ├── Game Over.png
-│   ├── In Progress.png
-│   ├── Player Blue turn.png
-│   └── Player Red turn.png
+├── docs: contain extra documentation
+│   ├── PeerReview.txt
+│   ├── README.md
+│   ├── SelfReview.txt
+│   └── strategy-transcript.txt
 ├── config: configuration for games
 │   ├── cards
 │   │   ├── big_cards.txt
@@ -223,8 +242,6 @@ This cycle keeps repeating until game is over.
 │       ├── not_enough_rows.txt
 │       ├── simple_grid.txt
 │       └── wrong_format.txt
-├── README.md
-├── strategy-transcript.txt
 ├── three-trios.jar
 ├── src
 │   ├── Main.java
@@ -233,6 +250,12 @@ This cycle keeps repeating until game is over.
 │   │   ├── GameConfigParser.java
 │   │   ├── GameController.java
 │   │   └── ThreeTriosController.java
+│   ├── adapter
+│   │   ├── CardAdapter.java
+│   │   ├── ControllerAdapter.java
+│   │   ├── GameModelAdapter.java
+│   │   ├── ViewAdapter.java
+│   │   └── PlayerAdapter.java
 │   ├── model
 │   │   ├── Utils.java
 │   │   ├── enums
@@ -270,6 +293,33 @@ This cycle keeps repeating until game is over.
 │   │       ├── FlipCardsInfallibleStrategy.java
 │   │       ├── InfallibleGameStrategy.java
 │   │       └── UpperLeftInfallibleStrategy.java
+│   ├── player
+│   │   ├── HumanPlayer.java
+│   │   ├── MachinePlayer.java
+│   │   └── ThreeTriosPlayer.java
+│   ├── provider
+│   │   ├── model
+│   │   │   ├── Card.java
+│   │   │   ├── CardColor.java
+│   │   │   ├── GridCell.java
+│   │   │   ├── GridInt.java
+│   │   │   ├── ModelStatusFeatures.java
+│   │   │   ├── Phases.java
+│   │   │   ├── Player.java
+│   │   │   ├── ReadOnlyThreeTriosGameModel.java
+│   │   │   ├── Strategy.java
+│   │   │   ├── ThreeTriosCard.java
+│   │   │   └── ThreeTriosGameModel.java
+│   │   ├── controller
+│   │   │   ├── PlayerActionFeatures.java
+│   │   │   └── ThreeTriosController.java
+│   │   └── view
+│   │       ├── GamePanel.java
+│   │       ├── GridClickListener.java
+│   │       ├── ThreeTriosGameFrame.java
+│   │       ├── ThreeTriosGamePanel.java
+│   │       ├── ThreeTriosGUIView.java
+│   │       └── ThreeTriosView.java
 │   └── view
 │       ├── console
 │       │   ├── GameView.java
@@ -314,9 +364,4 @@ This cycle keeps repeating until game is over.
 │   │       ├── FlipManyCardsMockModel.java
 │   │       ├── GoToCornerMockModel.java
 │   │       └── NoMoveFoundMockModel.java
-│   ├── suites: to run multiple test classes at the same time
-│   │   ├── AllTestsSuite.java
-│   │   ├── ControllerTestSuite.java
-│   │   ├── ModelTestSuite.java
-│   │   └── StrategyTestSuite.java
 ```
