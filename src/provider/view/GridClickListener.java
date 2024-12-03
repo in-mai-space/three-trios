@@ -69,8 +69,8 @@ public class GridClickListener implements MouseListener {
         if (mouseY >= yOffset && mouseY < (yOffset + blueCardHeight)) {
           gamePanel.setSelectedBlueCardIndex(row);
           gamePanel.setSelectedRedCardIndex(-1);
-          System.out.println("Clicked on blue card: " +
-                  gamePanel.getModel().getBlueHand().get(row));
+          System.out.println("Clicked on blue card: "
+                  + gamePanel.getModel().getBlueHand().get(row));
           return;
         }
       }

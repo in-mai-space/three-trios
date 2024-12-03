@@ -38,6 +38,10 @@ public class ThreeTriosGamePanel extends JPanel implements GamePanel {
     this.model = model;
   }
 
+  /**
+   * Used to initialize the PlayerActionFeatures.
+   * @param playerActionFeatures a controller that subscribes to the view
+   */
   public void setFeatures(PlayerActionFeatures playerActionFeatures) {
     this.playerActionFeatures = playerActionFeatures;
     GridClickListener gridClickListener = new GridClickListener(this);
