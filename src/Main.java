@@ -1,5 +1,7 @@
 import java.util.List;
 
+import adapter.GameModelAdapter;
+import adapter.ViewAdapter;
 import controller.GameConfigParser;
 import controller.ThreeTriosController;
 import model.Utils;
@@ -13,6 +15,7 @@ import model.interfaces.ReadOnlyGameModel;
 import player.HumanPlayer;
 import player.MachinePlayer;
 import player.ThreeTriosPlayer;
+import provider.view.ThreeTriosGUIView;
 import strategy.infallible.CornerInfallibleStrategy;
 import strategy.infallible.FlipCardsInfallibleStrategy;
 import view.gui.GameGUIView;
@@ -53,15 +56,16 @@ public class Main {
       ThreeTriosPlayer player2 = createPlayer(secondPlayer, viewModel);
 
       GameGUIView player1View = new ThreeTriosView(viewModel);
-      GameGUIView player2View = new ThreeTriosView(viewModel);
+      provider.view.ThreeTriosView player2View =
+              new ThreeTriosGUIView(new GameModelAdapter<>(model));
 
       new ThreeTriosController(model, player1, player1View, GamePlayer.RED);
-      new ThreeTriosController(model, player2, player2View, GamePlayer.BLUE);
+      new ThreeTriosController(model, player2, new ViewAdapter(player2View), GamePlayer.BLUE);
 
       model.startGame(true);
     }
     catch (IllegalStateException | IllegalArgumentException exception) {
-      System.out.println("Game cannot be launched");
+      System.out.println(exception.getMessage());
     }
   }
 

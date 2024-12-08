@@ -11,7 +11,7 @@ import model.interfaces.ReadOnlyGameModel;
  * Represents the main panel, which is made of of 3 smaller panels: red hand panel on the left,
  * grid panel in the center, and blue hand panel on the right.
  */
-class ThreeTriosMainPanel extends JPanel implements GamePanel {
+public class ThreeTriosMainPanel extends JPanel implements GamePanel {
   private final ThreeTriosGridPanel gridPanel;
   private final ThreeTriosHandPanel blueHand;
   private final ThreeTriosHandPanel redHand;

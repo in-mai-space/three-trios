@@ -1,0 +1,6 @@
+- Our code providers are really supportive in abstracting out interface type from concrete class as well as changing the parts of code that are buggy, which allows us to fully adapt our code to work with their view.
+- There isn't anything we wish we would change to our current code because whenever we found a flaw in design, we try to fix it after each homework. The improvements in design we made are:
+    - abstract Card from Cell because Card should not know who the owner is, but a cell in grid needs to know its owner
+    - the GameConfigParser is the one responsible for parsing input, thus we also moved it from model package to controller package
+    - initially all of our model's methods are in the GameModel interface. However, we notice that this exposes too many methods for the view, which might lead to the view mutating the state of model. Therefore, we create ReadOnlyGameModel and use the adapter design pattern to adapt GameModel to ReadOnlyGameModel to prevent type casting and only expose necessary observational methods to the view.
+- From the code given to us, we realize the importance of abstraction using interface instead of implementation details. Since certain components have interface, it makes it easier for us to adapt our code to the provider's view.

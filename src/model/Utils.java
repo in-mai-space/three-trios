@@ -5,9 +5,11 @@ import java.util.List;
 
 import controller.GameConfigParser;
 import model.enums.CellType;
+import model.enums.GamePlayer;
 import model.implementation.ThreeTriosModel;
 import model.interfaces.Cell;
 import model.interfaces.GameModel;
+import provider.model.CardColor;
 
 /**
  * Represent class model.Utils.
@@ -66,5 +68,37 @@ public class Utils {
     try {
       log.append(message).append("\n");
     } catch (Exception ignored) { }
+  }
+
+  /**
+   * Convert from provider's card color enum to original color enum.
+   *
+   * @param color provider's color enum
+   * @return original enum that represents player's color
+   */
+  public static GamePlayer convertColor(CardColor color) {
+    if (color == CardColor.RED) {
+      return GamePlayer.RED;
+    }
+    else if (color == CardColor.BLUE) {
+      return GamePlayer.BLUE;
+    }
+    return null;
+  }
+
+  /**
+   * Convert from original color enum to provider's color enum.
+   *
+   * @param color original color enum
+   * @return the provider's color enum
+   */
+  public static CardColor convertColor(GamePlayer color) {
+    if (color == GamePlayer.RED) {
+      return CardColor.RED;
+    }
+    else if (color == GamePlayer.BLUE) {
+      return CardColor.BLUE;
+    }
+    return CardColor.UNASSIGNED;
   }
 }
